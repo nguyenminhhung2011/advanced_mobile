@@ -20,8 +20,8 @@ class AppCoreFactory {
         },
       ),
     )
-      ..interceptors.add(TokenInterceptor())
-      ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+      // ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true)); // add with app have social login
+      ..interceptors.add(TokenInterceptor());
     if (!kIsWeb) {
       (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
           (HttpClient client) {
