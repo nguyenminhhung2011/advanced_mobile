@@ -1,6 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/color_extension.dart';
@@ -10,13 +9,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 import '../../constant/image_const.dart';
+import 'field_tab_bar.dart';
 
 class AnimatedTabStyle {
   final double posWidth;
   final double posHeight;
+  final double iconSize;
+  final Curve curves;
   const AnimatedTabStyle({
     this.posWidth = 70,
     this.posHeight = 15,
+    this.iconSize = 50.0,
+    this.curves = Curves.linear,
   });
 }
 
@@ -37,6 +41,7 @@ class TabBarCustom extends StatefulWidget {
   final List<TabBarItemStyle> items;
   final TabBarType tabBarType;
   final Function(int) onChangeTab;
+  final int duration;
 
   const TabBarCustom({
     super.key,
@@ -50,6 +55,7 @@ class TabBarCustom extends StatefulWidget {
     this.tabBarType = TabBarType.indicatorTabBar,
     this.painterType = TabBarPainterType.circle,
     this.animatedTabStyle = const AnimatedTabStyle(),
+    this.duration = 150,
     this.radius,
     this.usSelectedColor,
     this.paddingIcon,
@@ -69,7 +75,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
   double get elevation => widget.elevation != null
       ? widget.elevation! > 1
           ? 1
-          : (1 - widget.elevation!)
+          : widget.elevation!
       : 0.1;
 
   final ValueNotifier<int> _indexSelect = ValueNotifier<int>(0);
@@ -85,7 +91,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
       return const SizedBox();
     }
     if (widget.tabBarType.isRowTabBar) {
-      return Container();
+      return _rowTabBar();
     }
     if (widget.tabBarType.isAnimationTabBar) {
       return _animationTabBar();
@@ -95,6 +101,115 @@ class _TabBarCustomState extends State<TabBarCustom> {
     }
     // if (widget.tabBarType.isDotTabBar) {
     return _dotTabBar(context);
+  }
+
+  Widget _rowTabBar() {
+    return ValueListenableBuilder<int>(
+      valueListenable: _indexSelect,
+      builder: (context, indexSelect, child) {
+        Color selectedColor(index) => indexSelect == index
+            ? iconColor
+            : widget.usSelectedColor ?? tabBarColor.fontColorByBackground;
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.hPadding ?? 10.0,
+            vertical: widget.vPadding ?? 10.0,
+          ),
+          margin: EdgeInsets.symmetric(
+            horizontal: widget.hMargin ?? 15.0,
+            vertical: widget.vMargin ?? 15.0,
+          ),
+          decoration: BoxDecoration(
+            color: tabBarColor,
+            borderRadius: BorderRadius.circular(widget.radius ?? 20.0),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor.withOpacity(elevation),
+                blurRadius: 5.0,
+              )
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ...widget.items.mapIndexed(
+                (index, element) => TweenAnimationBuilder<double>(
+                  tween: Tween(
+                    end: indexSelect == index ? 1.0 : 0.0,
+                  ),
+                  duration: Duration(milliseconds: widget.duration),
+                  builder: (context, t, _) {
+                    return Material(
+                      color: Color.lerp(
+                        iconColor.withOpacity(0.0),
+                        iconColor.withOpacity(0.3),
+                        t,
+                      ),
+                      borderRadius:
+                          BorderRadius.circular(widget.radius ?? 15.0),
+                      child: InkWell(
+                        customBorder: const StadiumBorder(),
+                        focusColor: iconColor.withOpacity(0.4),
+                        highlightColor: iconColor.withOpacity(0.4),
+                        splashColor: iconColor.withOpacity(0.4),
+                        hoverColor: iconColor.withOpacity(0.4),
+                        onTap: () => _onTap(index),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15.0, vertical: 10.0),
+                          child: Row(
+                            children: [
+                              IconTheme(
+                                data:
+                                    IconThemeData(color: selectedColor(index)),
+                                child: SvgPicture.asset(
+                                  element.assetIcon ?? ImageConst.homeIcon,
+                                  color: selectedColor(index),
+                                ),
+                              ),
+                              ClipRRect(
+                                clipBehavior: Clip.antiAlias,
+                                child: SizedBox(
+                                  height: 20.0,
+                                  child: Align(
+                                    alignment: const Alignment(-0.3, 0),
+                                    widthFactor: t,
+                                    child: Padding(
+                                      padding: Directionality.of(context) ==
+                                              TextDirection.ltr
+                                          ? const EdgeInsets.only(
+                                              left: 5,
+                                              right: 10,
+                                            )
+                                          : const EdgeInsets.only(
+                                              left: 10,
+                                              right: 5,
+                                            ),
+                                      child: DefaultTextStyle(
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: selectedColor(index),
+                                        ),
+                                        child: Text(element.title.toString()),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _animationTabBar() {
@@ -120,20 +235,30 @@ class _TabBarCustomState extends State<TabBarCustom> {
                   height: kBottomNavigationBarHeight,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: widget.tabBarColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(widget.radius ?? 0.0),
-                      topRight: Radius.circular(widget.radius ?? 0.0),
+                    color: tabBarColor,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(widget.radius ?? 0.0),
+                      // bottom: Radius.circular(widget.radius ?? 15.0),
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context)
+                            .shadowColor
+                            .withOpacity(elevation),
+                        blurRadius: 5.0,
+                        offset: const Offset(0, -10),
+                      )
+                    ],
                   ),
                 ),
                 AnimatedPositioned(
-                  curve: Curves.linear,
-                  duration: const Duration(milliseconds: 150),
+                  curve: widget.animatedTabStyle.curves,
+                  duration: Duration(milliseconds: widget.duration),
                   left: animatedWidth * _indexSelect.value,
                   top: 0,
+                  width: animatedWidth,
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
+                    duration: Duration(milliseconds: widget.duration),
                     width: animatedWidth,
                     child: Center(
                       child: CustomPaint(
@@ -150,8 +275,8 @@ class _TabBarCustomState extends State<TabBarCustom> {
                   ),
                 ),
                 AnimatedPositioned(
-                  curve: Curves.linear,
-                  duration: const Duration(milliseconds: 150),
+                  curve: widget.animatedTabStyle.curves,
+                  duration: Duration(milliseconds: widget.duration),
                   bottom: 0.0,
                   left: animatedWidth * _indexSelect.value,
                   top: 0.0,
@@ -159,7 +284,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
                   child: Center(
                     child: widget.painterType.isCircle
                         ? Container(
-                            height: 50.0,
+                            height: widget.animatedTabStyle.iconSize,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: iconColor.withOpacity(0.4),
@@ -171,7 +296,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
                             decoration: BoxDecoration(
                               border: Border.all(width: 1, color: iconColor),
                               color: iconColor.withOpacity(0.4),
-                              borderRadius: BorderRadius.circular(5.0),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
                   ),
@@ -334,55 +459,15 @@ class _TabBarCustomState extends State<TabBarCustom> {
       ),
     );
   }
-}
 
-class FieldTabBar extends StatelessWidget {
-  final double? hMargin;
-  final double? vMargin;
-  final double? hPadding;
-  final double? vPadding;
-  final double? radius;
-  final double elevation;
-  final Widget child;
-  final Color tabBarColor;
-
-  const FieldTabBar({
-    super.key,
-    required this.child,
-    required this.hMargin,
-    required this.vMargin,
-    required this.hPadding,
-    required this.vPadding,
-    required this.tabBarColor,
-    this.radius,
-    required this.elevation,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: hMargin ?? 0.0,
-        vertical: vMargin ?? 0.0,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: hPadding ?? 5.0,
-        vertical: vPadding ?? 5.0,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(radius ?? 15.0),
-          topRight: Radius.circular(radius ?? 15.0),
-        ),
-        color: tabBarColor,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor.withOpacity(elevation),
-            blurRadius: 5.0,
-            offset: const Offset(0, -10),
-          )
-        ],
-      ),
+  AnimatedPositioned _animatedPositioned(Widget child, double animatedWidth) {
+    return AnimatedPositioned(
+      curve: Curves.linear,
+      duration: Duration(milliseconds: widget.duration),
+      bottom: 0.0,
+      left: animatedWidth * _indexSelect.value,
+      top: 0.0,
+      width: animatedWidth,
       child: child,
     );
   }
@@ -399,4 +484,22 @@ class TabBarItemStyle {
     this.screen,
     this.widgetIcon,
   });
+}
+
+class FollowIcon extends StatelessWidget {
+  final IconData iconData;
+  final String svg;
+  final bool isSvg;
+
+  const FollowIcon({
+    super.key,
+    this.iconData = Icons.home,
+    this.svg = ImageConst.homeIcon,
+    this.isSvg = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }

@@ -46,12 +46,15 @@ class _TestUiState extends State<TestUi> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
+        elevation: 0.05,
         tabBarColor: Colors.black,
-        tabBarType: TabBarType.animationTabBar,
-        painterType: TabBarPainterType.pyramid,
-        animatedTabStyle: const AnimatedTabStyle(
-          posHeight: 5,
-        ),
+        tabBarType: TabBarType.rowTabBar,
+        painterType: TabBarPainterType.circle,
+        iconColor: Colors.red,
+        duration: 300,
+        // hMargin: 10,
+        // radius: 10,
+        animatedTabStyle: const AnimatedTabStyle(posHeight: 5),
         items: <TabBarItemStyle>[
           ...dashboardItem.map(
             (e) => TabBarItemStyle(
@@ -61,7 +64,7 @@ class _TestUiState extends State<TestUi> {
             ),
           ),
         ],
-        onChangeTab: (index){},
+        onChangeTab: (index) {},
         // iconColor: Colors,
         // usSelectedColor: context.titleLarge.color,
       ),

@@ -22,7 +22,7 @@ class TabBarPainter extends CustomPainter {
     paint.color = color;
     Path path = Path();
     path.lineTo(0, size.height);
-    if (type.isCircle) {
+    if (type.isCircle ) {
       path.cubicTo(
           0, size.height, size.width, size.height, size.width, size.height);
       path.cubicTo(size.width * 0.94, size.height, size.width * 0.83,
@@ -45,8 +45,8 @@ class TabBarPainter extends CustomPainter {
       final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
       final roundedRect = RRect.fromRectAndCorners(
         rect,
-        topLeft: const Radius.circular(5),
-        topRight: const Radius.circular(5),
+        topLeft: const Radius.circular(15),
+        topRight: const Radius.circular(15),
         bottomLeft: Radius.zero,
         bottomRight: Radius.zero,
       );
