@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_paint.dart';
 
 import '../../../core/components/constant/image_const.dart';
@@ -14,31 +15,11 @@ class TestUi extends StatefulWidget {
 }
 
 class _TestUiState extends State<TestUi> {
-  List<Map<String, dynamic>> dashboardItem = [
-    {
-      'icon': ImageConst.homeIcon,
-      'tit': 'Home',
-      'index': 0,
-      'screen': Container(color: Colors.red),
-    },
-    {
-      'icon': ImageConst.searchIcon,
-      'tit': 'Search',
-      'index': 1,
-      'screen': Container(color: Colors.yellow),
-    },
-    {
-      'icon': ImageConst.documentIcon,
-      'tit': 'Favorite',
-      'index': 2,
-      'screen': Container(color: Colors.blue),
-    },
-    {
-      'icon': ImageConst.personIcon,
-      'tit': 'Profile',
-      'index': 3,
-      'screen': Container(color: Colors.brown),
-    },
+  final dashboardItem = <TabBarModel>[
+    TabBarModel(svgAsset: ImageConst.homeIcon, title: 'Home'),
+    TabBarModel(svgAsset: ImageConst.searchIcon, title: 'Search'),
+    TabBarModel(svgAsset: ImageConst.documentIcon, title: 'Favorite'),
+    TabBarModel(svgAsset: ImageConst.personIcon, title: 'Profile')
   ];
   int _selectedIndex = 0;
   @override
@@ -46,56 +27,25 @@ class _TestUiState extends State<TestUi> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
-        elevation: 0.05,
-        // tabBarColor: Colors.black,
-        tabBarType: TabBarType.rowTabBar,
-        painterType: TabBarPainterType.circle,
+        elevation: 0.05, // => elevation
+        tabBarType: TabBarType.dotTabBar, //if you want display test change to textTabBar
+        iconSize: 23.0,
         iconSelectedColor: Colors.red,
-        duration: 200,
+        duration: 200, // => set animation when change tab
         isSvgIcon: true,
-        // hMargin: 10,
-        // radius: 10,
         animatedTabStyle: const AnimatedTabStyle(posHeight: 5),
         items: <TabBarItemStyle>[
           ...dashboardItem.map(
             (e) => TabBarItemStyle(
-              title: e['tit'],
-              assetIcon: e['icon'],
-              screen: e['screen'],
+              title: e.title,
+              assetIcon: e.svgAsset,
+              iconData: e.iconData,
+              screen: e.screen,
             ),
           ),
         ],
         onChangeTab: (index) {},
-        // iconColor: Colors,
-        // usSelectedColor: context.titleLarge.color,
       ),
-      // bottomNavigationBar: MoltenBottomNavigationBar(
-      //   borderRaduis: BorderRadius.circular(0.0),
-      //   barColor: Colors.black,
-      //   domeHeight:5,
-      //   domeWidth: 100,
-      //   domeCircleColor: Theme.of(context).primaryColor.withOpacity(0.5),
-      //   selectedIndex: _selectedIndex,
-      //   onTabChange: (clickedIndex) {
-      //     setState(() {
-      //       _selectedIndex = clickedIndex;
-      //     });
-      //   },
-      //   tabs: [
-      //     MoltenTab(
-      //       icon: Icon(Icons.search),
-      //     ),
-      //     MoltenTab(
-      //       icon: Icon(Icons.search),
-      //     ),
-      //     MoltenTab(
-      //       icon: Icon(Icons.home),
-      //     ),
-      //     MoltenTab(
-      //       icon: Icon(Icons.person),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
