@@ -1,8 +1,7 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/color_extension.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_paint.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_type.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,10 +10,15 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import '../../constant/image_const.dart';
 import 'field_tab_bar.dart';
 
+// Animated tab style format
 class AnimatedTabStyle {
+  // width of top
   final double posWidth;
+  // height of top
   final double posHeight;
+  // icon Size
   final double iconSize;
+  // Curve of animation with default is linear
   final Curve curves;
   const AnimatedTabStyle({
     this.posWidth = 70,
@@ -25,29 +29,48 @@ class AnimatedTabStyle {
 }
 
 class TabBarCustom extends StatefulWidget {
+  // Default is card color
   final Color? tabBarColor;
-  final Color? iconColor;
+
+  final Color? iconSelectedColor;
   final Color? usSelectedColor;
-  final bool? isCircleDor;
+  // Support for dot tabBar
+  final bool? isCircleDot;
+  // Support for svg asset
+  final bool isSvgIcon;
+  // Support for Animated TabBar support for [circle, pyramid]
   final TabBarPainterType painterType;
+  //Support style for Animated TabBar
   final AnimatedTabStyle animatedTabStyle;
+  // Margin
   final double? hMargin;
   final double? vMargin;
+  // Padding
   final double? hPadding;
   final double? vPadding;
+  // elevation for shadow of tabBar
   final double? elevation;
+  //Radius for shadow of tabBar
+  final double blurShadowRadius;
+  // Radius for tabBar and radius for animated tabBar{pyramid}
   final double? radius;
+  // Format size and padding for icon
+  final double iconSize;
   final double? paddingIcon;
+  // list tabs
   final List<TabBarItemStyle> items;
+  // Current support 4 types
   final TabBarType tabBarType;
+  // Event change tab
   final Function(int) onChangeTab;
+  // Duration for animation with default is 150 milSeconds
   final int duration;
 
   const TabBarCustom({
     super.key,
     this.tabBarColor,
-    this.iconColor,
-    this.isCircleDor,
+    this.iconSelectedColor,
+    this.isCircleDot,
     this.hMargin,
     this.vMargin,
     this.hPadding,
@@ -55,7 +78,10 @@ class TabBarCustom extends StatefulWidget {
     this.tabBarType = TabBarType.indicatorTabBar,
     this.painterType = TabBarPainterType.circle,
     this.animatedTabStyle = const AnimatedTabStyle(),
+    this.isSvgIcon = true,
     this.duration = 150,
+    this.iconSize = 25.0,
+    this.blurShadowRadius = 5.0,
     this.radius,
     this.usSelectedColor,
     this.paddingIcon,
@@ -69,9 +95,13 @@ class TabBarCustom extends StatefulWidget {
 }
 
 class _TabBarCustomState extends State<TabBarCustom> {
-  Color get iconColor => widget.iconColor ?? Theme.of(context).primaryColor;
+  Color get iconSelectedColor =>
+      widget.iconSelectedColor ?? Theme.of(context).primaryColor;
   Color get tabBarColor => widget.tabBarColor ?? Theme.of(context).cardColor;
 
+  Color selectedColor(index) => _indexSelect.value == index
+      ? iconSelectedColor
+      : widget.usSelectedColor ?? tabBarColor.fontColorByBackground;
   double get elevation => widget.elevation != null
       ? widget.elevation! > 1
           ? 1
@@ -90,26 +120,22 @@ class _TabBarCustomState extends State<TabBarCustom> {
     if (widget.items.isEmpty) {
       return const SizedBox();
     }
-    if (widget.tabBarType.isRowTabBar) {
-      return _rowTabBar();
-    }
-    if (widget.tabBarType.isAnimationTabBar) {
-      return _animationTabBar();
-    }
-    if (widget.tabBarType.isIndicatorTabBar) {
-      return _tabIndicatorTabBar(context);
-    }
-    // if (widget.tabBarType.isDotTabBar) {
-    return _dotTabBar(context);
+    return switch (widget.tabBarType) {
+      TabBarType.rowTabBar => _rowTabBar(),
+      TabBarType.animationTabBar => _animationTabBar(),
+      TabBarType.indicatorTabBar => _tabIndicatorTabBar(context),
+      _ => _dotTabBar(context)
+    };
   }
 
   Widget _rowTabBar() {
+    final padding = Directionality.of(context) == TextDirection.ltr
+        ? const EdgeInsets.only(left: 5, right: 10)
+        : const EdgeInsets.only(left: 10, right: 5);
+        
     return ValueListenableBuilder<int>(
       valueListenable: _indexSelect,
       builder: (context, indexSelect, child) {
-        Color selectedColor(index) => indexSelect == index
-            ? iconColor
-            : widget.usSelectedColor ?? tabBarColor.fontColorByBackground;
         return Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(
@@ -126,7 +152,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
             boxShadow: [
               BoxShadow(
                 color: Theme.of(context).shadowColor.withOpacity(elevation),
-                blurRadius: 5.0,
+                blurRadius: widget.blurShadowRadius,
               )
             ],
           ),
@@ -142,30 +168,35 @@ class _TabBarCustomState extends State<TabBarCustom> {
                   builder: (context, t, _) {
                     return Material(
                       color: Color.lerp(
-                        iconColor.withOpacity(0.0),
-                        iconColor.withOpacity(0.3),
+                        iconSelectedColor.withOpacity(0.0),
+                        iconSelectedColor.withOpacity(0.3),
                         t,
                       ),
                       borderRadius:
                           BorderRadius.circular(widget.radius ?? 15.0),
                       child: InkWell(
                         customBorder: const StadiumBorder(),
-                        focusColor: iconColor.withOpacity(0.4),
-                        highlightColor: iconColor.withOpacity(0.4),
-                        splashColor: iconColor.withOpacity(0.4),
-                        hoverColor: iconColor.withOpacity(0.4),
+                        focusColor: iconSelectedColor.withOpacity(0.4),
+                        highlightColor: iconSelectedColor.withOpacity(0.4),
+                        splashColor: iconSelectedColor.withOpacity(0.4),
+                        hoverColor: iconSelectedColor.withOpacity(0.4),
                         onTap: () => _onTap(index),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 10.0),
+                            horizontal: 15.0,
+                            vertical: 10.0,
+                          ),
                           child: Row(
                             children: [
                               IconTheme(
                                 data:
                                     IconThemeData(color: selectedColor(index)),
-                                child: SvgPicture.asset(
-                                  element.assetIcon ?? ImageConst.homeIcon,
+                                child: FollowIcon(
+                                  iconData: element.iconData,
+                                  svg: element.assetIcon,
                                   color: selectedColor(index),
+                                  isSvg: widget.isSvgIcon,
+                                  size: widget.iconSize,
                                 ),
                               ),
                               ClipRRect(
@@ -176,19 +207,10 @@ class _TabBarCustomState extends State<TabBarCustom> {
                                     alignment: const Alignment(-0.3, 0),
                                     widthFactor: t,
                                     child: Padding(
-                                      padding: Directionality.of(context) ==
-                                              TextDirection.ltr
-                                          ? const EdgeInsets.only(
-                                              left: 5,
-                                              right: 10,
-                                            )
-                                          : const EdgeInsets.only(
-                                              left: 10,
-                                              right: 5,
-                                            ),
+                                      padding: padding,
                                       child: DefaultTextStyle(
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w500,
                                           color: selectedColor(index),
                                         ),
                                         child: Text(element.title.toString()),
@@ -245,7 +267,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
                         color: Theme.of(context)
                             .shadowColor
                             .withOpacity(elevation),
-                        blurRadius: 5.0,
+                        blurRadius: widget.blurShadowRadius,
                         offset: const Offset(0, -10),
                       )
                     ],
@@ -287,15 +309,16 @@ class _TabBarCustomState extends State<TabBarCustom> {
                             height: widget.animatedTabStyle.iconSize,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: iconColor.withOpacity(0.4),
+                              color: iconSelectedColor.withOpacity(0.4),
                             ),
                           )
                         : Container(
                             width: widget.animatedTabStyle.posWidth * 0.85,
                             height: 50.0,
                             decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: iconColor),
-                              color: iconColor.withOpacity(0.4),
+                              border: Border.all(
+                                  width: 1, color: iconSelectedColor),
+                              color: iconSelectedColor.withOpacity(0.4),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                           ),
@@ -315,15 +338,15 @@ class _TabBarCustomState extends State<TabBarCustom> {
                                 child: IconTheme(
                                   data: IconThemeData(
                                     color: index == indexSelect
-                                        ? widget.iconColor
+                                        ? widget.iconSelectedColor
                                         : tabBarColor.fontColorByBackground,
                                   ),
-                                  child: SvgPicture.asset(
-                                    e.assetIcon ?? ImageConst.homeIcon,
-                                    color: indexSelect == index
-                                        ? iconColor
-                                        : widget.usSelectedColor ??
-                                            tabBarColor.fontColorByBackground,
+                                  child: FollowIcon(
+                                    svg: e.assetIcon,
+                                    size: widget.iconSize,
+                                    iconData: e.iconData,
+                                    isSvg: widget.isSvgIcon,
+                                    color: selectedColor(index),
                                   ),
                                 ),
                               ),
@@ -367,26 +390,23 @@ class _TabBarCustomState extends State<TabBarCustom> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                          e.assetIcon ?? ImageConst.homeIcon,
-                          color: indexSelect == index
-                              ? iconColor
-                              : widget.usSelectedColor ??
-                                  tabBarColor.fontColorByBackground,
+                        FollowIcon(
+                          color: selectedColor(index),
+                          iconData: e.iconData,
+                          size: widget.iconSize,
+                          svg: e.assetIcon,
+                          isSvg: widget.isSvgIcon,
                         ),
                         if (widget.tabBarType.isTitleTabBar &&
                             indexSelect == index)
                           Text(
-                            e.title ?? '',
+                            e.title,
                             maxLines: 1,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                  color: iconColor,
-                                ),
+                            style: context.titleSmall.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                              color: iconSelectedColor,
+                            ),
                           )
                       ],
                     ),
@@ -397,7 +417,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
               onTap: _onTap,
               indicator: widget.tabBarType.isDotTabBar
                   ? DotIndicator(
-                      color: iconColor,
+                      color: iconSelectedColor,
                       distanceFromCenter: 16,
                       radius: 2,
                       paintingStyle: PaintingStyle.fill,
@@ -430,28 +450,30 @@ class _TabBarCustomState extends State<TabBarCustom> {
           return DefaultTabController(
             length: widget.items.length,
             child: TabBar(
-              indicatorColor: iconColor,
+              indicatorColor: iconSelectedColor,
               tabs: <Widget>[
-                ...widget.items.mapIndexed((index, e) => Padding(
-                      padding: EdgeInsets.all(widget.paddingIcon ?? 10.0),
-                      child: SvgPicture.asset(
-                        e.assetIcon ?? ImageConst.homeIcon,
-                        color: indexSelect == index
-                            ? iconColor
-                            : widget.usSelectedColor ??
-                                tabBarColor.fontColorByBackground,
-                      ),
-                    )),
+                ...widget.items.mapIndexed(
+                  (index, e) => Padding(
+                    padding: EdgeInsets.all(widget.paddingIcon ?? 10.0),
+                    child: FollowIcon(
+                      color: selectedColor(index),
+                      iconData: e.iconData,
+                      svg: e.assetIcon,
+                      isSvg: widget.isSvgIcon,
+                      size: widget.iconSize,
+                    ),
+                  ),
+                ),
               ],
               labelColor: Colors.white,
               onTap: _onTap,
-              unselectedLabelColor: iconColor.withOpacity(0.2),
+              unselectedLabelColor: iconSelectedColor.withOpacity(0.2),
               indicator: RectangularIndicator(
                 bottomLeftRadius: widget.radius ?? 10.0,
                 bottomRightRadius: widget.radius ?? 10.0,
                 topLeftRadius: widget.radius ?? 10.0,
                 topRightRadius: widget.radius ?? 10.0,
-                color: iconColor.withOpacity(0.3),
+                color: iconSelectedColor.withOpacity(0.3),
               ),
             ),
           );
@@ -459,47 +481,42 @@ class _TabBarCustomState extends State<TabBarCustom> {
       ),
     );
   }
-
-  AnimatedPositioned _animatedPositioned(Widget child, double animatedWidth) {
-    return AnimatedPositioned(
-      curve: Curves.linear,
-      duration: Duration(milliseconds: widget.duration),
-      bottom: 0.0,
-      left: animatedWidth * _indexSelect.value,
-      top: 0.0,
-      width: animatedWidth,
-      child: child,
-    );
-  }
 }
 
 class TabBarItemStyle {
-  final String? assetIcon;
-  final String? title;
-  final Widget? screen;
-  final Widget? widgetIcon;
+  final String assetIcon;
+  final String title;
+  final Widget screen;
+  final IconData iconData;
   TabBarItemStyle({
-    this.assetIcon,
-    this.title,
-    this.screen,
-    this.widgetIcon,
+    this.assetIcon = ImageConst.homeIcon,
+    this.title = 'Base title',
+    this.screen = const SizedBox(),
+    this.iconData = Icons.home,
   });
 }
 
 class FollowIcon extends StatelessWidget {
   final IconData iconData;
   final String svg;
+  final double size;
   final bool isSvg;
+  final Color color;
 
   const FollowIcon({
     super.key,
     this.iconData = Icons.home,
     this.svg = ImageConst.homeIcon,
     this.isSvg = true,
+    this.size = 10,
+    required this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    if (isSvg) {
+      return SvgPicture.asset(svg, color: color, width: size, height: size);
+    }
+    return Icon(iconData, size: size, color: color);
   }
 }
