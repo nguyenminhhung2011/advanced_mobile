@@ -5,8 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 
-import '../data/datasource/local/preferences.dart';
-import '../data/datasource/remote/auth/auth_api.dart';
+import '../clean_architectures/data/datasource/local/preferences.dart';
+import '../clean_architectures/data/datasource/remote/auth/auth_api.dart';
 import 'dependency_injection/di.dart';
 
 class AppCoreFactory {

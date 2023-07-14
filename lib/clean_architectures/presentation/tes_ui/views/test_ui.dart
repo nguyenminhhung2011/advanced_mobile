@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_paint.dart';
 
-import '../../../core/components/constant/image_const.dart';
-import '../../../core/components/widgets/tab_bar/tab_bar_type.dart';
-import '../../../core/components/widgets/tab_bar/tabbar_custom.dart';
+import '../../../../core/components/constant/image_const.dart';
+import '../../../../core/components/widgets/tab_bar/tab_bar_type.dart';
+import '../../../../core/components/widgets/tab_bar/tabbar_custom.dart';
 
 class TestUi extends StatefulWidget {
   const TestUi({super.key});
@@ -21,7 +19,6 @@ class _TestUiState extends State<TestUi> {
     TabBarModel(svgAsset: ImageConst.documentIcon, title: 'Favorite'),
     TabBarModel(svgAsset: ImageConst.personIcon, title: 'Profile')
   ];
-  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +42,9 @@ class _TestUiState extends State<TestUi> {
           ),
         ],
         onChangeTab: (index) {},
+      ),
+      body: ListView(
+        children: [],
       ),
     );
   }
