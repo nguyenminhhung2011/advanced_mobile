@@ -3,25 +3,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:provider/provider.dart';
 
+import '../skeleton_custom.dart';
+
 enum PaginationViewType {
   grid,
-  list;
+  list,
+}
 
+extension PaginationViewTypeExtension on PaginationViewType {
   bool get isGrid => this == PaginationViewType.grid;
   bool get isList => this == PaginationViewType.list;
 }
 
 enum TypeIndicatorLoading {
   circularIndicator,
-  skeltonIndicator;
+  skeltonIndicator,
+}
 
+extension TypeIndicatorLoadingExtension on TypeIndicatorLoading {
   bool get isSkeltonIndicator => this == TypeIndicatorLoading.skeltonIndicator;
   bool get isCircularIndicator =>
       this == TypeIndicatorLoading.circularIndicator;
 }
 
-typedef PaginationData<T> = Future<List<T>> Function(
-    int limitGet, int currentPage);
+class SkeltonFormat {
+  final int countable;
+  final double radius;
+  final double height;
+  final Color? color;
+  final List<int> columns;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
+  const SkeltonFormat({
+    this.countable = 2,
+    this.radius = 10.0,
+    this.height = 35,
+    this.color,
+    this.padding = const EdgeInsets.all(5.0),
+    this.margin = const EdgeInsets.symmetric(horizontal: 10.0),
+    this.columns = const <int>[1, 3],
+  });
+}
+
+typedef PaginationData<T> = Future<List<T>> Function(int currentPage);
 
 class PaginationViewCustom<T> extends StatefulWidget {
   final List<T> items;
@@ -29,22 +53,31 @@ class PaginationViewCustom<T> extends StatefulWidget {
   final PaginationData<T> paginationDataCall;
   final TypeIndicatorLoading typeIndicatorLoading;
   final ScrollController? scrollController;
-  final Widget Function(BuildContext context, T data, int index) itemBuilder;
-  final Widget Function(BuildContext context, int index)? separatedItem;
   final double hPadding;
   final double vPadding;
   final double spacer;
+  final SkeltonFormat skeltonFormat;
   final Color circularIndicatorColor;
   final bool isReverse;
   final ScrollPhysics physics;
+  final Widget Function(BuildContext, T, int) itemBuilder;
+  final Widget Function(BuildContext, int)? separatedItem;
+  final Widget initWidget;
+  final int limitFetch;
+
   const PaginationViewCustom({
-    super.key,
+    Key? key,
     this.scrollController,
+    this.separatedItem,
     this.hPadding = 0,
     this.vPadding = 0,
     this.spacer = 5,
+    this.limitFetch = 10,
     this.isReverse = false,
-    this.separatedItem,
+    this.skeltonFormat = const SkeltonFormat(),
+    this.initWidget = const Center(
+      child: CircularProgressIndicator(color: Colors.blue),
+    ),
     this.physics = const AlwaysScrollableScrollPhysics(),
     this.circularIndicatorColor = Colors.blue,
     this.paginationViewType = PaginationViewType.list,
@@ -52,20 +85,23 @@ class PaginationViewCustom<T> extends StatefulWidget {
     required this.paginationDataCall,
     required this.items,
     required this.itemBuilder,
-  });
+  }) : super(key: key);
 
   @override
-  State<PaginationViewCustom> createState() => _PaginationViewCustomState();
+  State<PaginationViewCustom<T>> createState() =>
+      _PaginationViewCustomState<T>();
 }
 
-class _PaginationViewCustomState extends State<PaginationViewCustom> {
+class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
   ScrollController? _scrollController;
-  PaginationNotifier? _paginationNotifier;
+  PaginationNotifier<T>? _paginationNotifier;
+
   @override
   void initState() {
     super.initState();
-    _paginationNotifier = PaginationNotifier(widget.paginationDataCall, [])
-      ..fetchPaginationItems();
+    _paginationNotifier =
+        PaginationNotifier<T>(widget.paginationDataCall, widget.items)
+          ..fetchPaginationItems(widget.limitFetch);
     _scrollController = widget.scrollController ?? ScrollController();
     _scrollController!.addListener(_listenerScroll);
   }
@@ -73,7 +109,7 @@ class _PaginationViewCustomState extends State<PaginationViewCustom> {
   void _listenerScroll() {
     if (_scrollController!.position.atEdge) {
       if (_scrollController!.position.pixels != 0) {
-        _paginationNotifier!.fetchPaginationItems();
+        _paginationNotifier!.fetchPaginationItems(widget.limitFetch);
       }
     }
   }
@@ -90,21 +126,34 @@ class _PaginationViewCustomState extends State<PaginationViewCustom> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: _paginationNotifier,
-      child: Consumer<PaginationNotifier>(
+      value: _paginationNotifier!,
+      child: Consumer<PaginationNotifier<T>>(
         builder: (context, modal, _) {
-          // return CustomScrollView(
-          // );
-          return switch (widget.paginationViewType) {
-            PaginationViewType.list => _listPaginationView(true),
-            _ => _gridPaginationView(),
-          };
+          if (modal.preloadedItems.isEmpty && modal.loading) {
+            return widget.initWidget;
+          }
+          return MediaQuery.removePadding(
+            context: context,
+            child: widget.paginationViewType.isList
+                ? _listPaginationView(modal.loading)
+                : _gridPaginationView(),
+          );
         },
       ),
     );
   }
 
   Widget _listPaginationView(bool loading) {
+    final listItem = _paginationNotifier?.preloadedItems ?? <T>[];
+    final itemCount = listItem.length +
+        (loading
+            ? widget.typeIndicatorLoading.isCircularIndicator
+                ? 1
+                : widget.skeltonFormat.countable
+            : 0);
+    if (listItem.isEmpty) {
+      return const SizedBox();
+    }
     return ListView.separated(
       physics: widget.physics,
       padding: EdgeInsets.symmetric(
@@ -115,11 +164,11 @@ class _PaginationViewCustomState extends State<PaginationViewCustom> {
       controller: _scrollController,
       separatorBuilder:
           widget.separatedItem ?? (context, index) => const Divider(),
-      itemCount: widget.items.length + (loading ? 1 : 0),
+      itemCount: itemCount,
       itemBuilder: (context, index) {
-        if (index < widget.items.length) {
-          return widget.itemBuilder(context, widget.items[index], index);
-        } else {
+        if (index < listItem.length) {
+          return widget.itemBuilder(context, listItem[index], index);
+        } else if (index >= listItem.length && loading) {
           Timer(const Duration(milliseconds: 30), () {
             _scrollController!.jumpTo(
               _scrollController!.position.maxScrollExtent,
@@ -127,6 +176,7 @@ class _PaginationViewCustomState extends State<PaginationViewCustom> {
           });
           return _loadingBottom();
         }
+        return const SizedBox();
       },
     );
   }
@@ -136,13 +186,41 @@ class _PaginationViewCustomState extends State<PaginationViewCustom> {
   }
 
   Widget _loadingBottom() {
-    return switch (widget.typeIndicatorLoading) {
-      TypeIndicatorLoading.circularIndicator => Center(
+    if (widget.typeIndicatorLoading == TypeIndicatorLoading.circularIndicator) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
+        child: Center(
           child: CircularProgressIndicator(
             color: widget.circularIndicatorColor,
           ),
         ),
-      _ => const SizedBox(),
-    };
+      );
+    } else {
+      SkeltonFormat format = widget.skeltonFormat;
+      return Container(
+        margin: format.margin,
+        width: double.infinity,
+        padding: format.padding,
+        decoration: BoxDecoration(
+          color: format.color ?? Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(format.radius),
+        ),
+        child: Row(
+          children: [
+            ...format.columns.map(
+              (e) => Expanded(
+                flex: e,
+                child: SkeletonContainer.rounded(
+                  width: double.infinity,
+                  height: format.height,
+                  borderRadius: BorderRadius.circular(format.radius),
+                ),
+              ),
+            )
+          ].expand((element) => [element, const SizedBox(width: 5.0)]).toList()
+            ..removeLast(),
+        ),
+      );
+    }
   }
 }
