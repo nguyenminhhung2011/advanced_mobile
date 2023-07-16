@@ -45,6 +45,17 @@ class SkeltonFormat {
   });
 }
 
+class GridViewFormat {
+  final int crossAxisCount;
+  final double mainAxisSpacing;
+  final double crossAxisSpacing;
+  const GridViewFormat({
+    this.crossAxisCount = 2,
+    this.mainAxisSpacing = 10,
+    this.crossAxisSpacing = 10,
+  });
+}
+
 typedef PaginationData<T> = Future<List<T>> Function(int currentPage);
 
 class PaginationViewCustom<T> extends StatefulWidget {
@@ -57,6 +68,7 @@ class PaginationViewCustom<T> extends StatefulWidget {
   final double vPadding;
   final double spacer;
   final SkeltonFormat skeltonFormat;
+  final GridViewFormat gridViewFormat;
   final Color circularIndicatorColor;
   final bool isReverse;
   final ScrollPhysics physics;
@@ -75,6 +87,7 @@ class PaginationViewCustom<T> extends StatefulWidget {
     this.limitFetch = 10,
     this.isReverse = false,
     this.skeltonFormat = const SkeltonFormat(),
+    this.gridViewFormat = const GridViewFormat(),
     this.initWidget = const Center(
       child: CircularProgressIndicator(color: Colors.blue),
     ),
@@ -136,7 +149,7 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
             context: context,
             child: widget.paginationViewType.isList
                 ? _listPaginationView(modal.loading)
-                : _gridPaginationView(),
+                : _gridPaginationView(modal.loading),
           );
         },
       ),
@@ -181,8 +194,45 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
     );
   }
 
-  Widget _gridPaginationView() {
-    return const SizedBox();
+  Widget _gridPaginationView(bool loading) {
+    final listItem = _paginationNotifier?.preloadedItems ?? <T>[];
+    final gridViewFormation = widget.gridViewFormat;
+    final itemCount = listItem.length +
+        (loading
+            ? widget.typeIndicatorLoading.isCircularIndicator
+                ? gridViewFormation.crossAxisCount
+                : widget.skeltonFormat.countable
+            : 0);
+    if (listItem.isEmpty) {
+      return const SizedBox();
+    }
+    return GridView.builder(
+      padding: EdgeInsets.symmetric(
+        horizontal: widget.hPadding,
+        vertical: widget.vPadding,
+      ),
+      controller: _scrollController,
+      physics: widget.physics,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: gridViewFormation.crossAxisCount,
+        mainAxisSpacing: gridViewFormation.mainAxisSpacing,
+        crossAxisSpacing: gridViewFormation.crossAxisSpacing,
+      ),
+      itemCount: itemCount,
+      itemBuilder: (context, index) {
+        if (index < listItem.length) {
+          return widget.itemBuilder(context, listItem[index], index);
+        } else if (index >= listItem.length && loading) {
+          Timer(const Duration(milliseconds: 30), () {
+            _scrollController!.jumpTo(
+              _scrollController!.position.maxScrollExtent,
+            );
+          });
+          return _loadingBottom();
+        }
+        return const SizedBox();
+      },
+    );
   }
 
   Widget _loadingBottom() {
@@ -197,6 +247,31 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
       );
     } else {
       SkeltonFormat format = widget.skeltonFormat;
+      if (widget.paginationViewType.isGrid) {
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: format.color ?? Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(format.radius),
+          ),
+          child: Column(
+            children: [
+              ...format.columns.map(
+                (e) => Expanded(
+                  flex: e,
+                  child: SkeletonContainer.rounded(
+                    width: double.infinity,
+                    height: double.infinity,
+                    borderRadius: BorderRadius.circular(format.radius),
+                  ),
+                ),
+              )
+            ].expand((element) => [element, const SizedBox(height: 5.0)]).toList()
+            ..removeLast(),
+          ),
+        );
+      }
       return Container(
         margin: format.margin,
         width: double.infinity,

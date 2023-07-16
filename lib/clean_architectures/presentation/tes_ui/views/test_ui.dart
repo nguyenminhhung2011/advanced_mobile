@@ -28,7 +28,7 @@ class _TestUiState extends State<TestUi> {
   ];
 
   Future<List<ModelTest>> paginationCall(int currentPage) async {
-    // get page by call function get data with currentPage + 1
+    // Get items by calling function get data with currentPage + 1
     await Future.delayed(const Duration(seconds: 3));
     return <ModelTest>[
       ModelTest(userName: 'Hung', bio: 'Nguyen Minh Hung'),
@@ -67,9 +67,15 @@ class _TestUiState extends State<TestUi> {
         onChangeTab: (index) {},
       ),
       body: PaginationViewCustom<ModelTest>(
+        paginationViewType: PaginationViewType.grid,
         paginationDataCall: paginationCall,
         physics: const BouncingScrollPhysics(),
+        hPadding: 10,
+        vPadding: 10,
         typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
+        skeltonFormat: const SkeltonFormat(
+          columns: [4, 1],
+        ),
         limitFetch: 15,
         items: <ModelTest>[
           ModelTest(userName: 'Hung', bio: 'Nguyen Minh Hung'),
@@ -84,16 +90,30 @@ class _TestUiState extends State<TestUi> {
           ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
         ],
         itemBuilder: (BuildContext context, ModelTest data, int index) {
-          return ListTile(
-            title: Text(data.userName),
-            subtitle: Text(data.bio),
-            leading: Container(
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.person),
+          // return ListTile(
+          //   title: Text(data.userName),
+          //   subtitle: Text(data.bio),
+          //   leading: Container(
+          //     padding: const EdgeInsets.all(10.0),
+          //     decoration: BoxDecoration(
+          //       color: Theme.of(context).primaryColor,
+          //       shape: BoxShape.circle,
+          //     ),
+          //     child: const Icon(Icons.person),
+          //   ),
+          // );
+          return Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(data.userName),
+                Text(data.bio),
+              ],
             ),
           );
         },
