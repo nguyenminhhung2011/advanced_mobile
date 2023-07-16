@@ -246,6 +246,7 @@ class _TabBarCustomState extends State<TabBarCustom> {
             height:
                 kBottomNavigationBarHeight + widget.animatedTabStyle.posHeight,
             width: double.infinity,
+            color: Colors.transparent,
             margin: EdgeInsets.symmetric(
               horizontal: widget.hMargin ?? 0.0,
               vertical: widget.vMargin ?? 0.0,

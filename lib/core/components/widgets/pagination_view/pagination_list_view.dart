@@ -59,22 +59,36 @@ class GridViewFormat {
 typedef PaginationData<T> = Future<List<T>> Function(int currentPage);
 
 class PaginationViewCustom<T> extends StatefulWidget {
+  // preloads list item
   final List<T> items;
+  // Pagination type view current support for [list, grid]
   final PaginationViewType paginationViewType;
+  // Call after user scroll to bottom
   final PaginationData<T> paginationDataCall;
+  // Type loading in bottom currently support for [circular, skelton]
   final TypeIndicatorLoading typeIndicatorLoading;
+  // Controller of scroll
   final ScrollController? scrollController;
+  //Padding
   final double hPadding;
   final double vPadding;
+  // Spacer between item
   final double spacer;
+  // Skelton style
   final SkeltonFormat skeltonFormat;
+  //Grid view style
   final GridViewFormat gridViewFormat;
+  // Color of type loading circular
   final Color circularIndicatorColor;
+  // Reverse list
   final bool isReverse;
   final ScrollPhysics physics;
+  // Item display
   final Widget Function(BuildContext, T, int) itemBuilder;
   final Widget Function(BuildContext, int)? separatedItem;
+  //loading when first appear
   final Widget initWidget;
+  //limit item per fetch
   final int limitFetch;
 
   const PaginationViewCustom({
@@ -120,10 +134,16 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
   }
 
   void _listenerScroll() {
-    if (_scrollController!.position.atEdge) {
-      if (_scrollController!.position.pixels != 0) {
-        _paginationNotifier!.fetchPaginationItems(widget.limitFetch);
-      }
+    // print(_scrollController!.position.pixels);
+    // if (_scrollController!.position.atEdge) {
+    //   print('Hung');
+    //   if (_scrollController!.position.pixels != 0) {
+    //     _paginationNotifier!.fetchPaginationItems(widget.limitFetch);
+    //   }
+    // }
+    if ((_scrollController!.position.pixels ==
+        _scrollController!.position.maxScrollExtent)) {
+      _paginationNotifier!.fetchPaginationItems(widget.limitFetch);
     }
   }
 
@@ -200,8 +220,8 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
     final itemCount = listItem.length +
         (loading
             ? widget.typeIndicatorLoading.isCircularIndicator
-                ? gridViewFormation.crossAxisCount
-                : widget.skeltonFormat.countable
+                ? widget.skeltonFormat.countable
+                : gridViewFormation.crossAxisCount
             : 0);
     if (listItem.isEmpty) {
       return const SizedBox();
@@ -251,6 +271,7 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
         return Container(
           width: double.infinity,
           height: double.infinity,
+          padding: format.padding,
           decoration: BoxDecoration(
             color: format.color ?? Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(format.radius),
@@ -267,8 +288,10 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
                   ),
                 ),
               )
-            ].expand((element) => [element, const SizedBox(height: 5.0)]).toList()
-            ..removeLast(),
+            ]
+                .expand((element) => [element, const SizedBox(height: 5.0)])
+                .toList()
+              ..removeLast(),
           ),
         );
       }

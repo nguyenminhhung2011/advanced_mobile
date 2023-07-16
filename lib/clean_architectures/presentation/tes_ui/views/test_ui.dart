@@ -69,25 +69,30 @@ class _TestUiState extends State<TestUi> {
       body: PaginationViewCustom<ModelTest>(
         paginationViewType: PaginationViewType.grid,
         paginationDataCall: paginationCall,
-        physics: const BouncingScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(
+          parent: BouncingScrollPhysics(),
+        ),
         hPadding: 10,
         vPadding: 10,
         typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
+        gridViewFormat: const GridViewFormat(
+          crossAxisCount: 3,
+        ),
         skeltonFormat: const SkeltonFormat(
           columns: [4, 1],
         ),
         limitFetch: 15,
         items: <ModelTest>[
           ModelTest(userName: 'Hung', bio: 'Nguyen Minh Hung'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          // ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
         ],
         itemBuilder: (BuildContext context, ModelTest data, int index) {
           // return ListTile(
