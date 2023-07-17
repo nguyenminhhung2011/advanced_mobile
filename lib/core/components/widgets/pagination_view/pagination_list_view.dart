@@ -5,20 +5,14 @@ import 'package:provider/provider.dart';
 
 import '../skeleton_custom.dart';
 
-enum PaginationViewType {
-  grid,
-  list,
-}
+enum PaginationViewType { grid, list }
 
 extension PaginationViewTypeExtension on PaginationViewType {
   bool get isGrid => this == PaginationViewType.grid;
   bool get isList => this == PaginationViewType.list;
 }
 
-enum TypeIndicatorLoading {
-  circularIndicator,
-  skeltonIndicator,
-}
+enum TypeIndicatorLoading { circularIndicator, skeltonIndicator }
 
 extension TypeIndicatorLoadingExtension on TypeIndicatorLoading {
   bool get isSkeltonIndicator => this == TypeIndicatorLoading.skeltonIndicator;
@@ -150,8 +144,8 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
   @override
   void dispose() {
     if (_scrollController != null) {
-      _scrollController!.dispose();
       _scrollController!.removeListener(_listenerScroll);
+      _scrollController!.dispose();
     }
     super.dispose();
   }
