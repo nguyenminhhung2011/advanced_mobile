@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 import 'category_item.dart';
 import 'category_type.dart';
 import 'icon_category.dart';
@@ -297,7 +297,7 @@ class CategoryStyle {
   final bool isSelected;
   final bool isIcon;
   final TypeImage typeImage;
-  final IconData? iconWidget;
+  final IconData iconWidget;
   CategoryStyle({
     required this.text,
     required this.onPress,
@@ -312,6 +312,6 @@ class CategoryStyle {
     this.isSelected = false,
     this.isIcon = false,
     this.typeImage = TypeImage.assetImage,
-    this.iconWidget,
+    this.iconWidget = Icons.home,
   });
 }

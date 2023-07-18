@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 
@@ -30,37 +31,38 @@ class _TestUiState extends State<TestUi> {
     TabBarModel(svgAsset: ImageConst.documentIcon, title: 'Favorite'),
     TabBarModel(svgAsset: ImageConst.personIcon, title: 'Profile')
   ];
-  List<Map<String, dynamic>> mockCategory = [
-    {
-      'text': 'Hotels',
-      'icon': ImageConst.homeIcon,
-      'color': '#ffd3b5ff'.toColor(),
-      'route': '',
-    },
-    {
-      'text': 'Flight',
-      'icon': ImageConst.personIcon,
-      'color': '#ffffc0ee'.toColor(),
-      'route': '',
-    },
-    {
-      'text': 'Airports',
-      'icon': ImageConst.documentIcon,
-      'color': '#ffffdab5'.toColor(),
-      'route': '',
-    },
-    {
-      'text': 'Ticket',
-      'icon': ImageConst.searchIcon,
-      'color': '#ff97d5ff'.toColor(),
-      'route': '',
-    },
-    {
-      'text': 'Ticket',
-      'icon': ImageConst.searchIcon,
-      'color': '#ff9735ff'.toColor(),
-      'route': '',
-    },
+
+  List<CategoryModel> listCategory = <CategoryModel>[
+    CategoryModel(
+      title: 'Hotels',
+      iconUrl: ImageConst.homeIcon,
+      color: '#ffd3b5ff'.toColor(),
+      isIconData: false,
+    ),
+    CategoryModel(
+      title: 'Flight',
+      iconUrl: ImageConst.personIcon,
+      color: '#ffffc0ee'.toColor(),
+      isIconData: false,
+    ),
+    CategoryModel(
+      title: 'Airports',
+      iconUrl: ImageConst.documentIcon,
+      color: '#ffffdab5'.toColor(),
+      isIconData: false,
+    ),
+    CategoryModel(
+      title: 'Ticket',
+      iconUrl: ImageConst.searchIcon,
+      color: '#ff97d5ff'.toColor(),
+      isIconData: true,
+    ),
+    CategoryModel(
+      title: 'Phone',
+      iconUrl: ImageConst.searchIcon,
+      color: '#ff9735ff'.toColor(),
+      isIconData: false,
+    ),
   ];
 
   Future<List<ModelTest>> paginationCall(int currentPage) async {
@@ -119,14 +121,15 @@ class _TestUiState extends State<TestUi> {
                   overflow: TextOverflow.ellipsis,
                 ),
             categories: <CategoryStyle>[
-              ...mockCategory.mapIndexed(
+              ...listCategory.mapIndexed(
                 (index, e) => CategoryStyle(
                   isSelected: index == 0,
-                  text: e['text'],
+                  text:e.title,
                   typeImage: TypeImage.assetSvg,
-                  iconUrl: e['icon'],
-                  color: e['color'],
-                  iconSize: 20,
+                  iconUrl: e.iconUrl,
+                  color: e.color,
+                  iconSize:e.iconSize,
+                  isIcon: e.isIconData,
                   radius: 10,
                   paddingBottom: 10.0,
                   paddingRight: 15.0,
