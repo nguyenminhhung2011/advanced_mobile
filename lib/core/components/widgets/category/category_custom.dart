@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../image_custom.dart';
+import 'category_item.dart';
 import 'category_type.dart';
+import 'icon_category.dart';
+import 'name_category.dart';
 
 class CategoryGridFormat {
   final double mainSpacing;
@@ -29,6 +29,7 @@ class CategoryField extends StatefulWidget {
   final Color? selectedColor;
   final Color? unselectedColor;
   final CategoryGridFormat categoryGridFormat;
+  final TextStyle? categoryTextStyle;
   const CategoryField({
     super.key,
     this.marginLeft,
@@ -42,6 +43,7 @@ class CategoryField extends StatefulWidget {
     this.numberColumn,
     this.selectedColor,
     this.unselectedColor,
+    this.categoryTextStyle,
     required this.categoryType,
     required this.categories,
   });
@@ -52,6 +54,13 @@ class CategoryField extends StatefulWidget {
 
 class _CategoryFieldState extends State<CategoryField> {
   int get numberColumn => widget.numberColumn ?? 1;
+
+  TextStyle get categoryTextStyle =>
+      widget.categoryTextStyle ??
+      context.titleSmall.copyWith(
+        fontWeight: FontWeight.w400,
+        overflow: TextOverflow.ellipsis,
+      );
   @override
   Widget build(BuildContext context) {
     if (widget.categoryType.isExpandCategory) {
@@ -80,7 +89,11 @@ class _CategoryFieldState extends State<CategoryField> {
             SizedBox(width: widget.marginLeft ?? 0.0),
             ...widget.categories
                 .map(
-                  (e) => CategoryItem(category: e, isIconOut: widget.isIconOut),
+                  (e) => CategoryItem(
+                    category: e,
+                    isIconOut: widget.isIconOut,
+                    categoryTextStyle: categoryTextStyle,
+                  ),
                 )
                 .expand(
                   (element) =>
@@ -136,7 +149,11 @@ class _CategoryFieldState extends State<CategoryField> {
                         children: [
                           IconCategory(category: e),
                           const SizedBox(width: 5.0),
-                          NameCategory(category: e, context: context),
+                          NameCategory(
+                            category: e,
+                            context: context,
+                            textStyle: categoryTextStyle,
+                          ),
                         ],
                       ),
                     ),
@@ -165,6 +182,7 @@ class _CategoryFieldState extends State<CategoryField> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: widget.categories
               .map(
@@ -175,11 +193,11 @@ class _CategoryFieldState extends State<CategoryField> {
                     children: [
                       Text(
                         e.text,
-                        style: e.textStyle!.copyWith(
+                        style: categoryTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
                           color: e.isSelected
-                              ? Theme.of(context).primaryColor
-                              : null,
+                              ? widget.selectedColor
+                              : widget.unselectedColor,
                         ),
                       ),
                       const SizedBox(height: 5.0),
@@ -223,6 +241,7 @@ class _CategoryFieldState extends State<CategoryField> {
                                 indexR + (startRowIndex * maxCountPerRow)],
                             isIconOut: widget.isIconOut,
                             isExpand: widget.categoryType.isExpandCategory,
+                            categoryTextStyle: categoryTextStyle,
                           )
                         : const SizedBox(),
                   );
@@ -256,126 +275,17 @@ class _CategoryFieldState extends State<CategoryField> {
       height: 6.0,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Theme.of(context).primaryColor,
+        color: widget.selectedColor,
       ),
     );
   }
 }
 
-class CategoryItem extends StatelessWidget {
-  final CategoryStyle category;
-  final bool isExpand;
-  final bool isIconOut;
-  const CategoryItem({
-    super.key,
-    required this.category,
-    this.isIconOut = true,
-    this.isExpand = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // if (isIconOut) {
-    return GestureDetector(
-      onTap: category.onPress,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-              right: category.paddingRight ?? 10.0,
-              left: category.paddingLeft ?? 10.0,
-              top: category.paddingTop ?? 5.0,
-              bottom: category.paddingBottom ?? 5.0,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(category.radius ?? 10.0),
-              color: category.color?.withOpacity(0.1) ??
-                  Theme.of(context).primaryColor.withOpacity(0.1),
-            ),
-            child: (isIconOut)
-                ? category.icon != null || category.iconWidget != null
-                    ? IconCategory(category: category)
-                    : const SizedBox()
-                : Row(
-                    children: [
-                      if (category.icon != null)
-                        IconCategory(category: category),
-                      isExpand
-                          ? Expanded(
-                              child: NameCategory(
-                                  category: category, context: context),
-                            )
-                          : NameCategory(category: category, context: context)
-                    ],
-                  ),
-          ),
-          if (isIconOut) ...[
-            const SizedBox(height: 5.0),
-            NameCategory(category: category, context: context),
-          ]
-        ],
-      ),
-    );
-  }
-}
-
-class IconCategory extends StatelessWidget {
-  const IconCategory({
-    super.key,
-    required this.category,
-  });
-
-  final CategoryStyle category;
-
-  @override
-  Widget build(BuildContext context) => SvgPicture.asset(
-        category.icon!,
-        color: category.color,
-        width: category.iconSize,
-        height: category.iconSize,
-      );
-  //  category.isIcon
-  //     ? Icon(
-  //         category.iconWidget,
-  //         color: category.color,
-  //         size: category.iconSize,
-  //       )
-  //     : ImageCustom(
-  //         imageUrl: category.icon!,
-  //         isNetworkImage: false,
-  //         color: category.color,
-  //         width: category.iconSize,
-  //         height: category.iconSize,
-  //       );
-}
-
-class NameCategory extends StatelessWidget {
-  const NameCategory({
-    super.key,
-    required this.category,
-    required this.context,
-  });
-
-  final CategoryStyle category;
-  final BuildContext context;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      category.text,
-      style: category.textStyle ??
-          context.titleSmall.copyWith(
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis,
-          ),
-    );
-  }
-}
+enum TypeImage { assetImage, assetSvg, networkImage }
 
 class CategoryStyle {
   final String text;
-  final String? icon;
+  final String? iconUrl;
   final Color? color;
   final double? radius;
   final double? paddingTop;
@@ -383,18 +293,17 @@ class CategoryStyle {
   final double? paddingRight;
   final double? iconSize;
   final double? paddingBottom;
-  final TextStyle? textStyle;
   final Function() onPress;
   final bool isSelected;
   final bool isIcon;
+  final TypeImage typeImage;
   final IconData? iconWidget;
   CategoryStyle({
     required this.text,
     required this.onPress,
     this.color,
-    this.icon,
+    this.iconUrl,
     this.radius,
-    this.textStyle,
     this.paddingTop,
     this.paddingLeft,
     this.paddingRight,
@@ -402,6 +311,7 @@ class CategoryStyle {
     this.iconSize,
     this.isSelected = false,
     this.isIcon = false,
+    this.typeImage = TypeImage.assetImage,
     this.iconWidget,
   });
 }
