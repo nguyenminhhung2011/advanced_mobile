@@ -106,15 +106,15 @@ class _TestUiState extends State<TestUi> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 10.0),
+          const SizedBox(height: 30.0),
           CategoryField(
-            categoryType: CategoryType.expandCategory,
+            categoryType: CategoryType.textCategory,
             spacingItem: 15.0,
             marginLeft: 10.0,
             marginRight: 10.0,
             numberColumn: 2,
             isIconOut: false,
-            selectedColor: Colors.red,
+            selectedColor: Theme.of(context).primaryColor,
             unselectedColor: Theme.of(context).hintColor,
             categoryTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
                   fontWeight: FontWeight.w400,
@@ -140,6 +140,7 @@ class _TestUiState extends State<TestUi> {
               )
             ],
           ),
+          const SizedBox(height: 30.0),
           Expanded(
             child: PaginationViewCustom<ModelTest>(
               paginationViewType: PaginationViewType.grid,
