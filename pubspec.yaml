@@ -118,6 +118,7 @@ dependencies:
   skeleton_text: ^3.0.0
   pdf: ^3.10.4
   sentry_flutter: ^7.8.0
+  animations: ^2.0.7
   # table_calendar: ^3.0.8
   # readmore: ^2.2.0
 
