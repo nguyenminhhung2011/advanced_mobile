@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_model.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
@@ -103,18 +105,81 @@ class PageTest2 extends StatefulWidget {
 }
 
 class _PageTest2State extends State<PageTest2> {
+  List<CategoryLayoutModel> categoryTest = <CategoryLayoutModel>[
+    for (int i = 1; i <= 4; i++)
+      CategoryLayoutModel(id: i.toString(), title: 'Category $i'),
+  ];
+
+  Future<List<ProductModel<ModelImageTest>>> fetchCategoryCall(
+      List<CategoryLayoutModel> categoryIds) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return <ProductModel<ModelImageTest>>[
+      for (int i = 1; i <= 4; i++)
+        for (int t = 0; t < i * 6; t++)
+          ProductModel(
+            data: ModelImageTest(
+              imageUrl: ImageConst.baseImageView,
+              title: 'Product t$t',
+              subTitle: 'This is product $t of category i$i',
+            ),
+            categoryId: i.toString(),
+          )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return CategoryLayoutView<ModelImageTest>(
-      hPadding: 0,
-      vPadding: 0,
-      autoScrollCategoryStyle: const AutoScrollCategoryStyle(
-        animatedDuration: 400,
+      hPadding: 10,
+      vPadding: 10,
+      categoryLayoutType: CategoryLayoutType.autoScroll,
+      selectedTextStyle: context.titleSmall,
+      unselectedTextStyle: context.titleSmall.copyWith(
+        color: Theme.of(context).hintColor,
       ),
-      categoryLayoutModel: <CategoryLayoutModel>[
-        for (int i = 0; i < 4; i++)
-          CategoryLayoutModel(id: i.toString(), title: 'Category $i')
-      ],
+      autoScrollCategoryStyle: const AutoScrollCategoryStyle(
+        animatedDuration: 350,
+        radius: 5.0,
+        categoryItemHeight: 40,
+        indicatorPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
+      ),
+      categoryLayoutModel: categoryTest,
+      scrollFormat: const ScrollFormat(
+        numberColumns: 3,
+        mainSpacing: 10.0,
+        crossSpacing: 10.0,
+      ),
+      itemCall: fetchCategoryCall,
+      itemBuilder: (ModelImageTest data) => SizedBox(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              height: 150.0,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover, image: NetworkImage(data.imageUrl))),
+            ),
+            Text(
+              data.title,
+              style: context.titleMedium.copyWith(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              data.subTitle,
+              style: context.titleSmall.copyWith(
+                fontWeight: FontWeight.w400,
+                fontSize: 12.0,
+                color: Theme.of(context).hintColor,
+              ),
+            ),
+          ]
+              .expand((element) => [element, const SizedBox(height: 2.0)])
+              .toList(),
+        ),
+      ),
+      itemCategoryBuilder: (data) => const SizedBox(),
     );
   }
 }
