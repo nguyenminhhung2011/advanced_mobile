@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
+
+import 'category_layout.dart';
 
 class CategoryLayoutNotifier<T> extends ChangeNotifier {
   final List<ProductModel<T>> items;
