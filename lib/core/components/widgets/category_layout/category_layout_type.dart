@@ -246,17 +246,20 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
             physics: widget.autoScrollCategoryStyle.scrollPhysics,
             itemCount: _categoryLayoutNotifier?.countItem ?? 0,
             itemBuilder: (context, index) {
-              String categoryId = _categoryLayoutNotifier!
+              final categoryId = _categoryLayoutNotifier!
                   .autoScrollItems.entries
                   .elementAt(index)
-                  .key;
-              List<T> items = _categoryLayoutNotifier!.autoScrollItems.entries
+                  .key
+                  .toString();
+              final items = _categoryLayoutNotifier!.autoScrollItems.entries
                   .elementAt(index)
                   .value;
               final categoryModel = widget.categoryLayoutModel
                   .firstWhere((e) => e.id == categoryId);
-              int maxCountPerRow =
-                  (items.length / widget.scrollFormat.numberColumns).ceil();
+              final scrollFormat = widget.scrollFormat;
+
+              final maxCountPerRow =
+                  (items.length / scrollFormat.numberColumns).ceil();
               return Column(
                 children: [
                   Container(
@@ -285,11 +288,11 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                           int startRowIndex = indexC;
                           return Row(
                             children: List.generate(
-                              widget.scrollFormat.numberColumns,
+                              scrollFormat.numberColumns,
                               (indexR) {
                                 int index = indexR +
                                     (startRowIndex *
-                                        widget.scrollFormat.numberColumns);
+                                        scrollFormat.numberColumns);
                                 return Expanded(
                                   child: index < items.length
                                       ? widget.itemBuilder(items[index])
@@ -299,9 +302,7 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                             )
                                 .expand((element) => [
                                       element,
-                                      SizedBox(
-                                        width: widget.scrollFormat.crossSpacing,
-                                      )
+                                      SizedBox(width: scrollFormat.crossSpacing)
                                     ])
                                 .toList()
                               ..removeLast(),
@@ -310,9 +311,7 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                       )
                           .expand((element) => [
                                 element,
-                                SizedBox(
-                                  height: widget.scrollFormat.mainSpacing,
-                                )
+                                SizedBox(height: scrollFormat.mainSpacing)
                               ])
                           .toList()
                         ..removeLast(),
