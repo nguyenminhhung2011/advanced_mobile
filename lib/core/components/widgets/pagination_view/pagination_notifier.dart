@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 class PaginationNotifier<T> extends ChangeNotifier {
-  final Future<List<T>> Function(int) call;
+  final Future<List<T>> Function(int, @Default('') String category) call;
   final List<T> preloadedItems;
-  PaginationNotifier(this.call, this.preloadedItems);
+  String category;
+  PaginationNotifier(this.call, this.preloadedItems, {this.category = ''});
 
   bool _loading = false;
   bool get loading => _loading;
@@ -14,7 +16,19 @@ class PaginationNotifier<T> extends ChangeNotifier {
     }
     _loading = true;
     notifyListeners();
-    preloadedItems.addAll(await call(preloadedItems.length ~/ limit));
+    preloadedItems.addAll(await call(preloadedItems.length ~/ limit, category));
+    _loading = false;
+    notifyListeners();
+  }
+
+  void refreshItems(int limit) async {
+    if (_loading) {
+      return;
+    }
+    _loading = true;
+    notifyListeners();
+    preloadedItems.clear();
+    preloadedItems.addAll(await call(0, category));
     _loading = false;
     notifyListeners();
   }

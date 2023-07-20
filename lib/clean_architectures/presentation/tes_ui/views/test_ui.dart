@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
@@ -7,7 +9,6 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/category
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
-
 import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
@@ -58,14 +59,17 @@ class _TestUiState extends State<TestUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: const Text('Test ui'),
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
+        radius: 15,
         elevation: 0.05, // => elevation
         tabBarType: TabBarType
-            .animationTabBar, //if you want display test change to textTabBar
+            .dotTabBar, //if you want display test change to textTabBar
+        // tabBarColor: Colors.black,
         iconSize: 23.0,
         iconSelectedColor: Theme.of(context).primaryColor,
         duration: 200, // => set animation when change tab
@@ -132,7 +136,7 @@ class _PageTest2State extends State<PageTest2> {
     return CategoryLayoutView<ModelImageTest>(
       hPadding: 10,
       vPadding: 10,
-      categoryLayoutType: CategoryLayoutType.autoScroll,
+      categoryLayoutType: CategoryLayoutType.both,
       selectedTextStyle: context.titleSmall,
       unselectedTextStyle: context.titleSmall.copyWith(
         color: Theme.of(context).hintColor,
@@ -150,6 +154,18 @@ class _PageTest2State extends State<PageTest2> {
         crossSpacing: 10.0,
       ),
       itemCall: fetchCategoryCall,
+      paginationDataCall: (currentPage, category) async {
+        log(category);
+        await Future.delayed(const Duration(seconds: 3));
+        return <ModelImageTest>[
+          for (int t = 0; t < 6; t++)
+            ModelImageTest(
+              imageUrl: ImageConst.baseImageView,
+              title: 'Product t$t',
+              subTitle: 'This is product $t of category i',
+            ),
+        ];
+      },
       itemBuilder: (ModelImageTest data) => SizedBox(
         width: double.infinity,
         child: Column(
@@ -159,8 +175,12 @@ class _PageTest2State extends State<PageTest2> {
               width: double.infinity,
               height: 150.0,
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover, image: NetworkImage(data.imageUrl))),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(data.imageUrl),
+                ),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
             ),
             Text(
               data.title,
@@ -225,7 +245,10 @@ class _PageTest1State extends State<PageTest1> {
     ),
   ];
 
-  Future<List<ModelTest>> paginationCall(int currentPage) async {
+  Future<List<ModelTest>> paginationCall(
+    int currentPage,
+    String category,
+  ) async {
     // Get items by calling function get data with currentPage + 1
     await Future.delayed(const Duration(seconds: 3));
     return <ModelTest>[

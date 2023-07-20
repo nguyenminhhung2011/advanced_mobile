@@ -15,7 +15,15 @@ class CategoryLayoutNotifier<T> extends ChangeNotifier {
   int _countItem = 0;
   int get countItem => _countItem;
 
-  void fetchProductItem(
+  CategoryLayoutModel? _categorySelected;
+  CategoryLayoutModel? get categorySelected => _categorySelected;
+
+  void onSelectedCategory(CategoryLayoutModel? newCategory) {
+    _categorySelected = newCategory;
+    notifyListeners();
+  }
+
+  Future<void> fetchProductItem(
     List<CategoryLayoutModel> categoryIds, {
     bool isAuto = false,
     int numberColumn = 2,
