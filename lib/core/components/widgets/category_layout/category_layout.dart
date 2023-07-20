@@ -30,6 +30,7 @@ class ProductModel<T> {
   });
 }
 
+// Style support for AutoScroll
 class AutoScrollCategoryStyle {
   final bool isScrollable;
   final double radius;
@@ -58,6 +59,7 @@ class AutoScrollCategoryStyle {
   });
 }
 
+// Style support for both
 class BothCategoryStyle {
   final Color? secondSiteColor;
   final Color? firstSiteColor;
@@ -261,9 +263,6 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
       value: _categoryLayoutNotifier!,
       child: Consumer<CategoryLayoutNotifier<T>>(
         builder: (context, modal, _) {
-          // if (modal.items.isEmpty && modal.loading) {
-          //   return const SizedBox();
-          // }
           if (widget.categoryLayoutType.isAutoScroll) {
             return _autoScrollCategory();
           }
@@ -323,35 +322,80 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
             height: double.infinity,
             color:
                 widget.bothCategoryStyle.secondSiteColor ?? Colors.transparent,
-            child: PaginationViewCustom<T>(
-              paginationViewType: PaginationViewType.list,
-              physics: widget.bothCategoryStyle.physics ??
-                  const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7.0),
+                    color: Theme.of(context).cardColor,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 5.0,
+                        color: Theme.of(context).shadowColor.withOpacity(0.3),
+                      )
+                    ],
                   ),
-              hPadding: widget.bothCategoryStyle.hPaddingSecondSite ?? 10.0,
-              vPadding: widget.bothCategoryStyle.vPaddingSecondSite ?? 0.0,
-              paginationNotifier: _paginationNotifier,
-              initWidget: Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 10.0),
+                      Text(
+                        _categoryLayoutNotifier!.categorySelected?.title ?? '',
+                        style: context.titleMedium.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () => widget.seeAllCall!(
+                            _categoryLayoutNotifier!.categorySelected!.id),
+                        child: Text(
+                          S.of(context).seeMore,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
-              skeltonFormat: const SkeltonFormat(
-                columns: [1],
-                height: 80.0,
-                padding: EdgeInsets.all(0.0),
-                countable: 3,
-              ),
-              paginationDataCall: widget.paginationDataCall ??
-                  (currentPage, category) async => <T>[],
-              items: const [],
-              itemBuilder: (context, data, index) => widget.itemBuilder(data),
+                Expanded(child: _paginationField()),
+              ]
+                  .expand((element) => [const SizedBox(height: 10.0), element])
+                  .toList(),
             ),
           ),
         ),
       ],
+    );
+  }
+
+  PaginationViewCustom<dynamic> _paginationField() {
+    return PaginationViewCustom<T>(
+      paginationViewType: PaginationViewType.list,
+      physics: widget.bothCategoryStyle.physics ??
+          const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+      hPadding: widget.bothCategoryStyle.hPaddingSecondSite ?? 10.0,
+      vPadding: widget.bothCategoryStyle.vPaddingSecondSite ?? 0.0,
+      paginationNotifier: _paginationNotifier,
+      initWidget: Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+      typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
+      skeltonFormat: const SkeltonFormat(
+        columns: [1],
+        height: 80.0,
+        padding: EdgeInsets.all(0.0),
+        countable: 3,
+      ),
+      paginationDataCall:
+          widget.paginationDataCall ?? (currentPage, category) async => <T>[],
+      items: const [],
+      itemBuilder: (context, data, index) => widget.itemBuilder(data),
     );
   }
 

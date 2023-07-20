@@ -66,7 +66,7 @@ class _TestUiState extends State<TestUi> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
         radius: 15,
-        elevation: 0.05, // => elevation
+        elevation: 0.2, // => elevation
         tabBarType: TabBarType
             .dotTabBar, //if you want display test change to textTabBar
         // tabBarColor: Colors.black,
@@ -137,15 +137,18 @@ class _PageTest2State extends State<PageTest2> {
       hPadding: 10,
       vPadding: 10,
       categoryLayoutType: CategoryLayoutType.both,
-      selectedTextStyle: context.titleSmall,
-      unselectedTextStyle: context.titleSmall.copyWith(
-        color: Theme.of(context).hintColor,
+      selectedTextStyle: context.titleSmall.copyWith(
+        fontWeight: FontWeight.bold,
       ),
-      autoScrollCategoryStyle: const AutoScrollCategoryStyle(
-        animatedDuration: 350,
-        radius: 5.0,
-        categoryItemHeight: 40,
-        indicatorPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
+      unselectedTextStyle: context.titleSmall,
+      // autoScrollCategoryStyle: const AutoScrollCategoryStyle(
+      //   animatedDuration: 350,
+      //   radius: 5.0,
+      //   categoryItemHeight: 40,
+      //   indicatorPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 3.0),
+      // ),
+      bothCategoryStyle: BothCategoryStyle(
+        firstSiteColor: Theme.of(context).primaryColor,
       ),
       categoryLayoutModel: categoryTest,
       scrollFormat: const ScrollFormat(
