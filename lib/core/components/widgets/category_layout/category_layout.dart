@@ -1,11 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_notifier.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../../../../generated/l10n.dart';
 import 'category_layout_type.dart';
 
 class CategoryLayoutModel {
@@ -28,6 +30,7 @@ class ProductModel<T> {
   });
 }
 
+// Style support for AutoScroll
 class AutoScrollCategoryStyle {
   final bool isScrollable;
   final double radius;
@@ -56,11 +59,29 @@ class AutoScrollCategoryStyle {
   });
 }
 
+// Style support for both
+class BothCategoryStyle {
+  final Color? secondSiteColor;
+  final Color? firstSiteColor;
+  final double? hPaddingSecondSite;
+  final double? vPaddingSecondSite;
+  final ScrollPhysics? physics;
+  const BothCategoryStyle({
+    this.hPaddingSecondSite,
+    this.vPaddingSecondSite,
+    this.secondSiteColor,
+    this.firstSiteColor,
+    this.physics,
+  });
+}
+
 class ScrollFormat {
   final int numberColumns;
   final double mainSpacing;
   final double crossSpacing;
+  final int limitFetch;
   const ScrollFormat({
+    this.limitFetch = 10,
     this.numberColumns = 2,
     this.mainSpacing = 10.0,
     this.crossSpacing = 10.0,
@@ -78,6 +99,8 @@ class CategoryLayoutView<T> extends StatefulWidget {
   // Padding
   final double hPadding;
   final double vPadding;
+  //Pagination call support for pull to load more
+  final PaginationData<T>? paginationDataCall;
   // Style format
   final TextStyle? selectedTextStyle;
   final TextStyle? unselectedTextStyle;
@@ -85,17 +108,22 @@ class CategoryLayoutView<T> extends StatefulWidget {
   final AutoScrollCategoryStyle autoScrollCategoryStyle;
   final List<CategoryLayoutModel> categoryLayoutModel;
   final ScrollFormat scrollFormat;
+  final BothCategoryStyle bothCategoryStyle;
   // Setup widget for item
   final Widget Function(T data) itemBuilder;
   final Widget Function(CategoryLayoutModel data)? itemCategoryBuilder;
+  final Function(String categoryId)? seeAllCall;
   const CategoryLayoutView({
     super.key,
-    required this.itemCall,
+    this.seeAllCall,
     this.hPadding = 10.0,
     this.vPadding = 10.0,
+    required this.itemCall,
     this.selectedTextStyle,
     this.unselectedTextStyle,
     this.itemCategoryBuilder,
+    this.paginationDataCall,
+    this.bothCategoryStyle = const BothCategoryStyle(),
     required this.itemBuilder,
     required this.categoryLayoutModel,
     this.scrollFormat = const ScrollFormat(),
@@ -115,6 +143,9 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
   TabController? _tabController;
   ItemScrollController? _itemScrollController;
   ItemPositionsListener? _itemPositionsListener;
+
+  // Support for pagination
+  PaginationNotifier<T>? _paginationNotifier;
 
   //Style
   TextStyle get selectedTextStyle =>
@@ -139,13 +170,31 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
         );
       _tabController = TabController(
         animationDuration: Duration(
-            milliseconds: widget.autoScrollCategoryStyle.animatedDuration),
+          milliseconds: widget.autoScrollCategoryStyle.animatedDuration,
+        ),
         length: widget.categoryLayoutModel.length,
         vsync: this,
       );
       _itemScrollController = ItemScrollController();
       _itemPositionsListener = ItemPositionsListener.create();
       _itemPositionsListener!.itemPositions.addListener(_itemScrollListener);
+    } else if (widget.categoryLayoutType.isBoth) {
+      if (widget.categoryLayoutModel.isNotEmpty) {
+        _paginationNotifier = PaginationNotifier<T>(
+          widget.paginationDataCall ?? (p0, category) async => <T>[],
+          [],
+          category: widget.categoryLayoutModel.first.id,
+        )..refreshItems(
+            widget.scrollFormat.limitFetch,
+          ); //
+
+        _categoryLayoutNotifier = CategoryLayoutNotifier([], widget.itemCall)
+          ..onSelectedCategory(
+            widget.categoryLayoutModel.isNotEmpty
+                ? widget.categoryLayoutModel.first
+                : null,
+          );
+      }
     }
   }
 
@@ -187,6 +236,16 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
     isAutoScroll = true;
   }
 
+  Future onTabBothChange(CategoryLayoutModel newCategory) async {
+    if (_categoryLayoutNotifier == null ||
+        (_categoryLayoutNotifier?.loading ?? false)) {
+      return;
+    }
+    _categoryLayoutNotifier!.onSelectedCategory(newCategory);
+    _paginationNotifier!.category = newCategory.id;
+    _paginationNotifier!.refreshItems(widget.scrollFormat.limitFetch);
+  }
+
   @override
   void dispose() {
     if (_tabController != null) {
@@ -204,15 +263,139 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
       value: _categoryLayoutNotifier!,
       child: Consumer<CategoryLayoutNotifier<T>>(
         builder: (context, modal, _) {
-          if (modal.items.isEmpty && modal.loading) {
-            return const SizedBox();
-          }
           if (widget.categoryLayoutType.isAutoScroll) {
             return _autoScrollCategory();
+          }
+          if (widget.categoryLayoutType.isBoth) {
+            return _bothCategory();
           }
           return const Placeholder();
         },
       ),
+    );
+  }
+
+  Row _bothCategory() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: widget.bothCategoryStyle.firstSiteColor ??
+                Theme.of(context).cardColor,
+            child: ListView(
+              children: [
+                ...widget.categoryLayoutModel.map(
+                  (e) {
+                    final isSelected =
+                        _categoryLayoutNotifier!.categorySelected!.id == e.id;
+                    final categoryStyle =
+                        isSelected ? selectedTextStyle : unselectedTextStyle;
+                    final categoryColor = isSelected
+                        ? widget.bothCategoryStyle.secondSiteColor ??
+                            Theme.of(context).scaffoldBackgroundColor
+                        : Colors.transparent;
+                    return InkWell(
+                      onTap: () => onTabBothChange(e),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 20.0,
+                        ),
+                        decoration: BoxDecoration(color: categoryColor),
+                        child: Text(e.title, style: categoryStyle),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 9,
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color:
+                widget.bothCategoryStyle.secondSiteColor ?? Colors.transparent,
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7.0),
+                    color: Theme.of(context).cardColor,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 5.0,
+                        color: Theme.of(context).shadowColor.withOpacity(0.3),
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 10.0),
+                      Text(
+                        _categoryLayoutNotifier!.categorySelected?.title ?? '',
+                        style: context.titleMedium.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () => widget.seeAllCall!(
+                            _categoryLayoutNotifier!.categorySelected!.id),
+                        child: Text(
+                          S.of(context).seeMore,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(child: _paginationField()),
+              ]
+                  .expand((element) => [const SizedBox(height: 10.0), element])
+                  .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  PaginationViewCustom<dynamic> _paginationField() {
+    return PaginationViewCustom<T>(
+      paginationViewType: PaginationViewType.list,
+      physics: widget.bothCategoryStyle.physics ??
+          const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+      hPadding: widget.bothCategoryStyle.hPaddingSecondSite ?? 10.0,
+      vPadding: widget.bothCategoryStyle.vPaddingSecondSite ?? 0.0,
+      paginationNotifier: _paginationNotifier,
+      initWidget: Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+      typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
+      skeltonFormat: const SkeltonFormat(
+        columns: [1],
+        height: 80.0,
+        padding: EdgeInsets.all(0.0),
+        countable: 3,
+      ),
+      paginationDataCall:
+          widget.paginationDataCall ?? (currentPage, category) async => <T>[],
+      items: const [],
+      itemBuilder: (context, data, index) => widget.itemBuilder(data),
     );
   }
 
@@ -279,9 +462,23 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                     decoration: const BoxDecoration(
                       color: Colors.transparent,
                     ),
-                    child: Text(
-                      categoryModel.title,
-                      style: context.titleMedium,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          categoryModel.title,
+                          style: context.titleMedium,
+                        ),
+                        TextButton(
+                          onPressed: () => widget.seeAllCall!(categoryId),
+                          child: Text(
+                            S.of(context).seeMore,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   Container(

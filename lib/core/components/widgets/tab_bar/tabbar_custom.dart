@@ -329,8 +329,9 @@ class _TabBarCustomState extends State<TabBarCustom> {
                   children: [
                     ...widget.items.mapIndexed(
                       (index, e) => Expanded(
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () => _onTap(index),
+                          splashColor: Colors.transparent,
                           // borderRadius: BorderRadius.circular(100),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
