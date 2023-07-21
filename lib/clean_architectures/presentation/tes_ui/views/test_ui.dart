@@ -59,7 +59,6 @@ class _TestUiState extends State<TestUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       appBar: AppBar(
         title: const Text('Test ui'),
       ),
@@ -139,8 +138,12 @@ class _PageTest2State extends State<PageTest2> {
       categoryLayoutType: CategoryLayoutType.both,
       selectedTextStyle: context.titleSmall.copyWith(
         fontWeight: FontWeight.bold,
+        fontSize: 11.0,
       ),
-      unselectedTextStyle: context.titleSmall,
+      unselectedTextStyle: context.titleSmall.copyWith(
+        // color: Theme.of(context).hintColor,
+        fontSize: 11.0,
+      ),
       // autoScrollCategoryStyle: const AutoScrollCategoryStyle(
       //   animatedDuration: 350,
       //   radius: 5.0,
@@ -149,6 +152,7 @@ class _PageTest2State extends State<PageTest2> {
       // ),
       bothCategoryStyle: BothCategoryStyle(
         firstSiteColor: Theme.of(context).primaryColor,
+        isGroupFormat: true,
       ),
       categoryLayoutModel: categoryTest,
       scrollFormat: const ScrollFormat(
@@ -165,7 +169,7 @@ class _PageTest2State extends State<PageTest2> {
             ModelImageTest(
               imageUrl: ImageConst.baseImageView,
               title: 'Product t$t',
-              subTitle: 'This is product $t of category i',
+              subTitle: 'This is product $t of category $category',
             ),
         ];
       },
@@ -176,13 +180,13 @@ class _PageTest2State extends State<PageTest2> {
           children: [
             Container(
               width: double.infinity,
-              height: 150.0,
+              height: 130.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(data.imageUrl),
                 ),
-                borderRadius: BorderRadius.circular(10.0),
+                // borderRadius: BorderRadius.circular(10.0),
               ),
             ),
             Text(

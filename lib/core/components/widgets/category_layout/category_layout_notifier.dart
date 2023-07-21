@@ -23,7 +23,7 @@ class CategoryLayoutNotifier<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchProductItem(
+  void fetchProductItem(
     List<CategoryLayoutModel> categoryIds, {
     bool isAuto = false,
     int numberColumn = 2,
