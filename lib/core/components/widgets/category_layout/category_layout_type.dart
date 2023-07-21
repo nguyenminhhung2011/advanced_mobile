@@ -1,9 +1,9 @@
 enum CategoryLayoutType {
-  top,
+  top, // done
   grid,
-  both,
-  card,
-  autoScroll;
+  both, // done
+  card, 
+  autoScroll; // done
 }
 
 extension CheckCategoryLayout on CategoryLayoutType {
