@@ -1,5 +1,6 @@
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_gradient_item.dart';
 import 'category_item.dart';
 import 'category_type.dart';
 import 'icon_category.dart';
@@ -121,44 +122,17 @@ class _CategoryFieldState extends State<CategoryField> {
           children: [
             SizedBox(width: widget.marginLeft ?? 0.0),
             ...widget.categories
-                .map(
-                  (e) => GestureDetector(
-                    onTap: e.onPress,
-                    child: Container(
-                      padding: EdgeInsets.only(
-                        left: e.paddingLeft ?? 10.0,
-                        right: e.paddingRight ?? 10.0,
-                        top: e.paddingTop ?? 5.0,
-                        bottom: e.paddingBottom ?? 5.0,
+                .map((e) => CategoryGradientItem(
+                      e: e,
+                      iconWidget: IconCategory(category: e),
+                      nameWidget: NameCategory(
+                        category: e,
+                        context: context,
+                        textStyle: categoryTextStyle,
                       ),
-                      decoration: BoxDecoration(
-                        color: e.isSelected
-                            ? widget.selectedColor ??
-                                Theme.of(context).primaryColor
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(e.radius ?? 10.0),
-                        ),
-                        border: Border.all(
-                          width: 1.5,
-                          color: widget.selectedColor ??
-                              Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          IconCategory(category: e),
-                          const SizedBox(width: 5.0),
-                          NameCategory(
-                            category: e,
-                            context: context,
-                            textStyle: categoryTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
+                      selectedColor: widget.selectedColor,
+                      isRow: false,
+                    ))
                 .expand(
                   (element) => [
                     element,
@@ -296,6 +270,7 @@ class CategoryStyle {
   final Function() onPress;
   final bool isSelected;
   final bool isIcon;
+  final List<Color>? backgroundGradientColor;
   final TypeImage typeImage;
   final IconData iconWidget;
   CategoryStyle({
@@ -311,6 +286,7 @@ class CategoryStyle {
     this.iconSize,
     this.isSelected = false,
     this.isIcon = false,
+    this.backgroundGradientColor,
     this.typeImage = TypeImage.assetImage,
     this.iconWidget = Icons.home,
   });
