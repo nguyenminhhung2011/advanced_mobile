@@ -11,6 +11,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/
 import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
+import '../../../../core/components/widgets/header_search/header_search.dart';
 import '../../../../core/components/widgets/tab_bar/tab_bar_type.dart';
 import '../../../../core/components/widgets/tab_bar/tabbar_custom.dart';
 
@@ -58,9 +59,6 @@ class _TestUiState extends State<TestUi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Test ui'),
-      ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
         elevation: 0.05, // => elevation
@@ -240,6 +238,7 @@ class _PageTest1State extends State<PageTest1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const HeaderSearch(),
         const SizedBox(height: 30.0),
         CategoryField(
           categoryType: CategoryType.expandCategory, // => Change here
