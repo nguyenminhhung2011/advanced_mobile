@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
@@ -18,9 +16,11 @@ class CategoryLayoutModel {
   final String id;
   final String imageUrl;
   final String title;
+  final Widget? widgetCategory;
   CategoryLayoutModel({
     required this.id,
     required this.title,
+    this.widgetCategory,
     this.imageUrl = ImageConst.baseImageView,
   });
 }
@@ -67,15 +67,27 @@ class AutoScrollCategoryStyle {
 class BothCategoryStyle {
   final Color? secondSiteColor;
   final Color? firstSiteColor;
+  final int secondExpand;
+  final int firstExpand;
   final double? hPaddingSecondSite;
   final double? vPaddingSecondSite;
+  final double? categorySpacing;
   final ScrollPhysics? physics;
   final bool isGroupFormat;
+  final BoxDecoration? selectedFormat;
+  final EdgeInsets? categoryPadding;
+  final Widget Function(CategoryLayoutModel)? headerCategoryView;
   const BothCategoryStyle({
+    this.categorySpacing = 0.0,
     this.isGroupFormat = false,
+    this.secondExpand = 10,
+    this.firstExpand = 3,
     this.hPaddingSecondSite,
     this.vPaddingSecondSite,
+    this.headerCategoryView,
+    this.categoryPadding,
     this.secondSiteColor,
+    this.selectedFormat,
     this.firstSiteColor,
     this.physics,
   });
@@ -109,7 +121,7 @@ class CategoryLayoutView<T> extends StatefulWidget {
   // current support for auto scroll layout
   final CategoryLayoutType categoryLayoutType;
   // Call when fetch data
-  final CategoryItemData<T> itemCall;
+  final CategoryItemData<T>? itemCall;
   // Padding
   final double hPadding;
   final double vPadding;
@@ -133,7 +145,7 @@ class CategoryLayoutView<T> extends StatefulWidget {
     this.seeAllCall,
     this.hPadding = 10.0,
     this.vPadding = 10.0,
-    required this.itemCall,
+    this.itemCall,
     this.selectedTextStyle,
     this.unselectedTextStyle,
     this.itemCategoryBuilder,
@@ -184,12 +196,13 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
   void initState() {
     super.initState();
     if (widget.categoryLayoutType.isAutoScroll) {
-      _categoryLayoutNotifier = CategoryLayoutNotifier([], widget.itemCall)
-        ..fetchProductItem(
-          widget.categoryLayoutModel,
-          isAuto: widget.categoryLayoutType.isAutoScroll,
-          numberColumn: widget.scrollFormat.numberColumns,
-        );
+      _categoryLayoutNotifier =
+          CategoryLayoutNotifier([], widget.itemCall ?? (value) async => [])
+            ..fetchProductItem(
+              widget.categoryLayoutModel,
+              isAuto: widget.categoryLayoutType.isAutoScroll,
+              numberColumn: widget.scrollFormat.numberColumns,
+            );
       _tabController = TabController(
         animationDuration: Duration(
           milliseconds: widget.autoScrollCategoryStyle.animatedDuration,
@@ -201,10 +214,11 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
     } else if (widget.categoryLayoutType.isBoth ||
         widget.categoryLayoutType.isTop) {
       if (widget.categoryLayoutModel.isNotEmpty) {
-        _categoryLayoutNotifier = CategoryLayoutNotifier([], widget.itemCall)
-          ..onSelectedCategory(
-            widget.categoryLayoutModel.first,
-          );
+        _categoryLayoutNotifier =
+            CategoryLayoutNotifier([], widget.itemCall ?? (value) async => [])
+              ..onSelectedCategory(
+                widget.categoryLayoutModel.first,
+              );
 
         if (widget.bothCategoryStyle.isGroupFormat) {
           _categoryLayoutNotifier!.fetchProductItem(
@@ -348,7 +362,7 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
     return Row(
       children: [
         Expanded(
-          flex: 3,
+          flex: widget.bothCategoryStyle.firstExpand,
           child: Container(
             width: double.infinity,
             height: double.infinity,
@@ -363,35 +377,59 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                     final categoryStyle =
                         isSelected ? selectedTextStyle : unselectedTextStyle;
                     final categoryColor = isSelected
-                        ? widget.bothCategoryStyle.secondSiteColor ??
+                        ? widget.bothCategoryStyle.selectedFormat?.color ??
+                            widget.bothCategoryStyle.secondSiteColor ??
                             Theme.of(context).scaffoldBackgroundColor
                         : Colors.transparent;
+                    final selectFormat =
+                        widget.bothCategoryStyle.selectedFormat?.copyWith(
+                              color: categoryColor,
+                            ) ??
+                            BoxDecoration(color: categoryColor);
                     return InkWell(
                       onTap: () => onTabBothChange(e, index),
                       child: Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 20.0,
-                        ),
-                        decoration: BoxDecoration(color: categoryColor),
-                        child: Text(
-                          e.title,
-                          style: categoryStyle.copyWith(
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                        padding: widget.bothCategoryStyle.categoryPadding ??
+                            const EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 20.0,
+                            ),
+                        decoration: selectFormat,
+                        child: Row(
+                          children: [
+                            if (e.widgetCategory != null) ...[
+                              e.widgetCategory!,
+                              const SizedBox(width: 2),
+                            ],
+                            Expanded(
+                              child: Text(
+                                e.title,
+                                style: categoryStyle.copyWith(
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );
                   },
                 ),
-              ],
+              ]
+                  .expand((element) => [
+                        element,
+                        SizedBox(
+                          height: widget.bothCategoryStyle.categorySpacing,
+                        )
+                      ])
+                  .toList(),
             ),
           ),
         ),
         if (widget.bothCategoryStyle.isGroupFormat)
           Expanded(
-            flex: 10,
+            flex: widget.bothCategoryStyle.secondExpand,
             child: ScrollablePositionedView(
               itemPositionsListener: _itemPositionsListener,
               itemScrollController: _itemScrollController,
@@ -481,55 +519,63 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
           )
         else
           Expanded(
-            flex: 9,
+            flex: widget.bothCategoryStyle.secondExpand,
             child: Container(
               width: double.infinity,
               height: double.infinity,
               color: widget.bothCategoryStyle.secondSiteColor ??
                   Colors.transparent,
               child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.0),
-                      color: Theme.of(context).cardColor,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 5.0,
-                          color: Theme.of(context).shadowColor.withOpacity(0.3),
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10.0),
-                        Text(
-                          _categoryLayoutNotifier!.categorySelected?.title ??
-                              '',
-                          style: context.titleMedium.copyWith(
-                            fontWeight: FontWeight.bold,
+                children: <Widget>[
+                  widget.bothCategoryStyle.headerCategoryView != null
+                      ? widget.bothCategoryStyle.headerCategoryView!(
+                          _categoryLayoutNotifier!.categorySelected!)
+                      : Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7.0),
+                            color: Theme.of(context).cardColor,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 5.0,
+                                color: Theme.of(context)
+                                    .shadowColor
+                                    .withOpacity(0.3),
+                              )
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 10.0),
+                              Text(
+                                _categoryLayoutNotifier!
+                                        .categorySelected?.title ??
+                                    '',
+                                style: context.titleMedium.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () => widget.seeAllCall!(
+                                    _categoryLayoutNotifier!
+                                        .categorySelected!.id),
+                                child: Text(
+                                  S.of(context).seeMore,
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () => widget.seeAllCall!(
-                              _categoryLayoutNotifier!.categorySelected!.id),
-                          child: Text(
-                            S.of(context).seeMore,
-                            style: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                   Expanded(child: _paginationField()),
                 ]
                     .expand(
                         (element) => [const SizedBox(height: 10.0), element])
-                    .toList(),
+                    .toList()
+                  ..removeAt(0),
               ),
             ),
           ),
@@ -552,6 +598,7 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
           color: Theme.of(context).primaryColor,
         ),
       ),
+      separatedItem: (_, __) => const SizedBox(),
       typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
       skeltonFormat: const SkeltonFormat(
         columns: [1],
