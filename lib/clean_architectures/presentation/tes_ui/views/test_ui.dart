@@ -278,7 +278,7 @@ class _PageTest1State extends State<PageTest1> {
         const SizedBox(height: 30.0),
         Expanded(
           child: PaginationViewCustom<ModelTest>(
-            paginationViewType: PaginationViewType.grid,
+            paginationViewType: PaginationViewType.masonryGrid,
             paginationDataCall: paginationCall,
             physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics(),
@@ -306,6 +306,8 @@ class _PageTest1State extends State<PageTest1> {
             ],
             itemBuilder: (BuildContext context, ModelTest data, int index) {
               return Container(
+                height: index * 5 + 70, // support for masonry layout
+                width: index * 1, // support for masonry layout
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(10),
