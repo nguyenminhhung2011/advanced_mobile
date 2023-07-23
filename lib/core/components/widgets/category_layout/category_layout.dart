@@ -1,20 +1,26 @@
-
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_notifier.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../../../../generated/l10n.dart';
+import '../grid_free_size.dart';
 import 'category_layout_type.dart';
 
 class CategoryLayoutModel {
   final String id;
   final String imageUrl;
   final String title;
+  final Widget? widgetCategory;
   CategoryLayoutModel({
     required this.id,
     required this.title,
+    this.widgetCategory,
     this.imageUrl = ImageConst.baseImageView,
   });
 }
@@ -28,6 +34,7 @@ class ProductModel<T> {
   });
 }
 
+// Style support for AutoScroll
 class AutoScrollCategoryStyle {
   final bool isScrollable;
   final double radius;
@@ -56,11 +63,51 @@ class AutoScrollCategoryStyle {
   });
 }
 
+// Style support for both
+class BothCategoryStyle {
+  final Color? secondSiteColor;
+  final Color? firstSiteColor;
+  final int secondExpand;
+  final int firstExpand;
+  final double? hPaddingSecondSite;
+  final double? vPaddingSecondSite;
+  final double? categorySpacing;
+  final ScrollPhysics? physics;
+  final bool isGroupFormat;
+  final BoxDecoration? selectedFormat;
+  final EdgeInsets? categoryPadding;
+  final Widget Function(CategoryLayoutModel)? headerCategoryView;
+  const BothCategoryStyle({
+    this.categorySpacing = 0.0,
+    this.isGroupFormat = false,
+    this.secondExpand = 10,
+    this.firstExpand = 3,
+    this.hPaddingSecondSite,
+    this.vPaddingSecondSite,
+    this.headerCategoryView,
+    this.categoryPadding,
+    this.secondSiteColor,
+    this.selectedFormat,
+    this.firstSiteColor,
+    this.physics,
+  });
+}
+
+//Style support for top category
+class TopCategoryStyle {
+  final Color headerColor;
+  const TopCategoryStyle({
+    this.headerColor = Colors.transparent,
+  });
+}
+
 class ScrollFormat {
   final int numberColumns;
   final double mainSpacing;
   final double crossSpacing;
+  final int limitFetch;
   const ScrollFormat({
+    this.limitFetch = 10,
     this.numberColumns = 2,
     this.mainSpacing = 10.0,
     this.crossSpacing = 10.0,
@@ -74,10 +121,12 @@ class CategoryLayoutView<T> extends StatefulWidget {
   // current support for auto scroll layout
   final CategoryLayoutType categoryLayoutType;
   // Call when fetch data
-  final CategoryItemData<T> itemCall;
+  final CategoryItemData<T>? itemCall;
   // Padding
   final double hPadding;
   final double vPadding;
+  //Pagination call support for pull to load more
+  final PaginationData<T>? paginationDataCall;
   // Style format
   final TextStyle? selectedTextStyle;
   final TextStyle? unselectedTextStyle;
@@ -85,20 +134,27 @@ class CategoryLayoutView<T> extends StatefulWidget {
   final AutoScrollCategoryStyle autoScrollCategoryStyle;
   final List<CategoryLayoutModel> categoryLayoutModel;
   final ScrollFormat scrollFormat;
+  final BothCategoryStyle bothCategoryStyle;
+  final TopCategoryStyle topCategoryStyle;
   // Setup widget for item
   final Widget Function(T data) itemBuilder;
   final Widget Function(CategoryLayoutModel data)? itemCategoryBuilder;
+  final Function(String categoryId)? seeAllCall;
   const CategoryLayoutView({
     super.key,
-    required this.itemCall,
+    this.seeAllCall,
     this.hPadding = 10.0,
     this.vPadding = 10.0,
+    this.itemCall,
     this.selectedTextStyle,
     this.unselectedTextStyle,
     this.itemCategoryBuilder,
+    this.paginationDataCall,
     required this.itemBuilder,
     required this.categoryLayoutModel,
     this.scrollFormat = const ScrollFormat(),
+    this.topCategoryStyle = const TopCategoryStyle(),
+    this.bothCategoryStyle = const BothCategoryStyle(),
     this.categoryLayoutType = CategoryLayoutType.autoScroll,
     this.autoScrollCategoryStyle = const AutoScrollCategoryStyle(),
   });
@@ -116,6 +172,9 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
   ItemScrollController? _itemScrollController;
   ItemPositionsListener? _itemPositionsListener;
 
+  // Support for pagination
+  PaginationNotifier<T>? _paginationNotifier;
+
   //Style
   TextStyle get selectedTextStyle =>
       widget.selectedTextStyle ??
@@ -127,25 +186,56 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
         color: Theme.of(context).hintColor,
       );
 
+  void _itemScrollInit() {
+    _itemScrollController = ItemScrollController();
+    _itemPositionsListener = ItemPositionsListener.create();
+    _itemPositionsListener!.itemPositions.addListener(_itemScrollListener);
+  }
+
   @override
   void initState() {
     super.initState();
     if (widget.categoryLayoutType.isAutoScroll) {
-      _categoryLayoutNotifier = CategoryLayoutNotifier([], widget.itemCall)
-        ..fetchProductItem(
-          widget.categoryLayoutModel,
-          isAuto: widget.categoryLayoutType.isAutoScroll,
-          numberColumn: widget.scrollFormat.numberColumns,
-        );
+      _categoryLayoutNotifier =
+          CategoryLayoutNotifier([], widget.itemCall ?? (value) async => [])
+            ..fetchProductItem(
+              widget.categoryLayoutModel,
+              isAuto: widget.categoryLayoutType.isAutoScroll,
+              numberColumn: widget.scrollFormat.numberColumns,
+            );
       _tabController = TabController(
         animationDuration: Duration(
-            milliseconds: widget.autoScrollCategoryStyle.animatedDuration),
+          milliseconds: widget.autoScrollCategoryStyle.animatedDuration,
+        ),
         length: widget.categoryLayoutModel.length,
         vsync: this,
       );
-      _itemScrollController = ItemScrollController();
-      _itemPositionsListener = ItemPositionsListener.create();
-      _itemPositionsListener!.itemPositions.addListener(_itemScrollListener);
+      _itemScrollInit();
+    } else if (widget.categoryLayoutType.isBoth ||
+        widget.categoryLayoutType.isTop) {
+      if (widget.categoryLayoutModel.isNotEmpty) {
+        _categoryLayoutNotifier =
+            CategoryLayoutNotifier([], widget.itemCall ?? (value) async => [])
+              ..onSelectedCategory(
+                widget.categoryLayoutModel.first,
+              );
+
+        if (widget.bothCategoryStyle.isGroupFormat) {
+          _categoryLayoutNotifier!.fetchProductItem(
+            widget.categoryLayoutModel,
+            isAuto: true,
+          );
+          _itemScrollInit();
+        } else {
+          _paginationNotifier = PaginationNotifier<T>(
+            widget.paginationDataCall ?? (p0, category) async => <T>[],
+            [],
+            category: widget.categoryLayoutModel.first.id,
+          )..refreshItems(
+              widget.scrollFormat.limitFetch,
+            ); //
+        }
+      }
     }
   }
 
@@ -159,10 +249,11 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
         )
         .map((e) => e.index)
         .toList();
-    // ignore: avoid_print
-    print(indices);
-    if (indices.isNotEmpty && isAutoScroll) {
-      _tabController!.animateTo(indices.first);
+    if (_tabController != null) {
+      if (indices.isNotEmpty && isAutoScroll) {
+        indices.sort();
+        _tabController!.animateTo(indices.first);
+      }
     }
   }
 
@@ -187,6 +278,20 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
     isAutoScroll = true;
   }
 
+  Future onTabBothChange(CategoryLayoutModel newCategory, int index) async {
+    if (_categoryLayoutNotifier == null ||
+        (_categoryLayoutNotifier?.loading ?? false)) {
+      return;
+    }
+    _categoryLayoutNotifier!.onSelectedCategory(newCategory);
+    if (widget.bothCategoryStyle.isGroupFormat) {
+      onTabChange(index);
+    } else {
+      _paginationNotifier!.category = newCategory.id;
+      _paginationNotifier!.refreshItems(widget.scrollFormat.limitFetch);
+    }
+  }
+
   @override
   void dispose() {
     if (_tabController != null) {
@@ -204,15 +309,307 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
       value: _categoryLayoutNotifier!,
       child: Consumer<CategoryLayoutNotifier<T>>(
         builder: (context, modal, _) {
-          if (modal.items.isEmpty && modal.loading) {
-            return const SizedBox();
-          }
           if (widget.categoryLayoutType.isAutoScroll) {
             return _autoScrollCategory();
           }
-          return const Placeholder();
+          if (widget.categoryLayoutType.isBoth) {
+            return _bothCategory();
+          }
+          if (widget.categoryLayoutType.isTop) {
+            return _topCategory(context);
+          }
+          return const SizedBox();
         },
       ),
+    );
+  }
+
+  Column _topCategory(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          color: widget.topCategoryStyle.headerColor,
+          width: double.infinity,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ...widget.categoryLayoutModel.mapIndexed((index, e) {
+                  final isSelected =
+                      _categoryLayoutNotifier!.categorySelected!.id == e.id;
+                  final categoryStyle = isSelected
+                      ? selectedTextStyle.copyWith(
+                          color: Theme.of(context).primaryColor,
+                        )
+                      : unselectedTextStyle;
+                  return TextButton(
+                    onPressed: () => onTabBothChange(e, index),
+                    child: Text(e.title, style: categoryStyle),
+                  );
+                }),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 10.0),
+        Expanded(child: _paginationField()),
+      ],
+    );
+  }
+
+  Row _bothCategory() {
+    return Row(
+      children: [
+        Expanded(
+          flex: widget.bothCategoryStyle.firstExpand,
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: widget.bothCategoryStyle.firstSiteColor ??
+                Theme.of(context).cardColor,
+            child: ListView(
+              children: [
+                ...widget.categoryLayoutModel.mapIndexed(
+                  (index, e) {
+                    final isSelected =
+                        _categoryLayoutNotifier!.categorySelected!.id == e.id;
+                    final categoryStyle =
+                        isSelected ? selectedTextStyle : unselectedTextStyle;
+                    final categoryColor = isSelected
+                        ? widget.bothCategoryStyle.selectedFormat?.color ??
+                            widget.bothCategoryStyle.secondSiteColor ??
+                            Theme.of(context).scaffoldBackgroundColor
+                        : Colors.transparent;
+                    final selectFormat =
+                        widget.bothCategoryStyle.selectedFormat?.copyWith(
+                              color: categoryColor,
+                            ) ??
+                            BoxDecoration(color: categoryColor);
+                    return InkWell(
+                      onTap: () => onTabBothChange(e, index),
+                      child: Container(
+                        width: double.infinity,
+                        padding: widget.bothCategoryStyle.categoryPadding ??
+                            const EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 20.0,
+                            ),
+                        decoration: selectFormat,
+                        child: Row(
+                          children: [
+                            if (e.widgetCategory != null) ...[
+                              e.widgetCategory!,
+                              const SizedBox(width: 2),
+                            ],
+                            Expanded(
+                              child: Text(
+                                e.title,
+                                style: categoryStyle.copyWith(
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ]
+                  .expand((element) => [
+                        element,
+                        SizedBox(
+                          height: widget.bothCategoryStyle.categorySpacing,
+                        )
+                      ])
+                  .toList(),
+            ),
+          ),
+        ),
+        if (widget.bothCategoryStyle.isGroupFormat)
+          Expanded(
+            flex: widget.bothCategoryStyle.secondExpand,
+            child: ScrollablePositionedView(
+              itemPositionsListener: _itemPositionsListener,
+              itemScrollController: _itemScrollController,
+              itemCount: _categoryLayoutNotifier?.countItem ?? 0,
+              // physics: widget.autoScrollCategoryStyle.physics,
+              itemBuilder: (context, index) {
+                final categoryId = _categoryLayoutNotifier!
+                    .autoScrollItems.entries
+                    .elementAt(index)
+                    .key
+                    .toString();
+                final items = _categoryLayoutNotifier!.autoScrollItems.entries
+                    .elementAt(index)
+                    .value;
+                final categoryModel = widget.categoryLayoutModel
+                    .firstWhere((e) => e.id == categoryId);
+                final scrollFormat = widget.scrollFormat;
+                final mainSpacing = scrollFormat.mainSpacing;
+                final crossSpacing = scrollFormat.crossSpacing;
+                return Container(
+                  margin: EdgeInsets.only(
+                    left: widget.bothCategoryStyle.hPaddingSecondSite ?? 10.0,
+                    top: widget.bothCategoryStyle.vPaddingSecondSite ?? 15.0,
+                  ),
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(
+                      top: 10.0, left: 10.0, bottom: 10.0),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(categoryModel.title, style: context.titleMedium),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () => widget.seeAllCall!(categoryId),
+                            child: Text(
+                              S.of(context).seeMore,
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10.0),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          children: List.generate(
+                            (items.length / 2).ceil(),
+                            (indexR) => Column(
+                              children: List.generate(
+                                2,
+                                (indexC) {
+                                  int index = indexC + (indexR * 2);
+                                  return index < items.length
+                                      ? SizedBox(
+                                          width: context.widthDevice * 0.3,
+                                          child:
+                                              widget.itemBuilder(items[index]),
+                                        )
+                                      : const SizedBox();
+                                },
+                              )
+                                  .expand((element) =>
+                                      [element, SizedBox(height: mainSpacing)])
+                                  .toList()
+                                ..removeLast(),
+                            ),
+                          )
+                              .expand((element) =>
+                                  [element, SizedBox(width: crossSpacing)])
+                              .toList()
+                            ..removeLast(),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          )
+        else
+          Expanded(
+            flex: widget.bothCategoryStyle.secondExpand,
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: widget.bothCategoryStyle.secondSiteColor ??
+                  Colors.transparent,
+              child: Column(
+                children: <Widget>[
+                  widget.bothCategoryStyle.headerCategoryView != null
+                      ? widget.bothCategoryStyle.headerCategoryView!(
+                          _categoryLayoutNotifier!.categorySelected!)
+                      : Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7.0),
+                            color: Theme.of(context).cardColor,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 5.0,
+                                color: Theme.of(context)
+                                    .shadowColor
+                                    .withOpacity(0.3),
+                              )
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 10.0),
+                              Text(
+                                _categoryLayoutNotifier!
+                                        .categorySelected?.title ??
+                                    '',
+                                style: context.titleMedium.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () => widget.seeAllCall!(
+                                    _categoryLayoutNotifier!
+                                        .categorySelected!.id),
+                                child: Text(
+                                  S.of(context).seeMore,
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                  Expanded(child: _paginationField()),
+                ]
+                    .expand(
+                        (element) => [const SizedBox(height: 10.0), element])
+                    .toList()
+                  ..removeAt(0),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  PaginationViewCustom<dynamic> _paginationField() {
+    return PaginationViewCustom<T>(
+      paginationViewType: PaginationViewType.list,
+      physics: widget.bothCategoryStyle.physics ??
+          const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
+      hPadding: widget.bothCategoryStyle.hPaddingSecondSite ?? 10.0,
+      vPadding: widget.bothCategoryStyle.vPaddingSecondSite ?? 0.0,
+      paginationNotifier: _paginationNotifier,
+      initWidget: Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+      separatedItem: (_, __) => const SizedBox(),
+      typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
+      skeltonFormat: const SkeltonFormat(
+        columns: [1],
+        height: 80.0,
+        padding: EdgeInsets.all(0.0),
+        countable: 3,
+      ),
+      paginationDataCall:
+          widget.paginationDataCall ?? (currentPage, category) async => <T>[],
+      items: const [],
+      itemBuilder: (context, data, index) => widget.itemBuilder(data),
     );
   }
 
@@ -253,9 +650,11 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
               .toList(),
         ),
         Expanded(
-          child: ScrollablePositionedList.builder(
-            physics: widget.autoScrollCategoryStyle.scrollPhysics,
+          child: ScrollablePositionedView(
+            itemPositionsListener: _itemPositionsListener,
+            itemScrollController: _itemScrollController,
             itemCount: _categoryLayoutNotifier?.countItem ?? 0,
+            physics: widget.autoScrollCategoryStyle.physics,
             itemBuilder: (context, index) {
               final categoryId = _categoryLayoutNotifier!
                   .autoScrollItems.entries
@@ -279,64 +678,71 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                     decoration: const BoxDecoration(
                       color: Colors.transparent,
                     ),
-                    child: Text(
-                      categoryModel.title,
-                      style: context.titleMedium,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          categoryModel.title,
+                          style: context.titleMedium,
+                        ),
+                        TextButton(
+                          onPressed: () => widget.seeAllCall!(categoryId),
+                          child: Text(
+                            S.of(context).seeMore,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: widget.hPadding,
-                      vertical: widget.vPadding,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                    ),
-                    child: Column(
-                      children: List.generate(
-                        maxCountPerRow,
-                        (indexC) {
-                          int startRowIndex = indexC;
-                          return Row(
-                            children: List.generate(
-                              scrollFormat.numberColumns,
-                              (indexR) {
-                                int index = indexR +
-                                    (startRowIndex *
-                                        scrollFormat.numberColumns);
-                                return Expanded(
-                                  child: index < items.length
-                                      ? widget.itemBuilder(items[index])
-                                      : const SizedBox(),
-                                );
-                              },
-                            )
-                                .expand((element) => [
-                                      element,
-                                      SizedBox(width: scrollFormat.crossSpacing)
-                                    ])
-                                .toList()
-                              ..removeLast(),
-                          );
-                        },
-                      )
-                          .expand((element) => [
-                                element,
-                                SizedBox(height: scrollFormat.mainSpacing)
-                              ])
-                          .toList()
-                        ..removeLast(),
-                    ),
+                  GridWithFreeSizeCustom(
+                    itemCount: items.length,
+                    numberColumn: scrollFormat.numberColumns,
+                    maxCountPerRow: maxCountPerRow,
+                    itemBuilder: (context, index) =>
+                        widget.itemBuilder(items[index]),
+                    hPadding: widget.hPadding,
+                    vPadding: widget.vPadding,
+                    crossSpacing: scrollFormat.crossSpacing,
+                    mainSpacing: scrollFormat.mainSpacing,
                   ),
                   const SizedBox(height: 10.0),
                 ],
               );
             },
-            itemPositionsListener: _itemPositionsListener,
-            itemScrollController: _itemScrollController,
           ),
         )
       ],
+    );
+  }
+}
+
+class ScrollablePositionedView extends StatelessWidget {
+  const ScrollablePositionedView({
+    super.key,
+    this.physics,
+    required this.itemCount,
+    required this.itemBuilder,
+    this.itemScrollController,
+    this.itemPositionsListener,
+  });
+
+  final ItemPositionsListener? itemPositionsListener;
+  final ItemScrollController? itemScrollController;
+  final ScrollPhysics? physics;
+  final int itemCount;
+  final Widget Function(BuildContext, int) itemBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return ScrollablePositionedList.builder(
+      physics: physics,
+      itemCount: itemCount,
+      itemBuilder: itemBuilder,
+      itemPositionsListener: itemPositionsListener,
+      itemScrollController: itemScrollController,
     );
   }
 }

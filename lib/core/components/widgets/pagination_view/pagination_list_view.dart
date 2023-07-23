@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:provider/provider.dart';
 
 import '../skeleton_custom.dart';
@@ -52,7 +53,8 @@ class GridViewFormat {
   });
 }
 
-typedef PaginationData<T> = Future<List<T>> Function(int currentPage);
+typedef PaginationData<T> = Future<List<T>> Function(
+    int currentPag, @Default('') String category);
 
 class PaginationViewCustom<T> extends StatefulWidget {
   // preloads list item
@@ -65,6 +67,8 @@ class PaginationViewCustom<T> extends StatefulWidget {
   final TypeIndicatorLoading typeIndicatorLoading;
   // Controller of scroll
   final ScrollController? scrollController;
+  // Notifier
+  final PaginationNotifier<T>? paginationNotifier;
   //Padding
   final double hPadding;
   final double vPadding;
@@ -98,6 +102,7 @@ class PaginationViewCustom<T> extends StatefulWidget {
     this.spacer = 5,
     this.limitFetch = 10,
     this.isReverse = false,
+    this.paginationNotifier,
     this.skeltonFormat = const SkeltonFormat(),
     this.gridViewFormat = const GridViewFormat(),
     this.initWidget = const Center(
@@ -125,9 +130,9 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
   @override
   void initState() {
     super.initState();
-    _paginationNotifier =
+    _paginationNotifier = widget.paginationNotifier ??
         PaginationNotifier<T>(widget.paginationDataCall, widget.items)
-          ..fetchPaginationItems(widget.limitFetch);
+      ..fetchPaginationItems(widget.limitFetch);
     _scrollController = widget.scrollController ?? ScrollController();
     _scrollController!.addListener(_listenerScroll);
   }

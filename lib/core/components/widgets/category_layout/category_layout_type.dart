@@ -1,10 +1,12 @@
 enum CategoryLayoutType {
-  top,
+  top, // done
   grid,
-  both,
-  card,
-  autoScroll;
+  both, // done
+  card, 
+  autoScroll; // done
+}
 
+extension CheckCategoryLayout on CategoryLayoutType {
   bool get isTop => this == CategoryLayoutType.top;
   bool get isGrid => this == CategoryLayoutType.grid;
   bool get isBoth => this == CategoryLayoutType.both;
