@@ -8,6 +8,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/category
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
@@ -61,6 +62,33 @@ class _TestUiState extends State<TestUi> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Test ui'),
+        actions: [
+          PopUpButtonCustom<String>(
+            onSelected: (value) {},
+            itemBuilder: (_) {
+              return [
+                PopupMenuItem<String>(
+                  value: 'Hung',
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.person,
+                        color: Colors.black,
+                      ),
+                      const SizedBox(width: 5.0),
+                      Text('Hungssdfsfsdfsd',
+                          style: context.titleSmall.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ))
+                    ],
+                  ),
+                ),
+              ];
+            },
+            icon: const Icon(Icons.more_vert),
+          )
+        ],
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
