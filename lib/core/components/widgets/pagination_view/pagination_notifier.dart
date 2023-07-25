@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 class PaginationNotifier<T> extends ChangeNotifier {
   final Future<List<T>> Function(int, @Default('') String category) call;
-  final List<T> preloadedItems;
+  List<T> preloadedItems;
   String category;
   PaginationNotifier(this.call, this.preloadedItems, {this.category = ''});
 
@@ -22,13 +22,10 @@ class PaginationNotifier<T> extends ChangeNotifier {
   }
 
   void refreshItems(int limit) async {
-    if (_loading) {
-      return;
-    }
     _loading = true;
     notifyListeners();
     preloadedItems.clear();
-    preloadedItems.addAll(await call(0, category));
+    preloadedItems = (await call(0, category));
     _loading = false;
     notifyListeners();
   }
