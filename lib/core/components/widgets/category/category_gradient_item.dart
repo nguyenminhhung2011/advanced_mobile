@@ -32,17 +32,17 @@ class CategoryGradientItem extends StatelessWidget {
           bottom: e.paddingBottom ?? 5.0,
         ),
         decoration: BoxDecoration(
-          gradient: e.backgroundGradientColor != null
+          gradient: e.backgroundGradientColor != null && e.isSelected == false
               ? LinearGradient(
                   colors: e.backgroundGradientColor!,
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 )
               : null,
-          color: e.backgroundGradientColor != null
-              ? null
-              : e.isSelected
-                  ? selectedColor ?? Theme.of(context).primaryColor
+          color: e.isSelected
+              ? selectedColor ?? Theme.of(context).primaryColor
+              : e.backgroundGradientColor != null
+                  ? null
                   : Colors.transparent,
           borderRadius: BorderRadius.all(
             Radius.circular(e.radius ?? 10.0),

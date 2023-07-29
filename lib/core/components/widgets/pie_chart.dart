@@ -49,16 +49,16 @@ class _PieChartVIewState extends State<PieChartVIew> {
                   sectionsSpace: 0,
                   centerSpaceRadius: widget.radius / 4 - 10,
                   sections: [
-                    ...widget.data.map((e) => Data(
-                          imagePath:
-                              Constant.icons[e['icon']]['icon'].toString(),
-                          name: '',
-                          percents: ((e['data'] as int) / widget.sum * 100)
-                              .round()
-                              .toDouble(),
-                          color: (Constant.icons[e['icon']]['color'] as Color)
-                              .withOpacity(0.5),
-                        ))
+                    // ...widget.data.map((e) => Data(
+                    //       imagePath:
+                    //           // Constant.icons[e['icon']]['icon'].toString(),
+                    //       name: '',
+                    //       percents: ((e['data'] as int) / widget.sum * 100)
+                    //           .round()
+                    //           .toDouble(),
+                    //       color: (Constant.icons[e['icon']]['color'] as Color)
+                    //           .withOpacity(0.5),
+                    //     ))
                   ]
                       .asMap()
                       .map<int, PieChartSectionData>((index, data) {
@@ -99,16 +99,16 @@ class _PieChartVIewState extends State<PieChartVIew> {
                       sectionsSpace: 0,
                       centerSpaceRadius: widget.radius / 4,
                       sections: [
-                        ...widget.data.map((e) => Data(
-                              imagePath:
-                                  Constant.icons[e['icon']]['icon'].toString(),
-                              name: '',
-                              percents: ((e['data'] as int) / widget.sum * 100)
-                                  .round()
-                                  .toDouble(),
-                              color:
-                                  (Constant.icons[e['icon']]['color'] as Color),
-                            ))
+                        // ...widget.data.map((e) => Data(
+                              // imagePath:
+                                  // Constant.icons[e['icon']]['icon'].toString(),
+                              // name: '',
+                              // percents: ((e['data'] as int) / widget.sum * 100)
+                              //     .round()
+                              //     .toDouble(),
+                              // color:
+                                  // (Constant.icons[e['icon']]['color'] as Color),
+                            // ))
                       ]
                           .asMap()
                           .map<int, PieChartSectionData>((index, data) {

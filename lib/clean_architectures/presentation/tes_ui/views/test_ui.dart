@@ -303,7 +303,7 @@ class _PageTest1State extends State<PageTest1> {
         const HeaderSearch(),
         const SizedBox(height: 30.0),
         CategoryField(
-          categoryType: CategoryType.expandCategory, // => Change here
+          categoryType: CategoryType.selectedCategory, // => Change here
           selectedColor: Theme.of(context).primaryColor,
           numberColumn: 2,
           spacingItem: 15.0,
@@ -332,6 +332,10 @@ class _PageTest1State extends State<PageTest1> {
                 paddingRight: 15.0,
                 paddingTop: 10.0,
                 paddingLeft: 15.0,
+                backgroundGradientColor: [
+                  "992195F3".toColor(),
+                  "112195F3".toColor()
+                ],
                 onPress: () {},
               ),
             )
@@ -340,15 +344,10 @@ class _PageTest1State extends State<PageTest1> {
         const SizedBox(height: 30.0),
         const BannerSliderWidget(
           images: [
-            'https://p.bigstockphoto.com/eIdTXLbqQilMs9xbjvcs_bigstock-Aerial-View-Of-Sandy-Beach-Wit-256330393.jpg',
-            'https://p.bigstockphoto.com/eIdTXLbqQilMs9xbjvcs_bigstock-Aerial-View-Of-Sandy-Beach-Wit-256330393.jpg',
-            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
-            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
-            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
-            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
-            'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
-            'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
-            'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80'
+            'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
+            'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+            'https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg',
+            'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
           ],
         ),
         Expanded(

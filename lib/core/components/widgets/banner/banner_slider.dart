@@ -112,10 +112,10 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
                       vertical: 8.0, horizontal: 4.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context).shadowColor.withOpacity(
+                    color: Theme.of(context).colorScheme.background.withOpacity(
                         _currentPage * itemsPerPage <= index &&
                                 (_currentPage + 1) * itemsPerPage > index
-                            ? 0.5
+                            ? 0.6
                             : 0.2),
                   ),
                 ),

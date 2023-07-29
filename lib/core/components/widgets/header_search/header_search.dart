@@ -14,7 +14,7 @@ class HeaderSearch extends StatefulWidget {
     this.colors = const ["992195F3", "CA2195F3"],
     this.hintText = 'Search',
     this.vPadding = 10.0,
-    this.hPadding = 30.0,
+    this.hPadding = 20.0,
   });
 
   @override
@@ -22,7 +22,6 @@ class HeaderSearch extends StatefulWidget {
 }
 
 class _HeaderSearchState extends State<HeaderSearch> {
-
   List<Color> listStringtoColors(List<String> colors) {
     List<Color> result = [];
     for (var i = 0; i < colors.length; i++) {
@@ -90,9 +89,10 @@ class _HeaderSearchState extends State<HeaderSearch> {
                         },
                       );
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.filter_list_outlined,
                       size: 30,
+                      color: textColor,
                     ),
                   ),
                 ],
