@@ -11,6 +11,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/paginati
 import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 import '../../../../core/components/constant/image_const.dart';
+import '../../../../core/components/widgets/banner/banner_slider.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
 import '../../../../core/components/widgets/header_search/header_search.dart';
@@ -337,6 +338,19 @@ class _PageTest1State extends State<PageTest1> {
           ],
         ),
         const SizedBox(height: 30.0),
+        const BannerSliderWidget(
+          images: [
+            'https://p.bigstockphoto.com/eIdTXLbqQilMs9xbjvcs_bigstock-Aerial-View-Of-Sandy-Beach-Wit-256330393.jpg',
+            'https://p.bigstockphoto.com/eIdTXLbqQilMs9xbjvcs_bigstock-Aerial-View-Of-Sandy-Beach-Wit-256330393.jpg',
+            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
+            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
+            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
+            'https://smaller-pictures.appspot.com/images/dreamstime_xxl_65780868_small.jpg',
+            'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+            'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
+            'https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80'
+          ],
+        ),
         Expanded(
           child: PaginationViewCustom<ModelTest>(
             paginationViewType: PaginationViewType.masonryGrid,
