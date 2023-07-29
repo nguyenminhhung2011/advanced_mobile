@@ -11,7 +11,6 @@ import 'package:table_calendar/table_calendar.dart';
 import '../constant/handle_time.dart';
 import 'dot_custom.dart';
 
-
 enum CalendarType {
   timelineCalendar, //done ✅
   dayCalendar, //
@@ -206,9 +205,7 @@ class DayCalendarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textFontColor = isSelected
-        ? Theme.of(context).primaryColor
-        : null;
+    final textFontColor = isSelected ? Theme.of(context).primaryColor : null;
     return InkWell(
       borderRadius: BorderRadius.circular(35),
       onTap: onSelected,
@@ -514,7 +511,7 @@ class _CalendarTimelineCustomState extends State<CalendarTimelineCustom> {
 
   @override
   Widget build(BuildContext context) {
-    final widthDevice = MediaQuery.of(context).size.width;
+    final widthDevice = context.widthDevice;
     _scrollAligment = (widthDevice / 2 - 36.5) / widthDevice;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

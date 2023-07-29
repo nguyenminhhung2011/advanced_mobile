@@ -1,5 +1,6 @@
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/double_extension.dart';
 import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 
@@ -21,9 +22,19 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
   double fromPrice = 0;
   double toPrice = 0;
 
+  void onChangeSlider(value) {
+    setState(
+      () {
+        fromPrice = value.start;
+        toPrice = value.end;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final min = widget.min ?? 0;
+    final height = context.heightDevice;
     const exampleWidget = [
       Text('abc'),
       Text('abc'),
@@ -38,14 +49,14 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
     return Container(
       width: MediaQuery.sizeOf(context).width,
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.sizeOf(context).height * 0.6,
-        minHeight: MediaQuery.sizeOf(context).height * 0.5,
+        maxHeight: height * 0.6,
+        minHeight: height * 0.5,
       ),
       child: SingleChildScrollView(
         child: Column(
           children: [
             ExpansionItem(
-              content: exampleWidget != null
+              content: exampleWidget != null // Need to update variable, just for temporary
                   ? GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -55,7 +66,8 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
                         childAspectRatio: 4,
                       ),
                       shrinkWrap: true,
-                      itemCount: exampleWidget.length,
+                      itemCount: exampleWidget
+                          .length, // Need to update variable, just for temporary
                       itemBuilder: (_, index) {
                         return GestureDetector(
                           onTap: () {},
@@ -67,7 +79,8 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
                               color: Theme.of(context).dividerColor,
                               borderRadius: BorderRadius.circular(3),
                             ),
-                            child: exampleWidget[index],
+                            child: exampleWidget[
+                                index], // Need to update variable, just for temporary
                           ),
                         );
                       },
@@ -83,12 +96,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
                   ),
                   RangeSlider(
                     values: RangeValues(fromPrice, toPrice),
-                    onChanged: (value) => setState(
-                      () {
-                        fromPrice = value.start;
-                        toPrice = value.end;
-                      },
-                    ),
+                    onChanged: onChangeSlider,
                     max: widget.max,
                     min: min,
                     divisions: 10000,
