@@ -1,4 +1,6 @@
 {
     "update": "update",
-    "seeMore": "See more"
+    "seeMore": "See more",
+    "sortBy": "Sort By",
+    "byPrice": "By Price"
 }

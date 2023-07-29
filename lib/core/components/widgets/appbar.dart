@@ -53,7 +53,6 @@ class AppbarCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final heightDevice = MediaQuery.of(context).size.height;
     return SliverAppBar(
       snap: snap ?? false,
       pinned: pinned ?? true,

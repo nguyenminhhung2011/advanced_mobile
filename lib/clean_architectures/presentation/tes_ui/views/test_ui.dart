@@ -11,8 +11,10 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/paginati
 import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 import '../../../../core/components/constant/image_const.dart';
+import '../../../../core/components/widgets/banner/banner_slider.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
+import '../../../../core/components/widgets/header_search/header_search.dart';
 import '../../../../core/components/widgets/tab_bar/tab_bar_type.dart';
 import '../../../../core/components/widgets/tab_bar/tabbar_custom.dart';
 
@@ -298,9 +300,10 @@ class _PageTest1State extends State<PageTest1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const HeaderSearch(),
         const SizedBox(height: 30.0),
         CategoryField(
-          categoryType: CategoryType.expandCategory, // => Change here
+          categoryType: CategoryType.selectedCategory, // => Change here
           selectedColor: Theme.of(context).primaryColor,
           numberColumn: 2,
           spacingItem: 15.0,
@@ -329,15 +332,27 @@ class _PageTest1State extends State<PageTest1> {
                 paddingRight: 15.0,
                 paddingTop: 10.0,
                 paddingLeft: 15.0,
+                backgroundGradientColor: [
+                  "992195F3".toColor(),
+                  "112195F3".toColor()
+                ],
                 onPress: () {},
               ),
             )
           ],
         ),
         const SizedBox(height: 30.0),
+        const BannerSliderWidget(
+          images: [
+            'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
+            'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+            'https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg',
+            'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
+          ],
+        ),
         Expanded(
           child: PaginationViewCustom<ModelTest>(
-            paginationViewType: PaginationViewType.grid,
+            paginationViewType: PaginationViewType.masonryGrid,
             paginationDataCall: paginationCall,
             physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics(),
@@ -365,6 +380,8 @@ class _PageTest1State extends State<PageTest1> {
             ],
             itemBuilder: (BuildContext context, ModelTest data, int index) {
               return Container(
+                height: index * 5 + 70, // support for masonry layout
+                width: index * 1, // support for masonry layout
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(10),

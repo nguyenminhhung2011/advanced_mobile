@@ -1,16 +1,18 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:provider/provider.dart';
 
 import '../skeleton_custom.dart';
 
-enum PaginationViewType { grid, list }
+enum PaginationViewType { grid, list, masonryGrid }
 
 extension PaginationViewTypeExtension on PaginationViewType {
   bool get isGrid => this == PaginationViewType.grid;
   bool get isList => this == PaginationViewType.list;
+  bool get isMansory => this == PaginationViewType.masonryGrid;
 }
 
 enum TypeIndicatorLoading { circularIndicator, skeltonIndicator }
@@ -88,6 +90,8 @@ class PaginationViewCustom<T> extends StatefulWidget {
   final Widget initWidget;
   //limit item per fetch
   final int limitFetch;
+  // Column for masonry Layout
+  final int columnMansory;
 
   const PaginationViewCustom({
     Key? key,
@@ -111,6 +115,7 @@ class PaginationViewCustom<T> extends StatefulWidget {
     required this.paginationDataCall,
     required this.items,
     required this.itemBuilder,
+    this.columnMansory = 3,
   }) : super(key: key);
 
   @override
@@ -166,13 +171,22 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
           }
           return MediaQuery.removePadding(
             context: context,
-            child: widget.paginationViewType.isList
-                ? _listPaginationView(modal.loading)
-                : _gridPaginationView(modal.loading),
+            child: renderLayout(modal.loading),
           );
         },
       ),
     );
+  }
+
+  Widget renderLayout(bool loading) {
+    switch (widget.paginationViewType) {
+      case PaginationViewType.grid:
+        return _gridPaginationView(loading);
+      case PaginationViewType.list:
+        return _listPaginationView(loading);
+      default:
+        return _masonryPaginationView(loading);
+    }
   }
 
   Widget _listPaginationView(bool loading) {
@@ -254,6 +268,40 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
     );
   }
 
+  Widget _masonryPaginationView(bool loading) {
+    final listItem = _paginationNotifier?.preloadedItems ?? <T>[];
+    final gridViewFormation = widget.gridViewFormat;
+    final itemCount = listItem.length +
+        (loading
+            ? widget.typeIndicatorLoading.isCircularIndicator
+                ? widget.skeltonFormat.countable
+                : gridViewFormation.crossAxisCount
+            : 0);
+    if (listItem.isEmpty) {
+      return const SizedBox();
+    }
+    return MasonryGridView.count(
+      crossAxisCount: widget.columnMansory,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      itemCount: itemCount,
+      controller: _scrollController,
+      itemBuilder: (context, index) {
+        if (index < listItem.length) {
+          return widget.itemBuilder(context, listItem[index], index);
+        } else if (index >= listItem.length && loading) {
+          Timer(const Duration(milliseconds: 30), () {
+            _scrollController!.jumpTo(
+              _scrollController!.position.maxScrollExtent,
+            );
+          });
+          return _loadingBottom();
+        }
+        return const SizedBox();
+      },
+    );
+  }
+
   Widget _loadingBottom() {
     if (widget.typeIndicatorLoading == TypeIndicatorLoading.circularIndicator) {
       return Padding(
@@ -294,6 +342,32 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
           ),
         );
       }
+
+      if (widget.paginationViewType.isMansory) {
+        return Container(
+          width: double.infinity,
+          padding: format.padding,
+          decoration: BoxDecoration(
+            color: format.color ?? Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(format.radius),
+          ),
+          child: Column(
+            children: [
+              ...format.columns.map(
+                (e) => SkeletonContainer.rounded(
+                  width: 50,
+                  height: 50,
+                  borderRadius: BorderRadius.circular(format.radius),
+                ),
+              )
+            ]
+                .expand((element) => [element, const SizedBox(height: 5.0)])
+                .toList()
+              ..removeLast(),
+          ),
+        );
+      }
+
       return Container(
         margin: format.margin,
         width: double.infinity,
