@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
 
+import 'model_bottom_sheet.dart';
+
 class HeaderSearch extends StatefulWidget {
   final List<String> colors;
   final String hintText;
@@ -20,6 +22,7 @@ class HeaderSearch extends StatefulWidget {
 }
 
 class _HeaderSearchState extends State<HeaderSearch> {
+
   List<Color> listStringtoColors(List<String> colors) {
     List<Color> result = [];
     for (var i = 0; i < colors.length; i++) {
@@ -30,38 +33,74 @@ class _HeaderSearchState extends State<HeaderSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: listStringtoColors(widget.colors),
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(
-              horizontal: widget.hPadding, vertical: widget.vPadding),
-          child: TextField(
-            cursorColor: Colors.white,
-            style: const TextStyle(
-                fontWeight: FontWeight.w800, fontSize: 16, color: Colors.white),
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
-                Icons.search,
-                color: Colors.white,
+    final textColor = Theme.of(context).scaffoldBackgroundColor;
+
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: listStringtoColors(widget.colors),
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+          child: SafeArea(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: widget.hPadding, vertical: widget.vPadding),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      cursorColor: textColor,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          color: textColor),
+                      decoration: InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: textColor,
+                          ),
+                          fillColor: textColor.withOpacity(0.25),
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: BorderSide.none),
+                          hintText: widget.hintText,
+                          hintStyle: TextStyle(color: textColor)),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(14),
+                            topRight: Radius.circular(14),
+                          ),
+                        ),
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        builder: (context) {
+                          return const ModelBottomSheet();
+                        },
+                      );
+                    },
+                    child: const Icon(
+                      Icons.filter_list_outlined,
+                      size: 30,
+                    ),
+                  ),
+                ],
               ),
-              fillColor: Colors.white.withOpacity(0.25),
-              filled: true,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14),
-                  borderSide: BorderSide.none),
-              hintText: widget.hintText,
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
