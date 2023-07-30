@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/strin
 import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/expansion_panel_list/expansion_panel_list.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_stack_view/image_stac_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
@@ -56,7 +57,11 @@ class _TestUiState extends State<TestUi> {
       title: 'Search',
       screen: const PageTest2(),
     ),
-    TabBarModel(svgAsset: ImageConst.documentIcon, title: 'Favorite'),
+    TabBarModel(
+      svgAsset: ImageConst.documentIcon,
+      title: 'Favorite',
+      screen: const PageTest3(),
+    ),
     TabBarModel(svgAsset: ImageConst.personIcon, title: 'Profile')
   ];
 
@@ -127,6 +132,41 @@ class _TestUiState extends State<TestUi> {
           );
         },
       ),
+    );
+  }
+}
+
+class PageTest3 extends StatefulWidget {
+  const PageTest3({super.key});
+
+  @override
+  State<PageTest3> createState() => _PageTest3State();
+}
+
+class _PageTest3State extends State<PageTest3> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        ExpansionPanelCustom<ModelTest, List<ModelImageTest>>(
+          parentItems: <ModelTest>[
+            ModelTest(userName: 'Hung', bio: 'Nguyen Minh Hung'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+          ],
+          parentItemBuilder: (_, data, isExpanded) => const SizedBox(),
+          bodyItem: (_, items) => Column(
+            children: [...items.map((e) => const SizedBox())],
+          ),
+          loadBody: (index) async => List.empty(),
+        )
+      ],
     );
   }
 }
