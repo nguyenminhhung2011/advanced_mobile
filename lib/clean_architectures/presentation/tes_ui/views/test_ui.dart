@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/strin
 import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/image_stack_view/image_stac_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
@@ -350,6 +351,18 @@ class _PageTest1State extends State<PageTest1> {
             'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
           ],
         ),
+        ImageStackView(
+          images: const [
+            'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
+            'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+            'https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg',
+            'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
+          ],
+          isAssetImage: false,
+          itemsDisplay: 3,
+          actionColor: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        const SizedBox(height: 10.0),
         Expanded(
           child: PaginationViewCustom<ModelTest>(
             paginationViewType: PaginationViewType.masonryGrid,
