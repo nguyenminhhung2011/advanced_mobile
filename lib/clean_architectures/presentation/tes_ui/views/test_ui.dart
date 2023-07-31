@@ -144,27 +144,63 @@ class PageTest3 extends StatefulWidget {
 }
 
 class _PageTest3State extends State<PageTest3> {
+  List<ModelTest> items = [
+    ...[0, 1, 2, 3, 4].map(
+      (e) => ModelTest(userName: 'Min hun $e', bio: 'Minh Hung socute'),
+    )
+  ];
+
+  Future<List<ModelImageTest>> load(int index) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return <ModelImageTest>[
+      for (int i = 0; i < 3; i++)
+        ModelImageTest(
+          imageUrl:
+              'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
+          title: 'Id t${items[index].userName}',
+          subTitle: 'This is product',
+        ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         ExpansionPanelCustom<ModelTest, List<ModelImageTest>>(
-          parentItems: <ModelTest>[
-            ModelTest(userName: 'Hung', bio: 'Nguyen Minh Hung'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-          ],
-          parentItemBuilder: (_, data, isExpanded) => const SizedBox(),
-          bodyItem: (_, items) => Column(
-            children: [...items.map((e) => const SizedBox())],
+          parentItems: items,
+          parentItemBuilder: (_, data, isExpanded) => Container(
+            width: double.infinity,
+            // decoration: BoxDecoration(
+            //   color: Colors.red,
+            // ),
+            child: ListTile(
+              title: Text(data.userName),
+              subtitle: Text(data.bio),
+            ),
           ),
-          loadBody: (index) async => List.empty(),
+          expandPanelColor: Theme.of(context).scaffoldBackgroundColor,
+          expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 0.0),
+          bodyItem: (_, items) => Column(
+            children: [
+              ...items.map(
+                (e) => Container(
+                  height: 100,
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(vertical: 5.0),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(e.imageUrl),
+                    ),
+                  ),
+                  child: Text(e.title, style: context.titleLarge),
+                ),
+              )
+            ],
+          ),
+          loadBody: load,
         )
       ],
     );
