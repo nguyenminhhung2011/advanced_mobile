@@ -25,7 +25,7 @@ class SkeletonContainer extends StatelessWidget {
   }) : this._(width: width, height: height, borderRadius: borderRadius);
 
   const SkeletonContainer.circular({
-    required double width,
+    required double width,  
     required double height,
     BorderRadius borderRadius = const BorderRadius.all(Radius.circular(80)),
   }) : this._(width: width, height: height, borderRadius: borderRadius);
@@ -40,7 +40,7 @@ class SkeletonContainer extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: Theme.of(context).hintColor.withOpacity(0.05),
+            color: Theme.of(context).dividerColor.withOpacity(0.05),
             borderRadius: borderRadius,
           ),
         ),
