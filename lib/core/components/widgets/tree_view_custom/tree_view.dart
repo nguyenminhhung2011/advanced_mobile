@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/controller/tree_view_conroller.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/controller/tree_view_controller.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/node/node_model.dart';
 import 'package:provider/provider.dart';
 

@@ -28,7 +28,6 @@ class ExpansionNotifier<T, B> extends ChangeNotifier {
     _loading.add(index);
     notifyListeners();
     final load = await loadBody(index);
-    print(load);
     _listExpansion[index].bodyData = load;
     _loading.removeWhere((element) => element == index);
     notifyListeners();
