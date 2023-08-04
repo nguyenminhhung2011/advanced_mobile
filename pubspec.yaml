@@ -122,6 +122,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.6.2
   expansion_widget: ^0.0.3
   carousel_slider: ^4.2.1
+  diffutil_dart: ^4.0.0
   # table_calendar: ^3.0.8
   # readmore: ^2.2.0
 
