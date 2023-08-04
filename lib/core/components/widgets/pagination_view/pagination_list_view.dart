@@ -12,7 +12,7 @@ enum PaginationViewType { grid, list, masonryGrid }
 extension PaginationViewTypeExtension on PaginationViewType {
   bool get isGrid => this == PaginationViewType.grid;
   bool get isList => this == PaginationViewType.list;
-  bool get isMansory => this == PaginationViewType.masonryGrid;
+  bool get isManson => this == PaginationViewType.masonryGrid;
 }
 
 enum TypeIndicatorLoading { circularIndicator, skeltonIndicator }
@@ -343,7 +343,7 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
         );
       }
 
-      if (widget.paginationViewType.isMansory) {
+      if (widget.paginationViewType.isManson) {
         return Container(
           width: double.infinity,
           padding: format.padding,

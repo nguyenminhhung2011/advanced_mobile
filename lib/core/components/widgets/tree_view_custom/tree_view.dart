@@ -3,28 +3,29 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/tree_vie
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/node/node_model.dart';
 import 'package:provider/provider.dart';
 
-typedef GetNode<T> = Future<List<NodeModel<T>>> Function(
-    {NodeModel<T>? parentNode});
+typedef GetNode<T> = Future<List<T>> Function(NodeModel<T>? parentNode);
 
 class TreeView<T> extends StatefulWidget {
   final Widget Function(BuildContext, NodeModel<T>) itemBuilder;
   final GetNode<T> onTapNode;
-  final List<T> parentNodesData;
   final TreeViewController<T>? treeViewController;
   final EdgeInsets? padding;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
   final bool reverse;
+  final double spacingItem;
+  final Color? selectedColor;
 
   const TreeView({
     super.key,
-    this.padding,
     this.physics,
-    this.treeViewController,
-    this.shrinkWrap = false,
+    this.padding,
+    this.selectedColor,
     this.reverse = false,
+    this.spacingItem = 5.0,
+    this.shrinkWrap = false,
+    this.treeViewController,
     required this.itemBuilder,
-    required this.parentNodesData,
     required this.onTapNode,
   });
 
@@ -48,6 +49,14 @@ class _TreeViewState<T> extends State<TreeView<T>> {
     super.dispose();
   }
 
+  void _onTap(NodeModel<T> parentNode) {
+    if (parentNode.childCount != 0) {
+      _treeViewController.removeSomeNode(parentNode);
+    } else {
+      _treeViewController.getSomeNode(parentNode);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -63,6 +72,8 @@ class _TreeViewState<T> extends State<TreeView<T>> {
   Widget _customField(TreeViewController<T> modal) {
     final padding = widget.padding ?? EdgeInsets.zero;
     final physics = widget.physics ?? const BouncingScrollPhysics();
+    final selectedColor =
+        widget.selectedColor ?? Theme.of(context).primaryColor;
     return Container(
       padding: padding,
       child: ListView.builder(
@@ -73,10 +84,29 @@ class _TreeViewState<T> extends State<TreeView<T>> {
         itemBuilder: (BuildContext context, int index) {
           NodeModel<T> node = modal.data[index];
           return Padding(
-            padding: EdgeInsets.only(left: node.level * 10),
+            padding: EdgeInsets.only(
+              left: node.level * 20,
+              top: widget.spacingItem / 2,
+              bottom: widget.spacingItem / 2,
+            ),
             child: InkWell(
-              onTap: () {},
-              child: widget.itemBuilder(context, node),
+              onTap: () => _onTap(node),
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: node.isSelected
+                      ? selectedColor.withOpacity(0.4)
+                      : Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                    width: 1,
+                    color: node.isSelected ? selectedColor : Colors.transparent,
+                  ),
+                ),
+                child: widget.itemBuilder(context, node),
+              ),
             ),
           );
         },

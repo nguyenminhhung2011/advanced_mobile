@@ -12,6 +12,8 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/image_st
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/node/node_model.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/tree_view.dart';
 import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/widgets/banner/banner_slider.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
@@ -62,7 +64,11 @@ class _TestUiState extends State<TestUi> {
       title: 'Favorite',
       screen: const PageTest3(),
     ),
-    TabBarModel(svgAsset: ImageConst.personIcon, title: 'Profile')
+    TabBarModel(
+      svgAsset: ImageConst.personIcon,
+      title: 'Profile',
+      screen: const PageTest4(),
+    )
   ];
 
   @override
@@ -131,6 +137,35 @@ class _TestUiState extends State<TestUi> {
             children: dashboardItem.map((e) => e.screen).toList(),
           );
         },
+      ),
+    );
+  }
+}
+
+class PageTest4 extends StatefulWidget {
+  const PageTest4({super.key});
+
+  @override
+  State<PageTest4> createState() => _PageTest4State();
+}
+
+class _PageTest4State extends State<PageTest4> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: TreeView<String>(
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(10.0),
+        itemBuilder: (_, node) => Text(
+          'level ${node.level} parent ${node.parentIndex} data ${node.data} currentIndex ${node.currentIndex}',
+          style: context.titleMedium.copyWith(overflow: TextOverflow.ellipsis),
+        ),
+        onTapNode: (parentNode) async => (parentNode == null)
+            ? ['sTest', 'sTest', 'sTest']
+            : parentNode.level >= 3
+                ? List.empty()
+                : ['test', 'test'],
       ),
     );
   }
@@ -377,7 +412,15 @@ class _PageTest1State extends State<PageTest1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const HeaderSearch(),
+        HeaderSearch(
+          textStyle: context.titleMedium.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+          hintStyle: context.titleMedium.copyWith(
+            fontWeight: FontWeight.w400,
+            color: Theme.of(context).hintColor,
+          ),
+        ),
         const SizedBox(height: 30.0),
         CategoryField(
           categoryType: CategoryType.selectedCategory, // => Change here
