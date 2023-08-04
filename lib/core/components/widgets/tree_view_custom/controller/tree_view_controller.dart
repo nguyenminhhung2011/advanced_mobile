@@ -1,5 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/node/node_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/tree_view.dart';
 
@@ -44,6 +44,11 @@ class TreeViewController<T> extends ChangeNotifier {
 
   void removeSomeNode(NodeModel<T> parentNode) async {
     final level = parentNode.level;
+
+    if (parentNode.isSelected) {
+      removeAllSelected(parentNode);
+    }
+
     final sub = subTwoArray(parentNode);
     final beforeNodes = sub['before'] ?? <NodeModel<T>>[];
     final preAfterNodes = sub['after'] ?? <NodeModel<T>>[];
@@ -68,48 +73,66 @@ class TreeViewController<T> extends ChangeNotifier {
       ...beforeNodes,
       ...afterNodes.mapIndexed((index, e) {
         final currentIndex = beforeNodes.length + index;
-        final parentIndex = e.parentIndex - rangeCounter;
-
+        final parentIndex = e.parentIndex <= parentNode.currentIndex
+            ? e.parentIndex
+            : e.parentIndex - rangeCounter;
         return e
           ..setCurrentIndex(currentIndex)
-          ..setParentIndex(parentIndex > 0 ? parentIndex : 0);
+          ..setParentIndex(parentIndex);
       }),
     ];
     reBuild();
   }
 
+  void removeAllSelected(NodeModel<T> parentNode) {
+    int level = parentNode.level;
+    int currentIndex = parentNode.currentIndex;
+    if (!parentNode.isSelected) {
+      while (level >= 0) {
+        _data[currentIndex].setSelected(true);
+        currentIndex = _data[currentIndex].parentIndex;
+        level--;
+      }
+    } else {
+      int parentIndex = parentNode.parentIndex;
+      while (level > 0) {
+        int chidCount = _data[parentIndex].childCount;
+        int count = 0;
+        int isSelectedCount = 0;
+        int i = _data[parentIndex].currentIndex + 1;
+        while (count < chidCount) {
+          final node = _data[i];
+          if (level == node.level) {
+            count++;
+            if (node.isSelected) {
+              isSelectedCount++;
+              if (isSelectedCount > 1) {
+                _data[currentIndex].setSelected(false);
+                reBuild();
+                return;
+              }
+            }
+          }
+          i++;
+        }
+        _data[currentIndex].setSelected(false);
+        currentIndex = parentIndex;
+        parentIndex = _data[currentIndex].parentIndex;
+        level--;
+      }
+      if (level == 0) {
+        _data[currentIndex].setSelected(false);
+      }
+    }
+    reBuild();
+    return;
+  }
+
   void getSomeNode(NodeModel<T> parentNode) async {
     final nodes = await call(parentNode);
     if (nodes.isEmpty) {
-      int level = parentNode.level;
-      int currentIndex = parentNode.currentIndex;
-      if (!parentNode.isSelected) {
-        while (level >= 0) {
-          _data[currentIndex].setSelected(true);
-          currentIndex = _data[currentIndex].parentIndex;
-          level--;
-        }
-      } else {
-        int parentIndex = parentNode.parentIndex;
-        while (level > 0) {
-          for (var i = parentIndex + 1;
-              i < parentIndex + _data[parentIndex].childCount;
-              i++) {
-            if (_data[i].isSelected) {
-              _data[currentIndex].setSelected(false);
-              reBuild();
-              return;
-            }
-          }
-          currentIndex = parentIndex;
-          parentIndex = _data[currentIndex].parentIndex;
-          level--;
-        }
-      }
-      reBuild();
-      return;
+      removeAllSelected(parentNode);
     }
-
     final sub = subTwoArray(parentNode);
     final beforeNodes = sub['before'] ?? <NodeModel<T>>[];
     final afterNodes = sub['after'] ?? <NodeModel<T>>[];
@@ -132,7 +155,7 @@ class TreeViewController<T> extends ChangeNotifier {
         (index) {
           final node = afterNodes[index];
           return node
-            ..setParentIndex(node.parentIndex < parentNode.currentIndex
+            ..setParentIndex(node.parentIndex <= parentNode.currentIndex
                 ? node.parentIndex
                 : node.parentIndex + nodes.length)
             ..setCurrentIndex(node.currentIndex + nodes.length);
