@@ -10,17 +10,21 @@ class TreeView<T> extends StatefulWidget {
   final GetNode<T> onTapNode;
   final TreeViewController<T>? treeViewController;
   final EdgeInsets? padding;
+  final EdgeInsets? paddingItem;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
   final bool reverse;
   final double spacingItem;
   final Color? selectedColor;
+  final Color? unSelectedColor;
 
   const TreeView({
     super.key,
     this.physics,
     this.padding,
+    this.paddingItem,
     this.selectedColor,
+    this.unSelectedColor,
     this.reverse = false,
     this.spacingItem = 5.0,
     this.shrinkWrap = false,
@@ -71,9 +75,12 @@ class _TreeViewState<T> extends State<TreeView<T>> {
 
   Widget _customField(TreeViewController<T> modal) {
     final padding = widget.padding ?? EdgeInsets.zero;
+    final paddingItem = widget.paddingItem ?? const EdgeInsets.all(10.0);
     final physics = widget.physics ?? const BouncingScrollPhysics();
     final selectedColor =
         widget.selectedColor ?? Theme.of(context).primaryColor;
+    final unSelectedColor =
+        widget.unSelectedColor ?? Theme.of(context).cardColor;
     return Container(
       padding: padding,
       child: ListView.builder(
@@ -94,11 +101,11 @@ class _TreeViewState<T> extends State<TreeView<T>> {
               borderRadius: BorderRadius.circular(10.0),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(10.0),
+                padding: paddingItem,
                 decoration: BoxDecoration(
                   color: node.isSelected
                       ? selectedColor.withOpacity(0.4)
-                      : Theme.of(context).cardColor,
+                      : unSelectedColor,
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(
                     width: 1,
