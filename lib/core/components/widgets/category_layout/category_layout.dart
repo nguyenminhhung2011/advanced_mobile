@@ -190,7 +190,7 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _itemPositionsListener!.itemPositions.addListener(_itemScrollListener);
-  }
+  } 
 
   @override
   void initState() {

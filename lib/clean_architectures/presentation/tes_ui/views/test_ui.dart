@@ -19,6 +19,7 @@ import '../../../../core/components/widgets/banner/banner_slider.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
 import '../../../../core/components/widgets/header_search/header_search.dart';
+import '../../../../core/components/widgets/search_layout/views/search_layou.dart';
 import '../../../../core/components/widgets/tab_bar/tab_bar_type.dart';
 import '../../../../core/components/widgets/tab_bar/tabbar_custom.dart';
 
@@ -67,43 +68,18 @@ class _TestUiState extends State<TestUi> {
     TabBarModel(
       svgAsset: ImageConst.personIcon,
       title: 'Profile',
-      screen: const PageTest4(),
+      screen: SearchLayout<ModelTest>(
+        textChangeCall: (text) async => [],
+        itemBuilder: (_, data) {
+          return const Row(children: []);
+        },
+      ),
     )
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Test ui'),
-        actions: [
-          PopUpButtonCustom<String>(
-            onSelected: (value) {},
-            itemBuilder: (_) {
-              return [
-                PopupMenuItem<String>(
-                  value: 'Hung',
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.person,
-                        color: Colors.black,
-                      ),
-                      const SizedBox(width: 5.0),
-                      Text('Hungssdfsfsdfsd',
-                          style: context.titleSmall.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ))
-                    ],
-                  ),
-                ),
-              ];
-            },
-            icon: const Icon(Icons.more_vert),
-          )
-        ],
-      ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
         radius: 15,
