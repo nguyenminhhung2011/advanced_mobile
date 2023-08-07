@@ -12,7 +12,6 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/image_st
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/node/node_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/tree_view.dart';
 import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/widgets/banner/banner_slider.dart';
@@ -83,7 +82,7 @@ class _TestUiState extends State<TestUi> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: TabBarCustom(
         radius: 15,
-        elevation: 0.2, // => elevation
+        elevation: 0.1, // => elevation
         tabBarType: TabBarType
             .dotTabBar, //if you want display test change to textTabBar
         // tabBarColor: Colors.black,

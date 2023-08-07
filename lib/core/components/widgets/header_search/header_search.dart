@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
 
 import 'model_bottom_sheet.dart';
@@ -54,10 +55,7 @@ class _HeaderSearchState extends State<HeaderSearch> {
     final data = await showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(14),
-          topRight: Radius.circular(14),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       builder: (context) {
@@ -72,9 +70,11 @@ class _HeaderSearchState extends State<HeaderSearch> {
   @override
   Widget build(BuildContext context) {
     final textColor = Theme.of(context).scaffoldBackgroundColor;
-    final hintStyle = widget.hintStyle ?? TextStyle(color: textColor);
+    final hintStyle =
+        widget.hintStyle ?? context.titleMedium.copyWith(color: textColor);
     final textStyle = widget.textStyle ??
-        TextStyle(fontWeight: FontWeight.w800, fontSize: 16, color: textColor);
+        context.titleMedium.copyWith(
+            fontWeight: FontWeight.w600, fontSize: 16, color: textColor);
     final prefixIcon =
         widget.prefixIcon ?? Icon(Icons.search, color: textColor);
 
@@ -102,6 +102,8 @@ class _HeaderSearchState extends State<HeaderSearch> {
                 children: [
                   Expanded(
                     child: TextField(
+                      scrollPadding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
                       cursorColor: textColor,
                       onChanged: widget.textChange,
                       style: textStyle,

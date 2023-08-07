@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../controller/search_controller.dart';
 
-typedef TextChangeCall<T> = Future<List<T>> Function(String value);
+typedef SearchCall<T> = Future<List<T>> Function(String value);
 
 class GroupHeaderStyle {
   final String hintText;
@@ -25,7 +25,7 @@ class SearchLayout<T> extends StatefulWidget {
   final bool leadingAuto;
   final ScrollPhysics scrollPhysics;
   final EdgeInsets? padding;
-  final TextChangeCall<T> textChangeCall;
+  final SearchCall<T> textChangeCall;
   final GroupHeaderStyle groupHeaderStyle;
   final SearchLayoutController<T>? searchLayoutController;
   final Widget Function(BuildContext, T) itemBuilder;
@@ -52,6 +52,7 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
     with SingleTickerProviderStateMixin {
   late SearchLayoutController<T> _searchController;
   late TabController _tabController;
+  late ScrollController _scrollController;
 
   //Data
   List<T> get _itemViews => _searchController.itemsView;
@@ -70,12 +71,23 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
       length: 2,
       vsync: this,
     );
+    _scrollController = ScrollController();
+    _scrollController.addListener(_listScroll);
     super.initState();
+  }
+
+  void _listScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+          // so something 
+        }
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _scrollController.removeListener(_listScroll);
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -108,6 +120,8 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
             hintStyle: widget.groupHeaderStyle.hintStyle,
             textStyle: widget.groupHeaderStyle.textStyle,
             textChange: _searchController.onTextChange,
+            filterCall: (data) {},
+            actionIcon: const Icon(Icons.filter_list, color: Colors.white),
           ),
           const SizedBox(height: 10.0),
           SingleChildScrollView(
@@ -118,14 +132,15 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
               children: [
                 const SizedBox(width: 10.0),
                 _filterItem(title: 'Filter'),
-              ],
+              ].expand((e) => [e, const SizedBox(width: 5.0)]).toList(),
             ),
           ),
-          Divider(color: primaryColor, thickness: 0.2),
+          const Divider(thickness: 0.5),
           Expanded(
             child: Padding(
               padding: widget.padding ?? EdgeInsets.zero,
               child: ListView.builder(
+                controller: _scrollController,
                 reverse: widget.isReverse,
                 physics: widget.scrollPhysics,
                 shrinkWrap: widget.shrinkWrap,
@@ -145,19 +160,46 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
 
   Container _changeTypeViewField(
       SearchLayoutController<dynamic> searchLayoutController) {
+    bool isSelected(int index) =>
+        searchLayoutController.typeView.value == index;
+    context.titleLarge.color;
+
+    Color colorSelected(int index) =>
+        isSelected(index) ? Colors.white : context.titleLarge.color!;
+
     return Container(
-      width: context.widthDevice * 0.3,
+      width: context.widthDevice * 0.4,
       margin: const EdgeInsets.all(10.0),
       padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Theme.of(context).cardColor,
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor.withOpacity(0.1),
+            blurRadius: 10.0,
+          ),
+        ],
       ),
       child: Row(
         children: [
           ...<Map<String, dynamic>>[
-            {'title': 'List', 'icon': const Icon(Icons.list)},
-            {'title': 'Grid', 'icon': const Icon(Icons.grid_view_sharp)},
+            {
+              'title': 'List',
+              'icon': Icon(
+                Icons.list,
+                size: 14.0,
+                color: colorSelected(0),
+              )
+            },
+            {
+              'title': 'Grid',
+              'icon': Icon(
+                Icons.grid_view_sharp,
+                size: 14.0,
+                color: colorSelected(1),
+              )
+            },
           ]
               .mapIndexed<Widget>(
                 (index, e) => GestureDetector(
@@ -169,7 +211,8 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
                   child: Container(
                     width: double.infinity,
                     height: 30.0,
-                    decoration: searchLayoutController.typeView.value == index
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    decoration: isSelected(index)
                         ? BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
                             color: primaryColor,
@@ -183,6 +226,19 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
                             ],
                           )
                         : null,
+                    child: Row(
+                      children: [
+                        (e['icon'] as Icon),
+                        const SizedBox(width: 5.0),
+                        Expanded(
+                            child: Text(
+                          e['title'].toString(),
+                          style: context.titleSmall.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: colorSelected(index)),
+                        )),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -194,17 +250,16 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
 
   Container _filterItem({required String title}) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
-        border: Border.all(width: 1, color: primaryColor),
-        color: primaryColor.withOpacity(0.3),
+        border: Border.all(width: 0.5, color: primaryColor),
+        color: primaryColor.withOpacity(0.1),
       ),
       child: Text(
         title,
         style: context.titleSmall.copyWith(
-          fontWeight: FontWeight.w600,
-          color: primaryColor,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );
