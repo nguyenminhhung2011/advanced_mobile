@@ -8,9 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import 'application.dart';
+import 'clean_architectures/data/datasource/local/preferences.dart';
 import 'clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart';
 import 'core/components/configurations/configurations.dart';
-import 'core/dependency_injection/di.dart';
+import 'core/dependency_injection/di.dart'; 
 // import 'data/datasource/local/preferences.dart';
 
 class Mutable<T> {
@@ -40,9 +41,9 @@ class AppDelegate {
   }
 
   Future<void> run(Map<String, dynamic> environment) async {
-    // await Preferences.ensureInitedPreferences();
-    WidgetsFlutterBinding.ensureInitialized();
     final app = await build(environment);
+    await Preferences.ensureInitedPreferences();
+    WidgetsFlutterBinding.ensureInitialized();
     runApp(app);
     // var myValue = Mutable<double>(0.0);
 

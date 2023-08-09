@@ -11,7 +11,7 @@ class PaginationNotifier<T> extends ChangeNotifier {
   bool get loading => _loading;
 
   void fetchPaginationItems(int limit) async {
-    if (_loading) {
+    if (_loading || preloadedItems.isEmpty) {
       return;
     }
     _loading = true;

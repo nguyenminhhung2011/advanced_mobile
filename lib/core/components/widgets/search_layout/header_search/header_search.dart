@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/color_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_model.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 
 import 'model_bottom_sheet.dart';
 
@@ -23,23 +25,25 @@ class HeaderSearch extends StatefulWidget {
   final Function(dynamic)? filterCall;
   final Function(String)? onSubmittedText;
   final TextEditingController? textEditingController;
+  final EdgeInsets? contentPadding;
   const HeaderSearch({
     super.key,
-    this.colors = const ["992195F3", "CA2195F3"],
-    this.hintText = 'Search',
-    this.vPadding = 10.0,
-    this.hPadding = 20.0,
+    this.onPress,
     this.hintStyle,
     this.textStyle,
+    this.actionIcon,
     this.textChange,
     this.prefixIcon,
-    this.searchRadius,
-    this.isShowAction = true,
-    this.actionIcon,
-    this.onPress,
     this.filterCall,
+    this.searchRadius,
+    this.contentPadding,
     this.onSubmittedText,
+    this.vPadding = 10.0,
+    this.hPadding = 20.0,
+    this.hintText = 'Search',
+    this.isShowAction = true,
     this.textEditingController,
+    this.colors = const ["992195F3", "CA2195F3"],
   });
 
   @override
@@ -53,6 +57,7 @@ class _HeaderSearchState extends State<HeaderSearch> {
   void initState() {
     _textEditingController =
         widget.textEditingController ?? TextEditingController();
+    _textEditingController.addListener(_listTextChange);
     super.initState();
   }
 
@@ -64,6 +69,12 @@ class _HeaderSearchState extends State<HeaderSearch> {
     return result;
   }
 
+  void _listTextChange() {
+    if (widget.textChange != null) {
+      widget.textChange!(_textEditingController.text);
+    }
+  }
+
   void _filterOnTap() async {
     final data = await showModalBottomSheet(
       context: context,
@@ -72,7 +83,42 @@ class _HeaderSearchState extends State<HeaderSearch> {
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       builder: (context) {
-        return const ModelBottomSheet();
+        return ModelBottomSheet(
+          listFilter: [
+            PriceModel(
+              header: S.of(context).byPrice,
+              maxPrice: 10000,
+              minPrice: 0.0,
+            ),
+            PriceModel(
+              header: S.of(context).byPrice,
+              maxPrice: 10000,
+              minPrice: 0.0,
+            ),
+            CompareModel(compares: [
+              Compare(
+                headerCategory: 'Date',
+                left: 'Latest',
+                right: 'Oldest',
+              ),
+              Compare(
+                headerCategory: 'Price',
+                left: 'Low to Hight',
+                right: 'Hight to Low',
+              ),
+            ], header: 'Compares'),
+            CategoryModel(
+              header: 'Categories',
+              categories: const [
+                'Hahaha',
+                'Hihihihihi',
+                'Hohohoho',
+                'Hehehe',
+                'Huhuhu'
+              ],
+            )
+          ],
+        );
       },
     );
     if (data != null && widget.filterCall != null) {
@@ -86,6 +132,7 @@ class _HeaderSearchState extends State<HeaderSearch> {
 
   @override
   void dispose() {
+    _textEditingController.removeListener(_listTextChange);
     _textEditingController.dispose();
     super.dispose();
   }
@@ -104,6 +151,8 @@ class _HeaderSearchState extends State<HeaderSearch> {
     final searchRadius = widget.searchRadius ?? _kRadius;
     final actionIcon = widget.actionIcon ??
         Icon(Icons.filter_list_outlined, size: 30, color: textColor);
+    final contentPadding = widget.contentPadding ??
+        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0);
 
     return Column(
       children: [
@@ -133,14 +182,13 @@ class _HeaderSearchState extends State<HeaderSearch> {
                   Expanded(
                     child: TextField(
                       controller: _textEditingController,
-                      scrollPadding: const EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 5.0),
                       cursorColor: textColor,
-                      onChanged: widget.textChange,
+                      // onChanged: widget.textChange,
                       onSubmitted: widget.onSubmittedText,
                       style: textStyle,
                       decoration: InputDecoration(
                         prefixIcon: prefixIcon,
+                        contentPadding: contentPadding,
                         fillColor: textColor.withOpacity(0.25),
                         filled: true,
                         border: OutlineInputBorder(

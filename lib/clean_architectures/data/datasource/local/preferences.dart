@@ -21,15 +21,43 @@ class CommonAppSettingPref {
   static const String _branch = 'branch';
   static const String _userId = 'userId';
 
-  static const String _securePasword = 'secretAppKey';
+  static const String _securePassword = 'secretAppKey';
   static const String _biometricLogin = 'biometricLogin';
 
+  static const String _recommendSearch = 'recommendSearch';
+
   static Future<bool> setPlainPassword(String password) async {
-    return Preferences.setString(_securePasword, password);
+    return Preferences.setString(_securePassword, password);
   }
 
   static String getPlainPassword() {
-    return Preferences.getString(_securePasword) ?? '';
+    return Preferences.getString(_securePassword) ?? '';
+  }
+
+  static Future<bool> setRecommendSearch(String recommendSearch) async {
+    var listString = getRecommendSearch();
+    if (listString.contains(recommendSearch)) {
+      return true;
+    }
+    return Preferences.setStringList(
+      _recommendSearch,
+      listString..add(recommendSearch),
+    );
+  }
+
+  static Future<bool> removeRecommendSearch(String textRemoved) async {
+    var listString = getRecommendSearch();
+    if (!listString.contains(textRemoved)) {
+      return true;
+    }
+    return Preferences.setStringList(
+      _recommendSearch,
+      listString.where((e) => e != textRemoved).toList(),
+    );
+  }
+
+  static List<String> getRecommendSearch() {
+    return Preferences.getStringList(_recommendSearch) ?? <String>[];
   }
 
   static Future<bool> setUseBiometricLogin(bool value) {

@@ -93,6 +93,8 @@ class PaginationViewCustom<T> extends StatefulWidget {
   // Column for masonry Layout
   final int columnMansory;
 
+  final bool shrinkWrap;
+
   const PaginationViewCustom({
     Key? key,
     this.scrollController,
@@ -102,6 +104,7 @@ class PaginationViewCustom<T> extends StatefulWidget {
     this.spacer = 5,
     this.limitFetch = 10,
     this.isReverse = false,
+    this.shrinkWrap = true,
     this.paginationNotifier,
     this.skeltonFormat = const SkeltonFormat(),
     this.gridViewFormat = const GridViewFormat(),
@@ -202,6 +205,7 @@ class _PaginationViewCustomState<T> extends State<PaginationViewCustom<T>> {
     }
     return ListView.separated(
       physics: widget.physics,
+      shrinkWrap: widget.shrinkWrap,
       padding: EdgeInsets.symmetric(
         horizontal: widget.hPadding,
         vertical: widget.vPadding,

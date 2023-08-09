@@ -1,7 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/header_search/header_search.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/header_search/header_search.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/search_controller.dart';
@@ -13,11 +16,15 @@ class GroupHeaderStyle {
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
   final double searchRadius;
+  final List<String> headerColors;
+  final EdgeInsets? contentHeaderSearchPadding;
   const GroupHeaderStyle({
     this.textStyle,
     this.hintStyle,
     this.hintText = 'Search',
     this.searchRadius = 10.0,
+    this.contentHeaderSearchPadding,
+    this.headerColors = const ["992195F3", "CA2195F3"],
   });
 }
 
@@ -51,43 +58,52 @@ class SearchLayout<T> extends StatefulWidget {
 class _SearchLayoutState<T> extends State<SearchLayout<T>>
     with SingleTickerProviderStateMixin {
   late SearchLayoutController<T> _searchController;
-  late TabController _tabController;
-  late ScrollController _scrollController;
+  late PaginationNotifier<T> _paginationNotifier;
+  late TextEditingController _searchTextController;
 
   //Data
-  List<T> get _itemViews => _searchController.itemsView;
 
   //style
   Color get backgroundColor => Theme.of(context).scaffoldBackgroundColor;
   Color get primaryColor => Theme.of(context).primaryColor;
 
+  List<Map<String, dynamic>> viewType = <Map<String, dynamic>>[
+    {'title': 'List', 'icon': Icons.list},
+    {'title': 'Grid', 'icon': Icons.grid_view_sharp},
+  ];
+
   @override
   void initState() {
-    _searchController =
-        widget.searchLayoutController ?? SearchLayoutController();
-
-    _tabController = TabController(
-      animationDuration: const Duration(milliseconds: 300),
-      length: 2,
-      vsync: this,
+    _paginationNotifier = PaginationNotifier<T>(
+      (p0, category) async => <T>[],
+      List.empty(),
     );
-    _scrollController = ScrollController();
-    _scrollController.addListener(_listScroll);
+    _searchController = SearchLayoutController<T>()..onGetRecommendSearch();
+    _searchTextController = TextEditingController();
     super.initState();
   }
 
-  void _listScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-          // so something 
-        }
+  void _onRefresh() {}
+
+  void _onSubmitted(String text) {
+    if (text.isEmpty) {
+      return;
+    }
+    _searchController.onSetNewRecommendSearch(text);
+    _searchController.onSearch(text);
+  }
+
+  void _onRemoveRecommendSearch(String textRemove) {
+    _searchController.onRemoveRecommendSearch(textRemove);
+  }
+
+  void _onSelectedRecommendText(String text) {
+    _searchTextController.text = text;
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
-    _scrollController.removeListener(_listScroll);
-    _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -106,6 +122,7 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
   Widget _customField({
     required SearchLayoutController<T> searchLayoutController,
   }) {
+    final recommendSearch = searchLayoutController.recommendSearch;
     return Scaffold(
       backgroundColor: backgroundColor,
       bottomSheet: Row(
@@ -121,41 +138,100 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
             textStyle: widget.groupHeaderStyle.textStyle,
             textChange: _searchController.onTextChange,
             filterCall: (data) {},
+            colors: widget.groupHeaderStyle.headerColors,
             actionIcon: const Icon(Icons.filter_list, color: Colors.white),
+            onSubmittedText: _onSubmitted,
+            textEditingController: _searchTextController,
+            contentPadding: widget.groupHeaderStyle.contentHeaderSearchPadding,
           ),
           const SizedBox(height: 10.0),
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(width: 10.0),
-                _filterItem(title: 'Filter'),
-              ].expand((e) => [e, const SizedBox(width: 5.0)]).toList(),
-            ),
-          ),
-          const Divider(thickness: 0.5),
-          Expanded(
-            child: Padding(
-              padding: widget.padding ?? EdgeInsets.zero,
-              child: ListView.builder(
-                controller: _scrollController,
-                reverse: widget.isReverse,
-                physics: widget.scrollPhysics,
-                shrinkWrap: widget.shrinkWrap,
-                itemCount: _itemViews.length,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) => widget.itemBuilder(
-                  context,
-                  _itemViews[index],
-                ),
-              ),
-            ),
-          ),
+          if (searchLayoutController.searchText.isNotEmpty)
+            ..._displayItemField
+          else
+            ..._recommendField(recommendSearch),
         ],
       ),
     );
+  }
+
+  List<Widget> get _displayItemField {
+    return [
+      SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(width: 10.0),
+            _filterItem(title: 'Filter'),
+          ].expand((e) => [e, const SizedBox(width: 5.0)]).toList(),
+        ),
+      ),
+      const Divider(thickness: 0.5),
+      Expanded(
+        child: PaginationViewCustom<T>(
+          paginationNotifier: _paginationNotifier,
+          paginationDataCall: (currentPage, category) async => <T>[],
+          items: const [],
+          limitFetch: 10,
+          itemBuilder: (context, data, _) => widget.itemBuilder(context, data),
+          physics: widget.scrollPhysics,
+          isReverse: widget.isReverse,
+          initWidget: Center(
+            child: CircularProgressIndicator(color: primaryColor),
+          ),
+          shrinkWrap: widget.shrinkWrap,
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _recommendField(List<String> recommendSearch) {
+    return [
+      const SizedBox(height: 5.0),
+      if (recommendSearch.isNotEmpty)
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.all(10.0),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor.withOpacity(0.05),
+                blurRadius: 5.0,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ...recommendSearch.map(
+                (e) => GestureDetector(
+                  onTap: () => _onSelectedRecommendText(e),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(e,
+                            style: context.titleSmall.copyWith(
+                              overflow: TextOverflow.ellipsis,
+                            )),
+                      ),
+                      IconButton(
+                        padding: const EdgeInsets.all(2.0),
+                        onPressed: () => _onRemoveRecommendSearch(e),
+                        icon: const Icon(CupertinoIcons.clear_circled_solid,
+                            size: 18),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+    ];
   }
 
   Container _changeTypeViewField(
@@ -183,24 +259,7 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
       ),
       child: Row(
         children: [
-          ...<Map<String, dynamic>>[
-            {
-              'title': 'List',
-              'icon': Icon(
-                Icons.list,
-                size: 14.0,
-                color: colorSelected(0),
-              )
-            },
-            {
-              'title': 'Grid',
-              'icon': Icon(
-                Icons.grid_view_sharp,
-                size: 14.0,
-                color: colorSelected(1),
-              )
-            },
-          ]
+          ...viewType
               .mapIndexed<Widget>(
                 (index, e) => GestureDetector(
                   onTap: () {
@@ -221,22 +280,25 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
                                 color: Theme.of(context)
                                     .shadowColor
                                     .withOpacity(0.3),
-                                blurRadius: 10.0,
+                                blurRadius: 5.0,
                               )
                             ],
                           )
                         : null,
                     child: Row(
                       children: [
-                        (e['icon'] as Icon),
+                        Icon((e['icon'] as IconData),
+                            color: colorSelected(index), size: 14.0),
                         const SizedBox(width: 5.0),
                         Expanded(
-                            child: Text(
-                          e['title'].toString(),
-                          style: context.titleSmall.copyWith(
+                          child: Text(
+                            e['title'].toString(),
+                            style: context.titleSmall.copyWith(
                               fontWeight: FontWeight.w500,
-                              color: colorSelected(index)),
-                        )),
+                              color: colorSelected(index),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
