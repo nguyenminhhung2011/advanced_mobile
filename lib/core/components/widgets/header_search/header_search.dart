@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/color_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
 
@@ -20,7 +21,8 @@ class HeaderSearch extends StatefulWidget {
   final Widget? actionIcon;
   final Function()? onPress;
   final Function(dynamic)? filterCall;
-
+  final Function(String)? onSubmittedText;
+  final TextEditingController? textEditingController;
   const HeaderSearch({
     super.key,
     this.colors = const ["992195F3", "CA2195F3"],
@@ -36,6 +38,8 @@ class HeaderSearch extends StatefulWidget {
     this.actionIcon,
     this.onPress,
     this.filterCall,
+    this.onSubmittedText,
+    this.textEditingController,
   });
 
   @override
@@ -43,6 +47,15 @@ class HeaderSearch extends StatefulWidget {
 }
 
 class _HeaderSearchState extends State<HeaderSearch> {
+  late TextEditingController _textEditingController;
+
+  @override
+  void initState() {
+    _textEditingController =
+        widget.textEditingController ?? TextEditingController();
+    super.initState();
+  }
+
   List<Color> listStringToColors(List<String> colors) {
     List<Color> result = [];
     for (var i = 0; i < colors.length; i++) {
@@ -65,6 +78,16 @@ class _HeaderSearchState extends State<HeaderSearch> {
     if (data != null && widget.filterCall != null) {
       widget.filterCall?.call(data);
     }
+  }
+
+  void _onClearText() {
+    _textEditingController.clear();
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,6 +114,13 @@ class _HeaderSearchState extends State<HeaderSearch> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor.withOpacity(0.3),
+                blurRadius: 10.0,
+                offset: const Offset(0, -1),
+              ),
+            ],
           ),
           child: SafeArea(
             child: Container(
@@ -102,10 +132,12 @@ class _HeaderSearchState extends State<HeaderSearch> {
                 children: [
                   Expanded(
                     child: TextField(
-                      scrollPadding:
-                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                      controller: _textEditingController,
+                      scrollPadding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 5.0),
                       cursorColor: textColor,
                       onChanged: widget.textChange,
+                      onSubmitted: widget.onSubmittedText,
                       style: textStyle,
                       decoration: InputDecoration(
                         prefixIcon: prefixIcon,
@@ -117,6 +149,21 @@ class _HeaderSearchState extends State<HeaderSearch> {
                         ),
                         hintText: widget.hintText,
                         hintStyle: hintStyle,
+                        suffix: InkWell(
+                          onTap: _onClearText,
+                          child: Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: textStyle.color,
+                            ),
+                            child: Icon(
+                              Icons.close,
+                              size: 10,
+                              color: textStyle.color!.fontColorByBackground,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
