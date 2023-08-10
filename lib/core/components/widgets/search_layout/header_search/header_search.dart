@@ -27,6 +27,7 @@ class HeaderSearch extends StatefulWidget {
   final TextEditingController? textEditingController;
   final EdgeInsets? contentPadding;
   final List<FilterModel> listFilter;
+  final List<FilterResponse> initResponse;
   const HeaderSearch({
     super.key,
     this.onPress,
@@ -46,6 +47,7 @@ class HeaderSearch extends StatefulWidget {
     this.textEditingController,
     this.colors = const ["992195F3", "CA2195F3"],
     this.listFilter = const <FilterModel>[],
+    this.initResponse = const <FilterResponse>[],
   });
 
   @override
@@ -78,7 +80,10 @@ class _HeaderSearchState extends State<HeaderSearch> {
   }
 
   void _filterOnTap() async {
-    final data = await context.bottomFilter(body: widget.listFilter);
+    final data = await context.bottomFilter(
+      body: widget.listFilter,
+      initData: widget.initResponse,
+    );
     if (data.isNotEmpty && widget.filterCall != null) {
       widget.filterCall?.call(data);
     }

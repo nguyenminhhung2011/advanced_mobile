@@ -11,10 +11,12 @@ import '../model/filter_response.dart';
 
 class ModelBottomSheet extends StatefulWidget {
   final List<FilterModel> listFilter;
+  final List<FilterResponse> initResponse;
 
   const ModelBottomSheet({
     super.key,
     this.listFilter = const <FilterModel>[],
+    this.initResponse = const <FilterResponse>[],
   });
 
   @override
@@ -95,7 +97,10 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
         ));
       } else {}
     }
-
+    if (widget.initResponse.isNotEmpty) {
+      dataControls.addAll(widget.initResponse);
+      setState(() {});
+    }
     super.initState();
   }
 

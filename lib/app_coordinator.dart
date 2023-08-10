@@ -58,8 +58,10 @@ extension AppCoordinator<T> on BuildContext {
     return null;
   }
 
-  Future<List<FilterResponse>> bottomFilter(
-      {required List<FilterModel> body}) async {
+  Future<List<FilterResponse>> bottomFilter({
+    required List<FilterModel> body,
+    List<FilterResponse>? initData,
+  }) async {
     final data = await showModalBottomSheet(
       context: this,
       shape: const RoundedRectangleBorder(
@@ -69,6 +71,7 @@ extension AppCoordinator<T> on BuildContext {
       builder: (context) {
         return ModelBottomSheet(
           listFilter: [...body],
+          initResponse: initData ?? List<FilterResponse>.empty(),
         );
       },
     );

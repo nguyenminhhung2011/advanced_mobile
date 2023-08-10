@@ -8,8 +8,6 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/paginati
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_response.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../../generated/l10n.dart';
 import '../controller/search_controller.dart';
 import '../model/filter_model.dart';
 
@@ -158,6 +156,7 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
             textEditingController: _searchTextController,
             contentPadding: widget.groupHeaderStyle.contentHeaderSearchPadding,
             listFilter: [...widget.groupHeaderStyle.listFilter],
+            initResponse: _searchController.listFilterResponse,
           ),
           const SizedBox(height: 10.0),
           if (searchLayoutController.searchText.isNotEmpty)
