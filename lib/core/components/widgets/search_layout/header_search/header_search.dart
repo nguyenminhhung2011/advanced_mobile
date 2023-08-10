@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/color_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_model.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 
-import 'model_bottom_sheet.dart';
+import '../model/filter_response.dart';
 
 const _kRadius = 14.0;
 
@@ -22,10 +22,11 @@ class HeaderSearch extends StatefulWidget {
   final bool isShowAction;
   final Widget? actionIcon;
   final Function()? onPress;
-  final Function(dynamic)? filterCall;
+  final Function(List<FilterResponse>)? filterCall;
   final Function(String)? onSubmittedText;
   final TextEditingController? textEditingController;
   final EdgeInsets? contentPadding;
+  final List<FilterModel> listFilter;
   const HeaderSearch({
     super.key,
     this.onPress,
@@ -44,6 +45,7 @@ class HeaderSearch extends StatefulWidget {
     this.isShowAction = true,
     this.textEditingController,
     this.colors = const ["992195F3", "CA2195F3"],
+    this.listFilter = const <FilterModel>[],
   });
 
   @override
@@ -76,52 +78,8 @@ class _HeaderSearchState extends State<HeaderSearch> {
   }
 
   void _filterOnTap() async {
-    final data = await showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
-      ),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      builder: (context) {
-        return ModelBottomSheet(
-          listFilter: [
-            PriceModel(
-              header: S.of(context).byPrice,
-              maxPrice: 10000,
-              minPrice: 0.0,
-            ),
-            PriceModel(
-              header: S.of(context).byPrice,
-              maxPrice: 10000,
-              minPrice: 0.0,
-            ),
-            CompareModel(compares: [
-              Compare(
-                headerCategory: 'Date',
-                left: 'Latest',
-                right: 'Oldest',
-              ),
-              Compare(
-                headerCategory: 'Price',
-                left: 'Low to Hight',
-                right: 'Hight to Low',
-              ),
-            ], header: 'Compares'),
-            CategoryModel(
-              header: 'Categories',
-              categories: const [
-                'Hahaha',
-                'Hihihihihi',
-                'Hohohoho',
-                'Hehehe',
-                'Huhuhu'
-              ],
-            )
-          ],
-        );
-      },
-    );
-    if (data != null && widget.filterCall != null) {
+    final data = await context.bottomFilter(body: widget.listFilter);
+    if (data.isNotEmpty && widget.filterCall != null) {
       widget.filterCall?.call(data);
     }
   }

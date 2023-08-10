@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 
 import 'core/components/widgets/range_date_picker_custom.dart';
+import 'core/components/widgets/search_layout/header_search/model_bottom_sheet.dart';
+import 'core/components/widgets/search_layout/model/filter_model.dart';
+import 'core/components/widgets/search_layout/model/filter_response.dart';
 
 extension AppCoordinator<T> on BuildContext {
   void pop() => Navigator.of(this).pop();
@@ -53,6 +56,26 @@ extension AppCoordinator<T> on BuildContext {
       return dates;
     }
     return null;
+  }
+
+  Future<List<FilterResponse>> bottomFilter(
+      {required List<FilterModel> body}) async {
+    final data = await showModalBottomSheet(
+      context: this,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
+      ),
+      backgroundColor: Theme.of(this).scaffoldBackgroundColor,
+      builder: (context) {
+        return ModelBottomSheet(
+          listFilter: [...body],
+        );
+      },
+    );
+    if (data is List<FilterResponse>) {
+      return data;
+    }
+    return List<FilterResponse>.empty();
   }
 
   Future<List<DateTime>?> pickWeekRange(

@@ -1,21 +1,19 @@
 import 'package:collection/collection.dart';
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/double_extension.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 
 import '../model/filter_model.dart';
 import '../model/filter_response.dart';
 
 class ModelBottomSheet extends StatefulWidget {
-  final double max;
-  final double? min;
   final List<FilterModel> listFilter;
 
   const ModelBottomSheet({
     super.key,
-    this.max = 1000000,
-    this.min = 0,
     this.listFilter = const <FilterModel>[],
   });
 
@@ -68,6 +66,10 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
     return;
   }
 
+  void _onApply() {
+    context.popArgs(dataControls);
+  }
+
   @override
   void initState() {
     for (var i = 0; i < widget.listFilter.length; i++) {
@@ -85,7 +87,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
           compareSelected: <String>[],
           locationIndex: i,
         ));
-      } else if (data is CategoryModel) {
+      } else if (data is CategoryModelSearch) {
         dataControls.add(FilterResponse(
           filterType: FilterType.categories,
           categorySelected: <String>[],
@@ -112,56 +114,75 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
     return Container(
       width: context.widthDevice,
       constraints: BoxConstraints(
-        maxHeight: height * 0.85,
-        minHeight: height * 0.8,
+        maxHeight: height * 0.95,
+        minHeight: height * 0.9,
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 10.0),
-            Container(
-              width: 60,
-              height: 3.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Theme.of(context).hintColor.withOpacity(0.2),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBody: true,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: ButtonCustom(
+            height: 45.0,
+            radius: 5.0,
+            onPress: _onApply,
+            child: Text(
+              'Apply',
+              style: context.titleMedium.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 10.0),
-            ...widget.listFilter.mapIndexed((index, e) {
-              late Widget itemDisplay;
-              if (e is PriceModel) {
-                itemDisplay = _rangePrice(
-                    context: context,
-                    priceModel: e,
-                    filterResponse: dataControls[index]);
-              } else if (e is CompareModel) {
-                itemDisplay = Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: _compareField(
-                    exampleWidget: [],
-                    context: context,
-                    compareModel: e,
-                    filterResponse: dataControls[index],
-                  ),
-                );
-              } else if (e is CategoryModel) {
-                itemDisplay = Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: _category(
-                    context: context,
-                    categoryModel: e,
-                    filterResponse: dataControls[index],
-                  ),
-                );
-              } else {
-                itemDisplay = const SizedBox();
-              }
-              return ExpansionItem(label: e.header, content: itemDisplay);
-            }),
-            const SizedBox(height: 40.0),
-          ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 10.0),
+              Container(
+                width: 60,
+                height: 3.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Theme.of(context).hintColor.withOpacity(0.2),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              ...widget.listFilter.mapIndexed((index, e) {
+                late Widget itemDisplay;
+                if (e is PriceModel) {
+                  itemDisplay = _rangePrice(
+                      context: context,
+                      priceModel: e,
+                      filterResponse: dataControls[index]);
+                } else if (e is CompareModel) {
+                  itemDisplay = Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: _compareField(
+                      exampleWidget: [],
+                      context: context,
+                      compareModel: e,
+                      filterResponse: dataControls[index],
+                    ),
+                  );
+                } else if (e is CategoryModelSearch) {
+                  itemDisplay = Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: _category(
+                      context: context,
+                      categoryModel: e,
+                      filterResponse: dataControls[index],
+                    ),
+                  );
+                } else {
+                  itemDisplay = const SizedBox();
+                }
+                return ExpansionItem(label: e.header, content: itemDisplay);
+              }),
+              const SizedBox(height: 60.0),
+            ],
+          ),
         ),
       ),
     );
@@ -169,7 +190,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
 
   Widget _category({
     required BuildContext context,
-    required CategoryModel categoryModel,
+    required CategoryModelSearch categoryModel,
     required FilterResponse filterResponse,
   }) {
     return Wrap(
@@ -196,7 +217,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
             selected: isSelected,
             onSelected: (text) =>
                 _onSelectedCategory(e, filterResponse.locationIndex),
-            backgroundColor: Colors.grey[100],
+            backgroundColor: Theme.of(context).dividerColor.withOpacity(0.07),
             selectedColor: primaryColor.withOpacity(0.1),
           );
         }),
@@ -243,6 +264,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
       return const SizedBox();
     }
     return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 5,

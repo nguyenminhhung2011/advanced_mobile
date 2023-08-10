@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_response.dart';
 
 enum SearchEnum {
   list(0),
@@ -19,11 +20,20 @@ class SearchLayoutController<T> extends ChangeNotifier {
   String _searchText = '';
   String get searchText => _searchText;
 
+  final List<FilterResponse> _listFilterResponse = <FilterResponse>[];
+  List<FilterResponse> get listFilterResponse => _listFilterResponse;
+
   final List<String> _recommendSearch = <String>[];
   List<String> get recommendSearch => _recommendSearch;
 
   void onChangeView(SearchEnum searchEnum) {
     _typeView = searchEnum;
+    notifyListeners();
+  }
+
+  void onApplyFilter(List<FilterResponse> data) {
+    _listFilterResponse.clear();
+    _listFilterResponse.addAll(data);
     notifyListeners();
   }
 
@@ -47,9 +57,10 @@ class SearchLayoutController<T> extends ChangeNotifier {
   void onSetNewRecommendSearch(String recommendText) async {
     await CommonAppSettingPref.setRecommendSearch(recommendText);
   }
+
   void onRemoveRecommendSearch(String textRemove) async {
-    final remove = await  CommonAppSettingPref.removeRecommendSearch(textRemove);
-    if(remove ){
+    final remove = await CommonAppSettingPref.removeRecommendSearch(textRemove);
+    if (remove) {
       _recommendSearch.removeWhere((e) => e == textRemove);
       notifyListeners();
     }

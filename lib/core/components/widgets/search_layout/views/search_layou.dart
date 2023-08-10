@@ -2,12 +2,16 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/double_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/header_search/header_search.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_response.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../generated/l10n.dart';
 import '../controller/search_controller.dart';
+import '../model/filter_model.dart';
 
 typedef SearchCall<T> = Future<List<T>> Function(String value);
 
@@ -18,12 +22,14 @@ class GroupHeaderStyle {
   final double searchRadius;
   final List<String> headerColors;
   final EdgeInsets? contentHeaderSearchPadding;
+  final List<FilterModel> listFilter;
   const GroupHeaderStyle({
     this.textStyle,
     this.hintStyle,
     this.hintText = 'Search',
     this.searchRadius = 10.0,
     this.contentHeaderSearchPadding,
+    this.listFilter = const <FilterModel>[],
     this.headerColors = const ["992195F3", "CA2195F3"],
   });
 }
@@ -101,6 +107,14 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
     _searchTextController.text = text;
   }
 
+  String getTextFilter(FilterResponse filterResponse) {
+    return switch (filterResponse.filterType) {
+      FilterType.price =>
+        'From ${(filterResponse.fromPrice ?? 0.0).toCurrency()} to ${(filterResponse.toPrice ?? 0.0).toCurrency()}',
+      _ => '# ${filterResponse.categorySelected?.map((e) => '$e ' '') ?? ''}'
+    };
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -137,12 +151,13 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
             hintStyle: widget.groupHeaderStyle.hintStyle,
             textStyle: widget.groupHeaderStyle.textStyle,
             textChange: _searchController.onTextChange,
-            filterCall: (data) {},
+            filterCall: searchLayoutController.onApplyFilter,
             colors: widget.groupHeaderStyle.headerColors,
             actionIcon: const Icon(Icons.filter_list, color: Colors.white),
             onSubmittedText: _onSubmitted,
             textEditingController: _searchTextController,
             contentPadding: widget.groupHeaderStyle.contentHeaderSearchPadding,
+            listFilter: [...widget.groupHeaderStyle.listFilter],
           ),
           const SizedBox(height: 10.0),
           if (searchLayoutController.searchText.isNotEmpty)
@@ -158,12 +173,31 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
     return [
       SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(width: 10.0),
-            _filterItem(title: 'Filter'),
+            ..._searchController.listFilterResponse.map<Widget>(
+              (e) {
+                if (e.filterType.isCompare) {
+                  if (e.compareSelected == null) {
+                    return const SizedBox();
+                  }
+                  return Row(
+                    children: [
+                      ...e.compareSelected!
+                          .map((e) => _filterItem(title: e))
+                          .expand(
+                            (e) => [e, const SizedBox(width: 5.0)],
+                          )
+                    ],
+                  );
+                }
+                return _filterItem(title: getTextFilter(e));
+              },
+            )
           ].expand((e) => [e, const SizedBox(width: 5.0)]).toList(),
         ),
       ),

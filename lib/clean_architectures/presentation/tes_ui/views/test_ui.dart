@@ -18,9 +18,11 @@ import '../../../../core/components/widgets/banner/banner_slider.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
 import '../../../../core/components/widgets/search_layout/header_search/header_search.dart';
+import '../../../../core/components/widgets/search_layout/model/filter_model.dart';
 import '../../../../core/components/widgets/search_layout/views/search_layou.dart';
 import '../../../../core/components/widgets/tab_bar/tab_bar_type.dart';
 import '../../../../core/components/widgets/tab_bar/tabbar_custom.dart';
+import '../../../../generated/l10n.dart';
 
 class ModelTest {
   final String userName;
@@ -72,6 +74,42 @@ class _TestUiState extends State<TestUi> {
         itemBuilder: (_, data) {
           return const Row(children: []);
         },
+        groupHeaderStyle: GroupHeaderStyle(
+          listFilter: [
+            PriceModel(
+              header: 'By price',
+              maxPrice: 10000,
+              minPrice: 0.0,
+            ),
+            PriceModel(
+              header: 'By Sale',
+              maxPrice: 10000,
+              minPrice: 0.0,
+            ),
+            CompareModel(compares: [
+              Compare(
+                headerCategory: 'Date',
+                left: 'Latest',
+                right: 'Oldest',
+              ),
+              Compare(
+                headerCategory: 'Price',
+                left: 'Low to Hight',
+                right: 'Hight to Low',
+              ),
+            ], header: 'Compares'),
+            CategoryModelSearch(
+              header: 'Categories',
+              categories: const [
+                'Hahaha',
+                'Hihihihihi',
+                'Hohohoho',
+                'Hehehe',
+                'Huhuhu'
+              ],
+            )
+          ],
+        ),
       ),
     )
   ];

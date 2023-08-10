@@ -27,10 +27,10 @@ class CompareModel extends FilterModel {
   });
 }
 
-class CategoryModel extends FilterModel {
+class CategoryModelSearch extends FilterModel {
   final List<String> categories;
 
-  CategoryModel({
+  CategoryModelSearch({
     required String header, // Pass header to the constructor of FilterModel
     this.categories = const <String>[],
   }) : super(header: header); // Call the constructor of FilterModel with header
