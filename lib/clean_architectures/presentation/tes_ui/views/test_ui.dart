@@ -121,10 +121,48 @@ class PageTest5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SearchLayout<ModelTest>(
-      searchCall: (text, filters) async => [],
+    return SearchLayout<ModelImageTest>(
+      searchCall: (text, filters, currentPage) async {
+        log('hhdhdhdhhhh');
+        await Future.delayed(const Duration(seconds: 3));
+        return <ModelImageTest>[
+          for (int t = 0; t < 10; t++)
+            ModelImageTest(
+              imageUrl: ImageConst.baseImageView,
+              title: 'Product t$text',
+              subTitle: 'This is product $t of page $currentPage',
+            ),
+        ];
+      },
       itemBuilder: (_, data) {
-        return const Row(children: []);
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          child: Row(
+            children: [
+              Container(
+                width: 80.0,
+                height: 80.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5.0),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(data.imageUrl),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(data.title),
+                    Text(data.subTitle),
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
       },
       groupHeaderStyle: GroupHeaderStyle(
         contentHeaderSearchPadding: const EdgeInsets.all(10.0),

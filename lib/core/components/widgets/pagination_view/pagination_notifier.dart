@@ -43,11 +43,9 @@ class PaginationNotifier<T> extends ChangeNotifier {
       _currentOperation?.cancel(); // Cancel the current operation if it exists
       _currentOperation = null;
     }
-    _currentOperation = CancelableOperation.fromFuture(
-      call(preloadedItems.length ~/ limit, category),
-    );
+    _currentOperation = CancelableOperation.fromFuture(call(0, category));
 
-    preloadedItems.clear();
+    preloadedItems = List<T>.empty(growable: true);
     if (_currentOperation != null) {
       preloadedItems.addAll(await _currentOperation!.value);
     }

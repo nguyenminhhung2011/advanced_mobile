@@ -12,9 +12,8 @@ enum SearchEnum {
 }
 
 class SearchLayoutController<T> extends ChangeNotifier {
-  final List<T> itemsView;
   final SearchCall<T> searchCall;
-  SearchLayoutController({required this.searchCall}) : itemsView = [];
+  SearchLayoutController({required this.searchCall});
 
   SearchEnum _typeView = SearchEnum.list;
   SearchEnum get typeView => _typeView;
@@ -36,7 +35,6 @@ class SearchLayoutController<T> extends ChangeNotifier {
   void onApplyFilter(List<FilterResponse> data) async {
     _listFilterResponse.clear();
     _listFilterResponse.addAll(data);
-    onSearch();
     notifyListeners();
   }
 
@@ -46,13 +44,10 @@ class SearchLayoutController<T> extends ChangeNotifier {
     if (text.isEmpty) {
       return onGetRecommendSearch();
     }
-    return onSearch();
   }
 
-  void onSearch() async {
-    itemsView.clear();
-    itemsView.addAll(await searchCall(_searchText, _listFilterResponse));
-    notifyListeners();
+  Future<List<T>> onSearch({int currentPage = 0}) async {
+    return await searchCall(_searchText, _listFilterResponse, currentPage);
   }
 
   void onGetRecommendSearch() {
