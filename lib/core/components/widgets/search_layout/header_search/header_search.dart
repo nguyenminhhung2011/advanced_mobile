@@ -55,6 +55,25 @@ class HeaderSearch extends StatefulWidget {
 }
 
 class _HeaderSearchState extends State<HeaderSearch> {
+  // style
+  Color get textColor => Theme.of(context).scaffoldBackgroundColor;
+  TextStyle get hintStyle =>
+      widget.hintStyle ?? context.titleMedium.copyWith(color: textColor);
+  TextStyle get textStyle =>
+      widget.textStyle ??
+      context.titleMedium.copyWith(
+          fontWeight: FontWeight.w600, fontSize: 16, color: textColor);
+  Widget get prefixIcon =>
+      widget.prefixIcon ?? Icon(Icons.search, color: textColor);
+
+  Widget get actionIcon =>
+      widget.actionIcon ??
+      Icon(Icons.filter_list_outlined, size: 30, color: textColor);
+  double get searchRadius => widget.searchRadius ?? _kRadius;
+  EdgeInsets get contentPadding =>
+      widget.contentPadding ??
+      const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0);
+
   late TextEditingController _textEditingController;
 
   @override
@@ -102,21 +121,6 @@ class _HeaderSearchState extends State<HeaderSearch> {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).scaffoldBackgroundColor;
-    final hintStyle =
-        widget.hintStyle ?? context.titleMedium.copyWith(color: textColor);
-    final textStyle = widget.textStyle ??
-        context.titleMedium.copyWith(
-            fontWeight: FontWeight.w600, fontSize: 16, color: textColor);
-    final prefixIcon =
-        widget.prefixIcon ?? Icon(Icons.search, color: textColor);
-
-    final searchRadius = widget.searchRadius ?? _kRadius;
-    final actionIcon = widget.actionIcon ??
-        Icon(Icons.filter_list_outlined, size: 30, color: textColor);
-    final contentPadding = widget.contentPadding ??
-        const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0);
-
     return Column(
       children: [
         Container(
@@ -142,42 +146,7 @@ class _HeaderSearchState extends State<HeaderSearch> {
               ),
               child: Row(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _textEditingController,
-                      cursorColor: textColor,
-                      // onChanged: widget.textChange,
-                      onSubmitted: widget.onSubmittedText,
-                      style: textStyle,
-                      decoration: InputDecoration(
-                        prefixIcon: prefixIcon,
-                        contentPadding: contentPadding,
-                        fillColor: textColor.withOpacity(0.25),
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(searchRadius),
-                          borderSide: BorderSide.none,
-                        ),
-                        hintText: widget.hintText,
-                        hintStyle: hintStyle,
-                        suffix: InkWell(
-                          onTap: _onClearText,
-                          child: Container(
-                            padding: const EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: textStyle.color,
-                            ),
-                            child: Icon(
-                              Icons.close,
-                              size: 10,
-                              color: textStyle.color!.fontColorByBackground,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  _textField(),
                   const SizedBox(width: 10),
                   if (widget.isShowAction)
                     GestureDetector(
@@ -190,6 +159,45 @@ class _HeaderSearchState extends State<HeaderSearch> {
           ),
         ),
       ],
+    );
+  }
+
+  Expanded _textField() {
+    return Expanded(
+      child: TextField(
+        controller: _textEditingController,
+        cursorColor: textColor,
+        // onChanged: widget.textChange,
+        onSubmitted: widget.onSubmittedText,
+        style: textStyle,
+        decoration: InputDecoration(
+          prefixIcon: prefixIcon,
+          contentPadding: contentPadding,
+          fillColor: textColor.withOpacity(0.25),
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(searchRadius),
+            borderSide: BorderSide.none,
+          ),
+          hintText: widget.hintText,
+          hintStyle: hintStyle,
+          suffix: InkWell(
+            onTap: _onClearText,
+            child: Container(
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: textStyle.color,
+              ),
+              child: Icon(
+                Icons.close,
+                size: 10,
+                color: textStyle.color!.fontColorByBackground,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -64,6 +64,7 @@ extension AppCoordinator<T> on BuildContext {
   }) async {
     final data = await showModalBottomSheet(
       context: this,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
       ),

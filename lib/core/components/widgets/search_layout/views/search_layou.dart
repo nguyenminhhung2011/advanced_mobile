@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/search_l
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_response.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/search_utils.dart';
 import 'package:provider/provider.dart';
 import '../controller/search_controller.dart';
 import '../model/filter_model.dart';
@@ -71,11 +72,6 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
   Color get backgroundColor => Theme.of(context).scaffoldBackgroundColor;
   Color get primaryColor => Theme.of(context).primaryColor;
 
-  List<Map<String, dynamic>> viewType = <Map<String, dynamic>>[
-    {'title': 'List', 'icon': Icons.list},
-    {'title': 'Grid', 'icon': Icons.grid_view_sharp},
-  ];
-
   @override
   void initState() {
     _paginationNotifier = PaginationNotifier<T>(
@@ -103,14 +99,6 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
 
   void _onSelectedRecommendText(String text) {
     _searchTextController.text = text;
-  }
-
-  String getTextFilter(FilterResponse filterResponse) {
-    return switch (filterResponse.filterType) {
-      FilterType.price =>
-        'From ${(filterResponse.fromPrice ?? 0.0).toCurrency()} to ${(filterResponse.toPrice ?? 0.0).toCurrency()}',
-      _ => '# ${filterResponse.categorySelected?.map((e) => '$e ' '') ?? ''}'
-    };
   }
 
   @override
@@ -171,7 +159,7 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
   List<Widget> get _displayItemField {
     return [
       SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -181,23 +169,24 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
             ..._searchController.listFilterResponse.map<Widget>(
               (e) {
                 if (e.filterType.isCompare) {
-                  if (e.compareSelected == null) {
+                  if (e.compareSelected?.isEmpty ?? false) {
                     return const SizedBox();
                   }
                   return Row(
                     children: [
-                      ...e.compareSelected!
-                          .map((e) => _filterItem(title: e))
-                          .expand(
-                            (e) => [e, const SizedBox(width: 5.0)],
-                          )
-                    ],
+                      ...e.compareSelected!.map((e) => _filterItem(title: e))
+                    ]
+                        .expand(
+                          (e) => [e, const SizedBox(width: 10.0)],
+                        )
+                        .toList()
+                      ..removeLast(),
                   );
                 }
-                return _filterItem(title: getTextFilter(e));
+                return _filterItem(title: SearchUtils.getTextFilter(e));
               },
             )
-          ].expand((e) => [e, const SizedBox(width: 5.0)]).toList(),
+          ].expand((e) => [e, const SizedBox(width: 10.0)]).toList(),
         ),
       ),
       const Divider(thickness: 0.5),
@@ -292,7 +281,7 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
       ),
       child: Row(
         children: [
-          ...viewType
+          ...SearchUtils.viewType
               .mapIndexed<Widget>(
                 (index, e) => GestureDetector(
                   onTap: () {
@@ -348,13 +337,14 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
-        border: Border.all(width: 0.5, color: primaryColor),
+        border: Border.all(width: 0.8, color: primaryColor),
         color: primaryColor.withOpacity(0.1),
       ),
       child: Text(
         title,
         style: context.titleSmall.copyWith(
           fontWeight: FontWeight.w400,
+          color: Theme.of(context).hintColor,
         ),
       ),
     );

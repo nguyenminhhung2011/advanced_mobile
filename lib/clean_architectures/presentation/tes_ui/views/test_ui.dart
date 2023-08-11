@@ -75,6 +75,7 @@ class _TestUiState extends State<TestUi> {
           return const Row(children: []);
         },
         groupHeaderStyle: GroupHeaderStyle(
+          contentHeaderSearchPadding: const EdgeInsets.all(5.0),
           listFilter: [
             PriceModel(
               header: 'By price',

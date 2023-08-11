@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
@@ -74,32 +76,35 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
 
   @override
   void initState() {
-    for (var i = 0; i < widget.listFilter.length; i++) {
-      final data = widget.listFilter[i];
-      if (data is PriceModel) {
-        dataControls.add(FilterResponse(
-          filterType: FilterType.price,
-          fromPrice: data.minPrice,
-          toPrice: data.minPrice,
-          locationIndex: i,
-        ));
-      } else if (data is CompareModel) {
-        dataControls.add(FilterResponse(
-          filterType: FilterType.compare,
-          compareSelected: <String>[],
-          locationIndex: i,
-        ));
-      } else if (data is CategoryModelSearch) {
-        dataControls.add(FilterResponse(
-          filterType: FilterType.categories,
-          categorySelected: <String>[],
-          locationIndex: i,
-        ));
-      } else {}
-    }
+    // log(widget.initResponse.length + 1);
     if (widget.initResponse.isNotEmpty) {
-      dataControls.addAll(widget.initResponse);
-      setState(() {});
+      setState(() {
+        dataControls.addAll(widget.initResponse);
+      });
+    } else {
+      for (var i = 0; i < widget.listFilter.length; i++) {
+        final data = widget.listFilter[i];
+        if (data is PriceModel) {
+          dataControls.add(FilterResponse(
+            filterType: FilterType.price,
+            fromPrice: data.minPrice,
+            toPrice: data.minPrice,
+            locationIndex: i,
+          ));
+        } else if (data is CompareModel) {
+          dataControls.add(FilterResponse(
+            filterType: FilterType.compare,
+            compareSelected: <String>[],
+            locationIndex: i,
+          ));
+        } else if (data is CategoryModelSearch) {
+          dataControls.add(FilterResponse(
+            filterType: FilterType.categories,
+            categorySelected: <String>[],
+            locationIndex: i,
+          ));
+        } else {}
+      }
     }
     super.initState();
   }
@@ -119,8 +124,8 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
     return Container(
       width: context.widthDevice,
       constraints: BoxConstraints(
-        maxHeight: height * 0.95,
-        minHeight: height * 0.9,
+        maxHeight: height * 0.8,
+        minHeight: height * 0.6,
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -140,54 +145,61 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 10.0),
-              Container(
-                width: 60,
-                height: 3.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Theme.of(context).hintColor.withOpacity(0.2),
+        body: Column(
+          children: [
+            const SizedBox(height: 10.0),
+            Container(
+              width: 60,
+              height: 3.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Theme.of(context).hintColor.withOpacity(0.2),
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ...widget.listFilter.mapIndexed((index, e) {
+                      late Widget itemDisplay;
+                      if (e is PriceModel) {
+                        itemDisplay = _rangePrice(
+                            context: context,
+                            priceModel: e,
+                            filterResponse: dataControls[index]);
+                      } else if (e is CompareModel) {
+                        itemDisplay = Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: _compareField(
+                            exampleWidget: [],
+                            context: context,
+                            compareModel: e,
+                            filterResponse: dataControls[index],
+                          ),
+                        );
+                      } else if (e is CategoryModelSearch) {
+                        itemDisplay = Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: _category(
+                            context: context,
+                            categoryModel: e,
+                            filterResponse: dataControls[index],
+                          ),
+                        );
+                      } else {
+                        itemDisplay = const SizedBox();
+                      }
+                      return ExpansionItem(
+                          label: e.header, content: itemDisplay);
+                    }),
+                    const SizedBox(height: 60.0),
+                  ],
                 ),
               ),
-              const SizedBox(height: 10.0),
-              ...widget.listFilter.mapIndexed((index, e) {
-                late Widget itemDisplay;
-                if (e is PriceModel) {
-                  itemDisplay = _rangePrice(
-                      context: context,
-                      priceModel: e,
-                      filterResponse: dataControls[index]);
-                } else if (e is CompareModel) {
-                  itemDisplay = Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: _compareField(
-                      exampleWidget: [],
-                      context: context,
-                      compareModel: e,
-                      filterResponse: dataControls[index],
-                    ),
-                  );
-                } else if (e is CategoryModelSearch) {
-                  itemDisplay = Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: _category(
-                      context: context,
-                      categoryModel: e,
-                      filterResponse: dataControls[index],
-                    ),
-                  );
-                } else {
-                  itemDisplay = const SizedBox();
-                }
-                return ExpansionItem(label: e.header, content: itemDisplay);
-              }),
-              const SizedBox(height: 60.0),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -200,7 +212,9 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
   }) {
     return Wrap(
       spacing: 6.0,
-      runSpacing: -6,
+      runSpacing: -8,
+      alignment: WrapAlignment.start,
+      verticalDirection: VerticalDirection.up,
       children: [
         ...categoryModel.categories.map((e) {
           final isSelected =
@@ -211,6 +225,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
               style: context.titleSmall.copyWith(
                 fontSize: 14,
                 color: isSelected ? primaryColor : null,
+                fontWeight: FontWeight.w400,
               ),
             ),
             shape: RoundedRectangleBorder(
@@ -269,6 +284,7 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
       return const SizedBox();
     }
     return GridView.builder(
+      padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -297,10 +313,10 @@ class _ModelBottomSheetState extends State<ModelBottomSheet> {
             decoration: BoxDecoration(
               color: selectedColor.withOpacity(0.05),
               borderRadius: BorderRadius.circular(3),
-              // border: Border.all(
-              //   width: 1,
-              //   color: selectedColor.withOpacity(isContains ? 1 : 0.05),
-              // ),
+              border: Border.all(
+                width: 1,
+                color: selectedColor.withOpacity(isContains ? 0.5 : 0),
+              ),
             ),
             child: Text(
               '${compare.headerCategory} : $compareText',
