@@ -69,49 +69,7 @@ class _TestUiState extends State<TestUi> {
     TabBarModel(
       svgAsset: ImageConst.personIcon,
       title: 'Profile',
-      screen: SearchLayout<ModelTest>(
-        textChangeCall: (text) async => [],
-        itemBuilder: (_, data) {
-          return const Row(children: []);
-        },
-        groupHeaderStyle: GroupHeaderStyle(
-          contentHeaderSearchPadding: const EdgeInsets.all(5.0),
-          listFilter: [
-            PriceModel(
-              header: 'By price',
-              maxPrice: 10000,
-              minPrice: 0.0,
-            ),
-            PriceModel(
-              header: 'By Sale',
-              maxPrice: 10000,
-              minPrice: 0.0,
-            ),
-            CompareModel(compares: [
-              Compare(
-                headerCategory: 'Date',
-                left: 'Latest',
-                right: 'Oldest',
-              ),
-              Compare(
-                headerCategory: 'Price',
-                left: 'Low to Hight',
-                right: 'Hight to Low',
-              ),
-            ], header: 'Compares'),
-            CategoryModelSearch(
-              header: 'Categories',
-              categories: const [
-                'Hahaha',
-                'Hihihihihi',
-                'Hohohoho',
-                'Hehehe',
-                'Huhuhu'
-              ],
-            )
-          ],
-        ),
-      ),
+      screen: const PageTest5(),
     )
   ];
 
@@ -151,6 +109,59 @@ class _TestUiState extends State<TestUi> {
             children: dashboardItem.map((e) => e.screen).toList(),
           );
         },
+      ),
+    );
+  }
+}
+
+class PageTest5 extends StatelessWidget {
+  const PageTest5({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SearchLayout<ModelTest>(
+      searchCall: (text, filters) async => [],
+      itemBuilder: (_, data) {
+        return const Row(children: []);
+      },
+      groupHeaderStyle: GroupHeaderStyle(
+        contentHeaderSearchPadding: const EdgeInsets.all(10.0),
+        listFilter: [
+          PriceModel(
+            header: 'By price',
+            maxPrice: 10000,
+            minPrice: 0.0,
+          ),
+          PriceModel(
+            header: 'By Sale',
+            maxPrice: 10000,
+            minPrice: 0.0,
+          ),
+          CompareModel(compares: [
+            Compare(
+              headerCategory: 'Date',
+              left: 'Latest',
+              right: 'Oldest',
+            ),
+            Compare(
+              headerCategory: 'Price',
+              left: 'Low to Hight',
+              right: 'Hight to Low',
+            ),
+          ], header: 'Compares'),
+          CategoryModelSearch(
+            header: 'Categories',
+            categories: const [
+              'Hahaha',
+              'Hihihihihi',
+              'Hohohoho',
+              'Hehehe',
+              'Huhuhu'
+            ],
+          )
+        ],
       ),
     );
   }

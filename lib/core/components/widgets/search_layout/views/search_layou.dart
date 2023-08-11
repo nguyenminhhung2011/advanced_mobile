@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/double_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/header_search/header_search.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
@@ -12,7 +11,10 @@ import 'package:provider/provider.dart';
 import '../controller/search_controller.dart';
 import '../model/filter_model.dart';
 
-typedef SearchCall<T> = Future<List<T>> Function(String value);
+typedef SearchCall<T> = Future<List<T>> Function(
+  String value,
+  List<FilterResponse> filter,
+);
 
 class GroupHeaderStyle {
   final String hintText;
@@ -37,7 +39,7 @@ class SearchLayout<T> extends StatefulWidget {
   final bool leadingAuto;
   final ScrollPhysics scrollPhysics;
   final EdgeInsets? padding;
-  final SearchCall<T> textChangeCall;
+  final SearchCall<T> searchCall;
   final GroupHeaderStyle groupHeaderStyle;
   final SearchLayoutController<T>? searchLayoutController;
   final Widget Function(BuildContext, T) itemBuilder;
@@ -53,7 +55,7 @@ class SearchLayout<T> extends StatefulWidget {
     this.groupHeaderStyle = const GroupHeaderStyle(),
     this.scrollPhysics = const BouncingScrollPhysics(),
     required this.itemBuilder,
-    required this.textChangeCall,
+    required this.searchCall,
   });
 
   @override
@@ -78,19 +80,22 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
       (p0, category) async => <T>[],
       List.empty(),
     );
-    _searchController = SearchLayoutController<T>()..onGetRecommendSearch();
+    _searchController = SearchLayoutController<T>(searchCall: widget.searchCall)
+      ..onGetRecommendSearch();
     _searchTextController = TextEditingController();
     super.initState();
   }
 
-  void _onRefresh() {}
+  void _onRefresh() {
+    _searchController.onSearch();
+  }
 
   void _onSubmitted(String text) {
     if (text.isEmpty) {
       return;
     }
     _searchController.onSetNewRecommendSearch(text);
-    _searchController.onSearch(text);
+    _searchController.onSearch();
   }
 
   void _onRemoveRecommendSearch(String textRemove) {

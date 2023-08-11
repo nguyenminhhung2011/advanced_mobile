@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_response.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/views/search_layou.dart';
 
 enum SearchEnum {
   list(0),
@@ -12,7 +13,8 @@ enum SearchEnum {
 
 class SearchLayoutController<T> extends ChangeNotifier {
   final List<T> itemsView;
-  SearchLayoutController() : itemsView = [];
+  final SearchCall<T> searchCall;
+  SearchLayoutController({required this.searchCall}) : itemsView = [];
 
   SearchEnum _typeView = SearchEnum.list;
   SearchEnum get typeView => _typeView;
@@ -31,9 +33,10 @@ class SearchLayoutController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onApplyFilter(List<FilterResponse> data) {
+  void onApplyFilter(List<FilterResponse> data) async {
     _listFilterResponse.clear();
     _listFilterResponse.addAll(data);
+    onSearch();
     notifyListeners();
   }
 
@@ -43,10 +46,14 @@ class SearchLayoutController<T> extends ChangeNotifier {
     if (text.isEmpty) {
       return onGetRecommendSearch();
     }
-    return onSearch(text);
+    return onSearch();
   }
 
-  void onSearch(String text) {}
+  void onSearch() async {
+    itemsView.clear();
+    itemsView.addAll(await searchCall(_searchText, _listFilterResponse));
+    notifyListeners();
+  }
 
   void onGetRecommendSearch() {
     _recommendSearch.clear();

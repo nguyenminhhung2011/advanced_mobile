@@ -190,7 +190,7 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
     _itemScrollController = ItemScrollController();
     _itemPositionsListener = ItemPositionsListener.create();
     _itemPositionsListener!.itemPositions.addListener(_itemScrollListener);
-  } 
+  }
 
   @override
   void initState() {
@@ -242,8 +242,8 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
   void _itemScrollListener() async {
     final indices = _itemPositionsListener!.itemPositions.value
         .where(
-          (element) {
-            final isTopVisible = element.itemLeadingEdge >= 0;
+          (e) {
+            final isTopVisible = e.itemLeadingEdge >= 0;
             return isTopVisible;
           },
         )
@@ -417,8 +417,8 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                   },
                 ),
               ]
-                  .expand((element) => [
-                        element,
+                  .expand((e) => [
+                        e,
                         SizedBox(
                           height: widget.bothCategoryStyle.categorySpacing,
                         )
@@ -499,14 +499,13 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                                       : const SizedBox();
                                 },
                               )
-                                  .expand((element) =>
-                                      [element, SizedBox(height: mainSpacing)])
+                                  .expand(
+                                      (e) => [e, SizedBox(height: mainSpacing)])
                                   .toList()
                                 ..removeLast(),
                             ),
                           )
-                              .expand((element) =>
-                                  [element, SizedBox(width: crossSpacing)])
+                              .expand((e) => [e, SizedBox(width: crossSpacing)])
                               .toList()
                             ..removeLast(),
                         ),
@@ -571,10 +570,7 @@ class _CategoryLayoutViewState<T> extends State<CategoryLayoutView<T>>
                           ),
                         ),
                   Expanded(child: _paginationField()),
-                ]
-                    .expand(
-                        (element) => [const SizedBox(height: 10.0), element])
-                    .toList()
+                ].expand((e) => [const SizedBox(height: 10.0), e]).toList()
                   ..removeAt(0),
               ),
             ),

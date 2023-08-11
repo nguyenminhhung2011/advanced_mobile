@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:collection/collection.dart';
 import 'package:expansion_widget/expansion_widget.dart';
 import 'package:flutter/material.dart';
@@ -366,9 +364,13 @@ class ExpansionItem extends StatelessWidget {
                   ),
                 ),
                 Transform.rotate(
-                  angle: 3.14 * animationValue / 2,
+                  angle: 3.14 * animationValue / 4,
                   alignment: Alignment.center,
-                  child: Icon(actionIcon ?? Icons.arrow_right, size: 37),
+                  child: Icon(
+                    actionIcon ?? Icons.add,
+                    size: 17,
+                    color: Theme.of(context).hintColor,
+                  ),
                 )
               ],
             ),
