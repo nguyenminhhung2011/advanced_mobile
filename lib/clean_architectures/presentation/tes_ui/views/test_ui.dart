@@ -135,73 +135,81 @@ class PageTest5 extends StatelessWidget {
         ];
       },
       itemBuilder: (_, data) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Row(
-            children: [
-              Container(
-                width: 80.0,
-                height: 80.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(data.imageUrl),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(data.title),
-                    Text(data.subTitle),
-                  ],
-                ),
-              )
-            ],
-          ),
-        );
+        return _itemBuilder(data);
       },
       groupHeaderStyle: GroupHeaderStyle(
         contentHeaderSearchPadding: const EdgeInsets.all(10.0),
-        listFilter: [
-          PriceModel(
-            header: 'By price',
-            maxPrice: 10000,
-            minPrice: 0.0,
-          ),
-          PriceModel(
-            header: 'By Sale',
-            maxPrice: 10000,
-            minPrice: 0.0,
-          ),
-          CompareModel(compares: [
-            Compare(
-              headerCategory: 'Date',
-              left: 'Latest',
-              right: 'Oldest',
+        listFilter: _listFilter,
+      ),
+    );
+  }
+
+  Padding _itemBuilder(ModelImageTest data) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Row(
+        children: [
+          Container(
+            width: 80.0,
+            height: 80.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(data.imageUrl),
+              ),
             ),
-            Compare(
-              headerCategory: 'Price',
-              left: 'Low to Hight',
-              right: 'Hight to Low',
+          ),
+          const SizedBox(width: 10.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(data.title),
+                Text(data.subTitle),
+              ],
             ),
-          ], header: 'Compares'),
-          CategoryModelSearch(
-            header: 'Categories',
-            categories: const [
-              'Hahaha',
-              'Hihihihihi',
-              'Hohohoho',
-              'Hehehe',
-              'Huhuhu'
-            ],
           )
         ],
       ),
     );
+  }
+
+  List<FilterModel> get _listFilter {
+    return [
+      PriceModel(
+        header: 'By price',
+        maxPrice: 10000,
+        minPrice: 0.0,
+      ),
+      PriceModel(
+        header: 'By Sale',
+        maxPrice: 10000,
+        minPrice: 0.0,
+      ),
+      CompareModel(compares: [
+        Compare(
+          headerCategory: 'Date',
+          left: 'Latest',
+          right: 'Oldest',
+        ),
+        Compare(
+          headerCategory: 'Price',
+          left: 'Low to Hight',
+          right: 'Hight to Low',
+        ),
+      ], header: 'Compares'),
+      CategoryModelSearch(
+        header: 'Categories',
+        categories: const [
+          'Hahaha',
+          'Hihihihihi',
+          'Hohohoho',
+          'Hehehe',
+          'Huhuhu'
+        ],
+      )
+    ];
   }
 }
 
