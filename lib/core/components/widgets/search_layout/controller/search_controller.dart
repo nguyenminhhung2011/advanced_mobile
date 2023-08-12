@@ -34,7 +34,7 @@ class SearchLayoutController<T> extends ChangeNotifier {
 
   void onApplyFilter(List<FilterResponse> data) async {
     _listFilterResponse.clear();
-    _listFilterResponse.addAll(data);
+    _listFilterResponse.addAll(data); 
     notifyListeners();
   }
 

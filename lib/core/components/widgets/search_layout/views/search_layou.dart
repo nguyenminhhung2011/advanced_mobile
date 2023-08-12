@@ -16,12 +16,12 @@ typedef SearchCall<T> = Future<List<T>> Function(
 
 class GroupHeaderStyle {
   final String hintText;
-  final TextStyle? hintStyle;
-  final TextStyle? textStyle;
   final double searchRadius;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
   final List<String> headerColors;
-  final EdgeInsets? contentHeaderSearchPadding;
   final List<FilterModel> listFilter;
+  final EdgeInsets? contentHeaderSearchPadding;
   const GroupHeaderStyle({
     this.textStyle,
     this.hintStyle,
@@ -41,26 +41,26 @@ class PaginationStyle {
 }
 
 class SearchLayout<T> extends StatefulWidget {
-  final bool leadingAuto;
-  final ScrollPhysics scrollPhysics;
-  final EdgeInsets? padding;
-  final SearchCall<T> searchCall;
-  final GroupHeaderStyle groupHeaderStyle;
-  final PaginationStyle paginationStyle;
-  final SearchLayoutController<T>? searchLayoutController;
-  final Widget Function(BuildContext, T) itemBuilder;
   final bool isReverse;
   final bool shrinkWrap;
+  final bool leadingAuto;
+  final EdgeInsets? padding;
+  final SearchCall<T> searchCall;
+  final ScrollPhysics scrollPhysics;
+  final PaginationStyle paginationStyle;
+  final GroupHeaderStyle groupHeaderStyle;
+  final Widget Function(BuildContext, T) itemBuilder;
+  final SearchLayoutController<T>? searchLayoutController;
   const SearchLayout({
     super.key,
     this.padding,
-    this.isReverse = false,
     this.shrinkWrap = true,
+    this.isReverse = false,
     this.leadingAuto = false,
     this.searchLayoutController,
+    this.paginationStyle = const PaginationStyle(),
     this.groupHeaderStyle = const GroupHeaderStyle(),
     this.scrollPhysics = const BouncingScrollPhysics(),
-    this.paginationStyle = const PaginationStyle(),
     required this.itemBuilder,
     required this.searchCall,
   });
