@@ -80,11 +80,131 @@ class S {
     );
   }
 
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Languages`
+  String get languages {
+    return Intl.message(
+      'Languages',
+      name: 'languages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currencies`
+  String get currencies {
+    return Intl.message(
+      'Currencies',
+      name: 'currencies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appearance`
+  String get appearance {
+    return Intl.message(
+      'Appearance',
+      name: 'appearance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log in`
+  String get logIn {
+    return Intl.message(
+      'Log in',
+      name: 'logIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark theme`
+  String get darkTheme {
+    return Intl.message(
+      'Dark theme',
+      name: 'darkTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light theme`
+  String get lightTheme {
+    return Intl.message(
+      'Light theme',
+      name: 'lightTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Code and fingerprint`
+  String get codeAndFingerPrints {
+    return Intl.message(
+      'Code and fingerprint',
+      name: 'codeAndFingerPrints',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lock and Security`
+  String get lockAndSecurity {
+    return Intl.message(
+      'Lock and Security',
+      name: 'lockAndSecurity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General settings`
+  String get generalSettings {
+    return Intl.message(
+      'General settings',
+      name: 'generalSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `By Price`
   String get byPrice {
     return Intl.message(
       'By Price',
       name: 'byPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About`
+  String get about {
+    return Intl.message(
+      'About',
+      name: 'about',
       desc: '',
       args: [],
     );

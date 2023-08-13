@@ -8,15 +8,17 @@ class ImageCustom extends StatelessWidget {
   final BoxFit? fit;
   final bool isNetworkImage;
   final Color? color;
+  final Widget? loadingWidget;
   const ImageCustom({
     super.key,
-    required this.imageUrl,
-    this.width,
-    this.height,
-    this.radius,
     this.fit,
-    required this.isNetworkImage,
+    this.width,
     this.color,
+    this.radius,
+    this.height,
+    this.loadingWidget,
+    required this.imageUrl,
+    required this.isNetworkImage,
   });
 
   @override
@@ -28,6 +30,16 @@ class ImageCustom extends StatelessWidget {
         height: width ?? 50.0,
         fit: fit ?? BoxFit.cover,
         color: color,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) return child;
+          return loadingWidget ??
+              Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                ),
+              );
+        },
       );
     }
     return Image.asset(

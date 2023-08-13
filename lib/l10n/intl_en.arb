@@ -2,5 +2,17 @@
     "update": "update",
     "seeMore": "See more",
     "sortBy": "Sort By",
-    "byPrice": "By Price"
+    "settings": "Settings",
+    "languages": "Languages",
+    "currencies": "Currencies",
+    "appearance": "Appearance",
+    "logIn": "Log in",
+    "darkTheme": "Dark theme",
+    "lightTheme": "Light theme",
+    "notifications": "Notifications",
+    "codeAndFingerPrints": "Code and fingerprint",
+    "lockAndSecurity": "Lock and Security",
+    "generalSettings": "General settings",
+    "byPrice": "By Price",
+    "about": "About"
 }

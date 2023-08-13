@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/controller/setting_bloc.dart';
 import 'package:flutter_base_clean_architecture/routes/main_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'core/dependency_injection/di.dart';
 import 'generated/l10n.dart';
 
 class Application extends StatefulWidget {
@@ -46,12 +48,13 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      theme: ThemeData(
-        primaryColor: '#07AEAF'.toColor(),
-        primaryColorDark: '#07AEAF'.toColor(),
-        // fontFamily: 'Montserrat',
-      ),
-      darkTheme: ThemeData.dark().copyWith(
+      theme: light?.copyWith(
+            primaryColor: '#07AEAF'.toColor(),
+            primaryColorDark: '#07AEAF'.toColor(),
+            // fontFamily: 'Montserrat',
+          ) ??
+          ThemeData(),
+      darkTheme: dark.copyWith(
         primaryColor: '#07AEAF'.toColor(),
       ),
       locale: locale,
@@ -70,22 +73,28 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  void _listStateChange(_, SettingState state) {}
+
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
-      light: ThemeData.light(),
-      dark: ThemeData.dark(),
-      initial: widget.savedThemeMode ?? AdaptiveThemeMode.light,
-      builder: (
-        ThemeData light,
-        ThemeData dark,
-      ) =>
-          MultiBlocProvider(
-        providers: widget.providers,
-        child: _buildMaterialApp(
-          locale: const Locale('en', ''),
-          light: light,
-          dark: dark,
+      light: ThemeData(brightness: Brightness.light),
+      dark: ThemeData(brightness: Brightness.dark),
+      initial: AdaptiveThemeMode.light,
+      builder: (theme, darkTheme) => MultiBlocProvider(
+        providers: [
+          ...widget.providers,
+          BlocProvider<SettingBloc>(create: (_) => injector.get()),
+        ],
+        child: BlocConsumer<SettingBloc, SettingState>(
+          listener: _listStateChange,
+          builder: (context, state) {
+            return _buildMaterialApp(
+              locale: const Locale('en', ''),
+              light: theme,
+              dark: darkTheme,
+            );
+          },
         ),
       ),
     );
