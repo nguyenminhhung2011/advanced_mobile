@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "lockAndSecurity":
             MessageLookupByLibrary.simpleMessage("Lock and Security"),
         "logIn": MessageLookupByLibrary.simpleMessage("Log in"),
+        "logOut": MessageLookupByLibrary.simpleMessage("Log out"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "seeMore": MessageLookupByLibrary.simpleMessage("See more"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),

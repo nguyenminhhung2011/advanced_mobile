@@ -130,6 +130,16 @@ class S {
     );
   }
 
+  /// `Log out`
+  String get logOut {
+    return Intl.message(
+      'Log out',
+      name: 'logOut',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Dark theme`
   String get darkTheme {
     return Intl.message(

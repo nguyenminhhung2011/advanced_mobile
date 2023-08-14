@@ -3,7 +3,7 @@ import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/color_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_model.dart';
+import 'package:flutter_base_clean_architecture/core/components/layout/search_layout/model/filter_model.dart';
 
 import '../model/filter_response.dart';
 

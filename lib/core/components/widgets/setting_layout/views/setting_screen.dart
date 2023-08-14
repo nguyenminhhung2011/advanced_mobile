@@ -1,20 +1,27 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/avartat_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/config/setting_config.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/layout/setting_layout.dart';
 import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../clean_architectures/domain/entities/user/user.dart';
 import '../controller/setting_bloc.dart';
+
+typedef GetUserData = Future<User?> Function();
 
 class SettingScreen extends StatefulWidget {
   final SettingConfig settingConfig;
+  final GetUserData? getUserCall;
   const SettingScreen({
     super.key,
+    this.getUserCall,
     required this.settingConfig,
   });
 
@@ -37,9 +44,13 @@ class _SettingScreenState extends State<SettingScreen> {
   double get _shadowElevation => widget.settingConfig.shadowElevation;
   double get _elevationCard => widget.settingConfig.elevationCard;
 
+  Widget get _forwardIcon =>
+      const Icon(Icons.arrow_forward_ios_sharp, size: 17.0);
+
   //data
   SettingBloc get _settingController => context.read<SettingBloc>();
   Appearance get _appearance => _settingController.data.appearance;
+  User? get _currentUser => _settingController.data.currentUser;
 
   @override
   void initState() {
@@ -123,16 +134,55 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   List<Widget> get _renderUserField {
+    final logText =
+        _currentUser != null ? S.of(context).logOut : S.of(context).logIn;
+    final logIcon = _currentUser != null ? Icons.restart_alt : Icons.person;
     return [
       const SizedBox(height: 10.0),
+      if (_currentUser != null) ...[
+        ...<String>[
+          _currentUser?.userName ?? '',
+          _currentUser?.email ?? '',
+          _currentUser?.phoneNumber ?? '',
+          _currentUser?.creditCardNumber ?? '',
+        ].mapIndexed(
+          (index, text) {
+            if (text.isEmpty) {
+              return const SizedBox();
+            }
+            final icon = index == 0
+                ? AvatarWidget(
+                    imageUrl:
+                        _currentUser?.photoUrl ?? ImageConst.baseImageView,
+                  )
+                : Icon(
+                    switch (index) {
+                      1 => Icons.email,
+                      2 => Icons.phone,
+                      _ => CupertinoIcons.creditcard_fill,
+                    },
+                    size: 24.0);
+            return Card(
+              color: _backgroundColor,
+              elevation: 0,
+              child: ListTile(
+                onTap: () {},
+                leading: icon,
+                title: Text(text),
+                trailing: _forwardIcon,
+              ),
+            );
+          },
+        ),
+      ],
       Card(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: _backgroundColor,
         elevation: 0,
         child: ListTile(
           onTap: () {},
-          leading: const Icon(Icons.person),
-          title: Text(S.of(context).logIn, style: context.titleMedium),
-          trailing: const Icon(Icons.arrow_forward_ios_sharp, size: 17),
+          leading: Icon(logIcon),
+          title: Text(logText, style: context.titleMedium),
+          trailing: _forwardIcon,
         ),
       ),
     ];
@@ -266,8 +316,7 @@ class _SettingScreenState extends State<SettingScreen> {
         onTap: onTap,
         leading: iconWidget ?? Icon(icon ?? Icons.person, size: 24),
         title: titleWidget ?? Text(title ?? '', style: context.titleMedium),
-        trailing:
-            trailing ?? const Icon(Icons.arrow_forward_ios_sharp, size: 17),
+        trailing: trailing ?? _forwardIcon,
       ),
     );
   }
