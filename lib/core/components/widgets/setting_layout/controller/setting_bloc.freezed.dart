@@ -20,6 +20,9 @@ mixin _$SettingEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
     required TResult Function(Currencies currencies) updateCurrencies,
   }) =>
       throw _privateConstructorUsedError;
@@ -27,6 +30,9 @@ mixin _$SettingEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
     TResult? Function(Currencies currencies)? updateCurrencies,
   }) =>
       throw _privateConstructorUsedError;
@@ -34,6 +40,9 @@ mixin _$SettingEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
     TResult Function(Currencies currencies)? updateCurrencies,
     required TResult orElse(),
   }) =>
@@ -42,6 +51,9 @@ mixin _$SettingEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
   }) =>
       throw _privateConstructorUsedError;
@@ -49,6 +61,9 @@ mixin _$SettingEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
   }) =>
       throw _privateConstructorUsedError;
@@ -56,6 +71,9 @@ mixin _$SettingEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     required TResult orElse(),
   }) =>
@@ -119,6 +137,9 @@ class _$_Started implements _Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
     required TResult Function(Currencies currencies) updateCurrencies,
   }) {
     return started();
@@ -129,6 +150,9 @@ class _$_Started implements _Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
     TResult? Function(Currencies currencies)? updateCurrencies,
   }) {
     return started?.call();
@@ -139,6 +163,9 @@ class _$_Started implements _Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
     TResult Function(Currencies currencies)? updateCurrencies,
     required TResult orElse(),
   }) {
@@ -153,6 +180,9 @@ class _$_Started implements _Started {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
   }) {
     return started(this);
@@ -163,6 +193,9 @@ class _$_Started implements _Started {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
   }) {
     return started?.call(this);
@@ -173,6 +206,9 @@ class _$_Started implements _Started {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     required TResult orElse(),
   }) {
@@ -227,6 +263,9 @@ class _$_UpdateAppearance implements _UpdateAppearance {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
     required TResult Function(Currencies currencies) updateCurrencies,
   }) {
     return updateAppearance();
@@ -237,6 +276,9 @@ class _$_UpdateAppearance implements _UpdateAppearance {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
     TResult? Function(Currencies currencies)? updateCurrencies,
   }) {
     return updateAppearance?.call();
@@ -247,6 +289,9 @@ class _$_UpdateAppearance implements _UpdateAppearance {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
     TResult Function(Currencies currencies)? updateCurrencies,
     required TResult orElse(),
   }) {
@@ -261,6 +306,9 @@ class _$_UpdateAppearance implements _UpdateAppearance {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
   }) {
     return updateAppearance(this);
@@ -271,6 +319,9 @@ class _$_UpdateAppearance implements _UpdateAppearance {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
   }) {
     return updateAppearance?.call(this);
@@ -281,6 +332,9 @@ class _$_UpdateAppearance implements _UpdateAppearance {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     required TResult orElse(),
   }) {
@@ -293,6 +347,415 @@ class _$_UpdateAppearance implements _UpdateAppearance {
 
 abstract class _UpdateAppearance implements SettingEvent {
   const factory _UpdateAppearance() = _$_UpdateAppearance;
+}
+
+/// @nodoc
+abstract class _$$_UpdateLangCodeCopyWith<$Res> {
+  factory _$$_UpdateLangCodeCopyWith(
+          _$_UpdateLangCode value, $Res Function(_$_UpdateLangCode) then) =
+      __$$_UpdateLangCodeCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String langCode});
+}
+
+/// @nodoc
+class __$$_UpdateLangCodeCopyWithImpl<$Res>
+    extends _$SettingEventCopyWithImpl<$Res, _$_UpdateLangCode>
+    implements _$$_UpdateLangCodeCopyWith<$Res> {
+  __$$_UpdateLangCodeCopyWithImpl(
+      _$_UpdateLangCode _value, $Res Function(_$_UpdateLangCode) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? langCode = null,
+  }) {
+    return _then(_$_UpdateLangCode(
+      langCode: null == langCode
+          ? _value.langCode
+          : langCode // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateLangCode implements _UpdateLangCode {
+  const _$_UpdateLangCode({required this.langCode});
+
+  @override
+  final String langCode;
+
+  @override
+  String toString() {
+    return 'SettingEvent.updateLangCode(langCode: $langCode)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UpdateLangCode &&
+            (identical(other.langCode, langCode) ||
+                other.langCode == langCode));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, langCode);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UpdateLangCodeCopyWith<_$_UpdateLangCode> get copyWith =>
+      __$$_UpdateLangCodeCopyWithImpl<_$_UpdateLangCode>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
+    required TResult Function(Currencies currencies) updateCurrencies,
+  }) {
+    return updateLangCode(langCode);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
+    TResult? Function(Currencies currencies)? updateCurrencies,
+  }) {
+    return updateLangCode?.call(langCode);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
+    TResult Function(Currencies currencies)? updateCurrencies,
+    required TResult orElse(),
+  }) {
+    if (updateLangCode != null) {
+      return updateLangCode(langCode);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
+    required TResult Function(_UpdateCurrencies value) updateCurrencies,
+  }) {
+    return updateLangCode(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
+    TResult? Function(_UpdateCurrencies value)? updateCurrencies,
+  }) {
+    return updateLangCode?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
+    TResult Function(_UpdateCurrencies value)? updateCurrencies,
+    required TResult orElse(),
+  }) {
+    if (updateLangCode != null) {
+      return updateLangCode(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateLangCode implements SettingEvent {
+  const factory _UpdateLangCode({required final String langCode}) =
+      _$_UpdateLangCode;
+
+  String get langCode;
+  @JsonKey(ignore: true)
+  _$$_UpdateLangCodeCopyWith<_$_UpdateLangCode> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_LogOutCopyWith<$Res> {
+  factory _$$_LogOutCopyWith(_$_LogOut value, $Res Function(_$_LogOut) then) =
+      __$$_LogOutCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_LogOutCopyWithImpl<$Res>
+    extends _$SettingEventCopyWithImpl<$Res, _$_LogOut>
+    implements _$$_LogOutCopyWith<$Res> {
+  __$$_LogOutCopyWithImpl(_$_LogOut _value, $Res Function(_$_LogOut) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_LogOut implements _LogOut {
+  const _$_LogOut();
+
+  @override
+  String toString() {
+    return 'SettingEvent.logOut()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_LogOut);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
+    required TResult Function(Currencies currencies) updateCurrencies,
+  }) {
+    return logOut();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
+    TResult? Function(Currencies currencies)? updateCurrencies,
+  }) {
+    return logOut?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
+    TResult Function(Currencies currencies)? updateCurrencies,
+    required TResult orElse(),
+  }) {
+    if (logOut != null) {
+      return logOut();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
+    required TResult Function(_UpdateCurrencies value) updateCurrencies,
+  }) {
+    return logOut(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
+    TResult? Function(_UpdateCurrencies value)? updateCurrencies,
+  }) {
+    return logOut?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
+    TResult Function(_UpdateCurrencies value)? updateCurrencies,
+    required TResult orElse(),
+  }) {
+    if (logOut != null) {
+      return logOut(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LogOut implements SettingEvent {
+  const factory _LogOut() = _$_LogOut;
+}
+
+/// @nodoc
+abstract class _$$_GetUserInfoCopyWith<$Res> {
+  factory _$$_GetUserInfoCopyWith(
+          _$_GetUserInfo value, $Res Function(_$_GetUserInfo) then) =
+      __$$_GetUserInfoCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_GetUserInfoCopyWithImpl<$Res>
+    extends _$SettingEventCopyWithImpl<$Res, _$_GetUserInfo>
+    implements _$$_GetUserInfoCopyWith<$Res> {
+  __$$_GetUserInfoCopyWithImpl(
+      _$_GetUserInfo _value, $Res Function(_$_GetUserInfo) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_GetUserInfo implements _GetUserInfo {
+  const _$_GetUserInfo();
+
+  @override
+  String toString() {
+    return 'SettingEvent.getUserInfo()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_GetUserInfo);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
+    required TResult Function(Currencies currencies) updateCurrencies,
+  }) {
+    return getUserInfo();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
+    TResult? Function(Currencies currencies)? updateCurrencies,
+  }) {
+    return getUserInfo?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
+    TResult Function(Currencies currencies)? updateCurrencies,
+    required TResult orElse(),
+  }) {
+    if (getUserInfo != null) {
+      return getUserInfo();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
+    required TResult Function(_UpdateCurrencies value) updateCurrencies,
+  }) {
+    return getUserInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
+    TResult? Function(_UpdateCurrencies value)? updateCurrencies,
+  }) {
+    return getUserInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
+    TResult Function(_UpdateCurrencies value)? updateCurrencies,
+    required TResult orElse(),
+  }) {
+    if (getUserInfo != null) {
+      return getUserInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetUserInfo implements SettingEvent {
+  const factory _GetUserInfo() = _$_GetUserInfo;
 }
 
 /// @nodoc
@@ -362,6 +825,9 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
     required TResult Function(Currencies currencies) updateCurrencies,
   }) {
     return updateCurrencies(currencies);
@@ -372,6 +838,9 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
     TResult? Function(Currencies currencies)? updateCurrencies,
   }) {
     return updateCurrencies?.call(currencies);
@@ -382,6 +851,9 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
     TResult Function(Currencies currencies)? updateCurrencies,
     required TResult orElse(),
   }) {
@@ -396,6 +868,9 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
   TResult map<TResult extends Object?>({
     required TResult Function(_Started value) started,
     required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
   }) {
     return updateCurrencies(this);
@@ -406,6 +881,9 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
   }) {
     return updateCurrencies?.call(this);
@@ -416,6 +894,9 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     required TResult orElse(),
   }) {
@@ -445,6 +926,11 @@ mixin _$SettingState {
     required TResult Function(SettingModalState data, int loadingType) loading,
     required TResult Function(SettingModalState data) updateAppearanceSuccess,
     required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -453,6 +939,10 @@ mixin _$SettingState {
     TResult? Function(SettingModalState data, int loadingType)? loading,
     TResult? Function(SettingModalState data)? updateAppearanceSuccess,
     TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -461,6 +951,10 @@ mixin _$SettingState {
     TResult Function(SettingModalState data, int loadingType)? loading,
     TResult Function(SettingModalState data)? updateAppearanceSuccess,
     TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -472,6 +966,11 @@ mixin _$SettingState {
         updateAppearanceSuccess,
     required TResult Function(_UpdateCurrenciesSuccess value)
         updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -480,6 +979,10 @@ mixin _$SettingState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -488,6 +991,10 @@ mixin _$SettingState {
     TResult Function(_Loading value)? loading,
     TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -612,6 +1119,11 @@ class _$_Initial extends _Initial {
     required TResult Function(SettingModalState data, int loadingType) loading,
     required TResult Function(SettingModalState data) updateAppearanceSuccess,
     required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
   }) {
     return initial(data);
   }
@@ -623,6 +1135,10 @@ class _$_Initial extends _Initial {
     TResult? Function(SettingModalState data, int loadingType)? loading,
     TResult? Function(SettingModalState data)? updateAppearanceSuccess,
     TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
   }) {
     return initial?.call(data);
   }
@@ -634,6 +1150,10 @@ class _$_Initial extends _Initial {
     TResult Function(SettingModalState data, int loadingType)? loading,
     TResult Function(SettingModalState data)? updateAppearanceSuccess,
     TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -651,6 +1171,11 @@ class _$_Initial extends _Initial {
         updateAppearanceSuccess,
     required TResult Function(_UpdateCurrenciesSuccess value)
         updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
   }) {
     return initial(this);
   }
@@ -662,6 +1187,10 @@ class _$_Initial extends _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
   }) {
     return initial?.call(this);
   }
@@ -673,6 +1202,10 @@ class _$_Initial extends _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -776,6 +1309,11 @@ class _$_Loading extends _Loading {
     required TResult Function(SettingModalState data, int loadingType) loading,
     required TResult Function(SettingModalState data) updateAppearanceSuccess,
     required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
   }) {
     return loading(data, loadingType);
   }
@@ -787,6 +1325,10 @@ class _$_Loading extends _Loading {
     TResult? Function(SettingModalState data, int loadingType)? loading,
     TResult? Function(SettingModalState data)? updateAppearanceSuccess,
     TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
   }) {
     return loading?.call(data, loadingType);
   }
@@ -798,6 +1340,10 @@ class _$_Loading extends _Loading {
     TResult Function(SettingModalState data, int loadingType)? loading,
     TResult Function(SettingModalState data)? updateAppearanceSuccess,
     TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -815,6 +1361,11 @@ class _$_Loading extends _Loading {
         updateAppearanceSuccess,
     required TResult Function(_UpdateCurrenciesSuccess value)
         updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
   }) {
     return loading(this);
   }
@@ -826,6 +1377,10 @@ class _$_Loading extends _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
   }) {
     return loading?.call(this);
   }
@@ -837,6 +1392,10 @@ class _$_Loading extends _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -936,6 +1495,11 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     required TResult Function(SettingModalState data, int loadingType) loading,
     required TResult Function(SettingModalState data) updateAppearanceSuccess,
     required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
   }) {
     return updateAppearanceSuccess(data);
   }
@@ -947,6 +1511,10 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult? Function(SettingModalState data, int loadingType)? loading,
     TResult? Function(SettingModalState data)? updateAppearanceSuccess,
     TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
   }) {
     return updateAppearanceSuccess?.call(data);
   }
@@ -958,6 +1526,10 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult Function(SettingModalState data, int loadingType)? loading,
     TResult Function(SettingModalState data)? updateAppearanceSuccess,
     TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
     required TResult orElse(),
   }) {
     if (updateAppearanceSuccess != null) {
@@ -975,6 +1547,11 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
         updateAppearanceSuccess,
     required TResult Function(_UpdateCurrenciesSuccess value)
         updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
   }) {
     return updateAppearanceSuccess(this);
   }
@@ -986,6 +1563,10 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
   }) {
     return updateAppearanceSuccess?.call(this);
   }
@@ -997,6 +1578,10 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult Function(_Loading value)? loading,
     TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
     required TResult orElse(),
   }) {
     if (updateAppearanceSuccess != null) {
@@ -1094,6 +1679,11 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     required TResult Function(SettingModalState data, int loadingType) loading,
     required TResult Function(SettingModalState data) updateAppearanceSuccess,
     required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
   }) {
     return updateCurrenciesSuccess(data);
   }
@@ -1105,6 +1695,10 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult? Function(SettingModalState data, int loadingType)? loading,
     TResult? Function(SettingModalState data)? updateAppearanceSuccess,
     TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
   }) {
     return updateCurrenciesSuccess?.call(data);
   }
@@ -1116,6 +1710,10 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult Function(SettingModalState data, int loadingType)? loading,
     TResult Function(SettingModalState data)? updateAppearanceSuccess,
     TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
     required TResult orElse(),
   }) {
     if (updateCurrenciesSuccess != null) {
@@ -1133,6 +1731,11 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
         updateAppearanceSuccess,
     required TResult Function(_UpdateCurrenciesSuccess value)
         updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
   }) {
     return updateCurrenciesSuccess(this);
   }
@@ -1144,6 +1747,10 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
   }) {
     return updateCurrenciesSuccess?.call(this);
   }
@@ -1155,6 +1762,10 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult Function(_Loading value)? loading,
     TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
     TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
     required TResult orElse(),
   }) {
     if (updateCurrenciesSuccess != null) {
@@ -1175,4 +1786,744 @@ abstract class _UpdateCurrenciesSuccess extends SettingState {
   @JsonKey(ignore: true)
   _$$_UpdateCurrenciesSuccessCopyWith<_$_UpdateCurrenciesSuccess>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_UpdateLangCodeSuccessCopyWith<$Res>
+    implements $SettingStateCopyWith<$Res> {
+  factory _$$_UpdateLangCodeSuccessCopyWith(_$_UpdateLangCodeSuccess value,
+          $Res Function(_$_UpdateLangCodeSuccess) then) =
+      __$$_UpdateLangCodeSuccessCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({SettingModalState data});
+
+  @override
+  $SettingModalStateCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$_UpdateLangCodeSuccessCopyWithImpl<$Res>
+    extends _$SettingStateCopyWithImpl<$Res, _$_UpdateLangCodeSuccess>
+    implements _$$_UpdateLangCodeSuccessCopyWith<$Res> {
+  __$$_UpdateLangCodeSuccessCopyWithImpl(_$_UpdateLangCodeSuccess _value,
+      $Res Function(_$_UpdateLangCodeSuccess) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$_UpdateLangCodeSuccess(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SettingModalState,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateLangCodeSuccess extends _UpdateLangCodeSuccess {
+  const _$_UpdateLangCodeSuccess({required this.data}) : super._();
+
+  @override
+  final SettingModalState data;
+
+  @override
+  String toString() {
+    return 'SettingState.updateLangCodeSuccess(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UpdateLangCodeSuccess &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UpdateLangCodeSuccessCopyWith<_$_UpdateLangCodeSuccess> get copyWith =>
+      __$$_UpdateLangCodeSuccessCopyWithImpl<_$_UpdateLangCodeSuccess>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(SettingModalState data) initial,
+    required TResult Function(SettingModalState data, int loadingType) loading,
+    required TResult Function(SettingModalState data) updateAppearanceSuccess,
+    required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
+  }) {
+    return updateLangCodeSuccess(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(SettingModalState data)? initial,
+    TResult? Function(SettingModalState data, int loadingType)? loading,
+    TResult? Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
+  }) {
+    return updateLangCodeSuccess?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(SettingModalState data)? initial,
+    TResult Function(SettingModalState data, int loadingType)? loading,
+    TResult Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (updateLangCodeSuccess != null) {
+      return updateLangCodeSuccess(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_UpdateAppearanceSuccess value)
+        updateAppearanceSuccess,
+    required TResult Function(_UpdateCurrenciesSuccess value)
+        updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
+  }) {
+    return updateLangCodeSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
+  }) {
+    return updateLangCodeSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (updateLangCodeSuccess != null) {
+      return updateLangCodeSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateLangCodeSuccess extends SettingState {
+  const factory _UpdateLangCodeSuccess(
+      {required final SettingModalState data}) = _$_UpdateLangCodeSuccess;
+  const _UpdateLangCodeSuccess._() : super._();
+
+  @override
+  SettingModalState get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$_UpdateLangCodeSuccessCopyWith<_$_UpdateLangCodeSuccess> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_GetUserSuccessCopyWith<$Res>
+    implements $SettingStateCopyWith<$Res> {
+  factory _$$_GetUserSuccessCopyWith(
+          _$_GetUserSuccess value, $Res Function(_$_GetUserSuccess) then) =
+      __$$_GetUserSuccessCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({SettingModalState data});
+
+  @override
+  $SettingModalStateCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$_GetUserSuccessCopyWithImpl<$Res>
+    extends _$SettingStateCopyWithImpl<$Res, _$_GetUserSuccess>
+    implements _$$_GetUserSuccessCopyWith<$Res> {
+  __$$_GetUserSuccessCopyWithImpl(
+      _$_GetUserSuccess _value, $Res Function(_$_GetUserSuccess) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$_GetUserSuccess(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SettingModalState,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_GetUserSuccess extends _GetUserSuccess {
+  const _$_GetUserSuccess({required this.data}) : super._();
+
+  @override
+  final SettingModalState data;
+
+  @override
+  String toString() {
+    return 'SettingState.getUserSuccess(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_GetUserSuccess &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_GetUserSuccessCopyWith<_$_GetUserSuccess> get copyWith =>
+      __$$_GetUserSuccessCopyWithImpl<_$_GetUserSuccess>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(SettingModalState data) initial,
+    required TResult Function(SettingModalState data, int loadingType) loading,
+    required TResult Function(SettingModalState data) updateAppearanceSuccess,
+    required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
+  }) {
+    return getUserSuccess(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(SettingModalState data)? initial,
+    TResult? Function(SettingModalState data, int loadingType)? loading,
+    TResult? Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
+  }) {
+    return getUserSuccess?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(SettingModalState data)? initial,
+    TResult Function(SettingModalState data, int loadingType)? loading,
+    TResult Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (getUserSuccess != null) {
+      return getUserSuccess(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_UpdateAppearanceSuccess value)
+        updateAppearanceSuccess,
+    required TResult Function(_UpdateCurrenciesSuccess value)
+        updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
+  }) {
+    return getUserSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
+  }) {
+    return getUserSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (getUserSuccess != null) {
+      return getUserSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetUserSuccess extends SettingState {
+  const factory _GetUserSuccess({required final SettingModalState data}) =
+      _$_GetUserSuccess;
+  const _GetUserSuccess._() : super._();
+
+  @override
+  SettingModalState get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$_GetUserSuccessCopyWith<_$_GetUserSuccess> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_LogOutSuccessCopyWith<$Res>
+    implements $SettingStateCopyWith<$Res> {
+  factory _$$_LogOutSuccessCopyWith(
+          _$_LogOutSuccess value, $Res Function(_$_LogOutSuccess) then) =
+      __$$_LogOutSuccessCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({SettingModalState data});
+
+  @override
+  $SettingModalStateCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$_LogOutSuccessCopyWithImpl<$Res>
+    extends _$SettingStateCopyWithImpl<$Res, _$_LogOutSuccess>
+    implements _$$_LogOutSuccessCopyWith<$Res> {
+  __$$_LogOutSuccessCopyWithImpl(
+      _$_LogOutSuccess _value, $Res Function(_$_LogOutSuccess) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$_LogOutSuccess(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SettingModalState,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_LogOutSuccess extends _LogOutSuccess {
+  const _$_LogOutSuccess({required this.data}) : super._();
+
+  @override
+  final SettingModalState data;
+
+  @override
+  String toString() {
+    return 'SettingState.logOutSuccess(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_LogOutSuccess &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_LogOutSuccessCopyWith<_$_LogOutSuccess> get copyWith =>
+      __$$_LogOutSuccessCopyWithImpl<_$_LogOutSuccess>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(SettingModalState data) initial,
+    required TResult Function(SettingModalState data, int loadingType) loading,
+    required TResult Function(SettingModalState data) updateAppearanceSuccess,
+    required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
+  }) {
+    return logOutSuccess(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(SettingModalState data)? initial,
+    TResult? Function(SettingModalState data, int loadingType)? loading,
+    TResult? Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
+  }) {
+    return logOutSuccess?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(SettingModalState data)? initial,
+    TResult Function(SettingModalState data, int loadingType)? loading,
+    TResult Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (logOutSuccess != null) {
+      return logOutSuccess(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_UpdateAppearanceSuccess value)
+        updateAppearanceSuccess,
+    required TResult Function(_UpdateCurrenciesSuccess value)
+        updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
+  }) {
+    return logOutSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
+  }) {
+    return logOutSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (logOutSuccess != null) {
+      return logOutSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LogOutSuccess extends SettingState {
+  const factory _LogOutSuccess({required final SettingModalState data}) =
+      _$_LogOutSuccess;
+  const _LogOutSuccess._() : super._();
+
+  @override
+  SettingModalState get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$_LogOutSuccessCopyWith<_$_LogOutSuccess> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_GetUserFailedCopyWith<$Res>
+    implements $SettingStateCopyWith<$Res> {
+  factory _$$_GetUserFailedCopyWith(
+          _$_GetUserFailed value, $Res Function(_$_GetUserFailed) then) =
+      __$$_GetUserFailedCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({SettingModalState data, String message});
+
+  @override
+  $SettingModalStateCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$_GetUserFailedCopyWithImpl<$Res>
+    extends _$SettingStateCopyWithImpl<$Res, _$_GetUserFailed>
+    implements _$$_GetUserFailedCopyWith<$Res> {
+  __$$_GetUserFailedCopyWithImpl(
+      _$_GetUserFailed _value, $Res Function(_$_GetUserFailed) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? message = null,
+  }) {
+    return _then(_$_GetUserFailed(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SettingModalState,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_GetUserFailed extends _GetUserFailed {
+  const _$_GetUserFailed({required this.data, required this.message})
+      : super._();
+
+  @override
+  final SettingModalState data;
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'SettingState.getUserFailed(data: $data, message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_GetUserFailed &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, data, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_GetUserFailedCopyWith<_$_GetUserFailed> get copyWith =>
+      __$$_GetUserFailedCopyWithImpl<_$_GetUserFailed>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(SettingModalState data) initial,
+    required TResult Function(SettingModalState data, int loadingType) loading,
+    required TResult Function(SettingModalState data) updateAppearanceSuccess,
+    required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
+  }) {
+    return getUserFailed(data, message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(SettingModalState data)? initial,
+    TResult? Function(SettingModalState data, int loadingType)? loading,
+    TResult? Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
+  }) {
+    return getUserFailed?.call(data, message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(SettingModalState data)? initial,
+    TResult Function(SettingModalState data, int loadingType)? loading,
+    TResult Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (getUserFailed != null) {
+      return getUserFailed(data, message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_UpdateAppearanceSuccess value)
+        updateAppearanceSuccess,
+    required TResult Function(_UpdateCurrenciesSuccess value)
+        updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
+  }) {
+    return getUserFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
+  }) {
+    return getUserFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
+    required TResult orElse(),
+  }) {
+    if (getUserFailed != null) {
+      return getUserFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetUserFailed extends SettingState {
+  const factory _GetUserFailed(
+      {required final SettingModalState data,
+      required final String message}) = _$_GetUserFailed;
+  const _GetUserFailed._() : super._();
+
+  @override
+  SettingModalState get data;
+  String get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$_GetUserFailedCopyWith<_$_GetUserFailed> get copyWith =>
+      throw _privateConstructorUsedError;
 }

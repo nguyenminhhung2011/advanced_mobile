@@ -15,4 +15,23 @@ class SettingState with _$SettingState {
 
   const factory SettingState.updateCurrenciesSuccess(
       {required SettingModalState data}) = _UpdateCurrenciesSuccess;
+
+  const factory SettingState.updateLangCodeSuccess(
+      {required SettingModalState data}) = _UpdateLangCodeSuccess;
+
+  const factory SettingState.getUserSuccess({
+    required SettingModalState data,
+  }) = _GetUserSuccess;
+
+  const factory SettingState.logOutSuccess({
+    required SettingModalState data,
+  }) = _LogOutSuccess;
+
+  const factory SettingState.getUserFailed({
+    required SettingModalState data,
+    required String message,
+  }) = _GetUserFailed;
+
+  bool get isLoading => maybeWhen(
+      orElse: () => false, loading: (_, loadingType) => loadingType == 0);
 }

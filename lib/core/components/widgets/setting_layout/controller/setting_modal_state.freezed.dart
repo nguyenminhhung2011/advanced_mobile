@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SettingModalState {
   Appearance get appearance => throw _privateConstructorUsedError;
   Currencies get currencies => throw _privateConstructorUsedError;
+  String get langCode => throw _privateConstructorUsedError;
+  Locale get currentLocale => throw _privateConstructorUsedError;
   User? get currentUser => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +33,12 @@ abstract class $SettingModalStateCopyWith<$Res> {
           SettingModalState value, $Res Function(SettingModalState) then) =
       _$SettingModalStateCopyWithImpl<$Res, SettingModalState>;
   @useResult
-  $Res call({Appearance appearance, Currencies currencies, User? currentUser});
+  $Res call(
+      {Appearance appearance,
+      Currencies currencies,
+      String langCode,
+      Locale currentLocale,
+      User? currentUser});
 
   $UserCopyWith<$Res>? get currentUser;
 }
@@ -51,6 +58,8 @@ class _$SettingModalStateCopyWithImpl<$Res, $Val extends SettingModalState>
   $Res call({
     Object? appearance = null,
     Object? currencies = null,
+    Object? langCode = null,
+    Object? currentLocale = null,
     Object? currentUser = freezed,
   }) {
     return _then(_value.copyWith(
@@ -62,6 +71,14 @@ class _$SettingModalStateCopyWithImpl<$Res, $Val extends SettingModalState>
           ? _value.currencies
           : currencies // ignore: cast_nullable_to_non_nullable
               as Currencies,
+      langCode: null == langCode
+          ? _value.langCode
+          : langCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentLocale: null == currentLocale
+          ? _value.currentLocale
+          : currentLocale // ignore: cast_nullable_to_non_nullable
+              as Locale,
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
@@ -90,7 +107,12 @@ abstract class _$$_SettingModalStateCopyWith<$Res>
       __$$_SettingModalStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Appearance appearance, Currencies currencies, User? currentUser});
+  $Res call(
+      {Appearance appearance,
+      Currencies currencies,
+      String langCode,
+      Locale currentLocale,
+      User? currentUser});
 
   @override
   $UserCopyWith<$Res>? get currentUser;
@@ -109,6 +131,8 @@ class __$$_SettingModalStateCopyWithImpl<$Res>
   $Res call({
     Object? appearance = null,
     Object? currencies = null,
+    Object? langCode = null,
+    Object? currentLocale = null,
     Object? currentUser = freezed,
   }) {
     return _then(_$_SettingModalState(
@@ -120,6 +144,14 @@ class __$$_SettingModalStateCopyWithImpl<$Res>
           ? _value.currencies
           : currencies // ignore: cast_nullable_to_non_nullable
               as Currencies,
+      langCode: null == langCode
+          ? _value.langCode
+          : langCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      currentLocale: null == currentLocale
+          ? _value.currentLocale
+          : currentLocale // ignore: cast_nullable_to_non_nullable
+              as Locale,
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
@@ -134,6 +166,8 @@ class _$_SettingModalState implements _SettingModalState {
   const _$_SettingModalState(
       {this.appearance = Appearance.light,
       this.currencies = Currencies.usd,
+      this.langCode = 'en',
+      this.currentLocale = const Locale('en', ''),
       this.currentUser});
 
   @override
@@ -143,11 +177,17 @@ class _$_SettingModalState implements _SettingModalState {
   @JsonKey()
   final Currencies currencies;
   @override
+  @JsonKey()
+  final String langCode;
+  @override
+  @JsonKey()
+  final Locale currentLocale;
+  @override
   final User? currentUser;
 
   @override
   String toString() {
-    return 'SettingModalState(appearance: $appearance, currencies: $currencies, currentUser: $currentUser)';
+    return 'SettingModalState(appearance: $appearance, currencies: $currencies, langCode: $langCode, currentLocale: $currentLocale, currentUser: $currentUser)';
   }
 
   @override
@@ -159,13 +199,17 @@ class _$_SettingModalState implements _SettingModalState {
                 other.appearance == appearance) &&
             (identical(other.currencies, currencies) ||
                 other.currencies == currencies) &&
+            (identical(other.langCode, langCode) ||
+                other.langCode == langCode) &&
+            (identical(other.currentLocale, currentLocale) ||
+                other.currentLocale == currentLocale) &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, appearance, currencies, currentUser);
+  int get hashCode => Object.hash(runtimeType, appearance, currencies, langCode,
+      currentLocale, currentUser);
 
   @JsonKey(ignore: true)
   @override
@@ -179,12 +223,18 @@ abstract class _SettingModalState implements SettingModalState {
   const factory _SettingModalState(
       {final Appearance appearance,
       final Currencies currencies,
+      final String langCode,
+      final Locale currentLocale,
       final User? currentUser}) = _$_SettingModalState;
 
   @override
   Appearance get appearance;
   @override
   Currencies get currencies;
+  @override
+  String get langCode;
+  @override
+  Locale get currentLocale;
   @override
   User? get currentUser;
   @override

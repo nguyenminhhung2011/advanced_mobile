@@ -18,9 +18,9 @@ import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/widgets/banner/banner_slider.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
-import '../../../../core/components/widgets/search_layout/header_search/header_search.dart';
-import '../../../../core/components/widgets/search_layout/model/filter_model.dart';
-import '../../../../core/components/widgets/search_layout/views/search_layou.dart';
+import '../../../../core/components/layout/search_layout/header_search/header_search.dart';
+import '../../../../core/components/layout/search_layout/model/filter_model.dart';
+import '../../../../core/components/layout/search_layout/views/search_layou.dart';
 import '../../../../core/components/widgets/tab_bar/tab_bar_type.dart';
 import '../../../../core/components/widgets/tab_bar/tabbar_custom.dart';
 

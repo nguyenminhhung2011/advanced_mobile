@@ -5,6 +5,7 @@ import '../layout/setting_layout.dart';
 
 class SettingConfig {
   String? behindBackground;
+  String? popUpRoute;
   Color? appBarColor;
   SettingLayout settingLayout = SettingLayout.view1;
   bool enableUser = true;
@@ -16,6 +17,7 @@ class SettingConfig {
   SettingConfig({
     this.appBarColor,
     this.behindBackground,
+    this.popUpRoute,
     this.enableUser = false,
     this.elevationCard = 0.3,
     this.shadowElevation = 0.2,
@@ -42,5 +44,6 @@ class SettingConfig {
     );
     shadowElevation = data['shadow_elevation'] ?? 0.2;
     elevationCard = data['elevation_card'] ?? 0.3;
+    popUpRoute = data['pop_up_route'] ?? '';
   }
 }

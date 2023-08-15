@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 
 import 'core/components/widgets/range_date_picker_custom.dart';
-import 'core/components/widgets/search_layout/header_search/model_bottom_sheet.dart';
-import 'core/components/widgets/search_layout/model/filter_model.dart';
-import 'core/components/widgets/search_layout/model/filter_response.dart';
+import 'core/components/layout/search_layout/header_search/model_bottom_sheet.dart';
+import 'core/components/layout/search_layout/model/filter_model.dart';
+import 'core/components/layout/search_layout/model/filter_response.dart';
+import 'core/components/widgets/setting_layout/views/language_choose.dart';
 
 extension AppCoordinator<T> on BuildContext {
   void pop() => Navigator.of(this).pop();
@@ -80,6 +81,24 @@ extension AppCoordinator<T> on BuildContext {
       return data;
     }
     return List<FilterResponse>.empty();
+  }
+
+  Future<String> langBottom() async {
+    final data = await showModalBottomSheet(
+      context: this,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
+      ),
+      backgroundColor: Theme.of(this).scaffoldBackgroundColor,
+      builder: (context) {
+        return const LangCodeShows();
+      },
+    );
+    if (data is String) {
+      return data;
+    }
+    return '';
   }
 
   Future<List<DateTime>?> pickWeekRange(

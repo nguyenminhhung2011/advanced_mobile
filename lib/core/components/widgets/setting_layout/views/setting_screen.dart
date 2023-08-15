@@ -1,27 +1,25 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:collection/collection.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/avartat_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/config/setting_config.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/layout/setting_layout.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/utils/setting_utils.dart';
 import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../clean_architectures/domain/entities/user/user.dart';
 import '../controller/setting_bloc.dart';
 
-typedef GetUserData = Future<User?> Function();
-
 class SettingScreen extends StatefulWidget {
   final SettingConfig settingConfig;
-  final GetUserData? getUserCall;
   const SettingScreen({
     super.key,
-    this.getUserCall,
     required this.settingConfig,
   });
 
@@ -54,7 +52,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   void initState() {
-    _settingController.add(const SettingEvent.started());
+    _settingController.add(const SettingEvent.getUserInfo());
     super.initState();
   }
 
@@ -63,20 +61,37 @@ class _SettingScreenState extends State<SettingScreen> {
     super.dispose();
   }
 
-  void _langeChange() {}
-  void _currenciedChange({required Currencies currencies}) => _settingController
-      .add(SettingEvent.updateCurrencies(currencies: currencies));
-  void _appearanceChange() {
-    _settingController.add(const SettingEvent.updateAppearance());
-    if (_appearance.isDark) {
-      AdaptiveTheme.of(context).setDark();
-    } else {
-      AdaptiveTheme.of(context).setLight();
+  void _langChange() async {
+    final lang = await context.langBottom();
+    if (lang.isNotEmpty) {
+      _settingController.add(SettingEvent.updateLangCode(langCode: lang));
     }
   }
 
+  void _currenciedChange({required Currencies currencies}) => _settingController
+      .add(SettingEvent.updateCurrencies(currencies: currencies));
+
+  void _appearanceChange() {
+    _settingController.add(const SettingEvent.updateAppearance());
+  }
+
   void _listenStateChange(_, SettingState state) {
-    state.maybeWhen(orElse: () {});
+    state.maybeWhen(
+      orElse: () {},
+      logOutSuccess: (_) {
+        final popUpRoutes = widget.settingConfig.popUpRoute;
+        if (popUpRoutes?.isNotEmpty ?? false) {
+          context.popUntil(popUpRoutes!);
+        }
+      },
+      updateAppearanceSuccess: (data) {
+        if (_appearance.isDark) {
+          AdaptiveTheme.of(context).setDark();
+        } else {
+          AdaptiveTheme.of(context).setLight();
+        }
+      },
+    );
   }
 
   @override
@@ -86,6 +101,13 @@ class _SettingScreenState extends State<SettingScreen> {
     return BlocConsumer<SettingBloc, SettingState>(
       listener: _listenStateChange,
       builder: (context, state) {
+        if (state.isLoading) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
+          );
+        }
         return Scaffold(
           backgroundColor: _backgroundColor,
           body: switch (_layout) {
@@ -152,6 +174,8 @@ class _SettingScreenState extends State<SettingScreen> {
             }
             final icon = index == 0
                 ? AvatarWidget(
+                    width: 40.0,
+                    height: 40.0,
                     imageUrl:
                         _currentUser?.photoUrl ?? ImageConst.baseImageView,
                   )
@@ -163,21 +187,26 @@ class _SettingScreenState extends State<SettingScreen> {
                     },
                     size: 24.0);
             return Card(
+              margin: EdgeInsets.symmetric(horizontal: _padding.horizontal / 2),
               color: _backgroundColor,
               elevation: 0,
               child: ListTile(
-                onTap: () {},
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+                onTap: index == 0 ? () {} : null,
                 leading: icon,
                 title: Text(text),
-                trailing: _forwardIcon,
+                trailing: null,
               ),
             );
           },
         ),
       ],
       Card(
-        color: _backgroundColor,
-        elevation: 0,
+        margin: EdgeInsets.symmetric(
+            horizontal: _padding.horizontal / 2, vertical: 2.0),
+        color: Theme.of(context).cardColor,
+        elevation: 0.3,
         child: ListTile(
           onTap: () {},
           leading: Icon(logIcon),
@@ -238,13 +267,19 @@ class _SettingScreenState extends State<SettingScreen> {
         }
       case 'lang':
         {
-          onPress = () {};
+          onPress = _langChange;
           icon = Icons.language;
           titleWidget = Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(S.of(context).languages, style: headTitleStyle),
-              Text('English', style: subTitleStyle),
+              Text(
+                SettingUtils.locals
+                    .firstWhere(
+                        (e) => _settingController.data.langCode == e.langCode)
+                    .name,
+                style: subTitleStyle,
+              ),
             ],
           );
         }
