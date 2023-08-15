@@ -12,3 +12,6 @@
 |🐼Tree view|[🐼 New widget tree view ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/9)|
 |🐼Search layout|[🐼 Search layout ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/10)|
 
+Note 
+
+Flutter Isolate. RxDart
