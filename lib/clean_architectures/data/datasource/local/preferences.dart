@@ -22,6 +22,7 @@ class CommonAppSettingPref {
   static const String _domain = 'domain';
   static const String _branch = 'branch';
   static const String _userId = 'userId';
+  static const String _passCode = 'passCode';
 
   static const String _securePassword = 'secretAppKey';
   static const String _biometricLogin = 'biometricLogin';
@@ -92,6 +93,14 @@ class CommonAppSettingPref {
 
   static Future<bool> setRefreshToken(String value) {
     return Preferences.setString(_refreshToken, value);
+  }
+
+  static String getPassCode() {
+    return Preferences.getString(_passCode) ?? '';
+  }
+
+  static Future<bool> setPassCode(String value) {
+    return Preferences.setString(_passCode, value);
   }
 
   static String getRefreshToken() {

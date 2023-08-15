@@ -179,7 +179,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           .map((e) => _renderItem(value: e))
                           .expand((e) => [e, const SizedBox(height: 3.0)])
                           .toList()
-                        ..removeLast()
+                        ..removeLast(),
                     ],
                   ),
                 ),
@@ -216,7 +216,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         .map((e) => _renderItem(value: e))
                         .expand((e) => [e, const SizedBox(height: 3.0)])
                         .toList()
-                      ..removeLast()
+                      ..removeLast(),
                   ],
                 ),
               ),
@@ -297,6 +297,7 @@ class _SettingScreenState extends State<SettingScreen> {
       pinned: true,
       expandedHeight: 150,
       flexibleSpace: FlexibleSpaceBar(
+        expandedTitleScale: 1.5,
         title: Text(
           S.of(context).settings,
           style: context.titleMedium.copyWith(
