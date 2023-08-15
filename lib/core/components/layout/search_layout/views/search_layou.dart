@@ -2,14 +2,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/header_search/header_search.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/filter_response.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/search_layout/model/search_utils.dart';
 import 'package:provider/provider.dart';
 import '../controller/search_controller.dart';
+import '../header_search/header_search.dart';
 import '../model/filter_model.dart';
+import '../model/filter_response.dart';
+import '../model/search_utils.dart';
 
 typedef SearchCall<T> = Future<List<T>> Function(
     String value, List<FilterResponse> filter, int currentPage);
@@ -71,9 +71,9 @@ class SearchLayout<T> extends StatefulWidget {
 
 class _SearchLayoutState<T> extends State<SearchLayout<T>>
     with SingleTickerProviderStateMixin {
-  late SearchLayoutController<T> _searchController;
   late PaginationNotifier<T> _paginationNotifier;
   late TextEditingController _searchTextController;
+  late SearchLayoutController<T> _searchController;
 
   //Data
 
@@ -137,7 +137,7 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
     _searchController.dispose();
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -384,5 +384,9 @@ class _SearchLayoutState<T> extends State<SearchLayout<T>>
         ),
       ),
     );
+  }
+
+  Widget _renderItem() {
+    return const SizedBox();
   }
 }

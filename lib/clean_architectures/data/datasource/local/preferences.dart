@@ -8,6 +8,8 @@ class CommonAppSettingPref {
   static const String _expiredTime = "_expiredTime";
 
   static const String _language = "language";
+  static const String _currency = "currency";
+  static const String _appearance = "appearance";
   static const String _theme = "theme";
   static const String _darkOption = "darkOption";
   static const String _font = "font";
@@ -164,6 +166,22 @@ class CommonAppSettingPref {
 
   static String? getLanguage() {
     return Preferences.getString(_language);
+  }
+
+  static Future<bool> setCurrency(String currencyName) {
+    return Preferences.setString(_currency, currencyName);
+  }
+
+  static String? getCurrency() {
+    return Preferences.getString(_currency);
+  }
+
+  static Future<bool> setAppearance(String appearanceName) {
+    return Preferences.setString(_appearance, appearanceName);
+  }
+
+  static String? getAppearance() {
+    return Preferences.getString(_appearance);
   }
 
   static Future<bool> setDarkOptions(String darkOption) {

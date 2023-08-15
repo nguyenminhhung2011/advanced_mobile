@@ -10,19 +10,19 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/category
 import 'package:flutter_base_clean_architecture/core/components/widgets/expansion_panel_list/expansion_panel_list.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_stack_view/image_stac_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/popup_button_custom.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/config/setting_config.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/views/setting_screen.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/tree_view.dart';
 import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/widgets/banner/banner_slider.dart';
 import '../../../../core/components/widgets/category/category_custom.dart';
 import '../../../../core/components/widgets/category/category_type.dart';
-import '../../../../core/components/widgets/search_layout/header_search/header_search.dart';
-import '../../../../core/components/widgets/search_layout/model/filter_model.dart';
-import '../../../../core/components/widgets/search_layout/views/search_layou.dart';
+import '../../../../core/components/layout/search_layout/header_search/header_search.dart';
+import '../../../../core/components/layout/search_layout/model/filter_model.dart';
+import '../../../../core/components/layout/search_layout/views/search_layou.dart';
 import '../../../../core/components/widgets/tab_bar/tab_bar_type.dart';
 import '../../../../core/components/widgets/tab_bar/tabbar_custom.dart';
-import '../../../../generated/l10n.dart';
 
 class ModelTest {
   final String userName;
@@ -69,7 +69,7 @@ class _TestUiState extends State<TestUi> {
     TabBarModel(
       svgAsset: ImageConst.personIcon,
       title: 'Profile',
-      screen: const PageTest5(),
+      screen: const PageTest6(),
     )
   ];
 
@@ -110,6 +110,34 @@ class _TestUiState extends State<TestUi> {
           );
         },
       ),
+    );
+  }
+}
+
+class PageTest6 extends StatelessWidget {
+  const PageTest6({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SettingScreen(
+      settingConfig: SettingConfig.fromJson({
+        'enable_user': true,
+        'setting_layout': 'view1',
+        'app_bar_color': '07AEAF',
+        'hPadding': 10.0,
+        'vPadding': 10.0,
+        'shadow_elevation': 0.2,
+        'behindBackground':
+            'https://wallpapers.com/images/featured/panda-background-ymceqx76sixgb2ni.jpg',
+        'list_view': [
+          'security',
+          'lang',
+          'currencies',
+          'appearance',
+          'notifications',
+          'about',
+        ],
+      }),
     );
   }
 }
