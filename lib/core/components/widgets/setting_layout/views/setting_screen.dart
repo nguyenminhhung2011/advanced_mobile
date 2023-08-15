@@ -112,10 +112,82 @@ class _SettingScreenState extends State<SettingScreen> {
           backgroundColor: _backgroundColor,
           body: switch (_layout) {
             SettingLayout.view1 => _view1(),
-            _ => const SizedBox()
+            _ => _view2()
           },
         );
       },
+    );
+  }
+
+  Widget _view2() {
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Stack(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: context.heightDevice * 0.3,
+            child: GradientImage(
+              image: _behindImage,
+              shadowElevation: _shadowElevation,
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                const SizedBox(height: 100),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(5.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 15.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Theme.of(context).cardColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context).shadowColor.withOpacity(0.4),
+                        blurRadius: 5.0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [..._renderUserField],
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(5.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 15.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Theme.of(context).cardColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context).shadowColor.withOpacity(0.4),
+                        blurRadius: 5.0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      ..._items
+                          .map((e) => _renderItem(value: e))
+                          .expand((e) => [e, const SizedBox(height: 3.0)])
+                          .toList()
+                        ..removeLast()
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -188,7 +260,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     size: 24.0);
             return Card(
               margin: EdgeInsets.symmetric(horizontal: _padding.horizontal / 2),
-              color: _backgroundColor,
+              color: Colors.transparent,
               elevation: 0,
               child: ListTile(
                 contentPadding:
@@ -362,11 +434,13 @@ class GradientImage extends StatelessWidget {
     super.key,
     required String image,
     required double shadowElevation,
+    this.height,
   })  : _image = image,
         _shadowElevation = shadowElevation;
 
   final String _image;
   final double _shadowElevation;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -374,7 +448,7 @@ class GradientImage extends StatelessWidget {
       children: [
         SizedBox(
           width: double.infinity,
-          height: double.infinity,
+          height: height ?? double.infinity,
           child: ImageCustom(imageUrl: _image, isNetworkImage: true),
         ),
         Container(
