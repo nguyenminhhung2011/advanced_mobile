@@ -11,7 +11,7 @@
 |🐼Expansion panel list and image stack view|[🐼 Expansion panel list + image stack view](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/8)|
 |🐼Tree view|[🐼 New widget tree view ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/9)|
 |🐼Search layout|[🐼 Search layout ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/10)|
-
+|🐼Setting layout|[🐼 UI/Setting layout ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/11)|
 Note 
 
 Flutter Isolate. RxDart
