@@ -7,7 +7,7 @@ import 'package:flutter_base_clean_architecture/core/components/constant/image_c
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/avartat_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/config/setting_config.dart';
+import 'package:flutter_base_clean_architecture/core/components/config/setting_config.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/layout/setting_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/utils/setting_utils.dart';
 import 'package:flutter_base_clean_architecture/generated/l10n.dart';
