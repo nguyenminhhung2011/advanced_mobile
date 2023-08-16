@@ -150,6 +150,12 @@ class _PassCodeScreenState extends State<PassCodeScreen> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Theme.of(context).cardColor,
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).shadowColor.withOpacity(0.3),
+            blurRadius: 5.0,
+          )
+        ],
       ),
       child: Center(
         child: Text(
