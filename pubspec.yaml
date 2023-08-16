@@ -123,6 +123,7 @@ dependencies:
   expansion_widget: ^0.0.3
   carousel_slider: ^4.2.1
   diffutil_dart: ^4.0.0
+  flutter_isolate: ^2.0.4
   # table_calendar: ^3.0.8
   # readmore: ^2.2.0
 

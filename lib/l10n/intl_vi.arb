@@ -15,5 +15,7 @@
     "lockAndSecurity": "Khóa và Bảo mật",
     "generalSettings": "Cài đặt chung",
     "byPrice": "Theo giá",
+    "enterCode": "Nhâp mã",
+    "errorCode": "Mã lỗi",
     "about": "Về chúng tôi"
 }

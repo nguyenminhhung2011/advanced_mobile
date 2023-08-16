@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Code and fingerprint"),
         "currencies": MessageLookupByLibrary.simpleMessage("Currencies"),
         "darkTheme": MessageLookupByLibrary.simpleMessage("Dark theme"),
+        "enterCode": MessageLookupByLibrary.simpleMessage("Enter code"),
+        "errorCode": MessageLookupByLibrary.simpleMessage("Error code"),
         "generalSettings":
             MessageLookupByLibrary.simpleMessage("General settings"),
         "languages": MessageLookupByLibrary.simpleMessage("Languages"),

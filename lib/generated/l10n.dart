@@ -210,6 +210,26 @@ class S {
     );
   }
 
+  /// `Enter code`
+  String get enterCode {
+    return Intl.message(
+      'Enter code',
+      name: 'enterCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error code`
+  String get errorCode {
+    return Intl.message(
+      'Error code',
+      name: 'errorCode',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `About`
   String get about {
     return Intl.message(

@@ -64,7 +64,7 @@ class _TestUiState extends State<TestUi> {
     TabBarModel(
       svgAsset: ImageConst.documentIcon,
       title: 'Favorite',
-      screen: const PageTest3(),
+      screen: const PageTest5(),
     ),
     TabBarModel(
       svgAsset: ImageConst.personIcon,

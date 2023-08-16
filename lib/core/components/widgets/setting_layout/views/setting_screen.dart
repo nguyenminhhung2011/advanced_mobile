@@ -11,6 +11,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/setting_
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/layout/setting_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/utils/setting_utils.dart';
 import 'package:flutter_base_clean_architecture/generated/l10n.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../clean_architectures/domain/entities/user/user.dart';
@@ -75,9 +76,25 @@ class _SettingScreenState extends State<SettingScreen> {
     _settingController.add(const SettingEvent.updateAppearance());
   }
 
+  void _onSecurityChange(bool value) async {
+    final passCodeChange =
+        await context.openPageWithRouteAndParams(Routes.passCode, '');
+    if (passCodeChange is String && (passCodeChange.isNotEmpty)) {
+      if (value) {
+        _settingController.add(
+          SettingEvent.updatePassCode(newPassCode: passCodeChange),
+        );
+      } else {
+        _settingController.add(const SettingEvent.removePassCoe());
+      }
+    }
+  }
+
   void _listenStateChange(_, SettingState state) {
     state.maybeWhen(
-      orElse: () {},
+      orElse: () {
+        // do nothing
+      },
       logOutSuccess: (_) {
         final popUpRoutes = widget.settingConfig.popUpRoute;
         if (popUpRoutes?.isNotEmpty ?? false) {
@@ -179,7 +196,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           .map((e) => _renderItem(value: e))
                           .expand((e) => [e, const SizedBox(height: 3.0)])
                           .toList()
-                        ..removeLast()
+                        ..removeLast(),
                     ],
                   ),
                 ),
@@ -216,7 +233,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         .map((e) => _renderItem(value: e))
                         .expand((e) => [e, const SizedBox(height: 3.0)])
                         .toList()
-                      ..removeLast()
+                      ..removeLast(),
                   ],
                 ),
               ),
@@ -297,6 +314,7 @@ class _SettingScreenState extends State<SettingScreen> {
       pinned: true,
       expandedHeight: 150,
       flexibleSpace: FlexibleSpaceBar(
+        expandedTitleScale: 1.5,
         title: Text(
           S.of(context).settings,
           style: context.titleMedium.copyWith(
@@ -379,7 +397,6 @@ class _SettingScreenState extends State<SettingScreen> {
         }
       case 'security':
         {
-          onPress = () {};
           titleWidget = Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -387,6 +404,11 @@ class _SettingScreenState extends State<SettingScreen> {
               Text(S.of(context).lockAndSecurity, style: headTitleStyle),
               Text(S.of(context).codeAndFingerPrints, style: subTitleStyle),
             ],
+          );
+          trailing = Switch(
+            value: _settingController.data.passCode.isNotEmpty,
+            onChanged: _onSecurityChange,
+            activeColor: Theme.of(context).primaryColor,
           );
           icon = Icons.security;
         }
