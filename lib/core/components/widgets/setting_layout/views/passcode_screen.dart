@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 
 class PassCodeScreen extends StatefulWidget {
   final String? routes;
-  final String? passCode;
-  const PassCodeScreen({super.key, this.routes, this.passCode});
+  const PassCodeScreen({super.key, this.routes});
 
   @override
   State<PassCodeScreen> createState() => _PassCodeScreenState();
@@ -15,16 +16,16 @@ class PassCodeScreen extends StatefulWidget {
 class _PassCodeScreenState extends State<PassCodeScreen> {
   // style
   final List<String> input = Constant.boardNumber;
-
-  final List<String> _passCodeConfirm = List<String>.empty();
+  final List<String> _passCodeConfirm = List<String>.empty(growable: true);
   Color get _backgroundColor => Theme.of(context).scaffoldBackgroundColor;
   Color get _primaryColor => Theme.of(context).primaryColor;
-  bool isWrong = false;
+  bool _isWrong = false;
+  String? _passCode;
 
   void _onTapButton(int index) {
-    if (isWrong) {
+    if (_isWrong) {
       setState(() {
-        isWrong = false;
+        _isWrong = false;
       });
     }
     if (index == 11) {
@@ -36,6 +37,9 @@ class _PassCodeScreenState extends State<PassCodeScreen> {
   }
 
   void _addPassCode(String charCode) {
+    if (_passCodeConfirm.length >= 4) {
+      return;
+    }
     setState(() {
       _passCodeConfirm.add(charCode);
     });
@@ -57,19 +61,27 @@ class _PassCodeScreenState extends State<PassCodeScreen> {
         .fold('', (previousValue, element) => previousValue += element)
         .trim()
         .toLowerCase();
-    if (widget.passCode?.isNotEmpty ?? false) {
-      if (result == widget.passCode) {
+    if (_passCode?.isNotEmpty ?? false) {
+      if (result == _passCode) {
         if (widget.routes?.isNotEmpty ?? false) {
           context.openListPageWithRoute(widget.routes!);
+        } else {
+          context.popArgs(result);
         }
       } else {
         setState(() {
-          isWrong = true;
+          _isWrong = true;
         });
       }
     } else {
       context.popArgs(result);
     }
+  }
+
+  @override
+  void initState() {
+    _passCode = CommonAppSettingPref.getPassCode();
+    super.initState();
   }
 
   @override
@@ -80,33 +92,26 @@ class _PassCodeScreenState extends State<PassCodeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: context.heightDevice * 0.1),
+          SizedBox(height: context.heightDevice * 0.2),
           Text(
-            'Enter Code',
+            S.of(context).enterCode,
             textAlign: TextAlign.center,
-            style: context.titleMedium,
+            style: context.titleLarge.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _passCodeConfirm.map((e) {
-              if (e.isEmpty) {
-                return _buildUnActiveBox();
-              }
-              return _buildActiveBox();
-            }).toList(),
-          ),
-          if (isWrong) ...[
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(4, (index) {
+                return _buildActiveBox(index < _passCodeConfirm.length);
+              })),
+          if (_isWrong) ...[
             const SizedBox(height: 10),
             Text(
-              'AppLocalizations.of(context)!.zpinNotMatch',
-              style: context.titleMedium.copyWith(
-                fontWeight: FontWeight.w600,
-                color: _primaryColor,
-              ),
+              S.of(context).errorCode,
+              style: context.titleMedium
+                  .copyWith(fontWeight: FontWeight.w600, color: Colors.red),
             ),
           ],
-          SizedBox(height: context.heightDevice * 0.1),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -150,7 +155,8 @@ class _PassCodeScreenState extends State<PassCodeScreen> {
         child: Text(
           s,
           style: color != null
-              ? context.titleMedium.copyWith(color: color)
+              ? context.titleMedium
+                  .copyWith(color: color, fontWeight: FontWeight.w700)
               : context.titleMedium.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -159,27 +165,20 @@ class _PassCodeScreenState extends State<PassCodeScreen> {
     );
   }
 
-  Container _buildActiveBox() {
+  Container _buildActiveBox(bool isActive) {
+    final dotColor = _isWrong
+        ? Colors.red
+        : isActive
+            ? _primaryColor
+            : Colors.transparent;
     return Container(
       width: 20,
       height: 20,
       margin: const EdgeInsets.only(left: 10),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: _primaryColor,
-      ),
-    );
-  }
-
-  Container _buildUnActiveBox() {
-    return Container(
-      width: 20,
-      height: 20,
-      margin: const EdgeInsets.only(left: 10),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: _primaryColor,
-        border: Border.all(color: context.titleLarge.color!),
+        color: dotColor,
+        border: Border.all(color: _isWrong ? Colors.red : _primaryColor),
       ),
     );
   }

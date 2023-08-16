@@ -48,7 +48,9 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     on<_UpdateCurrencies>(_onUpdateCurrencies);
     on<_GetUserInfo>(_onGetUserInfo);
     on<_UpdateLangCode>(_onUpdateLangCode);
+    on<_UpdatePassCode>(_onUpdatePassCode);
     on<_LogOut>(_onLogOut);
+    on<_RemovePassCode>(_onRemovePassCode);
   }
 
   FutureOr<void> _onStarted(
@@ -57,12 +59,14 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   ) {
     String appearance = _settingUseCase.appearance ?? 'l';
     String langCode = _settingUseCase.languageCode ?? 'vi';
+    String passCode = _settingUseCase.passCode ?? '';
     emit(_Initial(
       data: data.copyWith(
-        appearance: Appearance.fromText(appearance),
-        langCode: langCode,
+        appearance: Appearance.fromText(appearance.toLowerCase()),
+        langCode: langCode.toLowerCase(),
         currentLocale: S.delegate.supportedLocales
             .firstWhere((e) => e.languageCode == langCode),
+        passCode: passCode.toLowerCase(),
       ),
     ));
   }
@@ -83,6 +87,31 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
           appearance: data.appearance.diffAppearance,
         ),
       ));
+    }
+  }
+
+  FutureOr<void> _onUpdatePassCode(
+    _UpdatePassCode event,
+    Emitter<SettingState> emit,
+  ) async {
+    final passCodeSet =
+        await _settingUseCase.setPassCode(newPassCode: event.newPassCode);
+    if (passCodeSet ?? false) {
+      emit(_UpdatePassCodeSuccess(
+        data: data.copyWith(
+          passCode: event.newPassCode,
+        ),
+      ));
+    }
+  }
+
+  FutureOr<void> _onRemovePassCode(
+    _RemovePassCode event,
+    Emitter<SettingState> emit,
+  ) {
+    if (data.passCode.isNotEmpty) {
+      _settingUseCase.removePassCode();
+      emit(_RemovePassCodeSuccess(data: data.copyWith(passCode: '')));
     }
   }
 

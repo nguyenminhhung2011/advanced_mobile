@@ -15,5 +15,7 @@
     "lockAndSecurity": "Lock and Security",
     "generalSettings": "General settings",
     "byPrice": "By Price",
+    "enterCode": "Enter code",
+    "errorCode": "Error code",
     "about": "About"
 }

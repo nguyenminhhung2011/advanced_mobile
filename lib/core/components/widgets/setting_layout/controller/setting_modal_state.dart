@@ -12,6 +12,7 @@ class SettingModalState with _$SettingModalState {
     @Default(Currencies.usd) Currencies currencies,
     @Default('en') String langCode,
     @Default(Locale('en', '')) Locale currentLocale,
+    @Default('') String passCode,
     User? currentUser,
   }) = _SettingModalState;
 }

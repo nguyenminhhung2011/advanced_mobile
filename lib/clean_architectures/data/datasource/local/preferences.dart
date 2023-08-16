@@ -103,6 +103,10 @@ class CommonAppSettingPref {
     return Preferences.setString(_passCode, value);
   }
 
+  static void removePassCode() {
+    Preferences.remove(_passCode);
+  }
+
   static String getRefreshToken() {
     return Preferences.getString(_refreshToken) ?? '';
   }

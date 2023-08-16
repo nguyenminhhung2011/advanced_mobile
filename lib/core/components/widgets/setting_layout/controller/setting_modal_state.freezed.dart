@@ -20,6 +20,7 @@ mixin _$SettingModalState {
   Currencies get currencies => throw _privateConstructorUsedError;
   String get langCode => throw _privateConstructorUsedError;
   Locale get currentLocale => throw _privateConstructorUsedError;
+  String get passCode => throw _privateConstructorUsedError;
   User? get currentUser => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -38,6 +39,7 @@ abstract class $SettingModalStateCopyWith<$Res> {
       Currencies currencies,
       String langCode,
       Locale currentLocale,
+      String passCode,
       User? currentUser});
 
   $UserCopyWith<$Res>? get currentUser;
@@ -60,6 +62,7 @@ class _$SettingModalStateCopyWithImpl<$Res, $Val extends SettingModalState>
     Object? currencies = null,
     Object? langCode = null,
     Object? currentLocale = null,
+    Object? passCode = null,
     Object? currentUser = freezed,
   }) {
     return _then(_value.copyWith(
@@ -79,6 +82,10 @@ class _$SettingModalStateCopyWithImpl<$Res, $Val extends SettingModalState>
           ? _value.currentLocale
           : currentLocale // ignore: cast_nullable_to_non_nullable
               as Locale,
+      passCode: null == passCode
+          ? _value.passCode
+          : passCode // ignore: cast_nullable_to_non_nullable
+              as String,
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
@@ -112,6 +119,7 @@ abstract class _$$_SettingModalStateCopyWith<$Res>
       Currencies currencies,
       String langCode,
       Locale currentLocale,
+      String passCode,
       User? currentUser});
 
   @override
@@ -133,6 +141,7 @@ class __$$_SettingModalStateCopyWithImpl<$Res>
     Object? currencies = null,
     Object? langCode = null,
     Object? currentLocale = null,
+    Object? passCode = null,
     Object? currentUser = freezed,
   }) {
     return _then(_$_SettingModalState(
@@ -152,6 +161,10 @@ class __$$_SettingModalStateCopyWithImpl<$Res>
           ? _value.currentLocale
           : currentLocale // ignore: cast_nullable_to_non_nullable
               as Locale,
+      passCode: null == passCode
+          ? _value.passCode
+          : passCode // ignore: cast_nullable_to_non_nullable
+              as String,
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
@@ -168,6 +181,7 @@ class _$_SettingModalState implements _SettingModalState {
       this.currencies = Currencies.usd,
       this.langCode = 'en',
       this.currentLocale = const Locale('en', ''),
+      this.passCode = '',
       this.currentUser});
 
   @override
@@ -183,11 +197,14 @@ class _$_SettingModalState implements _SettingModalState {
   @JsonKey()
   final Locale currentLocale;
   @override
+  @JsonKey()
+  final String passCode;
+  @override
   final User? currentUser;
 
   @override
   String toString() {
-    return 'SettingModalState(appearance: $appearance, currencies: $currencies, langCode: $langCode, currentLocale: $currentLocale, currentUser: $currentUser)';
+    return 'SettingModalState(appearance: $appearance, currencies: $currencies, langCode: $langCode, currentLocale: $currentLocale, passCode: $passCode, currentUser: $currentUser)';
   }
 
   @override
@@ -203,13 +220,15 @@ class _$_SettingModalState implements _SettingModalState {
                 other.langCode == langCode) &&
             (identical(other.currentLocale, currentLocale) ||
                 other.currentLocale == currentLocale) &&
+            (identical(other.passCode, passCode) ||
+                other.passCode == passCode) &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, appearance, currencies, langCode,
-      currentLocale, currentUser);
+      currentLocale, passCode, currentUser);
 
   @JsonKey(ignore: true)
   @override
@@ -225,6 +244,7 @@ abstract class _SettingModalState implements SettingModalState {
       final Currencies currencies,
       final String langCode,
       final Locale currentLocale,
+      final String passCode,
       final User? currentUser}) = _$_SettingModalState;
 
   @override
@@ -235,6 +255,8 @@ abstract class _SettingModalState implements SettingModalState {
   String get langCode;
   @override
   Locale get currentLocale;
+  @override
+  String get passCode;
   @override
   User? get currentUser;
   @override

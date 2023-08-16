@@ -15,4 +15,10 @@ class SettingEvent with _$SettingEvent {
   const factory SettingEvent.updateCurrencies({
     required Currencies currencies,
   }) = _UpdateCurrencies;
+
+  const factory SettingEvent.updatePassCode({
+    required String newPassCode,
+  }) = _UpdatePassCode;
+
+  const factory SettingEvent.removePassCoe() = _RemovePassCode;
 }

@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Mã và dấu vân tay"),
         "currencies": MessageLookupByLibrary.simpleMessage("Tiền tệ"),
         "darkTheme": MessageLookupByLibrary.simpleMessage("Chế độ tối"),
+        "enterCode": MessageLookupByLibrary.simpleMessage("Nhâp mã"),
+        "errorCode": MessageLookupByLibrary.simpleMessage("Mã lỗi"),
         "generalSettings":
             MessageLookupByLibrary.simpleMessage("Cài đặt chung"),
         "languages": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
