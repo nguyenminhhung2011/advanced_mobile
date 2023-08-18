@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:flutter/services.dart';
+typedef MessageHandler = Function(dynamic data);
 
 typedef SendErrorFunction = Function(Object? data);
 typedef MainMessageHandler = FutureOr Function(

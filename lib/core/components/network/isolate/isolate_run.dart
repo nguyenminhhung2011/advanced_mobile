@@ -5,7 +5,9 @@ import 'package:flutter_base_clean_architecture/core/components/network/isolate/
 class IsolateRunT<T> {
   final T data;
   final Function(IsolateProgressData<T> event) progressCall;
+  final Function(dynamic data)? errorCall;
   IsolateRunT({
+    this.errorCall,
     required this.data,
     required this.progressCall,
   });
@@ -15,7 +17,7 @@ class IsolateRunT<T> {
     isolateHandler.initial(
       mainMessageHandler: mainMessageHandler,
       isolateMessageHandler: isolateMessageHandler,
-      errorHandler: (error) async => null,
+      errorHandler: errorCall,
       exitHandler: (error) async => null,
     );
   }
@@ -27,7 +29,9 @@ class IsolateRunT<T> {
   }
 
   Future<void> isolateMessageHandler(
-      dynamic data, SendPort mSendPort, _) async {}
+      dynamic data, SendPort mSendPort, _) async {
+        
+      }
 }
 
 class IsolateProgressData<T> {
