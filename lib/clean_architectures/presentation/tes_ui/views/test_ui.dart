@@ -87,66 +87,66 @@ class _TestUiState extends State<TestUi> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
-    onComplete.call();
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(
-        children: [
-          const Spacer(),
-          imageShowWidget(splashType: SplashType.normalSplash),
-          const SizedBox(height: 10.0),
-          textApp(
-            title: <String>['Weather', ' App'],
-            style: [
-              context.titleMedium.copyWith(fontWeight: FontWeight.w700),
-              context.titleMedium.copyWith(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.w700,
-              )
-            ],
-          ),
-          const SizedBox(height: 20.0),
-          loadingWidget(LoadingType.jumpingDot),
-          const Spacer(),
-        ],
-      ),
-    );
+    // onComplete.call();
     // return Scaffold(
     //   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    //   bottomNavigationBar: TabBarCustom(
-    //     radius: 15,
-    //     elevation: 0.1, // => elevation
-    //     tabBarType: TabBarType
-    //         .dotTabBar, //if you want display test change to textTabBar
-    //     // tabBarColor: Colors.black,
-    //     iconSize: 23.0,
-    //     iconSelectedColor: Theme.of(context).primaryColor,
-    //     duration: 200, // => set animation when change tab
-    //     isSvgIcon: true,
-    //     animatedTabStyle: const AnimatedTabStyle(posHeight: 5),
-    //     items: <TabBarItemStyle>[
-    //       ...dashboardItem.map(
-    //         (e) => TabBarItemStyle(
-    //           title: e.title,
-    //           assetIcon: e.svgAsset,
-    //           iconData: e.iconData,
-    //           screen: e.screen,
-    //         ),
+    //   body: Column(
+    //     children: [
+    //       const Spacer(),
+    //       imageShowWidget(splashType: SplashType.normalSplash),
+    //       const SizedBox(height: 10.0),
+    //       textApp(
+    //         title: <String>['Weather', ' App'],
+    //         style: [
+    //           context.titleMedium.copyWith(fontWeight: FontWeight.w700),
+    //           context.titleMedium.copyWith(
+    //             color: Theme.of(context).primaryColor,
+    //             fontWeight: FontWeight.w700,
+    //           )
+    //         ],
     //       ),
+    //       const SizedBox(height: 20.0),
+    //       loadingWidget(LoadingType.jumpingDot),
+    //       const Spacer(),
     //     ],
-    //     onChangeTab: (index) => _index.value = index,
-    //   ),
-    //   body: ValueListenableBuilder(
-    //     valueListenable: _index,
-    //     builder: (context, index, child) {
-    //       return IndexedStack(
-    //         index: index,
-    //         sizing: StackFit.expand,
-    //         children: dashboardItem.map((e) => e.screen).toList(),
-    //       );
-    //     },
     //   ),
     // );
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      bottomNavigationBar: TabBarCustom(
+        radius: 15,
+        elevation: 0.1, // => elevation
+        tabBarType: TabBarType
+            .dotTabBar, //if you want display test change to textTabBar
+        // tabBarColor: Colors.black,
+        iconSize: 23.0,
+        iconSelectedColor: Theme.of(context).primaryColor,
+        duration: 200, // => set animation when change tab
+        isSvgIcon: true,
+        animatedTabStyle: const AnimatedTabStyle(posHeight: 5),
+        items: <TabBarItemStyle>[
+          ...dashboardItem.map(
+            (e) => TabBarItemStyle(
+              title: e.title,
+              assetIcon: e.svgAsset,
+              iconData: e.iconData,
+              screen: e.screen,
+            ),
+          ),
+        ],
+        onChangeTab: (index) => _index.value = index,
+      ),
+      body: ValueListenableBuilder(
+        valueListenable: _index,
+        builder: (context, index, child) {
+          return IndexedStack(
+            index: index,
+            sizing: StackFit.expand,
+            children: dashboardItem.map((e) => e.screen).toList(),
+          );
+        },
+      ),
+    );
   }
 }
 
