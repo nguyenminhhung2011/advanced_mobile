@@ -55,7 +55,7 @@ class _BannerSliderWidgetState extends State<BannerSliderWidget> {
   void onPageChange(int index) {
     setState(() {
       _currentPage = index;
-    });
+    }); 
   }
 
   @override

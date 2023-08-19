@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/config/app_config.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/network/isolate/isolate_handler.dart';
+import 'package:flutter_base_clean_architecture/core/components/network/isolate/isolate_run.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
@@ -62,7 +65,7 @@ class _TestUiState extends State<TestUi> with AppMixin {
     TabBarModel(
       svgAsset: ImageConst.searchIcon,
       title: 'Search',
-      screen: const PageTest2(),
+      screen: const PageTest7(),
     ),
     TabBarModel(
       svgAsset: ImageConst.documentIcon,
@@ -87,66 +90,111 @@ class _TestUiState extends State<TestUi> with AppMixin {
 
   @override
   Widget build(BuildContext context) {
-    onComplete.call();
+    // onComplete.call();
+    // return Scaffold(
+    //   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    //   body: Column(
+    //     children: [
+    //       const Spacer(),
+    //       imageShowWidget(splashType: SplashType.normalSplash),
+    //       const SizedBox(height: 10.0),
+    //       textApp(
+    //         title: <String>['Weather', ' App'],
+    //         style: [
+    //           context.titleMedium.copyWith(fontWeight: FontWeight.w700),
+    //           context.titleMedium.copyWith(
+    //             color: Theme.of(context).primaryColor,
+    //             fontWeight: FontWeight.w700,
+    //           )
+    //         ],
+    //       ),
+    //       const SizedBox(height: 20.0),
+    //       loadingWidget(LoadingType.jumpingDot),
+    //       const Spacer(),
+    //     ],
+    //   ),
+    // );
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      bottomNavigationBar: TabBarCustom(
+        radius: 15,
+        elevation: 0.1, // => elevation
+        tabBarType: TabBarType
+            .dotTabBar, //if you want display test change to textTabBar
+        // tabBarColor: Colors.black,
+        iconSize: 23.0,
+        iconSelectedColor: Theme.of(context).primaryColor,
+        duration: 200, // => set animation when change tab
+        isSvgIcon: true,
+        animatedTabStyle: const AnimatedTabStyle(posHeight: 5),
+        items: <TabBarItemStyle>[
+          ...dashboardItem.map(
+            (e) => TabBarItemStyle(
+              title: e.title,
+              assetIcon: e.svgAsset,
+              iconData: e.iconData,
+              screen: e.screen,
+            ),
+          ),
+        ],
+        onChangeTab: (index) => _index.value = index,
+      ),
+      body: ValueListenableBuilder(
+        valueListenable: _index,
+        builder: (context, index, child) {
+          return IndexedStack(
+            index: index,
+            sizing: StackFit.expand,
+            children: dashboardItem.map((e) => e.screen).toList(),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class PageTest7 extends StatefulWidget {
+  const PageTest7({super.key});
+
+  @override
+  State<PageTest7> createState() => _PageTest7State();
+}
+
+class _PageTest7State extends State<PageTest7> {
+  Future<void> _test(int dataCall) async {
+    log(dataCall.toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Spacer(),
-          imageShowWidget(splashType: SplashType.normalSplash),
+          const Center(child: CircularProgressIndicator()),
           const SizedBox(height: 10.0),
-          textApp(
-            title: <String>['Weather', ' App'],
-            style: [
-              context.titleMedium.copyWith(fontWeight: FontWeight.w700),
-              context.titleMedium.copyWith(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.w700,
-              )
-            ],
-          ),
-          const SizedBox(height: 20.0),
-          loadingWidget(LoadingType.jumpingDot),
-          const Spacer(),
+          ButtonCustom(
+            onPress: () {
+              IsolateRunT<int>(
+                data: 0,
+                progressCall: (event) => _test(event.data),
+              ).updateEventCallAndInit(event: () {
+                int countable = 0;
+                for (var i = 0; i < 100000000; i++) {
+                  countable += i;
+                }
+                log(countable.toString());
+                return countable;
+              });
+            },
+            enableWidth: false,
+            child: const Text('Test'),
+          )
         ],
       ),
     );
-    // return Scaffold(
-    //   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    //   bottomNavigationBar: TabBarCustom(
-    //     radius: 15,
-    //     elevation: 0.1, // => elevation
-    //     tabBarType: TabBarType
-    //         .dotTabBar, //if you want display test change to textTabBar
-    //     // tabBarColor: Colors.black,
-    //     iconSize: 23.0,
-    //     iconSelectedColor: Theme.of(context).primaryColor,
-    //     duration: 200, // => set animation when change tab
-    //     isSvgIcon: true,
-    //     animatedTabStyle: const AnimatedTabStyle(posHeight: 5),
-    //     items: <TabBarItemStyle>[
-    //       ...dashboardItem.map(
-    //         (e) => TabBarItemStyle(
-    //           title: e.title,
-    //           assetIcon: e.svgAsset,
-    //           iconData: e.iconData,
-    //           screen: e.screen,
-    //         ),
-    //       ),
-    //     ],
-    //     onChangeTab: (index) => _index.value = index,
-    //   ),
-    //   body: ValueListenableBuilder(
-    //     valueListenable: _index,
-    //     builder: (context, index, child) {
-    //       return IndexedStack(
-    //         index: index,
-    //         sizing: StackFit.expand,
-    //         children: dashboardItem.map((e) => e.screen).toList(),
-    //       );
-    //     },
-    //   ),
-    // );
   }
 }
 
