@@ -28,8 +28,13 @@ class IsolateRunT<T> {
     await isolateHandler.initial(
       mainMessageHandler: _mainMessageHandler,
       isolateMessageHandler: (data, mSendPort, send) {
-        event();
-        mSendPort.send(IsolateProgressData(data: 3));
+        Timer.periodic(
+          const Duration(seconds: 1),
+          (timer) {
+            event();
+            mSendPort.send(const IsolateProgressData(data: 3));
+          },
+        );
       },
       errorHandler: errorCall ?? print,
       exitHandler: exitCall ?? print,
