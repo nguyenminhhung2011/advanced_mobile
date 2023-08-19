@@ -19,15 +19,18 @@ class IsolateRunT<T> {
 
   static FutureOr Function() eventCall = () {};
 
-  void updateEventCallAndInit({required FutureOr Function() event}) async {
-    eventCall = event; ///  🤔🤔🤔 [Help me]
-    await _init();
+  void updateEventCallAndInit({required FutureOr<T> Function() event}) async {
+    eventCall = event;
+    await _init(event: event);
   }
 
-  Future<void> _init() async {
+  Future<void> _init({required FutureOr<T> Function() event}) async {
     await isolateHandler.initial(
       mainMessageHandler: _mainMessageHandler,
-      isolateMessageHandler: _isolateMessageHandler,
+      isolateMessageHandler: (data, mSendPort, send) {
+        event();
+        mSendPort.send(IsolateProgressData(data: 3));
+      },
       errorHandler: errorCall ?? print,
       exitHandler: exitCall ?? print,
     );
@@ -36,20 +39,9 @@ class IsolateRunT<T> {
 
   Future<void> _mainMessageHandler(dynamic data, SendPort sendPort) async {
     if (data is IsolateProgressData<T>) {
-      print("Some isolate data");
       progressCall.call(data);
     }
     isolateHandler.dispose();
-  }
-
-  static Future<void> _isolateMessageHandler(
-    dynamic data,
-    SendPort mSendPort,
-    SendErrorFunction sendErrorFunction,
-  ) async {
-    /// Example code
-    eventCall.call();
-    mSendPort.send(IsolateProgressData(data: data));
   }
 
   static FutureOr<void> run<T>(FutureOr<T> function) {}

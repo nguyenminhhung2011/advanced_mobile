@@ -180,15 +180,13 @@ class _PageTest7State extends State<PageTest7> {
               IsolateRunT<int>(
                 data: 0,
                 progressCall: (event) => _test(event.data),
-                exitCall: (_) {},
-                errorCall: (_) {},
               ).updateEventCallAndInit(event: () {
                 int countable = 0;
                 for (var i = 0; i < 100000000; i++) {
                   countable += i;
                 }
                 log(countable.toString());
-                return <int>[0, 1, 2, 3];
+                return countable;
               });
             },
             enableWidth: false,
