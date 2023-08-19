@@ -28,11 +28,12 @@ class IsolateHandler {
     Object? initialMessage = const _NoParameterProvided(),
     MessageHandler? errorHandler,
     MessageHandler? exitHandler,
-    bool queueMode = false,
   }) async {
-    assert(initialMessage == false);
+    assert(isInitialized == false);
     if (isInitialized) return;
+
     _mReceivePort = ReceivePort();
+
     final errorPort = _initReceivePort(errorHandler);
     final exitPort = _initReceivePort(exitHandler);
 
@@ -42,7 +43,6 @@ class IsolateHandler {
         _mReceivePort.sendPort,
         errorPort?.sendPort,
         isolateMessageHandler,
-        true,
       ),
       onError: errorPort?.sendPort,
       onExit: exitPort?.sendPort,
@@ -57,9 +57,7 @@ class IsolateHandler {
         _completer.complete();
         return;
       }
-      if (queueMode) {
-        await mainMessageHandler(message, _sendPort);
-      }
+      await mainMessageHandler(message, _sendPort);
     }).onDone(() {
       errorPort?.close();
       exitPort?.close();
@@ -76,13 +74,15 @@ class IsolateHandler {
     _mReceivePort.close();
     _isolate.kill(priority: Isolate.beforeNextEvent);
   }
-}
 
-Future<void> _initIsolateEntry(_IsolateInitialModel parameter) async {
-  final isolateRecPort = ReceivePort();
-  parameter.mSendPort.send(isolateRecPort.sendPort);
-  await for (var data in isolateRecPort) {
-    if (parameter.queueMode) {
+  static Future<void> _initIsolateEntry(
+    _IsolateInitialModel parameter,
+  ) async {
+    final isolateRecPort = ReceivePort();
+
+    parameter.mSendPort.send(isolateRecPort.sendPort);
+
+    await for (var data in isolateRecPort) {
       await parameter.isolateMessageHandler(
         data,
         parameter.mSendPort,
@@ -90,26 +90,21 @@ Future<void> _initIsolateEntry(_IsolateInitialModel parameter) async {
       );
     }
   }
-}
 
-ReceivePort? _initReceivePort(MessageHandler? messageHandler) {
-  if (messageHandler == null) return null;
-  return ReceivePort()
-    ..listen(
-      messageHandler as void Function(dynamic message)?,
-    );
+  ReceivePort? _initReceivePort(MessageHandler? messageHandler) {
+    if (messageHandler == null) return null;
+    return ReceivePort()..listen(messageHandler);
+  }
 }
 
 class _IsolateInitialModel {
   final SendPort mSendPort;
   final SendPort? errorSendPort;
   final IsolateMessageHandler isolateMessageHandler;
-  final bool queueMode;
   _IsolateInitialModel(
     this.mSendPort,
     this.errorSendPort,
     this.isolateMessageHandler,
-    this.queueMode,
   );
 }
 

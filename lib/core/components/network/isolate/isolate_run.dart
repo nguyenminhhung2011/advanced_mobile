@@ -1,44 +1,61 @@
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter_base_clean_architecture/core/components/network/isolate/isolate_handler.dart';
 
 class IsolateRunT<T> {
-  final T data;
+  final T? data;
   final Function(IsolateProgressData<T> event) progressCall;
   final Function(dynamic data)? errorCall;
+  final Function(dynamic data)? exitCall;
+
   IsolateRunT({
+    this.data,
+    this.exitCall,
     this.errorCall,
-    required this.data,
     required this.progressCall,
   });
   final isolateHandler = IsolateHandler();
 
-  Future<void> init() async {
-    isolateHandler.initial(
-      mainMessageHandler: mainMessageHandler,
-      isolateMessageHandler: isolateMessageHandler,
-      errorHandler: errorCall,
-      exitHandler: (error) async => null,
-    );
+  static FutureOr Function() eventCall = () {};
+
+  void updateEventCallAndInit({required FutureOr Function() event}) async {
+    eventCall = event; ///  🤔🤔🤔 [Help me]
+    await _init();
   }
 
-  Future<void> mainMessageHandler(dynamic data, SendPort sendPort) async {
+  Future<void> _init() async {
+    await isolateHandler.initial(
+      mainMessageHandler: _mainMessageHandler,
+      isolateMessageHandler: _isolateMessageHandler,
+      errorHandler: errorCall ?? print,
+      exitHandler: exitCall ?? print,
+    );
+    isolateHandler.sendMessage(data);
+  }
+
+  Future<void> _mainMessageHandler(dynamic data, SendPort sendPort) async {
     if (data is IsolateProgressData<T>) {
+      print("Some isolate data");
       progressCall.call(data);
     }
+    isolateHandler.dispose();
   }
 
-  Future<void> isolateMessageHandler(
-      dynamic data, SendPort mSendPort, _) async {
-        
-      }
+  static Future<void> _isolateMessageHandler(
+    dynamic data,
+    SendPort mSendPort,
+    SendErrorFunction sendErrorFunction,
+  ) async {
+    /// Example code
+    eventCall.call();
+    mSendPort.send(IsolateProgressData(data: data));
+  }
+
+  static FutureOr<void> run<T>(FutureOr<T> function) {}
 }
 
 class IsolateProgressData<T> {
   final T data;
-  final double progress;
-  const IsolateProgressData({
-    required this.data,
-    required this.progress,
-  });
+  const IsolateProgressData({required this.data});
 }

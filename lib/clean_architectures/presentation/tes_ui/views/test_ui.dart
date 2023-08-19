@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/config/app_config.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/network/isolate/isolate_handler.dart';
+import 'package:flutter_base_clean_architecture/core/components/network/isolate/isolate_run.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
@@ -62,7 +65,7 @@ class _TestUiState extends State<TestUi> with AppMixin {
     TabBarModel(
       svgAsset: ImageConst.searchIcon,
       title: 'Search',
-      screen: const PageTest2(),
+      screen: const PageTest7(),
     ),
     TabBarModel(
       svgAsset: ImageConst.documentIcon,
@@ -145,6 +148,53 @@ class _TestUiState extends State<TestUi> with AppMixin {
             children: dashboardItem.map((e) => e.screen).toList(),
           );
         },
+      ),
+    );
+  }
+}
+
+class PageTest7 extends StatefulWidget {
+  const PageTest7({super.key});
+
+  @override
+  State<PageTest7> createState() => _PageTest7State();
+}
+
+class _PageTest7State extends State<PageTest7> {
+  Future<void> _test(int dataCall) async {
+    log(dataCall.toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Center(child: CircularProgressIndicator()),
+          const SizedBox(height: 10.0),
+          ButtonCustom(
+            onPress: () {
+              IsolateRunT<int>(
+                data: 0,
+                progressCall: (event) => _test(event.data),
+                exitCall: (_) {},
+                errorCall: (_) {},
+              ).updateEventCallAndInit(event: () {
+                int countable = 0;
+                for (var i = 0; i < 100000000; i++) {
+                  countable += i;
+                }
+                log(countable.toString());
+                return <int>[0, 1, 2, 3];
+              });
+            },
+            enableWidth: false,
+            child: const Text('Test'),
+          )
+        ],
       ),
     );
   }
