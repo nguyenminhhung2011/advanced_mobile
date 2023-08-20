@@ -11,23 +11,41 @@ const _kRadius = 14.0;
 
 class HeaderSearch extends StatefulWidget {
   final List<String> colors;
+
   final String hintText;
+
   final TextStyle? hintStyle;
+
   final TextStyle? textStyle;
+
   final double vPadding;
+
   final double hPadding;
+
   final double? searchRadius;
+
   final Widget? prefixIcon;
+
   final Function(String)? textChange;
+
   final bool isShowAction;
+
   final Widget? actionIcon;
+
   final Function()? onPress;
+
   final Function(List<FilterResponse>)? filterCall;
+
   final Function(String)? onSubmittedText;
+
   final TextEditingController? textEditingController;
+
   final EdgeInsets? contentPadding;
+
   final List<FilterModel> listFilter;
+
   final List<FilterResponse> initResponse;
+
   const HeaderSearch({
     super.key,
     this.onPress,
@@ -57,19 +75,24 @@ class HeaderSearch extends StatefulWidget {
 class _HeaderSearchState extends State<HeaderSearch> {
   // style
   Color get textColor => Theme.of(context).scaffoldBackgroundColor;
+
   TextStyle get hintStyle =>
       widget.hintStyle ?? context.titleMedium.copyWith(color: textColor);
+
   TextStyle get textStyle =>
       widget.textStyle ??
       context.titleMedium.copyWith(
           fontWeight: FontWeight.w600, fontSize: 16, color: textColor);
+
   Widget get prefixIcon =>
       widget.prefixIcon ?? Icon(Icons.search, color: textColor);
 
   Widget get actionIcon =>
       widget.actionIcon ??
       Icon(Icons.filter_list_outlined, size: 30, color: textColor);
+
   double get searchRadius => widget.searchRadius ?? _kRadius;
+
   EdgeInsets get contentPadding =>
       widget.contentPadding ??
       const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0);

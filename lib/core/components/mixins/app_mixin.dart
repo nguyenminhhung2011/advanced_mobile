@@ -87,7 +87,7 @@ mixin AppMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  // on boarding
+  // onBoarding
 
   Widget _onBoardHeadingText({required String text, TextStyle? style}) => Text(
         text,

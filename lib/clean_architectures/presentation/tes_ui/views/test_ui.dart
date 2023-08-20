@@ -11,6 +11,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/button_c
 import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_type.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/custom_text_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/expansion_panel_list/expansion_panel_list.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_stack_view/image_stac_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_indicator.dart';
@@ -602,6 +603,13 @@ class _PageTest1State extends State<PageTest1> {
           hintStyle: context.titleMedium.copyWith(
             fontWeight: FontWeight.w400,
             color: Theme.of(context).hintColor,
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: CustomTextField(
+            isShowCancelIcon: true,
+            isShowBorder: true,
           ),
         ),
         const SizedBox(height: 30.0),
