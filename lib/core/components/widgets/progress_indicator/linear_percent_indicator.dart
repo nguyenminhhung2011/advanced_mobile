@@ -304,7 +304,7 @@ class BadgeIndicator extends StatelessWidget {
     this.radius = 50.0,
     this.borderColor,
     this.inSide,
-  }) : assert(radius >= 20.0, 'Size will be more 40');
+  }) : assert(radius >= 20.0, 'Size must be more 40');
 
   @override
   Widget build(BuildContext context) {
