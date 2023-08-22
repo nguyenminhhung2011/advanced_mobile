@@ -15,6 +15,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/expansio
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_stack_view/image_stac_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_base_clean_architecture/core/components/config/setting_config.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/progress_indicator/linear_percent_indicator.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/tree_view.dart';
 import '../../../../core/components/constant/image_const.dart';
@@ -609,6 +610,15 @@ class _PageTest1State extends State<PageTest1> {
             isShowCancelIcon: true,
             isShowBorder: true,
           ),
+        ),
+        const LinearProgressIndicatorCustom(
+          initData: 100,
+          progressData: 40,
+          isAnimation: true,
+          height: 10,
+          width: 300,
+          animationDuration: 600,
+          badgeIndicator: BadgeIndicatorStyle(radius: 20</ModelTest>.0),
         ),
         const SizedBox(height: 30.0),
         CategoryField(
