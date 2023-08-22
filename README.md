@@ -1,4 +1,4 @@
-## 🧑‍💻 flutter_base_clean_architecture
+## 🧑‍💻 flutter_base
 ### 🌈 Widget 
 | Custom widget | Pull request |
 |:--:|:--:|
