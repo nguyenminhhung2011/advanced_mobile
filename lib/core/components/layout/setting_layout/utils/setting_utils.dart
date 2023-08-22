@@ -1,4 +1,5 @@
-import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/utils/lang.dart';
+
+import 'lang.dart';
 
 class SettingUtils {
   static List<Lang> locals = <Lang>[

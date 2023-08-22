@@ -58,19 +58,19 @@ class _$SettingModalStateCopyWithImpl<$Res, $Val extends SettingModalState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? appearance = null,
-    Object? currencies = null,
+    Object? appearance = freezed,
+    Object? currencies = freezed,
     Object? langCode = null,
     Object? currentLocale = null,
     Object? passCode = null,
     Object? currentUser = freezed,
   }) {
     return _then(_value.copyWith(
-      appearance: null == appearance
+      appearance: freezed == appearance
           ? _value.appearance
           : appearance // ignore: cast_nullable_to_non_nullable
               as Appearance,
-      currencies: null == currencies
+      currencies: freezed == currencies
           ? _value.currencies
           : currencies // ignore: cast_nullable_to_non_nullable
               as Currencies,
@@ -137,19 +137,19 @@ class __$$_SettingModalStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? appearance = null,
-    Object? currencies = null,
+    Object? appearance = freezed,
+    Object? currencies = freezed,
     Object? langCode = null,
     Object? currentLocale = null,
     Object? passCode = null,
     Object? currentUser = freezed,
   }) {
     return _then(_$_SettingModalState(
-      appearance: null == appearance
+      appearance: freezed == appearance
           ? _value.appearance
           : appearance // ignore: cast_nullable_to_non_nullable
               as Appearance,
-      currencies: null == currencies
+      currencies: freezed == currencies
           ? _value.currencies
           : currencies // ignore: cast_nullable_to_non_nullable
               as Currencies,
@@ -212,10 +212,10 @@ class _$_SettingModalState implements _SettingModalState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SettingModalState &&
-            (identical(other.appearance, appearance) ||
-                other.appearance == appearance) &&
-            (identical(other.currencies, currencies) ||
-                other.currencies == currencies) &&
+            const DeepCollectionEquality()
+                .equals(other.appearance, appearance) &&
+            const DeepCollectionEquality()
+                .equals(other.currencies, currencies) &&
             (identical(other.langCode, langCode) ||
                 other.langCode == langCode) &&
             (identical(other.currentLocale, currentLocale) ||
@@ -227,8 +227,14 @@ class _$_SettingModalState implements _SettingModalState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, appearance, currencies, langCode,
-      currentLocale, passCode, currentUser);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(appearance),
+      const DeepCollectionEquality().hash(currencies),
+      langCode,
+      currentLocale,
+      passCode,
+      currentUser);
 
   @JsonKey(ignore: true)
   @override

@@ -8,14 +8,14 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/widgets/avartat_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/config/setting_config.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/layout/setting_layout.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/utils/setting_utils.dart';
 import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../clean_architectures/domain/entities/user/user.dart';
 import '../controller/setting_bloc.dart';
+import '../layout/setting_layout.dart';
+import '../utils/setting_utils.dart';
 
 class SettingScreen extends StatefulWidget {
   final SettingConfig settingConfig;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/setting_layout/views/passcode_screen.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 
 import '../clean_architectures/presentation/tes_ui/views/test_ui.dart';
+import '../core/components/layout/setting_layout/views/passcode_screen.dart';
 
 class MainRoutes {
   static Map<String, WidgetBuilder> getRoutesWithSettings() {

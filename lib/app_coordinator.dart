@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 
+import 'core/components/layout/setting_layout/views/language_choose.dart';
 import 'core/components/widgets/range_date_picker_custom.dart';
 import 'core/components/layout/search_layout/header_search/model_bottom_sheet.dart';
 import 'core/components/layout/search_layout/model/filter_model.dart';
 import 'core/components/layout/search_layout/model/filter_response.dart';
-import 'core/components/widgets/setting_layout/views/language_choose.dart';
 
 extension AppCoordinator<T> on BuildContext {
   void pop() => Navigator.of(this).pop();
@@ -43,7 +43,6 @@ extension AppCoordinator<T> on BuildContext {
   Future<List<DateTime>?> pickRangeDate(
     RangeDateController rangeDateController,
   ) async {
-    
     final dates = await showDialog(
       context: this,
       builder: (_) => Dialog(

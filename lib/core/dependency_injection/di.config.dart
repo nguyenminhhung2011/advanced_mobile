@@ -19,7 +19,7 @@ import '../../clean_architectures/domain/usecase/setting/setting_usecase.dart'
     as _i6;
 import '../../clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart'
     as _i7;
-import '../components/widgets/setting_layout/controller/setting_bloc.dart'
+import '../components/layout/setting_layout/controller/setting_bloc.dart'
     as _i9;
 import '../services/cloundinary_service.dart' as _i3;
 import '../services/image_pic_service.dart' as _i5;

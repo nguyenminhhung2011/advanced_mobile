@@ -22,7 +22,7 @@ class IsolateHandler {
 
   bool get isInitialized => _completer.isCompleted;
 
-  Future<void> initial({
+  Future<void> initial({  
     required MainMessageHandler mainMessageHandler,
     required IsolateMessageHandler isolateMessageHandler,
     Object? initialMessage = const _NoParameterProvided(),
