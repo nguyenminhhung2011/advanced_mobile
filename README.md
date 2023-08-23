@@ -13,7 +13,8 @@
 |🐼Tree view|[🐼 New widget tree view ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/9)|
 |🐼Search layout|[🐼 Search layout ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/10)|
 |🐼Setting layout|[🐼 UI/Setting layout ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/11)|
-
+|🐼line progress with badge in head|[🐼 line progress with badge in head ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/13)|
+|🐼Progress button|[🐼 Progress button ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/14)|
 
 ### 🗽Service & controller
 
