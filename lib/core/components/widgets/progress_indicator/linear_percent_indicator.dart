@@ -244,7 +244,7 @@ class _LinearProgressIndicatorCustomState
       width: widget.width ?? double.infinity,
       height: widget.height ?? 15.0,
       color: Colors.transparent,
-      padding: _padding,
+      margin: _padding,
       child: Stack(
         clipBehavior: Clip.none,
         children: [

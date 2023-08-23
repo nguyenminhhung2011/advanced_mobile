@@ -64,7 +64,7 @@ class _ExpansionPanelCustomState<T, B>
     if (!isExpanded) {
       await _expansionNotifier.getBodyData(index);
     }
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
