@@ -1,12 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/item_view/mixins/item_view_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/save_icon_button.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/skeleton_custom.dart';
 
-import '../constant/image_const.dart';
-import 'card_custom.dart';
-
+import '../../../constant/image_const.dart';
+import '../../card_custom.dart';
 
 enum ImageViewItemType {
   horizontalView, // done
@@ -17,7 +17,7 @@ enum ImageViewItemType {
   bool get isGridView => this == ImageViewItemType.gridView;
 }
 
-class ImageViewField extends StatelessWidget {
+class ImageViewField extends StatefulWidget {
   final List<ImageViewStyle> imageViews;
   final ImageViewItemType imageViewType;
   final double? marginLeft;
@@ -49,25 +49,30 @@ class ImageViewField extends StatelessWidget {
   });
 
   @override
+  State<ImageViewField> createState() => _ImageViewFieldState();
+}
+
+class _ImageViewFieldState extends State<ImageViewField> with ItemViewMixin {
+  @override
   Widget build(BuildContext context) {
-    if (imageViewType.isHorizontalView) {
+    if (widget.imageViewType.isHorizontalView) {
       return Padding(
         padding: EdgeInsets.only(
-          top: marginTop ?? 0.0,
-          right: marginRight ?? 0.0,
-          bottom: marginBottom ?? 0.0,
+          top: widget.marginTop ?? 0.0,
+          right: widget.marginRight ?? 0.0,
+          bottom: widget.marginBottom ?? 0.0,
         ),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              SizedBox(width: marginLeft ?? 0.0),
-              ...imageViews.map(
+              SizedBox(width: widget.marginLeft ?? 0.0),
+              ...widget.imageViews.map(
                 (e) => ImageViewItem(
                   imageView: e,
-                  isOutText: isOuttext,
-                  widthItem: widthItem,
-                  heightItem: heighItem,
+                  isOutText: widget.isOuttext,
+                  widthItem: widget.widthItem,
+                  heightItem: widget.heighItem,
                 ),
               )
             ]
@@ -76,7 +81,7 @@ class ImageViewField extends StatelessWidget {
                     element,
                     if (index != 0)
                       SizedBox(
-                        width: spacingItem ?? 10.0,
+                        width: widget.spacingItem ?? 10.0,
                       )
                   ],
                 )
@@ -85,14 +90,14 @@ class ImageViewField extends StatelessWidget {
         ),
       );
     }
-    if (imageViewType.isGridView) {
+    if (widget.imageViewType.isGridView) {
       return SliverPadding(
         //update after
         padding: EdgeInsets.only(
-          left: marginLeft ?? 15.0,
-          top: marginTop ?? 15.0,
-          right: marginRight ?? 15.0,
-          bottom: marginBottom ?? 15.0,
+          left: widget.marginLeft ?? 15.0,
+          top: widget.marginTop ?? 15.0,
+          right: widget.marginRight ?? 15.0,
+          bottom: widget.marginBottom ?? 15.0,
         ),
         sliver: SliverGrid(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -107,51 +112,51 @@ class ImageViewField extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ImageViewItem(
-                  imageView: imageViews[index],
-                  isOutText: isOuttext,
+                  imageView: widget.imageViews[index],
+                  isOutText: widget.isOuttext,
                   isFullWidthItem: false,
                 ),
               ],
             ),
-            childCount: imageViews.length,
+            childCount: widget.imageViews.length,
           ),
         ),
       );
     }
-    if (isSliver) {
+    if (widget.isSliver) {
       //🚑 dumb code because i hard core this code
       return SliverList(
         delegate: SliverChildListDelegate(<Widget>[
-          SizedBox(height: marginTop ?? 20.0),
-          ...imageViews
+          SizedBox(height: widget.marginTop ?? 20.0),
+          ...widget.imageViews
               .map(
                 (e) => ImageViewItem(
                   imageView: e,
-                  isOutText: isOuttext,
+                  isOutText: widget.isOuttext,
                   isFullWidthItem: true,
                 ),
               )
               .expand((element) => [
                     element,
-                    SizedBox(height: spacingItem ?? 10.0),
+                    SizedBox(height: widget.spacingItem ?? 10.0),
                   ])
         ]),
       );
     }
     return Column(
       children: [
-        SizedBox(height: marginTop ?? 20.0),
-        ...imageViews
+        SizedBox(height: widget.marginTop ?? 20.0),
+        ...widget.imageViews
             .map(
               (e) => ImageViewItem(
                 imageView: e,
-                isOutText: isOuttext,
+                isOutText: widget.isOuttext,
                 isFullWidthItem: true,
               ),
             )
             .expand((element) => [
                   element,
-                  SizedBox(height: spacingItem ?? 10.0),
+                  SizedBox(height: widget.spacingItem ?? 10.0),
                 ])
       ],
     );
