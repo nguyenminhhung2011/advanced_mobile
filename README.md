@@ -15,7 +15,7 @@
 |🐼Setting layout|[🐼 UI/Setting layout ](https://github.com/nguyenminhhung2011/flutter_base_clean_architecture/pull/11)|
 
 
-### 🗽Handler controller
+### 🗽Service & controller
 
 | Controller | Pull request|
 |:--:|:--:|
