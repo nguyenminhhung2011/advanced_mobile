@@ -8,6 +8,7 @@ extension ProgressButtonStateExtension on ProgressButtonState {
   bool get isNormal => this == ProgressButtonState.normal;
   bool get isCompleted => this == ProgressButtonState.completed;
   bool get isError => this == ProgressButtonState.error;
+  bool get isLoading => this == ProgressButtonState.loading;
 }
 
 class ProgressButton extends StatefulWidget {
@@ -177,7 +178,7 @@ class _ProgressButtonState extends State<ProgressButton>
     setState(() {
       _progressButtonState = ProgressButtonState.normal;
     });
-  }
+  } 
 
   void _cancelAnimation(bool isRemove) {
     if (isRemove) {
@@ -194,6 +195,9 @@ class _ProgressButtonState extends State<ProgressButton>
   }
 
   void _onTap() async {
+    if (_progressButtonState.isLoading) {
+      return;
+    }
     setState(() {
       _progressButtonState = ProgressButtonState.loading;
     });

@@ -611,136 +611,138 @@ class _PageTest1State extends State<PageTest1> {
             await Future.delayed(const Duration(seconds: 3));
             return true;
           },
-          width: 200,
-          isAnimation: true,
+          width: 300,
+          isAnimation: false,
           textInside: 'Tap me',
           radius: 10.0,
         ),
         const SizedBox(height: 10.0),
         const LinearProgressIndicatorCustom(
           initData: 100,
-          progressData: 80,
+          progressData: 70,
+          isShowText: true,
+          animationDuration: 2200,
           padding: EdgeInsets.symmetric(horizontal: 10.0),
           badgeIndicator: BadgeIndicatorStyle(radius: 25.0),
           radius: 5.0,
         ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: CustomTextField(
-            isShowCancelIcon: true,
-            isShowBorder: true,
-            borderRadius: 10.0,
-          ),
-        ),
-        const SizedBox(height: 30.0),
-        CategoryField(
-          categoryType: CategoryType.selectedCategory, // => Change here
-          selectedColor: Theme.of(context).primaryColor,
-          numberColumn: 2,
-          spacingItem: 15.0,
-          marginLeft: 10.0,
-          marginRight: 10.0,
-          isIconOut: false,
-          categoryGridFormat:
-              const CategoryGridFormat(crossSpacing: 10.0, mainSpacing: 10.0),
-          unselectedColor: Theme.of(context).hintColor,
-          categoryTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
-                fontWeight: FontWeight.w400,
-                overflow: TextOverflow.ellipsis,
-              ),
-          categories: <CategoryStyle>[
-            ...listCategory.mapIndexed(
-              (index, e) => CategoryStyle(
-                isSelected: index == 0,
-                text: e.title,
-                typeImage: TypeImage.assetSvg,
-                iconUrl: e.iconUrl,
-                color: e.color,
-                iconSize: 30,
-                isIcon: e.isIconData,
-                radius: 10,
-                paddingBottom: 10.0,
-                paddingRight: 15.0,
-                paddingTop: 10.0,
-                paddingLeft: 15.0,
-                backgroundGradientColor: [
-                  "992195F3".toColor(),
-                  "112195F3".toColor()
-                ],
-                onPress: () {},
-              ),
-            )
-          ],
-        ),
-        const SizedBox(height: 30.0),
-        const BannerSliderWidget(
-          images: [
-            'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
-            'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
-            'https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg',
-            'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
-          ],
-        ),
-        ImageStackView(
-          images: const [
-            'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
-            'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
-            'https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg',
-            'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
-          ],
-          isAssetImage: false,
-          itemsDisplay: 3,
-          actionColor: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        const SizedBox(height: 10.0),
-        Expanded(
-          child: PaginationViewCustom<ModelTest>(
-            paginationViewType: PaginationViewType.masonryGrid,
-            paginationDataCall: paginationCall,
-            physics: const AlwaysScrollableScrollPhysics(
-              parent: BouncingScrollPhysics(),
-            ),
-            hPadding: 10,
-            vPadding: 10,
-            typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
-            gridViewFormat: const GridViewFormat(
-              crossAxisCount: 3,
-            ),
-            skeltonFormat: const SkeltonFormat(
-              columns: [4, 1],
-            ),
-            limitFetch: 15,
-            items: <ModelTest>[
-              ModelTest(userName: 'Hung', bio: 'Nguyen Minh Hung'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-              ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
-            ],
-            itemBuilder: (BuildContext context, ModelTest data, int index) {
-              return Container(
-                height: index * 5 + 70, // support for masonry layout
-                width: index * 1, // support for masonry layout
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(data.userName),
-                    Text(data.bio),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
+        // const Padding(
+        //   padding: EdgeInsets.all(8.0),
+        //   child: CustomTextField(
+        //     isShowCancelIcon: true,
+        //     isShowBorder: true,
+        //     borderRadius: 10.0,
+        //   ),
+        // ),
+        // const SizedBox(height: 30.0),
+        // CategoryField(
+        //   categoryType: CategoryType.selectedCategory, // => Change here
+        //   selectedColor: Theme.of(context).primaryColor,
+        //   numberColumn: 2,
+        //   spacingItem: 15.0,
+        //   marginLeft: 10.0,
+        //   marginRight: 10.0,
+        //   isIconOut: false,
+        //   categoryGridFormat:
+        //       const CategoryGridFormat(crossSpacing: 10.0, mainSpacing: 10.0),
+        //   unselectedColor: Theme.of(context).hintColor,
+        //   categoryTextStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
+        //         fontWeight: FontWeight.w400,
+        //         overflow: TextOverflow.ellipsis,
+        //       ),
+        //   categories: <CategoryStyle>[
+        //     ...listCategory.mapIndexed(
+        //       (index, e) => CategoryStyle(
+        //         isSelected: index == 0,
+        //         text: e.title,
+        //         typeImage: TypeImage.assetSvg,
+        //         iconUrl: e.iconUrl,
+        //         color: e.color,
+        //         iconSize: 30,
+        //         isIcon: e.isIconData,
+        //         radius: 10,
+        //         paddingBottom: 10.0,
+        //         paddingRight: 15.0,
+        //         paddingTop: 10.0,
+        //         paddingLeft: 15.0,
+        //         backgroundGradientColor: [
+        //           "992195F3".toColor(),
+        //           "112195F3".toColor()
+        //         ],
+        //         onPress: () {},
+        //       ),
+        //     )
+        //   ],
+        // ),
+        // const SizedBox(height: 30.0),
+        // const BannerSliderWidget(
+        //   images: [
+        //     'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
+        //     'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        //     'https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg',
+        //     'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
+        //   ],
+        // ),
+        // ImageStackView(
+        //   images: const [
+        //     'https://www.seiu1000.org/sites/main/files/main-images/camera_lense_0.jpeg',
+        //     'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg',
+        //     'https://imgv3.fotor.com/images/blog-richtext-image/part-blurry-image.jpg',
+        //     'https://imgv3.fotor.com/images/blog-cover-image/Image-Upscaler-2.jpg'
+        //   ],
+        //   isAssetImage: false,
+        //   itemsDisplay: 3,
+        //   actionColor: Theme.of(context).scaffoldBackgroundColor,
+        // ),
+        // const SizedBox(height: 10.0),
+        // Expanded(
+        //   child: PaginationViewCustom<ModelTest>(
+        //     paginationViewType: PaginationViewType.masonryGrid,
+        //     paginationDataCall: paginationCall,
+        //     physics: const AlwaysScrollableScrollPhysics(
+        //       parent: BouncingScrollPhysics(),
+        //     ),
+        //     hPadding: 10,
+        //     vPadding: 10,
+        //     typeIndicatorLoading: TypeIndicatorLoading.skeltonIndicator,
+        //     gridViewFormat: const GridViewFormat(
+        //       crossAxisCount: 3,
+        //     ),
+        //     skeltonFormat: const SkeltonFormat(
+        //       columns: [4, 1],
+        //     ),
+        //     limitFetch: 15,
+        //     items: <ModelTest>[
+        //       ModelTest(userName: 'Hung', bio: 'Nguyen Minh Hung'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //       ModelTest(userName: 'MinHun', bio: 'Minhungsocute'),
+        //     ],
+        //     itemBuilder: (BuildContext context, ModelTest data, int index) {
+        //       return Container(
+        //         height: index * 5 + 70, // support for masonry layout
+        //         width: index * 1, // support for masonry layout
+        //         decoration: BoxDecoration(
+        //           color: Theme.of(context).primaryColor,
+        //           borderRadius: BorderRadius.circular(10),
+        //         ),
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           crossAxisAlignment: CrossAxisAlignment.center,
+        //           children: [
+        //             Text(data.userName),
+        //             Text(data.bio),
+        //           ],
+        //         ),
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }
