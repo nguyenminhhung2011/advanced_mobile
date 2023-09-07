@@ -612,7 +612,7 @@ class _PageTest1State extends State<PageTest1> {
             return true;
           },
           width: 300,
-          isAnimation: false,
+          isAnimation: true,
           textInside: 'Tap me',
           radius: 10.0,
         ),
