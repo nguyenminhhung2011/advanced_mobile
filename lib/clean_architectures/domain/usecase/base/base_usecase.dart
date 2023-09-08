@@ -1,4 +1,5 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
+import 'package:rx_bloc/rx_bloc.dart';
 
 import '../../entities/user/user.dart';
 
@@ -57,4 +58,12 @@ abstract class BaseUseCase<T> {
   Future<T?>? getDataById({required String id}) => null;
   Future<T?>? updateData({required T newData}) => null;
   Future<bool>? deleteData({required T data}) => null;
+
+  ///[Streams] use case
+
+  Stream<Result<User?>>? loginS({
+    required String userName,
+    required String password,
+  }) =>
+      null;
 }

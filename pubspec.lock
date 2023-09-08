@@ -314,7 +314,7 @@ packages:
     source: hosted
     version: "1.8.0"
   dart_either:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dart_either
       sha256: "928895b8266ac5906eb4e2993fead563a73b17fc86eec6b40172100d56ca2507"

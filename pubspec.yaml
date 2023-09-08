@@ -129,6 +129,7 @@ dependencies:
   universal_platform: ^1.0.0+1
   rx_bloc: ^5.0.0
   flutter_bloc_pattern: ^2.3.0
+  dart_either: ^1.0.0
   # table_calendar: ^3.0.8
   # readmore: ^2.2.0
 
