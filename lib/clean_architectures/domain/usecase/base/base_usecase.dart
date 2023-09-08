@@ -1,5 +1,5 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
-import 'package:rx_bloc/rx_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 
 import '../../entities/user/user.dart';
 
@@ -61,8 +61,8 @@ abstract class BaseUseCase<T> {
 
   ///[Streams] use case
 
-  Stream<Result<User?>>? loginS({
-    required String userName,
+  SingleResult<User?>? loginS({
+    required String email,
     required String password,
   }) =>
       null;

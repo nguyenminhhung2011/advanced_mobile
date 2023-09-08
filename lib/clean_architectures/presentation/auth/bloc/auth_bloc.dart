@@ -5,15 +5,19 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/stream_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:injectable/injectable.dart';
 
 import 'package:rxdart/rxdart.dart';
 
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
 
 enum AuthState { none, loading }
 
+@injectable
 class AuthBloc extends DisposeCallbackBaseBloc {
   ///[functions] input
   final Function1<String, void> emailedChanged;
@@ -36,10 +40,14 @@ class AuthBloc extends DisposeCallbackBaseBloc {
 
   AuthBloc._({
     required Function0<void> dispose,
+
+    ///[Event functions]
     required this.emailedChanged,
     required this.passwordChanged,
     required this.submitSignIn,
     required this.submitRegister,
+
+    ///[States]
     required this.emailError$,
     required this.passwordError$,
     required this.message$,
@@ -64,6 +72,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
     ///[Streams]
     ///
 
+    ///[check function] check input is in format
     final isValidSubmit$ = Rx.combineLatest3(
       emailController.stream.map(Validator.isValidEmail),
       passwordController.stream.map(Validator.isValidPassword),
@@ -83,20 +92,22 @@ class AuthBloc extends DisposeCallbackBaseBloc {
         .withLatestFrom(isValidSubmit$, (_, isValid) => isValid)
         .share();
 
-    final message$ = Rx.merge([
+    final message$ = Rx.merge<AuthState>([
       submit$
           .where((isValid) => isValid)
           .withLatestFrom(credential$, (_, Credential credential) => credential)
           .exhaustMap(
-            (credential) => login
-                .loginS(
-                  userName: credential.email,
-                  password: credential.password,
-                )
-                .doOnListen(() => loadingController.add(true))
-                .doOnCancel(() => loadingController.add(false)),
+            (credential) =>
+                login(email: credential.email, password: credential.password)
+                    .doOn(
+                      listen: () => loadingController.add(true),
+                      cancel: () => loadingController.add(false),
+                    )
+                    .map(_responseToMessage),
           ),
-      submit$.where((isValid) => !isValid).map((event) => null),
+      submit$
+          .where((isValid) => !isValid)
+          .map((_) => const InvalidFormatMessage() as AuthState)
     ]).whereNotNull().share();
 
     final emailError$ = emailController.stream
@@ -115,32 +126,40 @@ class AuthBloc extends DisposeCallbackBaseBloc {
         .distinct()
         .share();
 
-    void _onDispose() {
-      controllers.map((e) {
-        if (e is PublishSubject) {
-          e.clear();
-          e.close();
-        } else if (e is BehaviorSubject) {
-          e.clear();
-          e.close();
-        }
-      });
-    }
+    final subscriptions = <String, Stream>{
+      'emailError': emailError$,
+      'passwordError': passwordError$,
+      'isValidSubmit': isValidSubmit$,
+      'message': message$,
+      'loading': loadingController,
+    }.debug;
+
+    subscriptions;
 
     return AuthBloc._(
-      dispose: _onDispose,
+      dispose: () {
+        for (var controller in controllers) {
+          if (controller is BehaviorSubject) {
+            controller.clear();
+            controller.close();
+          } else if (controller is PublishSubject) {
+            controller.clear();
+            controller.close();
+          }
+        }
+      },
       emailedChanged: trim.pipe(emailController.add),
       passwordChanged: trim.pipe(passwordController.add),
       submitSignIn: () => submitSignInController.add(null),
       submitRegister: () => submitSignInController.add(null),
       emailError$: emailError$,
       passwordError$: passwordError$,
-      message$: null,
+      message$: message$,
       loading$: loadingController,
     );
   }
 
-  static AuthState? _responseToMessage(SResult<User> data) {
+  static AuthState _responseToMessage(SResult<User?> data) {
     return data.fold(
       ifLeft: (error) =>
           SignInErrorMessage(error.code!, error.message) as AuthState,
