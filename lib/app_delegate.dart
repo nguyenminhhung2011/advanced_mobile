@@ -11,7 +11,7 @@ import 'application.dart';
 import 'clean_architectures/data/datasource/local/preferences.dart';
 import 'clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart';
 import 'core/components/configurations/configurations.dart';
-import 'core/dependency_injection/di.dart'; 
+import 'core/dependency_injection/di.dart';
 // import 'data/datasource/local/preferences.dart';
 
 class Mutable<T> {
@@ -34,7 +34,7 @@ class AppDelegate {
       providers: [
         BlocProvider<TestUiBloc>(create: (_) => injector.get()),
       ],
-      initialRoute: Routes.testUi,
+      initialRoute: Routes.auth,
       savedThemeMode: savedThemeMode,
       isMobile: isMobile,
     );

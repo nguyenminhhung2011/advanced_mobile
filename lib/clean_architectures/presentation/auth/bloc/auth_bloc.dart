@@ -1,64 +1,64 @@
 import 'dart:async';
 
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_state.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/stream_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
-import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-import 'package:injectable/injectable.dart';
-
 import 'package:rxdart/rxdart.dart';
-
-import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
-
-enum AuthState { none, loading }
+import 'package:injectable/injectable.dart';
+import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/stream_extensions.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_state.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
 
 @injectable
 class AuthBloc extends DisposeCallbackBaseBloc {
   ///[functions] input
-  final Function1<String, void> emailedChanged;
-
-  final Function1<String, void> passwordChanged;
 
   final Function0<void> submitSignIn;
 
   final Function0<void> submitRegister;
 
+  final Function1<String, void> emailedChanged;
+
+  final Function1<String, void> passwordChanged;
+
   ///[Streams] response
-
-  final Stream<String?> emailError$;
-
-  final Stream<String?> passwordError$;
 
   final Stream<bool?> loading$;
 
   final Stream<AuthState> message$;
 
+  final Stream<String?> emailError$;
+
+  final Stream<String?> passwordError$;
+
   AuthBloc._({
     required Function0<void> dispose,
 
     ///[Event functions]
-    required this.emailedChanged,
-    required this.passwordChanged,
     required this.submitSignIn,
+    required this.emailedChanged,
     required this.submitRegister,
+    required this.passwordChanged,
 
     ///[States]
-    required this.emailError$,
-    required this.passwordError$,
     required this.message$,
     required this.loading$,
+    required this.emailError$,
+    required this.passwordError$,
   }) : super(dispose);
 
   factory AuthBloc({required LoginUseCase login}) {
     ///[controllers]
     final emailController = PublishSubject<String>();
+
     final passwordController = PublishSubject<String>();
+
     final submitSignInController = PublishSubject<void>();
+
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
     final controllers = [
@@ -107,7 +107,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
           ),
       submit$
           .where((isValid) => !isValid)
-          .map((_) => const InvalidFormatMessage() as AuthState)
+          .map((_) => const InvalidFormatMessage())
     ]).whereNotNull().share();
 
     final emailError$ = emailController.stream
@@ -127,11 +127,11 @@ class AuthBloc extends DisposeCallbackBaseBloc {
         .share();
 
     final subscriptions = <String, Stream>{
-      'emailError': emailError$,
-      'passwordError': passwordError$,
-      'isValidSubmit': isValidSubmit$,
       'message': message$,
+      'emailError': emailError$,
       'loading': loadingController,
+      'isValidSubmit': isValidSubmit$,
+      'passwordError': passwordError$,
     }.debug;
 
     subscriptions;
@@ -148,22 +148,21 @@ class AuthBloc extends DisposeCallbackBaseBloc {
           }
         }
       },
+      message$: message$,
+      emailError$: emailError$,
+      loading$: loadingController,
+      passwordError$: passwordError$,
       emailedChanged: trim.pipe(emailController.add),
       passwordChanged: trim.pipe(passwordController.add),
       submitSignIn: () => submitSignInController.add(null),
       submitRegister: () => submitSignInController.add(null),
-      emailError$: emailError$,
-      passwordError$: passwordError$,
-      message$: message$,
-      loading$: loadingController,
     );
   }
 
   static AuthState _responseToMessage(SResult<User?> data) {
     return data.fold(
-      ifLeft: (error) =>
-          SignInErrorMessage(error.code!, error.message) as AuthState,
-      ifRight: (_) => const SignInSuccessMessage() as AuthState,
+      ifRight: (_) => const SignInSuccessMessage(),
+      ifLeft: (error) => SignInErrorMessage(error.code!, error.message),
     );
   }
 }

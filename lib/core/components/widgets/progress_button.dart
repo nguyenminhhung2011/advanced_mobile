@@ -178,7 +178,7 @@ class _ProgressButtonState extends State<ProgressButton>
     setState(() {
       _progressButtonState = ProgressButtonState.normal;
     });
-  } 
+  }
 
   void _cancelAnimation(bool isRemove) {
     if (isRemove) {
