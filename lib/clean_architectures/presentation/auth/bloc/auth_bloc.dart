@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:disposebag/disposebag.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:injectable/injectable.dart';
@@ -8,7 +10,6 @@ import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/stream_extensions.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_state.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
@@ -100,6 +101,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
             (credential) =>
                 login(email: credential.email, password: credential.password)
                     .doOn(
+                      ///[loading state] set loading after submit
                       listen: () => loadingController.add(true),
                       cancel: () => loadingController.add(false),
                     )
@@ -137,15 +139,13 @@ class AuthBloc extends DisposeCallbackBaseBloc {
     subscriptions;
 
     return AuthBloc._(
-      dispose: () {
-        for (var controller in controllers) {
-          if (controller is BehaviorSubject) {
-            controller.clear();
-            controller.close();
-          } else if (controller is PublishSubject) {
-            controller.clear();
-            controller.close();
-          }
+      dispose: () async {
+        try {
+          await DisposeBag([...controllers, subscriptions]).dispose();
+        } catch (exceptions) {
+          log('[Exceptions] ${exceptions.toString()}');
+        } finally {
+          // super.dispose();
         }
       },
       message$: message$,

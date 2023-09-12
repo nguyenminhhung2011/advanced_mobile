@@ -353,6 +353,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.3.2"
+  disposebag:
+    dependency: "direct main"
+    description:
+      name: disposebag
+      sha256: c38be345780e0e4a4690b25b7c76b7d7d0cb39ec1c1f7895fe5e72f3630e3b78
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   dotted_border:
     dependency: "direct main"
     description:

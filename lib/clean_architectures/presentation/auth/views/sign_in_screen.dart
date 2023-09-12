@@ -29,8 +29,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   void initState() {
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _emailController = TextEditingController(text: 'hung@gmail.com');
+    _passwordController = TextEditingController(text: '20112002');
     super.initState();
   }
 
@@ -79,10 +79,10 @@ class _SignInScreenState extends State<SignInScreen> {
   Stream<void> handleState(state) async* {
     if (state is SignInSuccessMessage) {
       log("[Sign in] success");
-      await delay(1000);
+      await delay(100);
       yield null;
       // ignore: use_build_context_synchronously
-      context.openListPageWithRoute(Routes.testUi);
+      await context.pushAndRemoveAll(Routes.testUi);
       return;
     }
     if (state is SignInErrorMessage) {

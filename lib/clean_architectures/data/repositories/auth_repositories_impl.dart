@@ -5,7 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/repos
 import 'package:injectable/injectable.dart';
 
 void delayed() async {
-  await Future.delayed(const Duration(seconds: 3));
+  await Future.delayed(const Duration(seconds: 6));
 }
 
 @Injectable(as: AuthRepository)

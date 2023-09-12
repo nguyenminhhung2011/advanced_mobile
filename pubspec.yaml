@@ -132,6 +132,7 @@ dependencies:
   dart_either: ^1.0.0
   rxdart: ^0.27.7
   rxdart_ext: ^0.2.9
+  disposebag: ^1.5.1
   # table_calendar: ^3.0.8
   # readmore: ^2.2.0
 
