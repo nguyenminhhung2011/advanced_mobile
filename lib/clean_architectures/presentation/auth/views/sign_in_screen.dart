@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_bloc.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_state.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -16,7 +17,11 @@ class SignInScreen extends StatefulWidget {
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenState extends State<SignInScreen>
+    with
+        DidChangeDependencies,
+        // DisposableMixin,
+        SingleTickerProviderStateMixin<SignInScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   final _passwordFocusNode = FocusNode();
@@ -32,6 +37,11 @@ class _SignInScreenState extends State<SignInScreen> {
     _emailController = TextEditingController(text: 'hung@gmail.com');
     _passwordController = TextEditingController(text: '20112002');
     super.initState();
+    didChangeDependencies$ 
+        .exhaustMap((_) => _bloc.message$)
+        .exhaustMap(handleState)
+        .collect();
+    // .disposedBy();
   }
 
   @override
@@ -50,7 +60,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void didChangeDependencies() {
     ///[Call] when get change value from Provider or parent widget
     super.didChangeDependencies();
-    listenState ??= _bloc.message$.flatMap(handleState).collect();
+    // listenState ??= _bloc.message$.flatMap(handleState).collect();
   }
 
   @override

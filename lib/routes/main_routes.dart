@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
 import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';

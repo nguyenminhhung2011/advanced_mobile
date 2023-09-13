@@ -23,7 +23,7 @@ import '../../clean_architectures/domain/usecase/login/login_usecase.dart'
     as _i8;
 import '../../clean_architectures/domain/usecase/setting/setting_usecase.dart'
     as _i9;
-import '../../clean_architectures/presentation/auth/bloc/auth_bloc.dart'
+import '../../clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart'
     as _i12;
 import '../../clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart'
     as _i10;

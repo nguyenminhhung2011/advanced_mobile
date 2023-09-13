@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:disposebag/disposebag.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:injectable/injectable.dart';
@@ -11,7 +12,6 @@ import 'package:flutter_base_clean_architecture/core/components/utils/validators
 import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/auth_state.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
 
 @injectable
@@ -98,14 +98,16 @@ class AuthBloc extends DisposeCallbackBaseBloc {
           .where((isValid) => isValid)
           .withLatestFrom(credential$, (_, Credential credential) => credential)
           .exhaustMap(
-            (credential) =>
-                login(email: credential.email, password: credential.password)
-                    .doOn(
-                      ///[loading state] set loading after submit
-                      listen: () => loadingController.add(true),
-                      cancel: () => loadingController.add(false),
-                    )
-                    .map(_responseToMessage),
+            (credential) => login(
+              email: credential.email,
+              password: credential.password,
+            )
+                .doOn(
+                  ///[loading state] set loading after submit
+                  listen: () => loadingController.add(true),
+                  cancel: () => loadingController.add(false),
+                )
+                .map(_responseToMessage),
           ),
       submit$
           .where((isValid) => !isValid)
@@ -166,3 +168,4 @@ class AuthBloc extends DisposeCallbackBaseBloc {
     );
   }
 }
+  
