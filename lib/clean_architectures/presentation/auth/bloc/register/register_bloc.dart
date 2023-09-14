@@ -1,4 +1,5 @@
 import 'package:disposebag/disposebag.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
@@ -119,6 +120,7 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
             )
       ],
     )
+        .debug(identifier: "Register", log: debugPrint)
         .whereNotNull()
 
         ///[check] in list group stream have a stream is not null => listen => and connect with UI activities
