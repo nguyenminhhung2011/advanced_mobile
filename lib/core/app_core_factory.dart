@@ -4,10 +4,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
+import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
 
-import '../clean_architectures/data/datasource/local/preferences.dart';
 import '../clean_architectures/data/datasource/remote/auth/auth_api.dart';
-import 'dependency_injection/di.dart';
 
 class AppCoreFactory {
   static Dio createDio(String baseUrl) {
@@ -20,8 +20,8 @@ class AppCoreFactory {
         },
       ),
     )
-      // ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true)); // add with app have social login
-      ..interceptors.add(TokenInterceptor());
+      ..interceptors.add(TokenInterceptor())
+      ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     if (!kIsWeb) {
       (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
           (HttpClient client) {

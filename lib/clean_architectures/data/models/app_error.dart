@@ -11,4 +11,6 @@ class AppError {
 }
 
 typedef SResult<T> = Either<AppException, T>;
+
+///[value] return both data and exception
 typedef SingleResult<T> = Single<SResult<T>>;

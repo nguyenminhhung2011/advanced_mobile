@@ -1,3 +1,5 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
+
 class Validator {
   Validator._();
 
@@ -9,7 +11,14 @@ class Validator {
 
   static bool isValidPassword(String password) => password.length >= 6;
 
+  static bool iSValidRePassword(String password, String rePassword) =>
+      password == rePassword;
+
   static bool isValidEmail(String email) => _emailRegex.hasMatch(email);
 
   static bool isValidUserName(String userName) => userName.length >= 3;
+
+  static bool tokenNull(TokenModel tokenModel) =>
+      !(tokenModel.access?.token?.isNotEmpty ?? false) ||
+      !(tokenModel.refresh?.token?.isNotEmpty ?? false);
 }

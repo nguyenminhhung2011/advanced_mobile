@@ -1,5 +1,6 @@
+import 'package:disposebag/disposebag.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/register/register_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
@@ -19,7 +20,7 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
 
   final Function1<String, void> passwordChanged;
 
-  final Function2<String, String, void> rePasswordChanged;
+  final Function1<String, void> rePasswordChanged;
 
   ///[Streams] response
 
@@ -30,8 +31,6 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
   final Stream<String?> emailError$;
 
   final Stream<String?> passwordError$;
-
-  final Stream<String?> rePasswordError$;
 
   RegisterBloc._({
     required Function0<void> dispose,
@@ -47,7 +46,6 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
     required this.loading$,
     required this.emailError$,
     required this.passwordError$,
-    required this.rePasswordError$,
   }) : super(dispose);
 
   factory RegisterBloc({required LoginUseCase login}) {
@@ -58,7 +56,7 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
 
     final rePasswordController = PublishSubject<String>();
 
-    final submitRegisterController = PublishSubject<String>();
+    final submitRegisterController = PublishSubject<void>();
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
@@ -83,36 +81,92 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
       [
         submit$
             .where((isValid) => isValid)
-            .withLatestFrom(Rx.combineLatest3(
-              emailController.stream,
-              passwordController.stream,
-              rePasswordController.stream,
-              (a, b, c) => {'email': a, 'pass': b, 'rePass': c},
-            ))
+            .withLatestFrom(
+                Rx.combineLatest3(
+                  emailController.stream,
+                  passwordController.stream,
+                  rePasswordController.stream,
+                  (email, pass, rePass) =>
+                      {'email': email, 'pass': pass, 'rePass': rePass},
+                ),
+                (_, Map credential) => credential)
             .exhaustMap((groupData) {
           final email = groupData['email'].toString();
           final password = groupData['pass'].toString();
           final rePass = groupData['rePass'].toString();
           if (password != rePass) {
-            return InvalidFormatMessage(message: message);
+            return Stream<RegisterState>.error(
+              const InvalidFormatMessage(
+                  message: 'Password and rePassword are not match'),
+            );
           }
-          return login(
-            email: groupData['email'].toString(),
-            password: groupData['pass'].toString(),
-          )
-              .doOn(
-                listen: () => loadingController.add(true),
-                cancel: () => loadingController.add(false),
-              )
-              .map(_responseState);
+          try {
+            return login(email: email, password: password)
+                .doOn(
+                  ///[Change state] update loading value when register complete
+                  listen: () => loadingController.add(true),
+                  cancel: () => loadingController.add(false),
+                )
+                .map(_responseState);
+          } catch (e) {
+            return Stream<RegisterState>.error(
+              RegisterError(null, message: e.toString()),
+            );
+          }
         }),
+        submit$.where((isValid) => !isValid).map(
+              (_) => const InvalidFormatMessage(),
+            )
       ],
-    ).whereNotNull().share();
+    )
+        .whereNotNull()
 
-    return RegisterBloc();
+        ///[check] in list group stream have a stream is not null => listen => and connect with UI activities
+        .share();
+
+    ///[Share] share stream with another stream listen {in this function share state to UI}
+
+    final emailError$ = emailController.stream
+        .map((text) {
+          if (!Validator.isValidEmail(text)) return null;
+          return "Invalid email";
+        })
+        .distinct()
+
+        ///[distinct] don't get exists data
+        .share();
+    final passError$ = passwordController.stream
+        .map((text) {
+          if (!Validator.isValidPassword(text)) return null;
+          return "Invalid password";
+        })
+        .distinct()
+        .share();
+
+    // final subscriptions = []
+
+    return RegisterBloc._(
+      dispose: () => DisposeBag([
+        emailController,
+        passwordController,
+        rePasswordController,
+        submitRegisterController,
+        loadingController
+      ]).dispose(),
+      submitRegister: () => submitRegisterController.add(null),
+      emailChanged: trim.pipe(emailController.add),
+
+      ///[Format] trim string then submit text change function
+      passwordChanged: trim.pipe(passwordController.add),
+      rePasswordChanged: trim.pipe(rePasswordController.add),
+      state$: state$,
+      loading$: loadingController,
+      emailError$: emailError$,
+      passwordError$: passError$,
+    );
   }
 
-  static RegisterState _responseState(SResult<User?> data) => data.fold(
+  static RegisterState _responseState(SResult<TokenModel?> data) => data.fold(
         ifRight: (_) => RegisterSuccess(),
         ifLeft: (error) => RegisterError(error.code!, message: error.message),
       );

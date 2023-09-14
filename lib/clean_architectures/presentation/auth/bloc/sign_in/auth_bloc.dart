@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:disposebag/disposebag.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -11,7 +13,6 @@ import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
 
 @injectable
@@ -21,6 +22,8 @@ class AuthBloc extends DisposeCallbackBaseBloc {
   final Function0<void> submitSignIn;
 
   final Function0<void> submitRegister;
+
+  final Function0<void> submitGoogleSignIn;
 
   final Function1<String, void> emailedChanged;
 
@@ -44,6 +47,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
     required this.emailedChanged,
     required this.submitRegister,
     required this.passwordChanged,
+    required this.submitGoogleSignIn,
 
     ///[States]
     required this.message$,
@@ -97,18 +101,24 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       submit$
           .where((isValid) => isValid)
           .withLatestFrom(credential$, (_, Credential credential) => credential)
-          .exhaustMap(
-            (credential) => login(
-              email: credential.email,
-              password: credential.password,
-            )
-                .doOn(
-                  ///[loading state] set loading after submit
-                  listen: () => loadingController.add(true),
-                  cancel: () => loadingController.add(false),
-                )
-                .map(_responseToMessage),
-          ),
+          .exhaustMap((credential) {
+        try {
+          return login(
+            email: credential.email,
+            password: credential.password,
+          )
+              .doOn(
+                ///[loading state] set loading after submit
+                listen: () => loadingController.add(true),
+                cancel: () => loadingController.add(false),
+              )
+              .map(_responseToMessage);
+        } catch (e) {
+          return Stream<AuthState>.error(
+            SignInErrorMessage(message: e.toString()),
+          );
+        }
+      }),
       submit$
           .where((isValid) => !isValid)
           .map((_) => const InvalidFormatMessage())
@@ -158,14 +168,15 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       passwordChanged: trim.pipe(passwordController.add),
       submitSignIn: () => submitSignInController.add(null),
       submitRegister: () => submitSignInController.add(null),
+      submitGoogleSignIn: () {},
     );
   }
 
-  static AuthState _responseToMessage(SResult<User?> data) {
+  static AuthState _responseToMessage(SResult<TokenModel?> data) {
     return data.fold(
       ifRight: (_) => const SignInSuccessMessage(),
-      ifLeft: (error) => SignInErrorMessage(error.code!, error.message),
+      ifLeft: (error) =>
+          SignInErrorMessage(error: error.code, message: error.message),
     );
   }
 }
-  

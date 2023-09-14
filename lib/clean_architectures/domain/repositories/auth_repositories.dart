@@ -1,6 +1,11 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 
 abstract class AuthRepository {
-  SingleResult<User?> login({required String email, required String password});
+  SingleResult<TokenModel?> login(
+      {required String email, required String password});
+
+  SingleResult<User?> register(
+      {required String email, required String password});
 }

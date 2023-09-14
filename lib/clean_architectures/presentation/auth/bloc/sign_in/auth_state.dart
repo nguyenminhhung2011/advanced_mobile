@@ -17,12 +17,13 @@ class SignInSuccessMessage implements AuthState {
 }
 
 class SignInErrorMessage implements AuthState {
-  final Object error;
-  final String message;
-  const SignInErrorMessage(this.error, this.message);
+  final Object? error;
+  final String? message;
+  const SignInErrorMessage({this.error, this.message});
 
   @override
-  String toString() => "SignInErrorMessage => {message=$message, error=$error}";
+  String toString() =>
+      "SignInErrorMessage => {message=${message ?? ''}, error=${error ?? ''}}";
 }
 
 class InvalidFormatMessage implements AuthState {

@@ -9,12 +9,12 @@ class RegisterSuccess implements RegisterState {
 }
 
 class RegisterError implements RegisterState {
-  final Object error;
+  final Object? error;
   final String message;
   RegisterError(this.error, {this.message = "Register error"});
 }
 
 class InvalidFormatMessage implements RegisterState {
-  final String message;
-  const InvalidFormatMessage({required this.message});
+  final String? message;
+  const InvalidFormatMessage({this.message});
 }

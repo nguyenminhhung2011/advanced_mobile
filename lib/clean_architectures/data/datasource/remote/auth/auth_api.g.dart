@@ -19,22 +19,22 @@ class _AuthApi implements AuthApi {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<AuthenticateResponse>> login(
+  Future<HttpResponse<SignInResponse?>> login(
       {required Map<String, dynamic> body}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<AuthenticateResponse>>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<HttpResponse<SignInResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/api/v1/auth/authenticate',
+              '/auth/login',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -43,7 +43,8 @@ class _AuthApi implements AuthApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = AuthenticateResponse.fromJson(_result.data!);
+    final value =
+        _result.data == null ? null : SignInResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
@@ -62,7 +63,7 @@ class _AuthApi implements AuthApi {
     )
             .compose(
               _dio.options,
-              '/api/v1/auth/logout',
+              '/auth/logout',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -90,7 +91,7 @@ class _AuthApi implements AuthApi {
     )
             .compose(
               _dio.options,
-              '/api/v1/auth/refresh_token',
+              '/auth/refresh_token',
               queryParameters: queryParameters,
               data: _data,
             )
