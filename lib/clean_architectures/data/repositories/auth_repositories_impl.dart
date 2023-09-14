@@ -1,10 +1,9 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/auth/auth_api.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/base_api.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/data_state.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
@@ -29,16 +28,12 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
     return SingleResult.fromCallable(
       () async {
         final body = {'email': email, 'password': password};
-        final response = await _authApi.login(body: body);
-        final statusCode = response.response.statusCode;
-        log("[Status code] $statusCode");
-        if (statusCode != HttpStatus.ok) {
-          log("[Error] error");
+        final response = await getStateOf(
+          request: () async => await _authApi.login(body: body),
+        );
+        if (response is DataFailed) {
           return Either.left(
-            AppException(
-              message: response.response.statusMessage ?? '',
-              code: statusCode,
-            ),
+            AppException(message: response.dioError?.message ?? 'Error'),
           );
         }
         if (response.data == null) {

@@ -14,10 +14,12 @@ abstract class BaseApi {
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return DataSuccess(data: httpResponse.data);
       } else {
-        // ignore: deprecated_member_use
-        throw DioError(
-          requestOptions: httpResponse.response.requestOptions,
-          response: httpResponse.response,
+        return DataFailed(
+          // ignore: deprecated_member_use
+          dioError: DioError(
+            requestOptions: httpResponse.response.requestOptions,
+            response: httpResponse.response,
+          ),
         );
       }
       // ignore: deprecated_member_use
