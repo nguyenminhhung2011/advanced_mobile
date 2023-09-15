@@ -5,7 +5,7 @@ part 'pagination.freezed.dart';
 @freezed
 class Pagination<T> with _$Pagination {
   const factory Pagination({
-    required int count,
+    @Default(0) int count,
     @Default(10) int perPage,
     @Default(1) int currentPage,
     required List<T> rows,

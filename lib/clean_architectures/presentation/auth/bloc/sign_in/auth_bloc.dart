@@ -154,7 +154,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
         try {
           await DisposeBag([...controllers, subscriptions]).dispose();
         } catch (exceptions) {
-          log('[Exceptions] ${exceptions.toString()}');
+          log('[Sign in exceptions] ${exceptions.toString()}');
         } finally {
           // super.dispose();
         }

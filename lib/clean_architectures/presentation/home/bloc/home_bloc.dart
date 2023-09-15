@@ -1,6 +1,5 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/home/home_usecase.dart';
@@ -51,8 +50,9 @@ class HomeBloc extends DisposeCallbackBaseBloc {
     ///
 
     final isValid$ = Rx.combineLatest2(
-            paginationController.stream
-                .map((pag) => pag.count >= (pag.perPage * pag.currentPage)),
+            paginationController.stream.map((pag) => pag.count == 0
+                ? true
+                : pag.count < (pag.perPage * pag.currentPage)),
             loadingController.stream,
             (paginationValid, loading) => !loading && paginationValid)
         .shareValueSeeded(false);
@@ -77,7 +77,18 @@ class HomeBloc extends DisposeCallbackBaseBloc {
                 listen: () => loadingController.add(true),
                 cancel: () => loadingController.add(false),
               )
-              .map(_responseState);
+              .map(
+                (data) => data.fold(
+                  ifLeft: (error) => FetchDataCourseFailed(
+                      error: error.code, message: error.message),
+                  ifRight: (data) {
+                    if (data != null) {
+                      paginationController.add(data);
+                    }
+                    return const FetchDataCourseSuccess();
+                  },
+                ),
+              );
         } catch (e) {
           return Stream<HomeState>.error(
             FetchDataCourseFailed(message: e.toString()),
@@ -85,15 +96,9 @@ class HomeBloc extends DisposeCallbackBaseBloc {
         }
       }).debug(identifier: 'Fetch courses data', log: debugPrint),
       fetchData$
-          .where((loading) => !loading)
-          .map((_) => const FetchDataCourseFailed(message: "Fetching data"))
+          .where((isValid) => !isValid)
+          .map((_) => const FetchDataCourseFailed(message: "Invalid format"))
     ]).whereNotNull().share();
-    // final state$ = Rx.merge<HomeState>([
-    //   fetchDataController.withLatestFrom(
-    //     Rx.,
-    //     (t, Pagination pagination) => pagination,
-    //   )
-    // ]).whereNotNull().share();
 
     return HomeBloc._(
       dispose: () async => await DisposeBag(
@@ -105,11 +110,4 @@ class HomeBloc extends DisposeCallbackBaseBloc {
       courses$: paginationController,
     );
   }
-
-  static HomeState _responseState(SResult<Pagination<Course>?> data) =>
-      data.fold(
-        ifLeft: (error) =>
-            FetchDataCourseFailed(error: error.code, message: error.message),
-        ifRight: (_) => const FetchDataCourseSuccess(),
-      );
 }

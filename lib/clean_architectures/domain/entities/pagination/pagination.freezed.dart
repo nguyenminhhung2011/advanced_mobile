@@ -126,13 +126,14 @@ class __$$_PaginationCopyWithImpl<T, $Res>
 
 class _$_Pagination<T> implements _Pagination<T> {
   const _$_Pagination(
-      {required this.count,
+      {this.count = 0,
       this.perPage = 10,
       this.currentPage = 1,
       required final List<T> rows})
       : _rows = rows;
 
   @override
+  @JsonKey()
   final int count;
   @override
   @JsonKey()
@@ -178,7 +179,7 @@ class _$_Pagination<T> implements _Pagination<T> {
 
 abstract class _Pagination<T> implements Pagination<T> {
   const factory _Pagination(
-      {required final int count,
+      {final int count,
       final int perPage,
       final int currentPage,
       required final List<T> rows}) = _$_Pagination<T>;

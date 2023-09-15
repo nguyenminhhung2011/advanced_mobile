@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/datasou
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/base_api.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/data_state.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/sign_in_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/auth_repositories.dart';
@@ -28,7 +29,7 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
     return SingleResult.fromCallable(
       () async {
         final body = {'email': email, 'password': password};
-        final response = await getStateOf(
+        final response = await getStateOf<SignInResponse?>(
           request: () async => await _authApi.login(body: body),
         );
         if (response is DataFailed) {

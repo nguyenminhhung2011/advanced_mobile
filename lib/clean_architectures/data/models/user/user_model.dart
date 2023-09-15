@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
 class UserModel {
   @JsonKey(name: 'id')
   final String id;

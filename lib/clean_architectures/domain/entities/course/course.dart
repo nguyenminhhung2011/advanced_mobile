@@ -23,4 +23,7 @@ class Course with _$Course {
     @Default(<CourseCategory>[]) List<CourseCategory> categories,
     @Default(<CourseTopic>[]) List<CourseTopic> topics,
   }) = _Course;
+
+  
+
 }

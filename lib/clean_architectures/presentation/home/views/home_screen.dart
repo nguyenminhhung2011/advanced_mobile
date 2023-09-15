@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
         .exhaustMap(handleState)
         .collect();
 
-    _fetchData();
+    // _fetchData();
   }
 
   void _fetchData() => _bloc.fetchData();
@@ -50,25 +54,53 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
-          Expanded(
-              child: StreamBuilder<Pagination<Course>?>(
+          const SizedBox(height: 100),
+          StreamBuilder<Pagination<Course?>>(
             stream: _bloc.courses$,
+            builder: (context, snapShot) =>
+                Text(snapShot.data?.count.toString() ?? '01'),
+          ),
+          StreamBuilder<bool?>(
+            stream: _bloc.loading$,
             builder: (context, snapShot) {
-              return PaginationViewCustom<Course>(
-                paginationViewType: PaginationViewType.list,
-                paginationDataCall: (_, __) async {
-                  _fetchData();
-                  return snapShot.data!.rows as List<Course>;
+              return ButtonCustom(
+                loading: (snapShot.data ?? false),
+                onPress: () {
+                  _bloc.fetchData();
                 },
-                items: [],
-                itemBuilder: (_, course, __) => const SizedBox(),
+                child: const Text('clic here'),
               );
             },
-          ))
+          ),
+          // Expanded(
+          //     child: StreamBuilder<Pagination<Course>?>(
+          //   stream: _bloc.courses$,
+          //   builder: (context, snapShot) {
+          //     return PaginationViewCustom<Course>(
+          //       paginationViewType: PaginationViewType.list,
+          //       paginationDataCall: (_, __) async {
+          //         print(1);
+          //         _fetchData();
+          //         return snapShot.data!.rows as List<Course>;
+          //       },
+          //       items: [],
+          //       itemBuilder: (_, course, __) => const SizedBox(),
+          //     );
+          //   },
+          // ))
         ],
       ),
     );
   }
 
-  Stream<void> handleState(state) async* {}
+  Stream<void> handleState(state) async* {
+    if (state is FetchDataCourseFailed) {
+      log('[Fetch data course] ${state.message}');
+      return;
+    }
+    if (state is FetchDataCourseSuccess) {
+      log('[Fetch data success] ${state.message}');
+      return;
+    }
+  }
 }
