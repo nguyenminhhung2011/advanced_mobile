@@ -129,7 +129,7 @@ class _$_Pagination<T> implements _Pagination<T> {
       {required this.count,
       this.perPage = 10,
       this.currentPage = 1,
-      final List<T> rows = const []})
+      required final List<T> rows})
       : _rows = rows;
 
   @override
@@ -142,7 +142,6 @@ class _$_Pagination<T> implements _Pagination<T> {
   final int currentPage;
   final List<T> _rows;
   @override
-  @JsonKey()
   List<T> get rows {
     if (_rows is EqualUnmodifiableListView) return _rows;
     // ignore: implicit_dynamic_type
@@ -182,7 +181,7 @@ abstract class _Pagination<T> implements Pagination<T> {
       {required final int count,
       final int perPage,
       final int currentPage,
-      final List<T> rows}) = _$_Pagination<T>;
+      required final List<T> rows}) = _$_Pagination<T>;
 
   @override
   int get count;
