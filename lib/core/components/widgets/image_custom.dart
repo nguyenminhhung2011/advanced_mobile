@@ -23,7 +23,6 @@ class ImageCustom extends StatelessWidget {
   });
 
   double get _width => width ?? 50.0;
-  double get _height => height ?? 50.0;
 
   @override
   Widget build(BuildContext context) {

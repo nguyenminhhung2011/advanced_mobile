@@ -11,6 +11,7 @@ import 'package:flutter_base_clean_architecture/core/components/constant/image_c
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/skeleton_custom.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
@@ -78,27 +79,9 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
                 return StreamBuilder(
                   stream: _bloc.loading$,
                   builder: (ctx2, snapShot2) {
-                    return ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(
-                        parent: BouncingScrollPhysics(),
-                      ),
-                      controller: _scrollController,
-                      itemCount: listItem.length,
-                      itemBuilder: (context, index) {
-                        if (index < listItem.length) {
-                          return _itemBuilder(listItem[index]);
-                        }
-                        if (index >= listItem.length &&
-                            (snapShot2.data ?? false)) {
-                          Timer(const Duration(milliseconds: 30), () {
-                            _scrollController!.jumpTo(
-                              _scrollController!.position.maxScrollExtent,
-                            );
-                          });
-                          return const CircularProgressIndicator();
-                        }
-                        return const SizedBox();
-                      },
+                    return _listView(
+                      listItem: listItem,
+                      loading: snapShot2.data ?? false,
                     );
                   },
                 );
@@ -107,6 +90,36 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
           )
         ],
       ),
+    );
+  }
+
+  ListView _listView({required List<dynamic> listItem, required bool loading}) {
+    return ListView.builder(
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
+      controller: _scrollController,
+      itemCount: listItem.length + 1,
+      itemBuilder: (context, index) {
+        if (index < listItem.length) {
+          return _itemBuilder(listItem[index]);
+        }
+        if (index >= listItem.length && (loading)) {
+          Timer(const Duration(milliseconds: 30), () {
+            _scrollController!.jumpTo(
+              _scrollController!.position.maxScrollExtent,
+            );
+          });
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: Center(
+              child: StyleLoadingWidget.foldingCube.renderWidget(
+                  size: 40.0, color: Theme.of(context).primaryColor),
+            ),
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 
