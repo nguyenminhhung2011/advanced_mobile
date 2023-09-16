@@ -57,11 +57,11 @@ class SplashBloc extends DisposeCallbackBaseBloc {
           String accessToken = CommonAppSettingPref.getAccessToken();
           String refreshToken = CommonAppSettingPref.getRefreshToken();
           int expiredTime = CommonAppSettingPref.getExpiredTime();
-          log("[Access] $accessToken \n[Refresh] $refreshToken");
 
           if (accessToken.isNotEmpty ||
               refreshToken.isNotEmpty ||
               expiredTime != -1) {
+            log("[Access] $accessToken \n[Refresh] $refreshToken");
             final expiredTimeParsed =
                 DateTime.fromMillisecondsSinceEpoch(expiredTime);
             final isExpired = DateTime.now().isAfter(expiredTimeParsed);

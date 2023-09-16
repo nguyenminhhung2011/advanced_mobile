@@ -19,6 +19,7 @@ class CourseRepositoriesImpl extends BaseApi implements CourseRepositories {
   SingleResult<Pagination<Course>> pagFetchCourseData(
           {required int page, required int perPge}) =>
       SingleResult.fromCallable(() async {
+        await Future.delayed(const Duration(seconds: 2));
         final response = await getStateOf<CoursesResponse?>(
           request: () async => await _courseApi.pagFetchData(page, perPge),
         );

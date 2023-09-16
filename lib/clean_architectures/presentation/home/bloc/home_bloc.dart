@@ -39,7 +39,10 @@ class HomeBloc extends DisposeCallbackBaseBloc {
   factory HomeBloc({required HomeUseCase homeUseCase}) {
     ///[controllers]
 
-    final paginationController = PublishSubject<Pagination<Course>>();
+    final paginationController = BehaviorSubject<Pagination<Course>>.seeded(
+      const Pagination<Course>(
+          rows: <Course>[], count: 0, perPage: 10, currentPage: 0),
+    );
 
     final fetchDataController = PublishSubject<void>();
 
@@ -50,11 +53,12 @@ class HomeBloc extends DisposeCallbackBaseBloc {
     ///
 
     final isValid$ = Rx.combineLatest2(
-        paginationController.stream.map((pag) => pag.count == 0
-            ? true
-            : pag.count < (pag.perPage * pag.currentPage)),
-        loadingController.stream,
-        (paginationValid, loading) => !loading && true).shareValueSeeded(false);
+            paginationController.stream.map((pag) => pag.count == 0
+                ? true
+                : pag.count > (pag.perPage * pag.currentPage)),
+            loadingController.stream,
+            (paginationValid, loading) => !loading && paginationValid)
+        .shareValueSeeded(false);
 
     final fetchData$ = fetchDataController.stream
         .withLatestFrom(isValid$, (_, isValid) => isValid)
@@ -63,6 +67,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
     final state$ = Rx.merge<HomeState>([
       fetchData$
           .where((isValid) => isValid)
+          .debug(log: debugPrint)
           .withLatestFrom(paginationController.stream,
               (_, Pagination<Course> pagination) => pagination)
           .exhaustMap((pagination) {
@@ -82,9 +87,15 @@ class HomeBloc extends DisposeCallbackBaseBloc {
                       error: error.code, message: error.message),
                   ifRight: (data) {
                     if (data != null) {
-                      paginationController.add(data);
+                      paginationController.add(Pagination(
+                        count: data.count,
+                        perPage: data.perPage,
+                        currentPage: data.currentPage,
+                        rows: [...pagination.rows, ...data.rows],
+                      ));
+                      return const FetchDataCourseSuccess();
                     }
-                    return const FetchDataCourseSuccess();
+                    return const FetchDataCourseFailed(message: 'Data null');
                   },
                 ),
               );
