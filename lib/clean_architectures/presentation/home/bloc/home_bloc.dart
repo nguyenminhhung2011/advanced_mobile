@@ -50,12 +50,11 @@ class HomeBloc extends DisposeCallbackBaseBloc {
     ///
 
     final isValid$ = Rx.combineLatest2(
-            paginationController.stream.map((pag) => pag.count == 0
-                ? true
-                : pag.count < (pag.perPage * pag.currentPage)),
-            loadingController.stream,
-            (paginationValid, loading) => !loading && paginationValid)
-        .shareValueSeeded(false);
+        paginationController.stream.map((pag) => pag.count == 0
+            ? true
+            : pag.count < (pag.perPage * pag.currentPage)),
+        loadingController.stream,
+        (paginationValid, loading) => !loading && true).shareValueSeeded(false);
 
     final fetchData$ = fetchDataController.stream
         .withLatestFrom(isValid$, (_, isValid) => isValid)

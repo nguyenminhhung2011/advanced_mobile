@@ -3,6 +3,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/bloc/slash_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/views/splash_screen.dart';
 import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -33,6 +35,15 @@ class MainRoutes {
           builder: (_) => BlocProvider<HomeBloc>(
             initBloc: (_) => HomeBloc(homeUseCase: injector.get()),
             child: const HomeScreen(),
+          ),
+        );
+
+      case Routes.splash:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => BlocProvider<SplashBloc>(
+            initBloc: (_) => SplashBloc(),
+            child: const SplashScreen(),
           ),
         );
 

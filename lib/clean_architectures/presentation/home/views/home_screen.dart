@@ -7,7 +7,6 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -21,20 +20,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
   HomeBloc get _bloc => BlocProvider.of<HomeBloc>(context);
+  Object? listen;
 
   @override
   void initState() {
     super.initState();
 
-    didChangeDependencies$
-        .exhaustMap((_) => _bloc.state$)
-        .exhaustMap(handleState)
-        .collect();
-
     // _fetchData();
   }
-
-  void _fetchData() => _bloc.fetchData();
 
   @override
   void dispose() {
@@ -45,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
   void didChangeDependencies() {
     ///
     super.didChangeDependencies();
+    listen ??= _bloc.state$.flatMap(handleState).collect();
     // dom something
   }
 

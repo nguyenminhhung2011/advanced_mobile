@@ -34,7 +34,7 @@ class AppDelegate {
       providers: [
         BlocProvider<TestUiBloc>(create: (_) => injector.get()),
       ],
-      initialRoute: Routes.auth,
+      initialRoute: Routes.splash,
       savedThemeMode: savedThemeMode,
       isMobile: isMobile,
     );
