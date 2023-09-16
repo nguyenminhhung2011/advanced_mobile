@@ -11,6 +11,7 @@ import 'package:flutter_base_clean_architecture/core/components/constant/image_c
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/skeleton_custom.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -81,14 +82,13 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
                       physics: const AlwaysScrollableScrollPhysics(
                         parent: BouncingScrollPhysics(),
                       ),
-                      shrinkWrap: true,
-                      reverse: false,
                       controller: _scrollController,
                       itemCount: listItem.length,
                       itemBuilder: (context, index) {
                         if (index < listItem.length) {
                           return _itemBuilder(listItem[index]);
-                        } else if (index >= listItem.length &&
+                        }
+                        if (index >= listItem.length &&
                             (snapShot2.data ?? false)) {
                           Timer(const Duration(milliseconds: 30), () {
                             _scrollController!.jumpTo(
@@ -133,6 +133,11 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
                 isNetworkImage: true,
                 width: 100,
                 height: 100,
+                loadingWidget: SkeletonContainer.rounded(
+                  width: 100,
+                  height: 100,
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
               ),
             ),
             const SizedBox(width: 5.0),
@@ -145,7 +150,29 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
                     style: context.titleMedium
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
-                ],
+                  Text(
+                    course.description,
+                    style: context.titleSmall
+                        .copyWith(fontWeight: FontWeight.w400),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Levels',
+                        style: context.titleSmall.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      Text(
+                        ' ${course.level} . ${course.topics.length} topics',
+                        style: context.titleSmall
+                            .copyWith(fontWeight: FontWeight.w400),
+                      )
+                    ],
+                  ),
+                ].expand((e) => [e, const SizedBox(height: 5.0)]).toList()
+                  ..removeLast(),
               ),
             )
           ],

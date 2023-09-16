@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 
 class ImageCustom extends StatelessWidget {
   final String imageUrl;
@@ -21,15 +22,24 @@ class ImageCustom extends StatelessWidget {
     required this.isNetworkImage,
   });
 
+  double get _width => width ?? 50.0;
+  double get _height => height ?? 50.0;
+
   @override
   Widget build(BuildContext context) {
     if (isNetworkImage) {
       return Image.network(
         imageUrl,
-        width: width ?? 50.0,
-        height: width ?? 50.0,
+        width: _width,
+        height: _width,
         fit: fit ?? BoxFit.cover,
         color: color,
+        errorBuilder: (_, __, ____) => Image.network(
+          ImageConst.baseImageView,
+          width: _width,
+          height: _width,
+          fit: BoxFit.cover,
+        ),
         loadingBuilder: (BuildContext context, Widget child,
             ImageChunkEvent? loadingProgress) {
           if (loadingProgress == null) return child;
