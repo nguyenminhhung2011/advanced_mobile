@@ -10,13 +10,18 @@ part 'tutor_api.g.dart';
 @RestApi()
 abstract class TutorApi {
   static const String pagFetchDataApi = "/tutor/more";
+  static const String addTutorFavoriteApi = "/user/manageFavoriteTutor";
 
   @factoryMethod
   factory TutorApi(Dio dio) = _TutorApi;
 
   @GET('$pagFetchDataApi?perPage={size}&page={page}')
-  Future<HttpResponse<TutorResponse?>> pagFetchData(
+  Future<HttpResponse<TutorsResponse?>> pagFetchData(
     @Path('page') int page,
     @Path('size') int size,
   );
+
+  @POST(addTutorFavoriteApi)
+  Future<HttpResponse> addTutorToFavorite(
+      {@Body() required Map<String, dynamic> body});
 }

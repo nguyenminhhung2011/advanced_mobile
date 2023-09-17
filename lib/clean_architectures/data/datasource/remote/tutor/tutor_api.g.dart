@@ -19,7 +19,7 @@ class _TutorApi implements TutorApi {
   String? baseUrl;
 
   @override
-  Future<HttpResponse<TutorResponse?>> pagFetchData(
+  Future<HttpResponse<TutorsResponse?>> pagFetchData(
     int page,
     int size,
   ) async {
@@ -28,7 +28,7 @@ class _TutorApi implements TutorApi {
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>?>(
-        _setStreamType<HttpResponse<TutorResponse>>(Options(
+        _setStreamType<HttpResponse<TutorsResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,7 +45,37 @@ class _TutorApi implements TutorApi {
               baseUrl,
             ))));
     final value =
-        _result.data == null ? null : TutorResponse.fromJson(_result.data!);
+        _result.data == null ? null : TutorsResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> addTutorToFavorite(
+      {required Map<String, dynamic> body}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/manageFavoriteTutor',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data;
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

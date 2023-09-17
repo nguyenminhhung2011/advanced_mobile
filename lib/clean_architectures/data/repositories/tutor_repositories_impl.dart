@@ -6,6 +6,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/models/
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutors_response/tutors_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_fav/tutor_fav.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/tutor_repositories.dart';
 import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
 import 'package:injectable/injectable.dart';
@@ -17,11 +18,11 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
   TutorRepositoriesImpl(this._tutorApi);
 
   @override
-  SingleResult<Pagination<Tutor>> pagFetchTutorsData(
+  SingleResult<TutorFav> pagFetchTutorsData(
           {required int page, required int perPge}) =>
       SingleResult.fromCallable(() async {
         await Future.delayed(const Duration(seconds: 2));
-        final response = await getStateOf<TutorResponse?>(
+        final response = await getStateOf<TutorsResponse?>(
           request: () async => await _tutorApi.pagFetchData(page, perPge),
         );
         if (response is DataFailed) {
@@ -35,12 +36,30 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
           return Either.left(AppException(message: 'Data error'));
         }
 
-        return Either.right(
-          Pagination<Tutor>(
+        return Either.right(TutorFav(
+          tutors: Pagination<Tutor>(
             count: tutorResponse.count,
             currentPage: page,
-            rows: tutorResponse.courses.map((e) => e.toEntity()).toList(),
+            rows: tutorResponse.tutors.map((e) => e.toEntity()).toList(),
           ),
+          fav: response.data?.favTutors ?? [],
+        ));
+      });
+
+  @override
+  SingleResult<bool> addTutorToFavorite({required String userId}) =>
+      SingleResult.fromCallable(() async {
+        await Future.delayed(const Duration(seconds: 2));
+        final response = await getStateOf(
+          request: () async =>
+              await _tutorApi.addTutorToFavorite(body: {"tutorId": userId}),
         );
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+
+        return const Either.right(true);
       });
 }

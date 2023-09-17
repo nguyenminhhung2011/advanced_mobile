@@ -2,6 +2,7 @@ import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_fav/tutor_fav.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/tutor/tutor_show_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
@@ -22,7 +23,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
   final Stream<bool?> loading$;
 
-  final Stream<Pagination<Tutor>> tutor$;
+  final Stream<TutorFav> tutor$;
 
   final Stream<TutorShowState> state$;
 
@@ -40,16 +41,14 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
   }) : super(dispose);
 
   factory TutorShowBloc({required TutorShowUseCase tutorShowUseCase}) {
-    final paginationController = BehaviorSubject<Pagination<Tutor>>.seeded(
-      const Pagination<Tutor>(
-          rows: <Tutor>[], count: 0, perPage: 10, currentPage: 0),
-    );
+    final paginationController = BehaviorSubject<TutorFav>.seeded(TutorFav());
     final fetchDataController = PublishSubject<void>();
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
     final isValid$ = Rx.combineLatest2(
-            paginationController.stream.map(Validator.paginationValid),
+            paginationController.stream
+                .map((e) => Validator.paginationValid(e.tutors)),
             loadingController.stream,
             (paginationValid, loading) => paginationValid || !loading)
         .shareValueSeeded(false);
@@ -63,12 +62,14 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         fetchData$
             .where((isValid) => isValid)
             .debug(log: debugPrint)
-            .withLatestFrom(paginationController.stream,
-                (_, Pagination<Tutor> pagination) => pagination)
+            .withLatestFrom(
+                paginationController.stream, (_, TutorFav tutorFav) => tutorFav)
             .exhaustMap((value) {
+          final pagination = value.tutors;
           try {
             return tutorShowUseCase
-                .pagFetchData(page: value.currentPage + 1, size: value.perPage)
+                .pagFetchData(
+                    page: pagination.currentPage + 1, size: pagination.perPage)
                 .doOn(
                   listen: () => loadingController.add(true),
                   cancel: () => loadingController.add(false),
@@ -81,11 +82,14 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
                     ),
                     ifRight: (pData) {
                       if (pData != null) {
-                        paginationController.add(Pagination<Tutor>(
-                          count: pData.count,
-                          perPage: pData.perPage,
-                          currentPage: pData.currentPage,
-                          rows: [...value.rows, ...pData.rows],
+                        paginationController.add(TutorFav(
+                          tutors: Pagination<Tutor>(
+                            count: pData.tutors.count,
+                            perPage: pData.tutors.perPage,
+                            currentPage: pData.tutors.currentPage,
+                            rows: [...pagination.rows, ...pData.tutors.rows],
+                          ),
+                          fav: pData.fav,
                         ));
                         return const FetchDataTutorSuccess();
                       }
