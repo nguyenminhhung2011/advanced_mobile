@@ -17,7 +17,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
   ///[functions] input
   final Function0<void> fetchData;
 
-  final Function0<void> fetchFavoritesData;
+  final Function1<String, void> addTutorToFav;
 
   ///[Streams]
 
@@ -32,7 +32,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
     ///[Event functions]
     required this.fetchData,
-    required this.fetchFavoritesData,
+    required this.addTutorToFav,
 
     ///[States]
     required this.loading$,
@@ -42,9 +42,16 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
   factory TutorShowBloc({required TutorShowUseCase tutorShowUseCase}) {
     final paginationController = BehaviorSubject<TutorFav>.seeded(TutorFav());
+
+    final tutorUserIdToAdd = PublishSubject<String>();
+
     final fetchDataController = PublishSubject<void>();
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
+
+    // final tutorIdAddFavController = BehaviorSubject<String>.seeded('');
+
+    final addTutorToFavController = PublishSubject<void>();
 
     final isValid$ = Rx.combineLatest2(
             paginationController.stream
@@ -57,64 +64,119 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         .withLatestFrom(isValid$, (_, isValid) => isValid)
         .share();
 
-    final state$ = Rx.merge<TutorShowState>(
-      [
-        fetchData$
-            .where((isValid) => isValid)
-            .debug(log: debugPrint)
-            .withLatestFrom(
-                paginationController.stream, (_, TutorFav tutorFav) => tutorFav)
-            .exhaustMap((value) {
-          final pagination = value.tutors;
-          try {
-            return tutorShowUseCase
-                .pagFetchData(
-                    page: pagination.currentPage + 1, size: pagination.perPage)
-                .doOn(
-                  listen: () => loadingController.add(true),
-                  cancel: () => loadingController.add(false),
-                )
-                .map(
-                  (data) => data.fold(
-                    ifLeft: (error) => FetchDataTutorFailed(
-                      error: error.code,
-                      message: error.message,
-                    ),
-                    ifRight: (pData) {
-                      if (pData != null) {
-                        paginationController.add(TutorFav(
-                          tutors: Pagination<Tutor>(
-                            count: pData.tutors.count,
-                            perPage: pData.tutors.perPage,
-                            currentPage: pData.tutors.currentPage,
-                            rows: [...pagination.rows, ...pData.tutors.rows],
-                          ),
-                          fav: pData.fav,
-                        ));
-                        return const FetchDataTutorSuccess();
+    final addTutorFav$ = addTutorToFavController.stream
+        .withLatestFrom(loadingController.stream, (_, loading) => !loading)
+        .share();
+
+    final addTutorFavState$ = Rx.merge([
+      addTutorFav$
+          .where((isValid) => isValid)
+          .debug(log: debugPrint)
+          .withLatestFrom(tutorUserIdToAdd.stream, (_, String s) => s)
+          .exhaustMap((userId) {
+        try {
+          return tutorShowUseCase
+              .addTutorToFavorite(userId: userId)
+              .doOn(
+                listen: () => loadingController.add(true),
+                cancel: () => loadingController.add(false),
+              )
+              .map(
+                (data) => data.fold(
+                  ifLeft: (error) =>
+                      AddTutorToFavFailed(message: error.message),
+                  ifRight: (add) {
+                    if (add) {
+                      final currentData = paginationController.value;
+                      if (currentData.fav.contains(userId)) {
+                        currentData.fav.remove(userId);
+                      } else {
+                        currentData.fav.add(userId);
                       }
-                      return const FetchDataTutorFailed();
-                    },
+                      paginationController.add(TutorFav(
+                        tutors: currentData.tutors,
+                        fav: currentData.fav,
+                      ));
+                      return const AddTutorToFavSuccess();
+                    }
+                    return const AddTutorToFavFailed(message: 'Failed');
+                  },
+                ),
+              );
+        } catch (e) {
+          return Stream<TutorShowState>.error(
+            const AddTutorToFavFailed(message: 'Add tutor Failed'),
+          );
+        }
+      }),
+      addTutorFav$
+          .where((isValid) => !isValid)
+          .map((_) => const FetchDataTutorFailed(message: "Invalid format"))
+    ]).whereNotNull().share();
+
+    final fetchDataState = Rx.merge([
+      fetchData$
+          .where((isValid) => isValid)
+          .debug(log: debugPrint)
+          .withLatestFrom(
+              paginationController.stream, (_, TutorFav tutorFav) => tutorFav)
+          .exhaustMap((value) {
+        final pagination = value.tutors;
+        try {
+          return tutorShowUseCase
+              .pagFetchData(
+                  page: pagination.currentPage + 1, size: pagination.perPage)
+              .doOn(
+                listen: () => loadingController.add(true),
+                cancel: () => loadingController.add(false),
+              )
+              .map(
+                (data) => data.fold(
+                  ifLeft: (error) => FetchDataTutorFailed(
+                    error: error.code,
+                    message: error.message,
                   ),
-                );
-          } catch (e) {
-            ///do something
-            return Stream<TutorShowState>.error(
-              FetchDataTutorFailed(message: e.toString()),
-            );
-          }
-        }).debug(identifier: 'Fetch tutors data', log: debugPrint),
-        fetchData$
-            .where((isValid) => !isValid)
-            .map((_) => const FetchDataTutorFailed(message: "Invalid format"))
-      ],
+                  ifRight: (pData) {
+                    if (pData != null) {
+                      paginationController.add(TutorFav(
+                        tutors: Pagination<Tutor>(
+                          count: pData.tutors.count,
+                          perPage: pData.tutors.perPage,
+                          currentPage: pData.tutors.currentPage,
+                          rows: [...pagination.rows, ...pData.tutors.rows],
+                        ),
+                        fav: pData.fav,
+                      ));
+                      return const FetchDataTutorSuccess();
+                    }
+                    return const FetchDataTutorFailed();
+                  },
+                ),
+              );
+        } catch (e) {
+          ///do something
+          return Stream<TutorShowState>.error(
+            FetchDataTutorFailed(message: e.toString()),
+          );
+        }
+      }).debug(identifier: 'Fetch tutors data', log: debugPrint),
+      fetchData$
+          .where((isValid) => !isValid)
+          .map((_) => const FetchDataTutorFailed(message: "Invalid format")),
+    ]).whereNotNull().share();
+
+    final state$ = Rx.merge<TutorShowState>(
+      [addTutorFavState$, fetchDataState],
     ).whereNotNull().share();
 
     return TutorShowBloc._(
       dispose: () async => await DisposeBag(
               [paginationController, fetchDataController, loadingController])
           .dispose(),
-      fetchFavoritesData: () {},
+      addTutorToFav: (value) {
+        tutorUserIdToAdd.add(value.trim());
+        addTutorToFavController.add(null);
+      },
       fetchData: () => fetchDataController.add(null),
       loading$: loadingController,
       state$: state$,

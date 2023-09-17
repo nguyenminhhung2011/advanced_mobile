@@ -17,3 +17,18 @@ class FetchDataTutorFailed implements TutorShowState {
   String toString() =>
       "FetchDataFailed => {message=${message ?? ''}, error=${error ?? ''}}";
 }
+
+class AddTutorToFavSuccess implements TutorShowState {
+  final String message;
+  const AddTutorToFavSuccess({this.message = "Fetch data success"});
+}
+
+class AddTutorToFavFailed implements TutorShowState {
+  final Object? error;
+  final String? message;
+  const AddTutorToFavFailed({this.error, this.message});
+
+  @override
+  String toString() =>
+      "FetchDataFailed => {message=${message ?? ''}, error=${error ?? ''}}";
+}
