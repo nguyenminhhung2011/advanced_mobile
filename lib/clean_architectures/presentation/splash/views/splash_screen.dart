@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/bloc/slash_bloc.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
@@ -44,8 +45,11 @@ class _SplashScreenState extends State<SplashScreen> {
         stream: _bloc.loading$,
         builder: (context, snapShot) {
           if (snapShot.data ?? false) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: StyleLoadingWidget.foldingCube.renderWidget(
+                color: Theme.of(context).primaryColor,
+                size: 80.0,
+              ),
             );
           }
           return const SizedBox();

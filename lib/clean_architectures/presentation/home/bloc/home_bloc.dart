@@ -21,7 +21,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
   final Stream<bool?> loading$;
 
   final Stream<Pagination<Course>> courses$;
-
+  
   final Stream<HomeState> state$;
 
   HomeBloc._({
