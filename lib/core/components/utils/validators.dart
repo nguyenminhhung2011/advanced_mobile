@@ -1,4 +1,5 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 
 class Validator {
   Validator._();
@@ -21,4 +22,7 @@ class Validator {
   static bool tokenNull(TokenModel tokenModel) =>
       !(tokenModel.access?.token?.isNotEmpty ?? false) ||
       !(tokenModel.refresh?.token?.isNotEmpty ?? false);
+
+  static bool paginationValid(Pagination pag) =>
+      pag.count == 0 ? true : pag.count > (pag.perPage * pag.currentPage);
 }

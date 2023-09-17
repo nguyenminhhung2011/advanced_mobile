@@ -4,6 +4,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/home/home_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -21,7 +22,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
   final Stream<bool?> loading$;
 
   final Stream<Pagination<Course>> courses$;
-  
+
   final Stream<HomeState> state$;
 
   HomeBloc._({
@@ -53,11 +54,9 @@ class HomeBloc extends DisposeCallbackBaseBloc {
     ///
 
     final isValid$ = Rx.combineLatest2(
-            paginationController.stream.map((pag) => pag.count == 0
-                ? true
-                : pag.count > (pag.perPage * pag.currentPage)),
+            paginationController.stream.map(Validator.paginationValid),
             loadingController.stream,
-            (paginationValid, loading) => !loading && paginationValid)
+            (paginationValid, loading) => !loading || paginationValid)
         .shareValueSeeded(false);
 
     final fetchData$ = fetchDataController.stream
@@ -87,7 +86,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
                       error: error.code, message: error.message),
                   ifRight: (data) {
                     if (data != null) {
-                      paginationController.add(Pagination(
+                      paginationController.add(Pagination<Course>(
                         count: data.count,
                         perPage: data.perPage,
                         currentPage: data.currentPage,

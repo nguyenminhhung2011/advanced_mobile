@@ -6,11 +6,10 @@ import 'package:retrofit/http.dart';
 
 part 'tutor_api.g.dart';
 
-
 @injectable
 @RestApi()
 abstract class TutorApi {
-  static const String pagFetchDataApi = "/tutor/more?";
+  static const String pagFetchDataApi = "/tutor/more";
 
   @factoryMethod
   factory TutorApi(Dio dio) = _TutorApi;

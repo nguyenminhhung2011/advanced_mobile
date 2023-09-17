@@ -35,7 +35,7 @@ class _TutorApi implements TutorApi {
     )
             .compose(
               _dio.options,
-              '/tutor/more??perPage=${size}&page=${page}',
+              '/tutor/more?perPage=${size}&page=${page}',
               queryParameters: queryParameters,
               data: _data,
             )

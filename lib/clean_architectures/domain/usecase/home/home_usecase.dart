@@ -9,6 +9,7 @@ class HomeUseCase {
   final CourseRepositories _courseRepositories;
 
   HomeUseCase(this._courseRepositories);
+
   SingleResult<Pagination<Course>?> pagFetchData(
           {required int page, required int size}) =>
       _courseRepositories.pagFetchCourseData(page: page, perPge: size);
