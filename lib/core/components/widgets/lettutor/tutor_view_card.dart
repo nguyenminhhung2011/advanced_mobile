@@ -9,10 +9,12 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/rating_c
 class TutorViewCard extends StatelessWidget {
   final Tutor tutor;
   final bool isLiked;
+  final Function()? favOnPress;
   const TutorViewCard({
     super.key,
-    required this.tutor,
+    this.favOnPress,
     this.isLiked = false,
+    required this.tutor,
   });
 
   Widget get favIcon => isLiked
@@ -64,7 +66,7 @@ class TutorViewCard extends StatelessWidget {
                   ],
                 ),
               ),
-              IconButton(onPressed: () {}, icon: favIcon)
+              IconButton(onPressed: favOnPress, icon: favIcon)
             ],
           ),
           if (tutor.specialties != null)

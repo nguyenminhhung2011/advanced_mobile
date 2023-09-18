@@ -89,10 +89,11 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
     );
   }
 
-  ListView _listView(
-      {required List<dynamic> listItem,
-      required bool loading,
-      required List<String> fav}) {
+  ListView _listView({
+    required List<dynamic> listItem,
+    required bool loading,
+    required List<String> fav,
+  }) {
     return ListView.builder(
       physics: const AlwaysScrollableScrollPhysics(
         parent: BouncingScrollPhysics(),
@@ -105,6 +106,11 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
           return TutorViewCard(
             tutor: tutor,
             isLiked: fav.contains(tutor.userId),
+            favOnPress: () {
+              if (tutor.userId != null) {
+                _bloc.addTutorToFav(tutor.userId ?? '');
+              }
+            },
           );
         }
         if (index >= listItem.length && (loading)) {

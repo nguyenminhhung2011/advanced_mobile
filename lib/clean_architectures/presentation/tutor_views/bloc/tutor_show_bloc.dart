@@ -88,14 +88,13 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
                   ifRight: (add) {
                     if (add) {
                       final currentData = paginationController.value;
-                      if (currentData.fav.contains(userId)) {
-                        currentData.fav.remove(userId);
-                      } else {
-                        currentData.fav.add(userId);
-                      }
                       paginationController.add(TutorFav(
                         tutors: currentData.tutors,
-                        fav: currentData.fav,
+                        fav: currentData.fav.contains(userId)
+                            ? currentData.fav
+                                .where((element) => element != userId)
+                                .toList()
+                            : [...currentData.fav, userId].toList(),
                       ));
                       return const AddTutorToFavSuccess();
                     }
@@ -114,7 +113,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
           .map((_) => const FetchDataTutorFailed(message: "Invalid format"))
     ]).whereNotNull().share();
 
-    final fetchDataState = Rx.merge([
+    final fetchDataState$ = Rx.merge([
       fetchData$
           .where((isValid) => isValid)
           .debug(log: debugPrint)
@@ -166,16 +165,21 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
     ]).whereNotNull().share();
 
     final state$ = Rx.merge<TutorShowState>(
-      [addTutorFavState$, fetchDataState],
+      [fetchDataState$, addTutorFavState$],
     ).whereNotNull().share();
 
     return TutorShowBloc._(
-      dispose: () async => await DisposeBag(
-              [paginationController, fetchDataController, loadingController])
-          .dispose(),
+      dispose: () async => await DisposeBag([
+        paginationController,
+        fetchDataController,
+        loadingController,
+        addTutorToFavController,
+        tutorUserIdToAdd,
+      ]).dispose(),
       addTutorToFav: (value) {
         tutorUserIdToAdd.add(value.trim());
         addTutorToFavController.add(null);
+        print(value);
       },
       fetchData: () => fetchDataController.add(null),
       loading$: loadingController,

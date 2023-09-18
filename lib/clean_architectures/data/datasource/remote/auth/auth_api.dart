@@ -13,7 +13,7 @@ part 'auth_api.g.dart';
 abstract class AuthApi {
   static const String branch = "";
   static const String loginApi = "/auth/login";
-  static const String refreshTokenApi = "$branch/auth/refresh_token";
+  static const String refreshTokenApi = "$branch/auth/refresh-token";
   static const String registerApi = "$branch/auth/register";
   static const String logoutApi = "$branch/auth/logout";
 
