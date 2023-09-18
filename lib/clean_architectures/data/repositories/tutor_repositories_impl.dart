@@ -48,18 +48,18 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
 
   @override
   SingleResult<bool> addTutorToFavorite({required String userId}) =>
-      SingleResult.fromCallable(() async {
-        await Future.delayed(const Duration(seconds: 2));
-        final response = await getStateOf(
-          request: () async =>
-              await _tutorApi.addTutorToFavorite(body: {"tutorId": userId}),
-        );
-        if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
+      SingleResult.fromCallable(
+        () async {
+          final response = await getStateOf(
+            request: () async =>
+                await _tutorApi.addTutorToFavorite(body: {"tutorId": userId}),
           );
-        }
-
-        return const Either.right(true);
-      });
+          if (response is DataFailed) {
+            return Either.left(
+              AppException(message: response.dioError?.message ?? 'Error'),
+            );
+          }
+          return const Either.right(true);
+        },
+      );
 }

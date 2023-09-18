@@ -78,11 +78,13 @@ class _AuthApi implements AuthApi {
   }
 
   @override
-  Future<HttpResponse<AuthenticateResponse>> refreshToken() async {
+  Future<HttpResponse<AuthenticateResponse>> refreshToken(
+      {required Map<String, dynamic> body}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<AuthenticateResponse>>(Options(
       method: 'GET',
@@ -91,7 +93,7 @@ class _AuthApi implements AuthApi {
     )
             .compose(
               _dio.options,
-              '/auth/refresh_token',
+              '/auth/refresh-token',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -49,6 +49,8 @@ class TokenInterceptor implements Interceptor {
     String refreshToken = CommonAppSettingPref.getRefreshToken();
     int expiredTime = CommonAppSettingPref.getExpiredTime();
 
+    log('🌟 [Access] $accessToken\n[Refresh] $refreshToken');
+
     if (accessToken.isEmpty || refreshToken.isEmpty || expiredTime == -1) {
       return handler.next(options);
     }
@@ -58,7 +60,10 @@ class TokenInterceptor implements Interceptor {
 
     if (isExpired) {
       try {
-        final response = await injector.get<AuthApi>().refreshToken();
+        final response = await injector.get<AuthApi>().refreshToken(body: {
+          'refreshToken': refreshToken,
+          'timezone': "7",
+        });
         if (response.response.statusCode == HttpStatus.ok &&
             response.data.isSuccess) {
           final responseData = response.data;

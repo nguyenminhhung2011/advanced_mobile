@@ -28,5 +28,6 @@ abstract class AuthApi {
   Future<HttpResponse<AuthenticateResponse>> logout();
 
   @GET(refreshTokenApi)
-  Future<HttpResponse<AuthenticateResponse>> refreshToken();
+  Future<HttpResponse<AuthenticateResponse>> refreshToken(
+      {@Body() required Map<String, dynamic> body});
 }
