@@ -87,7 +87,7 @@ class _AuthApi implements AuthApi {
     _data.addAll(body);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<AuthenticateResponse>>(Options(
-      method: 'GET',
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )

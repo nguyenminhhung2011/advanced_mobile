@@ -95,8 +95,10 @@ class TutorViewCard extends StatelessWidget {
           if (tutor.bio != null)
             Text(
               tutor.bio ?? '',
+              maxLines: 4,
               style: context.titleSmall.copyWith(
                 color: Theme.of(context).hintColor,
+                overflow: TextOverflow.fade,
               ),
             ),
           const Divider(),
@@ -122,7 +124,7 @@ class TutorViewCard extends StatelessWidget {
               onPress: () {},
             ),
           )
-        ].expand((e) => [e, const SizedBox(height: 10.0)]).toList()
+        ].expand((e) => [e, const SizedBox(height: 5.0)]).toList()
           ..removeLast(),
       ),
     );

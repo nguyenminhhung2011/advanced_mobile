@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_view_card.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -62,9 +64,29 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.school, color: _primaryColor),
+            Text(
+              ' Tutor',
+              style: context.titleLarge.copyWith(
+                fontWeight: FontWeight.bold,
+                color: _primaryColor,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.search, color: Theme.of(context).hintColor))
+          ],
+        ),
+      ),
       body: Column(
         children: [
-          const SizedBox(height: 40),
           Expanded(
             child: StreamBuilder(
               stream: _bloc.tutor$,

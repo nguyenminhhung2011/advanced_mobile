@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/sign_in_response.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -27,7 +26,7 @@ abstract class AuthApi {
   @POST(logoutApi)
   Future<HttpResponse<AuthenticateResponse>> logout();
 
-  @GET(refreshTokenApi)
+  @POST(refreshTokenApi)
   Future<HttpResponse<AuthenticateResponse>> refreshToken(
       {@Body() required Map<String, dynamic> body});
 }
