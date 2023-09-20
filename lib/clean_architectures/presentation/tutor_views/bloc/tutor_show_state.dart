@@ -32,3 +32,4 @@ class AddTutorToFavFailed implements TutorShowState {
   String toString() =>
       "FetchDataFailed => {message=${message ?? ''}, error=${error ?? ''}}";
 }
+

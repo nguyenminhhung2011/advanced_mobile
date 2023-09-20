@@ -3,12 +3,14 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_view_card.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -80,7 +82,8 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
             ),
             const Spacer(),
             IconButton(
-                onPressed: () {},
+                onPressed: () =>
+                    context.openListPageWithRoute(Routes.searchTutor),
                 icon: Icon(Icons.search, color: Theme.of(context).hintColor))
           ],
         ),

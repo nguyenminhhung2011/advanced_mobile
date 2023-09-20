@@ -3,6 +3,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/views/search_tutor_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/bloc/slash_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/views/splash_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
@@ -28,6 +30,15 @@ class MainRoutes {
           builder: (_) => BlocProvider<AuthBloc>(
             initBloc: (_) => AuthBloc(login: injector.get()),
             child: const SignInScreen(),
+          ),
+        );
+      case Routes.searchTutor:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => BlocProvider<SearchTutorBloc>(
+            initBloc: (_) =>
+                SearchTutorBloc(searchTutorUseCase: injector.get()),
+            child: const SearchTutorScreen(),
           ),
         );
 

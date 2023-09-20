@@ -32,7 +32,7 @@ class TutorViewCard extends StatelessWidget {
         color: Theme.of(context).cardColor,
         boxShadow: [
           BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.5),
+              color: Theme.of(context).shadowColor.withOpacity(0.1),
               blurRadius: 5.0)
         ],
       ),
