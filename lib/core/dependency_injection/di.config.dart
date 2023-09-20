@@ -113,8 +113,10 @@ _i1.GetIt init(
       () => _i24.LoginUseCase(gh<_i18.AuthRepository>()));
   gh.factory<_i25.RegisterBloc>(
       () => _i25.RegisterBloc(login: gh<_i24.LoginUseCase>()));
-  gh.factory<_i26.SearchTutorUseCase>(
-      () => _i26.SearchTutorUseCase(gh<_i15.AppRepositories>()));
+  gh.factory<_i26.SearchTutorUseCase>(() => _i26.SearchTutorUseCase(
+        gh<_i15.AppRepositories>(),
+        gh<_i11.TutorRepositories>(),
+      ));
   gh.factory<_i27.SettingBloc>(
       () => _i27.SettingBloc(gh<_i7.SettingUseCase>()));
   gh.factory<_i28.TutorShowBloc>(

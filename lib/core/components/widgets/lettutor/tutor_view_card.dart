@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
@@ -61,7 +62,18 @@ class TutorViewCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const SizedBox(height: 5.0),
+                    const SizedBox(height: 2.0),
+                    if (tutor.country?.isNotEmpty ?? false) ...[
+                      Text(
+                        Constant.countries[tutor.country!.toUpperCase()] ??
+                            'Unknown',
+                        style: context.titleSmall.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).hintColor,
+                        ),
+                      ),
+                      const SizedBox(height: 2.0),
+                    ],
                     RattingWidgetCustom(rating: tutor.rating ?? 0.0)
                   ],
                 ),

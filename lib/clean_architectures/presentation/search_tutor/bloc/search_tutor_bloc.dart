@@ -82,7 +82,9 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
                         message: error.message, error: error.code),
                     ifRight: (List<Topic> listTopic) {
                       if (listTopic.isNotEmpty) {
-                        topicController.add(listTopic);
+                        topicController.add(
+                          [const Topic(name: 'All'), ...listTopic],
+                        );
                       }
                       return const FetchTopicsSuccess();
                     }),
