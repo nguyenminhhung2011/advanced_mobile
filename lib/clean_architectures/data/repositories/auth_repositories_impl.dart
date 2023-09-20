@@ -12,6 +12,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/repos
 import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 
 void delayed() async {
   await Future.delayed(const Duration(seconds: 6));
@@ -48,6 +49,7 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
         ///[Print] log data
         log("[Access] ${tokenModel.access?.token}");
         log("[Refresh] ${tokenModel.refresh?.token}");
+        log("[Expired time] ${DateFormat().add_yMd().format(tokenModel.access?.expires ?? DateTime.now())}");
 
         await CommonAppSettingPref.setExpiredTime(
             (tokenModel.access?.expires ?? DateTime.now())

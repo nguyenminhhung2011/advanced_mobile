@@ -41,7 +41,6 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -62,6 +61,7 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
       ),
       body: Column(
         children: [
+          const HeaderTextCustom(headerText: "Nationality"),
           const HeaderTextCustom(headerText: "Topics"),
           StreamBuilder<bool?>(
             stream: _bloc.loading$,
@@ -91,7 +91,7 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
               );
             },
           ),
-        ],
+        ].expand((e) => [e, const SizedBox(height: 5.0)]).toList(),
       ),
     );
   }
@@ -99,7 +99,7 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
   Padding _topicsField(
       {required List<Topic> topics, required List<Topic> topicsSelected}) {
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: Wrap(
         spacing: 6.0,
         runSpacing: -8,

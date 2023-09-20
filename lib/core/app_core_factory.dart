@@ -49,7 +49,7 @@ class TokenInterceptor implements Interceptor {
     String refreshToken = CommonAppSettingPref.getRefreshToken();
     int expiredTime = CommonAppSettingPref.getExpiredTime();
 
-    log('🌟 [Access] $accessToken\n[Refresh] $refreshToken');
+    log('🌟[Access] $accessToken\n[Refresh] $refreshToken');
 
     if (accessToken.isEmpty || refreshToken.isEmpty || expiredTime == -1) {
       return handler.next(options);
@@ -59,6 +59,8 @@ class TokenInterceptor implements Interceptor {
     final isExpired = DateTime.now().isAfter(expiredTimeParsed);
 
     if (isExpired) {
+      ///[Warning] if don't have this line code render dio call => duplicate
+      await CommonAppSettingPref.setExpiredTime(-1);
       try {
         final response = await injector.get<AuthApi>().refreshToken(body: {
           'refreshToken': refreshToken,

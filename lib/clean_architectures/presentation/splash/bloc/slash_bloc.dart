@@ -8,6 +8,7 @@ import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -61,10 +62,13 @@ class SplashBloc extends DisposeCallbackBaseBloc {
           if (accessToken.isNotEmpty ||
               refreshToken.isNotEmpty ||
               expiredTime != -1) {
-            log("[Access] $accessToken \n[Refresh] $refreshToken");
             final expiredTimeParsed =
                 DateTime.fromMillisecondsSinceEpoch(expiredTime);
+            log("[Access] $accessToken\n[Refresh] $refreshToken\n[Expired time] ${DateFormat().add_yMd().format(expiredTimeParsed)}");
+
             final isExpired = DateTime.now().isAfter(expiredTimeParsed);
+            // ignore: avoid_print
+            print(expiredTimeParsed);
 
             if (!isExpired) {
               return const Either.right(true);
