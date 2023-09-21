@@ -25,3 +25,7 @@ class InValidSearchTutor implements SearchTutorState {
 class SelectedTopicSuccess implements SearchTutorState {
   const SelectedTopicSuccess();
 }
+
+class SelectedNationalityTutorSuccess implements SearchTutorState {
+  const SelectedNationalityTutorSuccess();
+}

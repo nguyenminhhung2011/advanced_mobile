@@ -10,6 +10,7 @@ class ImageCustom extends StatelessWidget {
   final bool isNetworkImage;
   final Color? color;
   final Widget? loadingWidget;
+  final Widget? errorWidget;
   const ImageCustom({
     super.key,
     this.fit,
@@ -18,6 +19,7 @@ class ImageCustom extends StatelessWidget {
     this.radius,
     this.height,
     this.loadingWidget,
+    this.errorWidget,
     required this.imageUrl,
     required this.isNetworkImage,
   });
@@ -33,12 +35,10 @@ class ImageCustom extends StatelessWidget {
         height: _width,
         fit: fit ?? BoxFit.cover,
         color: color,
-        errorBuilder: (_, __, ____) => Image.network(
-          ImageConst.baseImageView,
-          width: _width,
-          height: _width,
-          fit: BoxFit.cover,
-        ),
+        errorBuilder: (_, __, ____) =>
+            errorWidget ??
+            Image.network(ImageConst.baseImageView,
+                width: _width, height: _width, fit: BoxFit.cover),
         loadingBuilder: (BuildContext context, Widget child,
             ImageChunkEvent? loadingProgress) {
           if (loadingProgress == null) return child;

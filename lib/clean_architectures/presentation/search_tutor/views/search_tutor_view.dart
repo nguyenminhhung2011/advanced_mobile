@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -91,6 +92,19 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
               );
             },
           ),
+          const SizedBox(height: 10.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: ButtonCustom(
+              onPress: () {},
+              radius: 5.0,
+              child: Text(
+                'Search',
+                style: context.titleMedium
+                    .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
+              ),
+            ),
+          )
         ].expand((e) => [e, const SizedBox(height: 5.0)]).toList(),
       ),
     );

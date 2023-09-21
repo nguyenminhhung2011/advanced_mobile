@@ -38,6 +38,7 @@ class TokenInterceptor implements Interceptor {
   // final AuthApi _authApi = injector.get<AuthApi>();
 
   @override
+  // ignore: deprecated_member_use
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     return handler.next(err);
   }

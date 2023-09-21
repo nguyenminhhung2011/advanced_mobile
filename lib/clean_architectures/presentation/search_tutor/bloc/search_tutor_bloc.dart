@@ -15,6 +15,8 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
 
   final Function1<Topic, void> selectedTopic;
 
+  final Function1<String, void> selectedNationalityTutor;
+
   ///[Streams]
 
   final Stream<List<Topic>> topics$;
@@ -25,8 +27,12 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
 
   final Stream<SearchTutorState> state$;
 
+  final Stream<String> nationalityTutor;
+
   SearchTutorBloc._({
     required Function0<void> dispose,
+    required this.selectedNationalityTutor,
+    required this.nationalityTutor,
     required this.fetchTopicsData,
     required this.topicSelected$,
     required this.selectedTopic,
@@ -42,9 +48,13 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
     final topicSelectedController =
         BehaviorSubject<List<Topic>>.seeded(List<Topic>.empty(growable: true));
 
+    final nationalityTutorController = BehaviorSubject<String>.seeded("vn");
+
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
     final fetchTopicsController = PublishSubject<void>();
+
+    final selectedNationalityTutorController = PublishSubject<String>();
 
     final selectedTopicController = PublishSubject<Topic>();
 
@@ -62,6 +72,12 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
         topicSelectedController.add([...currentSelectedTopics, topic]);
       }
       return const SelectedTopicSuccess();
+    }).share();
+
+    final selectedNationalityTutorState$ =
+        selectedNationalityTutorController.stream.map((nTutor) {
+      nationalityTutorController.add(nTutor);
+      return const SelectedNationalityTutorSuccess();
     }).share();
 
     final fetchTopicState$ = Rx.merge([
@@ -100,24 +116,30 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
           )
     ]).whereNotNull().share();
 
-    final state$ =
-        Rx.merge<SearchTutorState>([fetchTopicState$, selectedTopicState$])
-            .whereNotNull()
-            .share();
+    final state$ = Rx.merge<SearchTutorState>([
+      fetchTopicState$,
+      selectedTopicState$,
+      selectedNationalityTutorState$
+    ]).whereNotNull().share();
 
     return SearchTutorBloc._(
       dispose: () async => await DisposeBag([
         topicController,
-        fetchTopicsController,
         loadingController,
+        fetchTopicsController,
+        selectedTopicController,
         topicSelectedController,
-        selectedTopicController
+        nationalityTutorController,
+        selectedNationalityTutorController,
       ]).dispose(),
       fetchTopicsData: () => fetchTopicsController.add(null),
       topicSelected$: topicSelectedController,
       selectedTopic: (topic) => selectedTopicController.add(topic),
+      selectedNationalityTutor: (tutorString) =>
+          selectedNationalityTutorController.add(tutorString),
       loading$: loadingController,
       topics$: topicController,
+      nationalityTutor: nationalityTutorController,
       state$: state$,
     );
   }
