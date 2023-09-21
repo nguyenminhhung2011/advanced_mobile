@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/datasou
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutors_response/tutors_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_fav/tutor_fav.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/tutor_repositories.dart';
@@ -62,4 +63,41 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
           return const Either.right(true);
         },
       );
+
+  @override
+  SingleResult<TutorFav> searchTutor(
+          {required SearchTutorRequest searchTutorRequest}) =>
+      SingleResult.fromCallable(() async {
+        final body = {
+          'page': searchTutorRequest.page,
+          'perPage': searchTutorRequest.perPage,
+          'search': searchTutorRequest.search,
+          'filters': {
+            'specialties': searchTutorRequest.topics,
+            'nationality': searchTutorRequest.nationality,
+          },
+        };
+        final response = await getStateOf(
+            request: () async => await _tutorApi.searchTutor(body: body));
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+        final tutorResponse = response.data;
+        if (tutorResponse == null) {
+          return Either.left(
+            AppException(message: 'Data null'),
+          );
+        }
+        return Either.right(
+          TutorFav(
+            tutors: Pagination<Tutor>(
+              count: tutorResponse.count,
+              currentPage: searchTutorRequest.page,
+              rows: tutorResponse.tutors.map((e) => e.toEntity()).toList(),
+            ),
+          ),
+        );
+      });
 }

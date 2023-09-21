@@ -23,9 +23,11 @@ class SearchTutorScreen extends StatefulWidget {
 }
 
 class SearchTutorScreenState extends State<SearchTutorScreen> {
-  SearchTutorBloc get _bloc => BlocProvider.of<SearchTutorBloc>(context);
-
   Object? listen;
+
+  final TextEditingController _searchController = TextEditingController();
+
+  SearchTutorBloc get _bloc => BlocProvider.of<SearchTutorBloc>(context);
 
   Color get _primaryColor => Theme.of(context).primaryColor;
 
@@ -44,6 +46,7 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
 
   @override
   void dispose() {
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -66,35 +69,20 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: Column(
+      body: ListView(
         children: [
-          const HeaderTextCustom(headerText: "Nationality"),
-          StreamBuilder<NationalityTutor>(
-            stream: _bloc.nationalityTutor,
-            builder: (ctx, sS) {
-              return Column(
-                children: [
-                  ...constNationalityTutors.map(
-                    (e) => ListTile(
-                      visualDensity:
-                          const VisualDensity(horizontal: 0, vertical: -4),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 0.0, vertical: 0.0),
-                      title: Text(e.name, style: context.titleMedium),
-                      leading: Radio<NationalityTutor>(
-                        activeColor: _primaryColor,
-                        value: e,
-                        onChanged: (NationalityTutor? nationalityTutor) =>
-                            _bloc.selectedNationalityTutor(nationalityTutor ??
-                                constNationalityTutors.first),
-                        groupValue: sS.data,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+          const SizedBox(height: 10.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                hintText: "Search here",
+              ),
+            ),
           ),
+          const HeaderTextCustom(headerText: "Nationality"),
+          _nationalityTutorsField(context),
           const HeaderTextCustom(headerText: "Topics"),
           StreamBuilder<bool?>(
             stream: _bloc.loading$,
@@ -142,10 +130,39 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
     );
   }
 
+  StreamBuilder<NationalityTutor> _nationalityTutorsField(
+      BuildContext context) {
+    return StreamBuilder<NationalityTutor>(
+      stream: _bloc.nationalityTutor,
+      builder: (ctx, sS) {
+        return Column(
+          children: [
+            ...constNationalityTutors.map(
+              (e) => ListTile(
+                visualDensity: const VisualDensity(horizontal: 0, vertical: -4),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+                title: Text(e.name, style: context.titleMedium),
+                leading: Radio<NationalityTutor>(
+                  activeColor: _primaryColor,
+                  value: e,
+                  onChanged: (NationalityTutor? nationalityTutor) =>
+                      _bloc.selectedNationalityTutor(
+                          nationalityTutor ?? constNationalityTutors.first),
+                  groupValue: sS.data,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Padding _topicsField(
       {required List<Topic> topics, required List<Topic> topicsSelected}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Wrap(
         spacing: 6.0,
         runSpacing: -8,

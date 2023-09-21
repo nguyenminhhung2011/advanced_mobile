@@ -11,6 +11,7 @@ part 'tutor_api.g.dart';
 abstract class TutorApi {
   static const String pagFetchDataApi = "/tutor/more";
   static const String addTutorFavoriteApi = "/user/manageFavoriteTutor";
+  static const String searchTutorApi = "/tutor/search";
 
   @factoryMethod
   factory TutorApi(Dio dio) = _TutorApi;
@@ -23,5 +24,9 @@ abstract class TutorApi {
 
   @POST(addTutorFavoriteApi)
   Future<HttpResponse> addTutorToFavorite(
+      {@Body() required Map<String, dynamic> body});
+
+  @POST(searchTutorApi)
+  Future<HttpResponse<TutorsResponse?>> searchTutor(
       {@Body() required Map<String, dynamic> body});
 }

@@ -15,7 +15,7 @@ class AppCoreFactory {
       BaseOptions(
         baseUrl: baseUrl,
         headers: {
-          "content-type": "application/json",
+          "content-type": "application/json;encoding=utf-8",
           "Accept": "*/*",
         },
       ),
