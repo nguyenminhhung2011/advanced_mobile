@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/topic/topic.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/search/search_tutor_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_state.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/ob/constant.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/ob/naotionality_tutor.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +17,7 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
 
   final Function1<Topic, void> selectedTopic;
 
-  final Function1<String, void> selectedNationalityTutor;
+  final Function1<NationalityTutor, void> selectedNationalityTutor;
 
   ///[Streams]
 
@@ -27,7 +29,7 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
 
   final Stream<SearchTutorState> state$;
 
-  final Stream<String> nationalityTutor;
+  final Stream<NationalityTutor> nationalityTutor;
 
   SearchTutorBloc._({
     required Function0<void> dispose,
@@ -48,13 +50,15 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
     final topicSelectedController =
         BehaviorSubject<List<Topic>>.seeded(List<Topic>.empty(growable: true));
 
-    final nationalityTutorController = BehaviorSubject<String>.seeded("vn");
+    final nationalityTutorController =
+        BehaviorSubject<NationalityTutor>.seeded(constNationalityTutors.first);
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
     final fetchTopicsController = PublishSubject<void>();
 
-    final selectedNationalityTutorController = PublishSubject<String>();
+    final selectedNationalityTutorController =
+        PublishSubject<NationalityTutor>();
 
     final selectedTopicController = PublishSubject<Topic>();
 

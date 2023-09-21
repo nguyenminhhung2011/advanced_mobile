@@ -6,6 +6,8 @@ import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/topic/topic.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_state.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/ob/constant.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/ob/naotionality_tutor.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
@@ -58,11 +60,41 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
             color: Theme.of(context).shadowColor,
           ),
         ),
+        title: Text(
+          'Tutor search',
+          style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Column(
         children: [
           const HeaderTextCustom(headerText: "Nationality"),
+          StreamBuilder<NationalityTutor>(
+            stream: _bloc.nationalityTutor,
+            builder: (ctx, sS) {
+              return Column(
+                children: [
+                  ...constNationalityTutors.map(
+                    (e) => ListTile(
+                      visualDensity:
+                          const VisualDensity(horizontal: 0, vertical: -4),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 0.0, vertical: 0.0),
+                      title: Text(e.name, style: context.titleMedium),
+                      leading: Radio<NationalityTutor>(
+                        activeColor: _primaryColor,
+                        value: e,
+                        onChanged: (NationalityTutor? nationalityTutor) =>
+                            _bloc.selectedNationalityTutor(nationalityTutor ??
+                                constNationalityTutors.first),
+                        groupValue: sS.data,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
           const HeaderTextCustom(headerText: "Topics"),
           StreamBuilder<bool?>(
             stream: _bloc.loading$,
