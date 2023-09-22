@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/models/
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_detail.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_fav/tutor_fav.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/tutor_repositories.dart';
 import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
@@ -100,5 +101,24 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
             ),
           ),
         );
+      });
+
+  @override
+  SingleResult<TutorDetail?> getTutorById({required String userId}) =>
+      SingleResult.fromCallable(() async {
+        final response = await getStateOf(
+            request: () async => _tutorApi.getTutorById(userId));
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+        final tutorDetail = response.data;
+        if (tutorDetail == null) {
+          return Either.left(
+            AppException(message: 'Data null'),
+          );
+        }
+        return Either.right(tutorDetail.toEntity());
       });
 }

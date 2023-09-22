@@ -68,22 +68,43 @@ class _SearchTutorResultViewState extends State<SearchTutorResultView> {
                 final listItem = sS1.data?.tutors.rows ?? <Tutor>[];
                 log("🌟 [Data length] ${listItem.length}");
                 return StreamBuilder<bool?>(
-                  stream: _bloc.loading$,
-                  builder: (ctx2, sS2) => DefaultPagination(
-                    items: listItem,
-                    loading: sS2.data ?? false,
-                    itemBuilder: (_, index) => TutorViewCard(
-                      tutor: listItem[index],
-                      isLiked: true,
-                      favOnPress: () {
-                        // if (tutor.userId != null) {
-                        //   _bloc.addTutorToFav(tutor.userId ?? '');
-                        // }
-                      },
-                    ),
-                    listenScrollBottom: _bloc.searchTutor,
-                  ),
-                );
+                    stream: _bloc.loading$,
+                    builder: (ctx2, sS2) {
+                      final loading = sS2.data ?? false;
+                      if (!loading && listItem.isEmpty) {
+                        return Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.search_off,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 30.0),
+                              const SizedBox(height: 10.0),
+                              Text(
+                                'Don\'t have any result',
+                                style: context.titleMedium
+                                    .copyWith(fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                        );
+                      }
+                      return DefaultPagination(
+                        items: listItem,
+                        loading: loading,
+                        itemBuilder: (_, index) => TutorViewCard(
+                          tutor: listItem[index],
+                          isLiked: true,
+                          favOnPress: () {
+                            // if (tutor.userId != null) {
+                            //   _bloc.addTutorToFav(tutor.userId ?? '');
+                            // }
+                          },
+                        ),
+                        listenScrollBottom: _bloc.searchTutor,
+                      );
+                    });
               },
             ),
           )

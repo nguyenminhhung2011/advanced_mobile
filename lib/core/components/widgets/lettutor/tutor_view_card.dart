@@ -109,6 +109,7 @@ class TutorViewCard extends StatelessWidget {
               tutor.bio ?? '',
               maxLines: 4,
               style: context.titleSmall.copyWith(
+                fontWeight: FontWeight.w400,
                 color: Theme.of(context).hintColor,
                 overflow: TextOverflow.fade,
               ),
