@@ -29,6 +29,8 @@ import '../../clean_architectures/data/repositories/course_repositories_impl.dar
     as _i22;
 import '../../clean_architectures/data/repositories/tutor_repositories_impl.dart'
     as _i12;
+import '../../clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart'
+    as _i33;
 import '../../clean_architectures/domain/repositories/app_repostiories.dart'
     as _i15;
 import '../../clean_architectures/domain/repositories/auth_repositories.dart'
@@ -57,6 +59,8 @@ import '../../clean_architectures/presentation/home/bloc/home_bloc.dart'
     as _i30;
 import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart'
     as _i31;
+import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart'
+    as _i32;
 import '../../clean_architectures/presentation/splash/bloc/slash_bloc.dart'
     as _i8;
 import '../../clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart'
@@ -67,7 +71,7 @@ import '../components/layout/setting_layout/controller/setting_bloc.dart'
     as _i27;
 import '../services/cloundinary_service.dart' as _i3;
 import '../services/image_pic_service.dart' as _i6;
-import 'modules/data_source_module.dart' as _i32;
+import 'modules/data_source_module.dart' as _i34;
 
 const String _prod = 'prod';
 
@@ -127,7 +131,16 @@ _i1.GetIt init(
       () => _i30.HomeBloc(homeUseCase: gh<_i23.HomeUseCase>()));
   gh.factory<_i31.SearchTutorBloc>(() =>
       _i31.SearchTutorBloc(searchTutorUseCase: gh<_i26.SearchTutorUseCase>()));
+  gh.factoryParam<_i32.SearchTutorResultBloc, _i33.SearchTutorRequest, dynamic>(
+      (
+    searchTutorRequest,
+    _,
+  ) =>
+          _i32.SearchTutorResultBloc(
+            searchTutorRequest,
+            searchTutorUseCase: gh<_i26.SearchTutorUseCase>(),
+          ));
   return getIt;
 }
 
-class _$DataSourceModule extends _i32.DataSourceModule {}
+class _$DataSourceModule extends _i34.DataSourceModule {}

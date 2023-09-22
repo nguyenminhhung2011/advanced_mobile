@@ -12,6 +12,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -116,7 +117,7 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: ButtonCustom(
-              onPress: () {},
+              onPress: () => _bloc.openSearchResultPage(_searchController.text),
               radius: 5.0,
               child: Text(
                 'Search',
@@ -204,6 +205,12 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
     }
     if (state is FetchTopicsSuccess) {
       log("🐼 [Fetch topic] success");
+      return;
+    }
+    if (state is OpenSearchTutorResultPageSuccess) {
+      log("🐼 [Open search tutor result page] ${state.searchTutorRequest.toString()}");
+      context.openPageWithRouteAndParams(
+          Routes.searchTutorResult, state.searchTutorRequest);
       return;
     }
   }

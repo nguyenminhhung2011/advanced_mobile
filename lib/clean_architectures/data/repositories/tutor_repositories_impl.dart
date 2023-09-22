@@ -65,9 +65,10 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
       );
 
   @override
-  SingleResult<TutorFav> searchTutor(
+  SingleResult<TutorFav?> searchTutor(
           {required SearchTutorRequest searchTutorRequest}) =>
       SingleResult.fromCallable(() async {
+        await Future.delayed(const Duration(seconds: 2));
         final body = {
           'page': searchTutorRequest.page,
           'perPage': searchTutorRequest.perPage,

@@ -81,7 +81,7 @@ class _TutorApi implements TutorApi {
   }
 
   @override
-  Future<HttpResponse<TutorsResponse?>> searchTutor(
+  Future<HttpResponse<SearchTutorsResponse?>> searchTutor(
       {required Map<String, dynamic> body}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -89,7 +89,7 @@ class _TutorApi implements TutorApi {
     final _data = <String, dynamic>{};
     _data.addAll(body);
     final _result = await _dio.fetch<Map<String, dynamic>?>(
-        _setStreamType<HttpResponse<TutorsResponse>>(Options(
+        _setStreamType<HttpResponse<SearchTutorsResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -105,8 +105,9 @@ class _TutorApi implements TutorApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value =
-        _result.data == null ? null : TutorsResponse.fromJson(_result.data!);
+    final value = _result.data == null
+        ? null
+        : SearchTutorsResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/views/search_tutor_result.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/views/search_tutor_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/bloc/slash_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/views/splash_screen.dart';
@@ -28,16 +31,29 @@ class MainRoutes {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => BlocProvider<AuthBloc>(
-            initBloc: (_) => AuthBloc(login: injector.get()),
+            initBloc: (_) => injector.get(),
             child: const SignInScreen(),
           ),
+        );
+      case Routes.searchTutorResult:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            if (settings.arguments is SearchTutorRequest) {
+              return BlocProvider<SearchTutorResultBloc>(
+                initBloc: (_) => injector.get<SearchTutorResultBloc>(
+                    param1: settings.arguments),
+                child: const SearchTutorResultView(),
+              );
+            }
+            return const SizedBox();
+          },
         );
       case Routes.searchTutor:
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => BlocProvider<SearchTutorBloc>(
-            initBloc: (_) =>
-                SearchTutorBloc(searchTutorUseCase: injector.get()),
+            initBloc: (_) => injector.get(),
             child: const SearchTutorScreen(),
           ),
         );
@@ -46,7 +62,7 @@ class MainRoutes {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => BlocProvider<HomeBloc>(
-            initBloc: (_) => HomeBloc(homeUseCase: injector.get()),
+            initBloc: (_) => injector.get(),
             child: const HomeScreen(),
           ),
         );
@@ -54,7 +70,7 @@ class MainRoutes {
         return MaterialPageRoute(
           settings: settings,
           builder: (_) => BlocProvider<TutorShowBloc>(
-            initBloc: (_) => TutorShowBloc(tutorShowUseCase: injector.get()),
+            initBloc: (_) => injector.get(),
             child: const TutorShowScreen(),
           ),
         );

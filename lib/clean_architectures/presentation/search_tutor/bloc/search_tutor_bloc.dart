@@ -1,5 +1,6 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/topic/topic.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/search/search_tutor_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_state.dart';
@@ -16,6 +17,8 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
   final Function0<void> fetchTopicsData;
 
   final Function1<Topic, void> selectedTopic;
+
+  final Function1<String, void> openSearchResultPage;
 
   final Function1<NationalityTutor, void> selectedNationalityTutor;
 
@@ -34,12 +37,13 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
   SearchTutorBloc._({
     required Function0<void> dispose,
     required this.selectedNationalityTutor,
+    required this.openSearchResultPage,
     required this.nationalityTutor,
     required this.fetchTopicsData,
     required this.topicSelected$,
     required this.selectedTopic,
-    required this.topics$,
     required this.loading$,
+    required this.topics$,
     required this.state$,
   }) : super(dispose);
 
@@ -62,6 +66,10 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
 
     final selectedTopicController = PublishSubject<Topic>();
 
+    final openSearchResultPageController = PublishSubject<String>();
+
+    ///🌟[Actions]
+
     final fetchTopics$ = fetchTopicsController
         .withLatestFrom(loadingController.stream, (_, loading) => !loading)
         .share();
@@ -83,6 +91,22 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
       nationalityTutorController.add(nTutor);
       return const SelectedNationalityTutorSuccess();
     }).share();
+
+    final openSearchResultPageState$ = openSearchResultPageController.stream
+        .map((searchText) => OpenSearchTutorResultPageSuccess(
+              searchTutorRequest: SearchTutorRequest(
+                perPage: 0,
+                page: 10,
+                search: searchText,
+                topics: topicSelectedController.value
+                    .map((e) => e.key?.toLowerCase().trim() ?? '')
+                    .toList(),
+                nationality: {
+                  'isVietNamese': nationalityTutorController.value.isVietNamese
+                },
+              ),
+            ))
+        .share();
 
     final fetchTopicState$ = Rx.merge([
       fetchTopics$
@@ -123,7 +147,8 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
     final state$ = Rx.merge<SearchTutorState>([
       fetchTopicState$,
       selectedTopicState$,
-      selectedNationalityTutorState$
+      openSearchResultPageState$,
+      selectedNationalityTutorState$,
     ]).whereNotNull().share();
 
     return SearchTutorBloc._(
@@ -134,6 +159,7 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
         selectedTopicController,
         topicSelectedController,
         nationalityTutorController,
+        openSearchResultPageController,
         selectedNationalityTutorController,
       ]).dispose(),
       fetchTopicsData: () => fetchTopicsController.add(null),
@@ -144,6 +170,8 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
       loading$: loadingController,
       topics$: topicController,
       nationalityTutor: nationalityTutorController,
+      openSearchResultPage: (searchText) =>
+          openSearchResultPageController.add(searchText.trim()),
       state$: state$,
     );
   }

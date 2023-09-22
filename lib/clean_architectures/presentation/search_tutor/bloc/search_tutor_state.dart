@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 @immutable
@@ -28,4 +29,9 @@ class SelectedTopicSuccess implements SearchTutorState {
 
 class SelectedNationalityTutorSuccess implements SearchTutorState {
   const SelectedNationalityTutorSuccess();
+}
+
+class OpenSearchTutorResultPageSuccess implements SearchTutorState {
+  final SearchTutorRequest searchTutorRequest;
+  OpenSearchTutorResultPageSuccess({required this.searchTutorRequest});
 }

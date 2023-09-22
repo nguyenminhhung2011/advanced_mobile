@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutors_response/search_tutors_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutors_response/tutors_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/dio.dart';
@@ -27,6 +28,6 @@ abstract class TutorApi {
       {@Body() required Map<String, dynamic> body});
 
   @POST(searchTutorApi)
-  Future<HttpResponse<TutorsResponse?>> searchTutor(
+  Future<HttpResponse<SearchTutorsResponse?>> searchTutor(
       {@Body() required Map<String, dynamic> body});
 }

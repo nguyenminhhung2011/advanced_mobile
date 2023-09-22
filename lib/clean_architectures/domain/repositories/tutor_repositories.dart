@@ -8,7 +8,7 @@ abstract class TutorRepositories {
 
   SingleResult<bool> addTutorToFavorite({required String userId});
 
-  SingleResult<TutorFav> searchTutor({
+  SingleResult<TutorFav?> searchTutor({
     required SearchTutorRequest searchTutorRequest,
   });
 }
