@@ -30,7 +30,7 @@ import '../../clean_architectures/data/repositories/course_repositories_impl.dar
 import '../../clean_architectures/data/repositories/tutor_repositories_impl.dart'
     as _i12;
 import '../../clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart'
-    as _i33;
+    as _i34;
 import '../../clean_architectures/domain/repositories/app_repostiories.dart'
     as _i15;
 import '../../clean_architectures/domain/repositories/auth_repositories.dart'
@@ -49,29 +49,33 @@ import '../../clean_architectures/domain/usecase/setting/setting_usecase.dart'
     as _i7;
 import '../../clean_architectures/domain/usecase/tutor/tutor_show_usecase.dart'
     as _i13;
+import '../../clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart'
+    as _i28;
 import '../../clean_architectures/presentation/auth/bloc/register/register_bloc.dart'
     as _i25;
 import '../../clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart'
-    as _i29;
+    as _i30;
 import '../../clean_architectures/presentation/dashboard/bloc/dashboard_bloc.dart'
     as _i4;
 import '../../clean_architectures/presentation/home/bloc/home_bloc.dart'
-    as _i30;
-import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart'
     as _i31;
-import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart'
+import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart'
     as _i32;
+import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart'
+    as _i33;
 import '../../clean_architectures/presentation/splash/bloc/slash_bloc.dart'
     as _i8;
 import '../../clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart'
     as _i9;
+import '../../clean_architectures/presentation/tutor_detail/bloc/tutor_detail_bloc.dart'
+    as _i35;
 import '../../clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart'
-    as _i28;
+    as _i29;
 import '../components/layout/setting_layout/controller/setting_bloc.dart'
     as _i27;
 import '../services/cloundinary_service.dart' as _i3;
 import '../services/image_pic_service.dart' as _i6;
-import 'modules/data_source_module.dart' as _i34;
+import 'modules/data_source_module.dart' as _i36;
 
 const String _prod = 'prod';
 
@@ -123,24 +127,34 @@ _i1.GetIt init(
       ));
   gh.factory<_i27.SettingBloc>(
       () => _i27.SettingBloc(gh<_i7.SettingUseCase>()));
-  gh.factory<_i28.TutorShowBloc>(
-      () => _i28.TutorShowBloc(tutorShowUseCase: gh<_i13.TutorShowUseCase>()));
-  gh.factory<_i29.AuthBloc>(
-      () => _i29.AuthBloc(login: gh<_i24.LoginUseCase>()));
-  gh.factory<_i30.HomeBloc>(
-      () => _i30.HomeBloc(homeUseCase: gh<_i23.HomeUseCase>()));
-  gh.factory<_i31.SearchTutorBloc>(() =>
-      _i31.SearchTutorBloc(searchTutorUseCase: gh<_i26.SearchTutorUseCase>()));
-  gh.factoryParam<_i32.SearchTutorResultBloc, _i33.SearchTutorRequest, dynamic>(
+  gh.factory<_i28.TutorDetailUseCase>(
+      () => _i28.TutorDetailUseCase(gh<_i11.TutorRepositories>()));
+  gh.factory<_i29.TutorShowBloc>(
+      () => _i29.TutorShowBloc(tutorShowUseCase: gh<_i13.TutorShowUseCase>()));
+  gh.factory<_i30.AuthBloc>(
+      () => _i30.AuthBloc(login: gh<_i24.LoginUseCase>()));
+  gh.factory<_i31.HomeBloc>(
+      () => _i31.HomeBloc(homeUseCase: gh<_i23.HomeUseCase>()));
+  gh.factory<_i32.SearchTutorBloc>(() =>
+      _i32.SearchTutorBloc(searchTutorUseCase: gh<_i26.SearchTutorUseCase>()));
+  gh.factoryParam<_i33.SearchTutorResultBloc, _i34.SearchTutorRequest, dynamic>(
       (
     searchTutorRequest,
     _,
   ) =>
-          _i32.SearchTutorResultBloc(
+          _i33.SearchTutorResultBloc(
             searchTutorRequest,
             searchTutorUseCase: gh<_i26.SearchTutorUseCase>(),
           ));
+  gh.factoryParam<_i35.TutorDetailBloc, String, dynamic>((
+    userId,
+    _,
+  ) =>
+      _i35.TutorDetailBloc(
+        userId,
+        tutorDetailUseCase: gh<_i28.TutorDetailUseCase>(),
+      ));
   return getIt;
 }
 
-class _$DataSourceModule extends _i34.DataSourceModule {}
+class _$DataSourceModule extends _i36.DataSourceModule {}

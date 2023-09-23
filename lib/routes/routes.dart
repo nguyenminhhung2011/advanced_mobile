@@ -5,6 +5,7 @@ class Routes {
   static const String testUi = '/test_ui';
   static const String passCode = '/pass_code';
   static const String tutorShow = '/tutor_show';
+  static const String tutorDetail = '/tutor-detail';
   static const String searchTutor = '/search-tutor';
   static const String searchTutorResult = '/search-tutor-result';
 }

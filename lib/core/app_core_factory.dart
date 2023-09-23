@@ -40,7 +40,7 @@ class TokenInterceptor implements Interceptor {
   @override
   // ignore: deprecated_member_use
   void onError(DioError err, ErrorInterceptorHandler handler) async {
-    return handler.next(err);
+    return handler.next(err); 
   }
 
   @override

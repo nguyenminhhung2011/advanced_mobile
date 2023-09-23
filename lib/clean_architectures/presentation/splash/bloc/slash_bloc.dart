@@ -64,7 +64,7 @@ class SplashBloc extends DisposeCallbackBaseBloc {
               expiredTime != -1) {
             final expiredTimeParsed =
                 DateTime.fromMillisecondsSinceEpoch(expiredTime);
-            log("[Access] $accessToken\n[Refresh] $refreshToken\n[Expired time] ${DateFormat().add_yMd().format(expiredTimeParsed)}");
+            log("[Access] $accessToken\n[Refresh] $refreshToken\n[Expired time] ${DateFormat().add_yMd().add_Hm().format(expiredTimeParsed)}");
 
             final isExpired = DateTime.now().isAfter(expiredTimeParsed);
             // ignore: avoid_print

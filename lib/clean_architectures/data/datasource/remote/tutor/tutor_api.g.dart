@@ -126,7 +126,7 @@ class _TutorApi implements TutorApi {
     )
             .compose(
               _dio.options,
-              '/tutor /${id}',
+              '/tutor/${id}',
               queryParameters: queryParameters,
               data: _data,
             )

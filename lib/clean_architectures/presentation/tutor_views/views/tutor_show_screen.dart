@@ -131,6 +131,8 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
           return TutorViewCard(
             tutor: tutor,
             isLiked: fav.contains(tutor.userId),
+            tutorOnPress: () => context.openPageWithRouteAndParams(
+                Routes.tutorDetail, tutor.userId),
             favOnPress: () {
               if (tutor.userId != null) {
                 _bloc.addTutorToFav(tutor.userId ?? '');

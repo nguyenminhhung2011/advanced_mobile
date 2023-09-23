@@ -14,7 +14,7 @@ abstract class TutorApi {
   static const String pagFetchDataApi = "/tutor/more";
   static const String addTutorFavoriteApi = "/user/manageFavoriteTutor";
   static const String searchTutorApi = "/tutor/search";
-  static const String getTutorByIdApi = "/tutor ";
+  static const String getTutorByIdApi = "/tutor";
 
   @factoryMethod
   factory TutorApi(Dio dio) = _TutorApi;
