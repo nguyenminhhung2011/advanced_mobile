@@ -18,6 +18,7 @@ import 'package:flutter_base_clean_architecture/core/components/config/setting_c
 import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_model.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/tree_view.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/video_player.dart';
 import '../../../../core/components/constant/image_const.dart';
 import '../../../../core/components/layout/setting_layout/views/setting_screen.dart';
 import '../../../../core/components/mixins/app_mixin.dart';
@@ -626,6 +627,14 @@ class _PageTest1State extends State<PageTest1> {
           badgeIndicator: BadgeIndicatorStyle(radius: 25.0),
           radius: 5.0,
         ),
+        const SizedBox(height: 20.0),
+        const VideoPlayerUI(
+          url:
+              "https://sandbox.api.lettutor.com/video/af5df96e-53d4-433b-9f4a-59e736d05796video1641220103635.mp4",
+          width: 200,
+          height: 200,
+          autoPlay: true,
+        )
         // const Padding(
         //   padding: EdgeInsets.all(8.0),
         //   child: CustomTextField(
