@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_detail.dart';
@@ -14,7 +15,9 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/header_c
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/video_player.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:readmore/readmore.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
 class TutorDetailScreen extends StatefulWidget {
@@ -36,6 +39,8 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
   EdgeInsets get _horizontalEdgeInsets =>
       const EdgeInsets.symmetric(horizontal: 10.0);
 
+  Widget favIcon(bool isLiked) =>
+      Icon(Icons.favorite, color: isLiked ? Colors.red : Colors.white);
   @override
   void initState() {
     super.initState();
@@ -58,6 +63,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: _backgroundColor,
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -76,7 +82,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back, color: Theme.of(context).shadowColor),
+          icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
         ),
         title: Text(
           'Tutor detail',
@@ -116,15 +122,127 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           padding: _horizontalEdgeInsets,
           child: _rowTutorInformation(tutorUser, tutor),
         ),
-        HeaderTextCustom(
-          headerText: "Description",
-          padding: _horizontalEdgeInsets,
-        ),
         Padding(
           padding: _horizontalEdgeInsets,
-          child: Text(tutor.bio ?? '', style: context.titleMedium),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ...<String>[
+                (tutor.isFavorite ?? false) ? 'Is favorite' : 'Favorite',
+                'Report'
+              ].mapIndexed(
+                (index, e) => Expanded(
+                  child: ButtonCustom(
+                    color: switch (index) {
+                      0 => Colors.red.withOpacity(0.7),
+                      _ => _primaryColor
+                    },
+                    radius: 5.0,
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(e)),
+                        switch (index) {
+                          0 => favIcon(tutor.isFavorite ?? false),
+                          _ => const Icon(Icons.report, color: Colors.white)
+                        }
+                      ],
+                    ),
+                    onPress: () {
+                      if (index == 0) {
+                        _bloc.favTutor();
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ].expand((e) => [e, const SizedBox(width: 5.0)]).toList()
+              ..removeLast(),
+          ),
         ),
+        if ((tutor.video?.isNotEmpty ?? false) ||
+            (tutor.youtubeVideoId?.isNotEmpty ?? false))
+          Container(
+            width: double.infinity,
+            height: context.heightDevice * 0.3,
+            margin: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(width: 1, color: _primaryColor),
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withOpacity(0.2),
+                  blurRadius: 5.0,
+                )
+              ],
+            ),
+            child: VideoPlayerUI(
+              url: tutor.video!,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+        ...{
+          'Description': tutor.bio,
+          'Education': tutor.education,
+          'Languages': tutor.languages,
+          'Specialties': tutor.specialties,
+        }.entries.mapIndexed(
+              (index, e) => (e.value?.isNotEmpty ?? false)
+                  ? _informationWithHeaderField(e, index)
+                  : const SizedBox(),
+            ),
       ].expand((e) => [e, const SizedBox(height: 10.0)]).toList(),
+    );
+  }
+
+  Column _informationWithHeaderField(MapEntry<String, String?> e, int index) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        HeaderTextCustom(headerText: e.key, padding: _horizontalEdgeInsets),
+        const SizedBox(height: 5.0),
+        if (index < 2)
+          Padding(
+            padding: _horizontalEdgeInsets,
+            child: ReadMoreText(
+              e.value!,
+              trimLines: 3,
+              trimCollapsedText: 'Show more',
+              trimExpandedText: 'Show less',
+              lessStyle: context.titleSmall.copyWith(color: _primaryColor),
+              moreStyle: context.titleSmall.copyWith(color: _primaryColor),
+              style: context.titleMedium,
+            ),
+          )
+        else
+          Padding(
+            padding: _horizontalEdgeInsets,
+            child: Wrap(
+              children: [
+                ...e.value!.split(',').map(
+                      (e) => Container(
+                        margin: const EdgeInsets.all(2.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          color: _primaryColor.withOpacity(0.2),
+                        ),
+                        child: Text(
+                          e.replaceAll('-', ' '),
+                          style: context.titleSmall.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: _primaryColor,
+                          ),
+                        ),
+                      ),
+                    )
+              ],
+            ),
+          ),
+      ],
     );
   }
 
@@ -139,7 +257,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           child: ImageCustom(
             imageUrl: tutorUser.avatar ?? ImageConst.baseImageView,
             isNetworkImage: true,
-            width: 80.0,
+            width: 70.0,
           ),
         ),
         const SizedBox(width: 10.0),
@@ -155,17 +273,17 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                   fontSize: 24.0,
                 ),
               ),
-              const SizedBox(height: 2.0),
+              const SizedBox(height: 1.0),
               if (tutorUser.country?.isNotEmpty ?? false) ...[
                 Text(
                   Constant.countries[tutorUser.country!.toUpperCase()] ??
                       'Unknown',
-                  style: context.titleMedium.copyWith(
+                  style: context.titleSmall.copyWith(
                     fontWeight: FontWeight.w500,
                     color: Theme.of(context).hintColor,
                   ),
                 ),
-                const SizedBox(height: 2.0),
+                const SizedBox(height: 1.0),
               ],
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -175,7 +293,10 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                   Text(
                     ' ${tutor.rating?.toStringAsFixed(1) ?? ''} . ${tutor.totalFeedback}',
                     style: context.titleSmall.copyWith(
-                        fontWeight: FontWeight.w500, color: _primaryColor),
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.w600,
+                      color: _primaryColor,
+                    ),
                   ),
                 ],
               )
@@ -193,6 +314,14 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     }
     if (state is GetTutorByIdFailed) {
       log("🌟[Get tutor by id] Failed ${state.toString()}");
+      return;
+    }
+    if (state is FavTutorFailed) {
+      log("🌟[Fav tutor] Failed ${state.toString()}");
+      return;
+    }
+    if (state is FavTutorSuccess) {
+      log("🌟[Fav tutor] Success");
       return;
     }
   }

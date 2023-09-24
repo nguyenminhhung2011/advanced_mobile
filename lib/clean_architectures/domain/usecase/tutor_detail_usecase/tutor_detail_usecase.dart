@@ -10,4 +10,7 @@ class TutorDetailUseCase {
 
   SingleResult<TutorDetail?> getTutorById({required String userId}) =>
       _tutorRepositories.getTutorById(userId: userId);
+
+  SingleResult<bool> addTutorToFavorite({required String userId}) =>
+      _tutorRepositories.addTutorToFavorite(userId: userId);
 }

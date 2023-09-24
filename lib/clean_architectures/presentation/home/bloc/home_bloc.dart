@@ -14,8 +14,13 @@ import '../../../../core/components/utils/type_defs.dart';
 
 @injectable
 class HomeBloc extends DisposeCallbackBaseBloc {
+  final _basePagination = Pagination<Course>(
+      rows: <Course>[], count: 0, perPage: 10, currentPage: 0);
+
   ///[functions] input
   final Function0<void> fetchData;
+
+  final Function0<void> onRefreshData;
 
   ///[Stream] response
 
@@ -30,6 +35,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
 
     ///[Event functions]
     required this.fetchData,
+    required this.onRefreshData,
 
     ///[States]
     required this.loading$,
@@ -114,6 +120,11 @@ class HomeBloc extends DisposeCallbackBaseBloc {
               [paginationController, fetchDataController, loadingController])
           .dispose(),
       fetchData: () => fetchDataController.add(null),
+      onRefreshData: () {
+        paginationController.add(const Pagination<Course>(
+            rows: <Course>[], count: 0, perPage: 10, currentPage: 0));
+        fetchDataController.add(null);
+      },
       loading$: loadingController,
       state$: state$,
       courses$: paginationController,
