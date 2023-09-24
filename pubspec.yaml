@@ -136,6 +136,7 @@ dependencies:
   video_player: ^2.7.2
   youtube_player_iframe: ^4.0.4
   visibility_detector: ^0.4.0+2
+  timeago: ^3.5.0
   # table_calendar: ^3.0.8
   # readmore: ^2.2.0
 

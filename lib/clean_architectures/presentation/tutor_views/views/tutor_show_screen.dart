@@ -99,10 +99,13 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                 return StreamBuilder<bool?>(
                   stream: _bloc.loading$,
                   builder: (ctx2, snapShot2) {
-                    return _listView(
-                      fav: fav,
-                      listItem: listItem,
-                      loading: snapShot2.data ?? false,
+                    return RefreshIndicator(
+                      onRefresh: () async => _bloc.onRefreshData(),
+                      child: _listView(
+                        fav: fav,
+                        listItem: listItem,
+                        loading: snapShot2.data ?? false,
+                      ),
                     );
                   },
                 );

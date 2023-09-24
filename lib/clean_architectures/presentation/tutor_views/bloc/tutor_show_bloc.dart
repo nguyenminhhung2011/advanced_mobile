@@ -19,6 +19,8 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
   final Function1<String, void> addTutorToFav;
 
+  final Function0<void> onRefreshData;
+
   ///[Streams]
 
   final Stream<bool?> loading$;
@@ -33,6 +35,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
     ///[Event functions]
     required this.fetchData,
     required this.addTutorToFav,
+    required this.onRefreshData,
 
     ///[States]
     required this.loading$,
@@ -176,6 +179,14 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         addTutorToFavController,
         tutorUserIdToAdd,
       ]).dispose(),
+      onRefreshData: () {
+        final loading = loadingController.value;
+        if (loading) {
+          return;
+        }
+        paginationController.add(TutorFav());
+        fetchDataController.add(null);
+      },
       addTutorToFav: (value) {
         tutorUserIdToAdd.add(value.trim());
         addTutorToFavController.add(null);

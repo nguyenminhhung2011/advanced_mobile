@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
+
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_detail.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_user_detail.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_bloc.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/bottom_view_review.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/video_player.dart';
@@ -60,6 +62,20 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     super.dispose();
   }
 
+  void _viewMoreReviews() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
+      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      builder: (context) {
+        return BottomShowReviews(tutorDetailBloc: _bloc);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,10 +110,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
         builder: (ctx, sS) {
           final loading = sS.data ?? false;
           if (loading) {
-            return Center(
-              child: StyleLoadingWidget.foldingCube
-                  .renderWidget(size: 40.0, color: _primaryColor),
-            );
+            return _loading();
           }
           return StreamBuilder<TutorDetail>(
             stream: _bloc.tutor$,
@@ -111,6 +124,13 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           );
         },
       ),
+    );
+  }
+
+  Center _loading() {
+    return Center(
+      child: StyleLoadingWidget.foldingCube
+          .renderWidget(size: 40.0, color: _primaryColor),
     );
   }
 
@@ -193,6 +213,12 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                   ? _informationWithHeaderField(e, index)
                   : const SizedBox(),
             ),
+        HeaderTextCustom(
+          headerText: 'Reviews',
+          padding: _horizontalEdgeInsets,
+          isShowSeeMore: true,
+          onPress: _viewMoreReviews,
+        ),
       ].expand((e) => [e, const SizedBox(height: 10.0)]).toList(),
     );
   }
@@ -322,6 +348,14 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     }
     if (state is FavTutorSuccess) {
       log("🌟[Fav tutor] Success");
+      return;
+    }
+    if (state is GetReviewsFailed) {
+      log("🌟 [Get reviews] Failed ${state.toString()}");
+      return;
+    }
+    if (state is GetReviewsSuccess) {
+      log("🌟 [Get reviews] Success");
       return;
     }
   }

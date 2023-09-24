@@ -11,6 +11,10 @@ class FavTutorSuccess implements TutorDetailState {
   const FavTutorSuccess();
 }
 
+class GetReviewsSuccess implements TutorDetailState {
+  const GetReviewsSuccess();
+}
+
 class GetTutorByIdFailed implements TutorDetailState {
   final Object? error;
   final String? message;
@@ -20,6 +24,17 @@ class GetTutorByIdFailed implements TutorDetailState {
   @override
   String toString() =>
       "[Get tutors by id errors] => message ${message ?? ''}, error ${error ?? ''} ";
+}
+
+class GetReviewsFailed implements TutorDetailState {
+  final Object? error;
+  final String? message;
+
+  GetReviewsFailed({this.error, this.message});
+
+  @override
+  String toString() =>
+      "[Get reviews] => message ${message ?? ''}, error ${error ?? ''} ";
 }
 
 class FavTutorFailed implements TutorDetailState {
