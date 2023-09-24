@@ -26,6 +26,7 @@ mixin _$TutorUserDetail {
   String? get caredByStaffId => throw _privateConstructorUsedError;
   String? get studentGroupId => throw _privateConstructorUsedError;
   String? get zaloUserId => throw _privateConstructorUsedError;
+  List<CoursePreview>? get courses => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TutorUserDetailCopyWith<TutorUserDetail> get copyWith =>
@@ -48,7 +49,8 @@ abstract class $TutorUserDetailCopyWith<$Res> {
       bool? isPublicRecord,
       String? caredByStaffId,
       String? studentGroupId,
-      String? zaloUserId});
+      String? zaloUserId,
+      List<CoursePreview>? courses});
 }
 
 /// @nodoc
@@ -74,6 +76,7 @@ class _$TutorUserDetailCopyWithImpl<$Res, $Val extends TutorUserDetail>
     Object? caredByStaffId = freezed,
     Object? studentGroupId = freezed,
     Object? zaloUserId = freezed,
+    Object? courses = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -116,6 +119,10 @@ class _$TutorUserDetailCopyWithImpl<$Res, $Val extends TutorUserDetail>
           ? _value.zaloUserId
           : zaloUserId // ignore: cast_nullable_to_non_nullable
               as String?,
+      courses: freezed == courses
+          ? _value.courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CoursePreview>?,
     ) as $Val);
   }
 }
@@ -138,7 +145,8 @@ abstract class _$$_TutorUserDetailCopyWith<$Res>
       bool? isPublicRecord,
       String? caredByStaffId,
       String? studentGroupId,
-      String? zaloUserId});
+      String? zaloUserId,
+      List<CoursePreview>? courses});
 }
 
 /// @nodoc
@@ -162,6 +170,7 @@ class __$$_TutorUserDetailCopyWithImpl<$Res>
     Object? caredByStaffId = freezed,
     Object? studentGroupId = freezed,
     Object? zaloUserId = freezed,
+    Object? courses = freezed,
   }) {
     return _then(_$_TutorUserDetail(
       id: null == id
@@ -204,6 +213,10 @@ class __$$_TutorUserDetailCopyWithImpl<$Res>
           ? _value.zaloUserId
           : zaloUserId // ignore: cast_nullable_to_non_nullable
               as String?,
+      courses: freezed == courses
+          ? _value._courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CoursePreview>?,
     ));
   }
 }
@@ -221,7 +234,9 @@ class _$_TutorUserDetail implements _TutorUserDetail {
       this.isPublicRecord,
       this.caredByStaffId,
       this.studentGroupId,
-      this.zaloUserId});
+      this.zaloUserId,
+      final List<CoursePreview>? courses})
+      : _courses = courses;
 
   @override
   final String id;
@@ -243,10 +258,19 @@ class _$_TutorUserDetail implements _TutorUserDetail {
   final String? studentGroupId;
   @override
   final String? zaloUserId;
+  final List<CoursePreview>? _courses;
+  @override
+  List<CoursePreview>? get courses {
+    final value = _courses;
+    if (value == null) return null;
+    if (_courses is EqualUnmodifiableListView) return _courses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'TutorUserDetail(id: $id, level: $level, avatar: $avatar, name: $name, country: $country, language: $language, isPublicRecord: $isPublicRecord, caredByStaffId: $caredByStaffId, studentGroupId: $studentGroupId, zaloUserId: $zaloUserId)';
+    return 'TutorUserDetail(id: $id, level: $level, avatar: $avatar, name: $name, country: $country, language: $language, isPublicRecord: $isPublicRecord, caredByStaffId: $caredByStaffId, studentGroupId: $studentGroupId, zaloUserId: $zaloUserId, courses: $courses)';
   }
 
   @override
@@ -268,12 +292,24 @@ class _$_TutorUserDetail implements _TutorUserDetail {
             (identical(other.studentGroupId, studentGroupId) ||
                 other.studentGroupId == studentGroupId) &&
             (identical(other.zaloUserId, zaloUserId) ||
-                other.zaloUserId == zaloUserId));
+                other.zaloUserId == zaloUserId) &&
+            const DeepCollectionEquality().equals(other._courses, _courses));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, level, avatar, name, country,
-      language, isPublicRecord, caredByStaffId, studentGroupId, zaloUserId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      level,
+      avatar,
+      name,
+      country,
+      language,
+      isPublicRecord,
+      caredByStaffId,
+      studentGroupId,
+      zaloUserId,
+      const DeepCollectionEquality().hash(_courses));
 
   @JsonKey(ignore: true)
   @override
@@ -293,7 +329,8 @@ abstract class _TutorUserDetail implements TutorUserDetail {
       final bool? isPublicRecord,
       final String? caredByStaffId,
       final String? studentGroupId,
-      final String? zaloUserId}) = _$_TutorUserDetail;
+      final String? zaloUserId,
+      final List<CoursePreview>? courses}) = _$_TutorUserDetail;
 
   @override
   String get id;
@@ -315,6 +352,8 @@ abstract class _TutorUserDetail implements TutorUserDetail {
   String? get studentGroupId;
   @override
   String? get zaloUserId;
+  @override
+  List<CoursePreview>? get courses;
   @override
   @JsonKey(ignore: true)
   _$$_TutorUserDetailCopyWith<_$_TutorUserDetail> get copyWith =>

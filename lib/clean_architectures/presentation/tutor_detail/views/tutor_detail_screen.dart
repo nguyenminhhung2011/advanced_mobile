@@ -219,6 +219,33 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           isShowSeeMore: true,
           onPress: _viewMoreReviews,
         ),
+        HeaderTextCustom(
+          headerText: 'Suggested courses',
+          padding: _horizontalEdgeInsets,
+        ),
+        if (tutorUser?.courses != null)
+          ...tutorUser!.courses!.map(
+            (e) => Padding(
+              padding: _horizontalEdgeInsets,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      e.name,
+                      style: context.titleMedium
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Text('View',
+                        style:
+                            context.titleSmall.copyWith(color: _primaryColor)),
+                  )
+                ],
+              ),
+            ),
+          )
       ].expand((e) => [e, const SizedBox(height: 10.0)]).toList(),
     );
   }

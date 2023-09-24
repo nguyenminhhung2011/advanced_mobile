@@ -19,6 +19,9 @@ TutorUserDetailModel _$TutorUserDetailModelFromJson(
       json['caredByStaffId'] as String?,
       json['studentGroupId'] as String?,
       json['zaloUserId'] as String?,
+      (json['courses'] as List<dynamic>)
+          .map((e) => CoursePreviewModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$TutorUserDetailModelToJson(
@@ -34,4 +37,5 @@ Map<String, dynamic> _$TutorUserDetailModelToJson(
       'caredByStaffId': instance.caredByStaffId,
       'studentGroupId': instance.studentGroupId,
       'zaloUserId': instance.zaloUserId,
+      'courses': instance.courses,
     };

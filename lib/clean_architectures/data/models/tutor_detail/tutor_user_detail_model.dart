@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/course_preview/course_preview_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_user_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'tutor_user_detail_model.g.dart';
@@ -34,6 +35,9 @@ class TutorUserDetailModel {
   @JsonKey(name: 'zaloUserId')
   final String? zaloUserId;
 
+  @JsonKey(name: 'courses')
+  final List<CoursePreviewModel> courses;
+
   TutorUserDetailModel(
       this.id,
       this.level,
@@ -44,7 +48,8 @@ class TutorUserDetailModel {
       this.isPublicRecord,
       this.caredByStaffId,
       this.studentGroupId,
-      this.zaloUserId);
+      this.zaloUserId,
+      this.courses);
 
   factory TutorUserDetailModel.fromJson(Map<String, dynamic> json) =>
       _$TutorUserDetailModelFromJson(json);
@@ -52,15 +57,15 @@ class TutorUserDetailModel {
   Map<String, dynamic> toJson() => _$TutorUserDetailModelToJson(this);
 
   TutorUserDetail toEntity() => TutorUserDetail(
-        id: id,
-        level: level,
-        avatar: avatar,
-        name: name,
-        country: country,
-        language: language,
-        isPublicRecord: isPublicRecord,
-        caredByStaffId: caredByStaffId,
-        studentGroupId: studentGroupId,
-        zaloUserId: zaloUserId,
-      );
+      id: id,
+      level: level,
+      avatar: avatar,
+      name: name,
+      country: country,
+      language: language,
+      isPublicRecord: isPublicRecord,
+      caredByStaffId: caredByStaffId,
+      studentGroupId: studentGroupId,
+      zaloUserId: zaloUserId,
+      courses: courses.map((e) => e.toEntity()).toList());
 }
