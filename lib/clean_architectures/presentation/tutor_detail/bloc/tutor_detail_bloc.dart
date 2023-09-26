@@ -20,6 +20,8 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
 
   final Function0<void> getReviews;
 
+  final Function0<void> reportTutor;
+
   ///[Streams]
 
   final Stream<TutorDetailState> state$;
@@ -37,6 +39,7 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
   TutorDetailBloc._({
     required Function0<void> dispose,
     required this.getTutorBydId,
+    required this.reportTutor,
     required this.loadingFav$,
     required this.loadingRev$,
     required this.getReviews,
@@ -56,6 +59,8 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
     final favTutorController = PublishSubject<void>();
 
     final getReviewsController = PublishSubject<void>();
+
+    final reportTutorController = PublishSubject<void>();
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
@@ -181,7 +186,8 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
                 listen: () => loadingRevController.add(true),
                 cancel: () => loadingRevController.add(false),
               )
-              .map((data) => data.fold(
+              .map(
+                (data) => data.fold(
                   ifLeft: (error) => GetReviewsFailed(
                       message: error.message, error: error.code),
                   ifRight: (rData) {
@@ -193,7 +199,9 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
                       perPage: rData.perPage,
                     ));
                     return const GetReviewsSuccess();
-                  }));
+                  },
+                ),
+              );
         } catch (e) {
           return Stream<TutorDetailState>.error(
             GetReviewsFailed(message: e.toString()),
@@ -205,14 +213,21 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
           .map((_) => const InvalidTutorDetail()),
     ]).whereNotNull().share();
 
-    final state$ = Rx.merge<TutorDetailState>(
-            [getTutorState$, favTutorState$, getReviewsState$])
-        .whereNotNull()
+    final openReportTutorState$ = reportTutorController.stream
+        .map((_) => OpenReportTutorSuccess(userId: userId))
         .share();
+
+    final state$ = Rx.merge<TutorDetailState>([
+      getTutorState$,
+      favTutorState$,
+      getReviewsState$,
+      openReportTutorState$
+    ]).whereNotNull().share();
 
     return TutorDetailBloc._(
       dispose: () async => await DisposeBag([
         getTutorByIdController,
+        reportTutorController,
         tutorController,
         loadingController,
         loadingFavController,
@@ -223,6 +238,7 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
       ]).dispose(),
       favTutor: () => favTutorController.add(null),
       getReviews: () => getReviewsController.add(null),
+      reportTutor: () => reportTutorController.add(null),
       getTutorBydId: () => getTutorByIdController.add(null),
       state$: state$,
       tutor$: tutorController,

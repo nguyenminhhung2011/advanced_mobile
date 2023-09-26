@@ -22,5 +22,6 @@ class TutorDetail with _$TutorDetail {
     bool? isFavorite,
     String? youtubeVideoId,
     TutorUserDetail? user,
+    
   }) = _TutorDetail;
 }

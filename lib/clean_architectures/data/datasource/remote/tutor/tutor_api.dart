@@ -35,4 +35,5 @@ abstract class TutorApi {
 
   @GET('$getTutorByIdApi/{id}')
   Future<HttpResponse<TutorDetailModel?>> getTutorById(@Path('id') String id);
+  
 }

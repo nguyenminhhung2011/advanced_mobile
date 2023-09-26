@@ -6,6 +6,8 @@ import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_detail.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_user_detail.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/report_tutor/bloc/report_tutor_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/report_tutor/views/report_tutor_bottom.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
@@ -18,6 +20,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/video_player.dart';
+import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:readmore/readmore.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -46,15 +49,15 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
   @override
   void initState() {
     super.initState();
+
+    listen ??= _bloc.state$.flatMap(handleState).collect();
+
+    _bloc.getTutorBydId();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    listen ??= _bloc.state$.flatMap(handleState).collect();
-
-    _bloc.getTutorBydId();
   }
 
   @override
@@ -74,6 +77,29 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
         return BottomShowReviews(tutorDetailBloc: _bloc);
       },
     );
+  }
+
+  void _reportTutorBottomSheet({required String userId}) async {
+    final report = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14.0)),
+      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      isDismissible: false,
+      enableDrag: false,
+      builder: (context) {
+        return BlocProvider(
+          initBloc: (_) => injector.get<ReportTutorBloc>(param1: userId),
+          child: const ReportTutorBottom(),
+        );
+        // return const SizedBox();
+      },
+    );
+    if ((report is bool) && report) {
+      log("🐼[Report tutor] success");
+    }
   }
 
   @override
@@ -170,6 +196,8 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                     onPress: () {
                       if (index == 0) {
                         _bloc.favTutor();
+                      } else {
+                        _bloc.reportTutor();
                       }
                     },
                   ),
@@ -383,6 +411,11 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     }
     if (state is GetReviewsSuccess) {
       log("🌟 [Get reviews] Success");
+      return;
+    }
+    if (state is OpenReportTutorSuccess) {
+      log("🌟 [Open report tutor view] Success");
+      _reportTutorBottomSheet(userId: state.userId);
       return;
     }
   }

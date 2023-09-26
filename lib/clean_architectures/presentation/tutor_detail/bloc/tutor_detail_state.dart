@@ -48,6 +48,11 @@ class FavTutorFailed implements TutorDetailState {
       "[Fav tutor errors] => message ${message ?? ''}, error ${error ?? ''} ";
 }
 
+class OpenReportTutorSuccess implements TutorDetailState {
+  final String userId;
+  OpenReportTutorSuccess({required this.userId});
+}
+
 class InvalidTutorDetail implements TutorDetailState {
   const InvalidTutorDetail();
 }
