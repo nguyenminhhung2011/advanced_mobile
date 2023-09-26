@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/schedules_response/schedules_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutor_detail/tutor_detail_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutors_response/search_tutors_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutors_response/tutors_response.dart';
@@ -15,6 +16,7 @@ abstract class TutorApi {
   static const String addTutorFavoriteApi = "/user/manageFavoriteTutor";
   static const String searchTutorApi = "/tutor/search";
   static const String getTutorByIdApi = "/tutor";
+  static const String fetchTutorScheduleApi = "/schedule";
 
   @factoryMethod
   factory TutorApi(Dio dio) = _TutorApi;
@@ -35,5 +37,9 @@ abstract class TutorApi {
 
   @GET('$getTutorByIdApi/{id}')
   Future<HttpResponse<TutorDetailModel?>> getTutorById(@Path('id') String id);
-  
+
+  @GET(
+      '$fetchTutorScheduleApi?tutorId={tutorId}&startTimestamp={sT}&endTimestamp={eT}')
+  Future<HttpResponse<SchedulesResponse?>> fetchTutorSchedule(
+      @Path('tutorId') String tutorId, @Path('sT') int st, @Path('eT') int et);
 }

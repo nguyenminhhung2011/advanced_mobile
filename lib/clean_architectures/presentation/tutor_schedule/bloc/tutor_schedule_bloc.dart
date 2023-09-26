@@ -1,0 +1,133 @@
+import 'package:disposebag/disposebag.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/tutor_schedule/tutor_schedule_usecase.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
+import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:injectable/injectable.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
+
+@injectable
+class TutorScheduleBloc extends DisposeCallbackBaseBloc {
+  ///[Functions]
+  final Function0<void> fetchTutorSchedule;
+
+  final Function2<DateTime, DateTime, void> selectedTime;
+
+  ///[Streams]
+
+  final Stream<bool?> loading$;
+
+  final Stream<DateTime> startTime$;
+
+  final Stream<DateTime> endTime$;
+
+  final Stream<TutorScheduleState> state$;
+
+  final Stream<List<Schedule>> schedule$;
+
+  TutorScheduleBloc._({
+    required Function0<void> dispose,
+    required this.fetchTutorSchedule,
+    required this.selectedTime,
+    required this.startTime$,
+    required this.schedule$,
+    required this.endTime$,
+    required this.loading$,
+    required this.state$,
+  }) : super(dispose);
+
+  factory TutorScheduleBloc(@factoryParam String userId,
+      {required TutorScheduleUseCase tutorScheduleUseCase}) {
+    ///[Defines values]
+
+    final loadingController = BehaviorSubject<bool>.seeded(false);
+
+    final scheduleController =
+        BehaviorSubject.seeded(List<Schedule>.empty(growable: true));
+
+    final startTimeController = BehaviorSubject<DateTime>.seeded(
+        DateTime.now().subtract(const Duration(days: 1)));
+
+    final endTimeController = BehaviorSubject<DateTime>.seeded(
+        DateTime.now().add(const Duration(days: 5)));
+
+    ///[Actions]
+
+    final fetchTutorScheduleController = PublishSubject<void>();
+
+    ///[Handle actions]
+
+    final isValid$ = Rx.combineLatest3(
+      loadingController.stream,
+      startTimeController.stream,
+      endTimeController.stream,
+      (loading, sT, eT) => !loading && sT.isBefore(eT),
+    ).shareValueSeeded(false);
+
+    final fetchTutorSchedule$ = fetchTutorScheduleController.stream
+        .withLatestFrom(isValid$, (_, isValid) => isValid)
+        .share();
+
+    final state$ = Rx.merge<TutorScheduleState>([
+      fetchTutorSchedule$
+          .where((isValid) => isValid)
+          .debug(log: debugPrint)
+          .withLatestFrom(
+              Rx.combineLatest2(startTimeController.stream,
+                  endTimeController.stream, (sT, eT) => {'sT': sT, 'eT': eT}),
+              (_, timeData) => timeData)
+          .exhaustMap((timeData) {
+        final sT =
+            timeData['sT'] ?? DateTime.now().subtract(const Duration(days: 1));
+        final eT =
+            timeData['eT'] ?? DateTime.now().add(const Duration(days: 5));
+        try {
+          return tutorScheduleUseCase
+              .getTutorSchedule(tutorId: userId, startTime: sT, endTime: eT)
+              .doOn(
+                listen: () => loadingController.add(true),
+                cancel: () => loadingController.add(false),
+              )
+              .map(
+                (data) => data.fold(
+                    ifLeft: (error) => GetTutorScheduleFailed(
+                        message: error.message, error: error.code),
+                    ifRight: (sData) {
+                      scheduleController.add(sData);
+                      return const GetTutorScheduleSuccess();
+                    }),
+              );
+        } catch (e) {
+          return Stream<TutorScheduleState>.error(
+            GetTutorScheduleFailed(message: e.toString()),
+          );
+        }
+      }),
+      fetchTutorSchedule$
+          .where((isValid) => !isValid)
+          .map((_) => const GetTutorScheduleFailed())
+    ]).whereNotNull().share();
+
+    return TutorScheduleBloc._(
+      dispose: () async => await DisposeBag([
+        loadingController,
+        scheduleController,
+        startTimeController,
+        endTimeController,
+        fetchTutorScheduleController,
+      ]).dispose(),
+      fetchTutorSchedule: () => fetchTutorScheduleController.add(null),
+      startTime$: startTimeController,
+      schedule$: scheduleController,
+      endTime$: endTimeController,
+      loading$: loadingController,
+      selectedTime: (sT, eT) {
+        startTimeController.add(sT);
+        endTimeController.add(eT);
+      },
+      state$: state$,
+    );
+  }
+}

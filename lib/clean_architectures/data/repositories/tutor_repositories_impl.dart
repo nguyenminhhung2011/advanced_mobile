@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/datasou
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutors_response/tutors_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_detail.dart';
@@ -120,5 +121,31 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
           );
         }
         return Either.right(tutorDetail.toEntity());
+      });
+
+  @override
+  SingleResult<List<Schedule>> getTutorSchedule(
+          {required String tutorId,
+          required DateTime startTime,
+          required DateTime endTime}) =>
+      SingleResult.fromCallable(() async {
+        final response = await getStateOf(
+          request: () async => await _tutorApi.fetchTutorSchedule(tutorId,
+              startTime.millisecondsSinceEpoch, endTime.millisecondsSinceEpoch),
+        );
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+        final listSchedule = response.data;
+        if (listSchedule == null) {
+          return Either.left(
+            AppException(message: 'Data null'),
+          );
+        }
+        return Either.right(
+          listSchedule.schedules.map((e) => e.toEntity()).toList(),
+        );
       });
 }
