@@ -6,6 +6,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_view_card.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/default_pagination.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
@@ -73,7 +74,7 @@ class _SearchTutorResultViewState extends State<SearchTutorResultView> {
                     builder: (ctx2, sS2) {
                       final loading = sS2.data ?? false;
                       if (!loading && listItem.isEmpty) {
-                        return _notFoundField();
+                        return const NotFoundField();
                       }
                       return DefaultPagination(
                         items: listItem,
@@ -98,24 +99,6 @@ class _SearchTutorResultViewState extends State<SearchTutorResultView> {
                     });
               },
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Center _notFoundField() {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.search_off,
-              color: Theme.of(context).primaryColor, size: 30.0),
-          const SizedBox(height: 10.0),
-          Text(
-            'Don\'t have any result',
-            style: context.titleMedium.copyWith(fontWeight: FontWeight.w500),
           )
         ],
       ),

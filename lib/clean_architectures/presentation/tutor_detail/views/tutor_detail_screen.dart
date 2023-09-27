@@ -21,6 +21,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/loading_
 import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/video_player.dart';
 import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:readmore/readmore.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -111,7 +112,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
         padding: const EdgeInsets.all(15.0),
         child: ButtonCustom(
           height: 45.0,
-          onPress: () {},
+          onPress: () => _bloc.openTutorSchedulePage(),
           child: Text(
             'Book tutor',
             style: context.titleMedium
@@ -416,6 +417,11 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     if (state is OpenReportTutorSuccess) {
       log("🌟 [Open report tutor view] Success");
       _reportTutorBottomSheet(userId: state.userId);
+      return;
+    }
+    if (state is OpenTutorScheduleSuccess) {
+      log("🌟 [Open tutor schedule view] Success");
+      context.openPageWithRouteAndParams(Routes.tutorSchedule, state.userId);
       return;
     }
   }

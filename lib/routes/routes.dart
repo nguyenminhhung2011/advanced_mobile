@@ -7,5 +7,6 @@ class Routes {
   static const String tutorShow = '/tutor_show';
   static const String tutorDetail = '/tutor-detail';
   static const String searchTutor = '/search-tutor';
+  static const String tutorSchedule = '/tutor-schedule';
   static const String searchTutorResult = '/search-tutor-result';
 }

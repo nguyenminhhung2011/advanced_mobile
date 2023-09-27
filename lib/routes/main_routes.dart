@@ -12,6 +12,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/views/splash_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_detail/views/tutor_detail_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_schedule/views/tutor_schedule_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/views/tutor_show_screen.dart';
 import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
@@ -60,6 +62,20 @@ class MainRoutes {
                 initBloc: (_) =>
                     injector.get<TutorDetailBloc>(param1: settings.arguments),
                 child: const TutorDetailScreen(),
+              );
+            }
+            return const SizedBox();
+          },
+        );
+      case Routes.tutorSchedule:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            if (settings.arguments is String) {
+              return BlocProvider<TutorScheduleBloc>(
+                initBloc: (_) =>
+                    injector.get<TutorScheduleBloc>(param1: settings.arguments),
+                child: const TutorScheduleScreen(),
               );
             }
             return const SizedBox();

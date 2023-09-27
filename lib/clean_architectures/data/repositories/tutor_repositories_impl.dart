@@ -129,6 +129,7 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
           required DateTime startTime,
           required DateTime endTime}) =>
       SingleResult.fromCallable(() async {
+        await Future.delayed(const Duration(seconds: 2));
         final response = await getStateOf(
           request: () async => await _tutorApi.fetchTutorSchedule(tutorId,
               startTime.millisecondsSinceEpoch, endTime.millisecondsSinceEpoch),
@@ -144,8 +145,13 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
             AppException(message: 'Data null'),
           );
         }
+        listSchedule.schedules
+            .sort((a, b) => a.startTimestamp > b.startTimestamp ? 1 : 0);
         return Either.right(
-          listSchedule.schedules.map((e) => e.toEntity()).toList(),
+          listSchedule.schedules
+              .where((e) => !e.isBooked)
+              .map((e) => e.toEntity())
+              .toList(),
         );
       });
 }

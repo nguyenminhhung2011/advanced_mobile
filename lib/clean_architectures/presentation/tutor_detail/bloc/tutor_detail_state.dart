@@ -53,6 +53,11 @@ class OpenReportTutorSuccess implements TutorDetailState {
   OpenReportTutorSuccess({required this.userId});
 }
 
+class OpenTutorScheduleSuccess implements TutorDetailState {
+  final String userId;
+  OpenTutorScheduleSuccess({required this.userId});
+}
+
 class InvalidTutorDetail implements TutorDetailState {
   const InvalidTutorDetail();
 }

@@ -22,6 +22,8 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
 
   final Function0<void> reportTutor;
 
+  final Function0<void> openTutorSchedulePage;
+
   ///[Streams]
 
   final Stream<TutorDetailState> state$;
@@ -38,6 +40,7 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
 
   TutorDetailBloc._({
     required Function0<void> dispose,
+    required this.openTutorSchedulePage,
     required this.getTutorBydId,
     required this.reportTutor,
     required this.loadingFav$,
@@ -61,6 +64,8 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
     final getReviewsController = PublishSubject<void>();
 
     final reportTutorController = PublishSubject<void>();
+
+    final openTutorSchedulePageController = PublishSubject<void>();
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
@@ -217,11 +222,16 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
         .map((_) => OpenReportTutorSuccess(userId: userId))
         .share();
 
+    final openTutorSchedulePageState$ = openTutorSchedulePageController.stream
+        .map((_) => OpenTutorScheduleSuccess(userId: userId))
+        .share();
+
     final state$ = Rx.merge<TutorDetailState>([
       getTutorState$,
       favTutorState$,
       getReviewsState$,
-      openReportTutorState$
+      openReportTutorState$,
+      openTutorSchedulePageState$,
     ]).whereNotNull().share();
 
     return TutorDetailBloc._(
@@ -235,11 +245,13 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
         loadingRevController,
         getReviewsController,
         reviewsController,
+        openTutorSchedulePageController,
       ]).dispose(),
       favTutor: () => favTutorController.add(null),
       getReviews: () => getReviewsController.add(null),
       reportTutor: () => reportTutorController.add(null),
       getTutorBydId: () => getTutorByIdController.add(null),
+      openTutorSchedulePage: () => openTutorSchedulePageController.add(null),
       state$: state$,
       tutor$: tutorController,
       reviews$: reviewsController,

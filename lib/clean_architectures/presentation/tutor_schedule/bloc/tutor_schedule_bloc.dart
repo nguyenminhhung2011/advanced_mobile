@@ -48,7 +48,7 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
         BehaviorSubject.seeded(List<Schedule>.empty(growable: true));
 
     final startTimeController = BehaviorSubject<DateTime>.seeded(
-        DateTime.now().subtract(const Duration(days: 1)));
+        DateTime.now().subtract(const Duration(days: 2)));
 
     final endTimeController = BehaviorSubject<DateTime>.seeded(
         DateTime.now().add(const Duration(days: 5)));
@@ -75,9 +75,10 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
           .where((isValid) => isValid)
           .debug(log: debugPrint)
           .withLatestFrom(
-              Rx.combineLatest2(startTimeController.stream,
-                  endTimeController.stream, (sT, eT) => {'sT': sT, 'eT': eT}),
-              (_, timeData) => timeData)
+            Rx.combineLatest2(startTimeController.stream,
+                endTimeController.stream, (sT, eT) => {'sT': sT, 'eT': eT}),
+            (_, timeData) => timeData,
+          )
           .exhaustMap((timeData) {
         final sT =
             timeData['sT'] ?? DateTime.now().subtract(const Duration(days: 1));
@@ -126,6 +127,7 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
       selectedTime: (sT, eT) {
         startTimeController.add(sT);
         endTimeController.add(eT);
+        fetchTutorScheduleController.add(null);
       },
       state$: state$,
     );
