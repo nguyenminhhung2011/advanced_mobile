@@ -16,3 +16,17 @@ class GetTutorScheduleFailed implements TutorScheduleState {
   String toString() =>
       "GetTutorScheduleFailed => {message=${message ?? ''}, error=${error ?? ''}}";
 }
+
+class BooTutorClassSuccess implements TutorScheduleState {
+  const BooTutorClassSuccess();
+}
+
+class BooTutorClassFailed implements TutorScheduleState {
+  final Object? error;
+  final String? message;
+  const BooTutorClassFailed({this.error, this.message});
+
+  @override
+  String toString() =>
+      "BooTutorClassFailed => {message=${message ?? ''}, error=${error ?? ''}}";
+}

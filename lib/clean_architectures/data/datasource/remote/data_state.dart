@@ -1,4 +1,6 @@
+import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
 
 abstract class DataState<T> {
   final T? data;
@@ -17,4 +19,15 @@ class DataSuccess<T> extends DataState<T> {
 
 class DataFailed<T> extends DataState<T> {
   const DataFailed({required super.dioError});
+}
+
+extension DataStateExtensions<T> on DataState<T> {
+  Either<AppException, bool> toBoolResult() {
+    if (this is DataFailed) {
+      return Either.left(
+        AppException(message: dioError?.message ?? 'Error'),
+      );
+    }
+    return const Either.right(true);
+  }
 }

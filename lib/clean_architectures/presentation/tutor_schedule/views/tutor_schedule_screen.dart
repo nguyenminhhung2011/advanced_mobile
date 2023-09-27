@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule_detail.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/add_note_to_boo_tutor.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
@@ -35,20 +37,36 @@ class _TutorScheduleScreenState extends State<TutorScheduleScreen> {
   @override
   void initState() {
     super.initState();
+    listen ??= _bloc.state$.flatMap(handleState).collect();
+
+    _bloc.fetchTutorSchedule();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    listen ??= _bloc.state$.flatMap(handleState).collect();
-
-    _bloc.fetchTutorSchedule();
   }
 
   void _selectedTime() async {
     final result = await context.pickRangeDate(_rangeDateController);
     if (result?.isNotEmpty ?? false) {
       _bloc.selectedTime(result!.first, result.last);
+    }
+  }
+
+  void _booTutorClass({required ScheduleDetail schedule}) async {
+    final addNote = await showDialog(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: AddNoteToBooTutor(scheduleDetail: schedule),
+      ),
+    );
+    if (addNote is String && addNote.isNotEmpty) {
+      if (schedule.id.isNotEmpty) {
+        log("[schedule id] ${schedule.id}\n[note] $addNote");
+        _bloc.booTutorClass(schedule.id, addNote);
+      }
     }
   }
 
@@ -60,6 +78,27 @@ class _TutorScheduleScreenState extends State<TutorScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<bool?>(
+      stream: _bloc.loadingBooTutorClass$,
+      builder: (ctx, sS) {
+        final loading = sS.data ?? false;
+        return Stack(
+          children: [
+            _body(context),
+            if (loading)
+              Container(
+                color: Colors.black45,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: _loading(),
+              )
+          ],
+        );
+      },
+    );
+  }
+
+  Scaffold _body(BuildContext context) {
     return Scaffold(
       backgroundColor: _backgroundColor,
       appBar: AppBar(
@@ -104,12 +143,7 @@ class _TutorScheduleScreenState extends State<TutorScheduleScreen> {
             builder: (ctx, sS) {
               final loading = sS.data ?? false;
               if (loading) {
-                return Expanded(
-                  child: Center(
-                    child: StyleLoadingWidget.foldingCube
-                        .renderWidget(size: 40.0, color: _primaryColor),
-                  ),
-                );
+                return Expanded(child: _loading());
               }
               return StreamBuilder<List<Schedule>>(
                 stream: _bloc.schedule$,
@@ -133,10 +167,25 @@ class _TutorScheduleScreenState extends State<TutorScheduleScreen> {
       child: ListView(
         children: [
           ...data.map(
-            (e) => ScheduleItem(schedule: e, onPress: () {}),
+            (e) => ScheduleItem(
+              schedule: e,
+              onPress: () {
+                if (e.scheduleDetails.isEmpty) {
+                  return;
+                }
+                _booTutorClass(schedule: e.scheduleDetails.first);
+              },
+            ),
           )
         ],
       ),
+    );
+  }
+
+  Widget _loading() {
+    return Center(
+      child: StyleLoadingWidget.foldingCube
+          .renderWidget(size: 40.0, color: _primaryColor),
     );
   }
 
@@ -146,6 +195,14 @@ class _TutorScheduleScreenState extends State<TutorScheduleScreen> {
       return;
     }
     if (state is GetTutorScheduleFailed) {
+      log("🌟 ${state.toString()}");
+      return;
+    }
+    if (state is BooTutorClassSuccess) {
+      log("🌟 [Boo tutor] success");
+      return;
+    }
+    if (state is BooTutorClassFailed) {
       log("🌟 ${state.toString()}");
       return;
     }

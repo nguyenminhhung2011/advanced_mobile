@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/schedule/schedule_detail_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -29,6 +30,9 @@ class ScheduleModel {
   @JsonKey(name: 'isBooked')
   final bool isBooked;
 
+  @JsonKey(name: 'scheduleDetails')
+  final List<ScheduleDetailModel> scheduleDetails;
+
   ScheduleModel(
     this.id,
     this.tutorId,
@@ -38,6 +42,7 @@ class ScheduleModel {
     this.endTimestamp,
     this.createdAt,
     this.isBooked,
+    this.scheduleDetails,
   );
 
   Map<String, dynamic> toJson() => _$ScheduleModelToJson(this);
@@ -54,5 +59,6 @@ class ScheduleModel {
         endTimestamp: DateTime.fromMillisecondsSinceEpoch(endTimestamp),
         createdAt: createdAt,
         isBooked: isBooked,
+        scheduleDetails: scheduleDetails.map((e) => e.toEntity()).toList(),
       );
 }

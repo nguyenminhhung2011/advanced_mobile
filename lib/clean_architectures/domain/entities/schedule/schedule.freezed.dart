@@ -24,6 +24,8 @@ mixin _$Schedule {
   DateTime get endTimestamp => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   bool get isBooked => throw _privateConstructorUsedError;
+  List<ScheduleDetail> get scheduleDetails =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ScheduleCopyWith<Schedule> get copyWith =>
@@ -43,7 +45,8 @@ abstract class $ScheduleCopyWith<$Res> {
       DateTime startTimestamp,
       DateTime endTimestamp,
       DateTime createdAt,
-      bool isBooked});
+      bool isBooked,
+      List<ScheduleDetail> scheduleDetails});
 }
 
 /// @nodoc
@@ -67,6 +70,7 @@ class _$ScheduleCopyWithImpl<$Res, $Val extends Schedule>
     Object? endTimestamp = null,
     Object? createdAt = null,
     Object? isBooked = null,
+    Object? scheduleDetails = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -101,6 +105,10 @@ class _$ScheduleCopyWithImpl<$Res, $Val extends Schedule>
           ? _value.isBooked
           : isBooked // ignore: cast_nullable_to_non_nullable
               as bool,
+      scheduleDetails: null == scheduleDetails
+          ? _value.scheduleDetails
+          : scheduleDetails // ignore: cast_nullable_to_non_nullable
+              as List<ScheduleDetail>,
     ) as $Val);
   }
 }
@@ -120,7 +128,8 @@ abstract class _$$_ScheduleCopyWith<$Res> implements $ScheduleCopyWith<$Res> {
       DateTime startTimestamp,
       DateTime endTimestamp,
       DateTime createdAt,
-      bool isBooked});
+      bool isBooked,
+      List<ScheduleDetail> scheduleDetails});
 }
 
 /// @nodoc
@@ -142,6 +151,7 @@ class __$$_ScheduleCopyWithImpl<$Res>
     Object? endTimestamp = null,
     Object? createdAt = null,
     Object? isBooked = null,
+    Object? scheduleDetails = null,
   }) {
     return _then(_$_Schedule(
       id: null == id
@@ -176,6 +186,10 @@ class __$$_ScheduleCopyWithImpl<$Res>
           ? _value.isBooked
           : isBooked // ignore: cast_nullable_to_non_nullable
               as bool,
+      scheduleDetails: null == scheduleDetails
+          ? _value._scheduleDetails
+          : scheduleDetails // ignore: cast_nullable_to_non_nullable
+              as List<ScheduleDetail>,
     ));
   }
 }
@@ -191,7 +205,9 @@ class _$_Schedule implements _Schedule {
       required this.startTimestamp,
       required this.endTimestamp,
       required this.createdAt,
-      required this.isBooked});
+      required this.isBooked,
+      final List<ScheduleDetail> scheduleDetails = const <ScheduleDetail>[]})
+      : _scheduleDetails = scheduleDetails;
 
   @override
   final String id;
@@ -209,10 +225,18 @@ class _$_Schedule implements _Schedule {
   final DateTime createdAt;
   @override
   final bool isBooked;
+  final List<ScheduleDetail> _scheduleDetails;
+  @override
+  @JsonKey()
+  List<ScheduleDetail> get scheduleDetails {
+    if (_scheduleDetails is EqualUnmodifiableListView) return _scheduleDetails;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_scheduleDetails);
+  }
 
   @override
   String toString() {
-    return 'Schedule(id: $id, tutorId: $tutorId, startTime: $startTime, endTime: $endTime, startTimestamp: $startTimestamp, endTimestamp: $endTimestamp, createdAt: $createdAt, isBooked: $isBooked)';
+    return 'Schedule(id: $id, tutorId: $tutorId, startTime: $startTime, endTime: $endTime, startTimestamp: $startTimestamp, endTimestamp: $endTimestamp, createdAt: $createdAt, isBooked: $isBooked, scheduleDetails: $scheduleDetails)';
   }
 
   @override
@@ -232,12 +256,23 @@ class _$_Schedule implements _Schedule {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.isBooked, isBooked) ||
-                other.isBooked == isBooked));
+                other.isBooked == isBooked) &&
+            const DeepCollectionEquality()
+                .equals(other._scheduleDetails, _scheduleDetails));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, tutorId, startTime, endTime,
-      startTimestamp, endTimestamp, createdAt, isBooked);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      tutorId,
+      startTime,
+      endTime,
+      startTimestamp,
+      endTimestamp,
+      createdAt,
+      isBooked,
+      const DeepCollectionEquality().hash(_scheduleDetails));
 
   @JsonKey(ignore: true)
   @override
@@ -255,7 +290,8 @@ abstract class _Schedule implements Schedule {
       required final DateTime startTimestamp,
       required final DateTime endTimestamp,
       required final DateTime createdAt,
-      required final bool isBooked}) = _$_Schedule;
+      required final bool isBooked,
+      final List<ScheduleDetail> scheduleDetails}) = _$_Schedule;
 
   @override
   String get id;
@@ -273,6 +309,8 @@ abstract class _Schedule implements Schedule {
   DateTime get createdAt;
   @override
   bool get isBooked;
+  @override
+  List<ScheduleDetail> get scheduleDetails;
   @override
   @JsonKey(ignore: true)
   _$$_ScheduleCopyWith<_$_Schedule> get copyWith =>

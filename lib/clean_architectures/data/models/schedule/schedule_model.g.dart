@@ -16,6 +16,9 @@ ScheduleModel _$ScheduleModelFromJson(Map<String, dynamic> json) =>
       json['endTimestamp'] as int,
       DateTime.parse(json['createdAt'] as String),
       json['isBooked'] as bool,
+      (json['scheduleDetails'] as List<dynamic>)
+          .map((e) => ScheduleDetailModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ScheduleModelToJson(ScheduleModel instance) =>
@@ -28,4 +31,6 @@ Map<String, dynamic> _$ScheduleModelToJson(ScheduleModel instance) =>
       'endTimestamp': instance.endTimestamp,
       'createdAt': instance.createdAt.toIso8601String(),
       'isBooked': instance.isBooked,
+      'scheduleDetails':
+          instance.scheduleDetails.map((e) => e.toJson()).toList(),
     };

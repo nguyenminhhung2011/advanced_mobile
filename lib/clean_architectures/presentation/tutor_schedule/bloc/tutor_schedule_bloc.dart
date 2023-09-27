@@ -15,9 +15,13 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
 
   final Function2<DateTime, DateTime, void> selectedTime;
 
+  final Function2<String, String, void> booTutorClass;
+
   ///[Streams]
 
   final Stream<bool?> loading$;
+
+  final Stream<bool?> loadingBooTutorClass$;
 
   final Stream<DateTime> startTime$;
 
@@ -29,7 +33,9 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
 
   TutorScheduleBloc._({
     required Function0<void> dispose,
+    required this.loadingBooTutorClass$,
     required this.fetchTutorSchedule,
+    required this.booTutorClass,
     required this.selectedTime,
     required this.startTime$,
     required this.schedule$,
@@ -44,6 +50,12 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
+    final loadingBooTutorController = BehaviorSubject<bool>.seeded(false);
+
+    final noteController = BehaviorSubject<String>.seeded("");
+
+    final scheduleIdController = BehaviorSubject<String>.seeded("");
+
     final scheduleController =
         BehaviorSubject.seeded(List<Schedule>.empty(growable: true));
 
@@ -56,6 +68,8 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
     ///[Actions]
 
     final fetchTutorScheduleController = PublishSubject<void>();
+
+    final booTutorClassController = PublishSubject<void>();
 
     ///[Handle actions]
 
@@ -70,7 +84,7 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
         .withLatestFrom(isValid$, (_, isValid) => isValid)
         .share();
 
-    final state$ = Rx.merge<TutorScheduleState>([
+    final fetchTutorScheduleState$ = Rx.merge<TutorScheduleState>([
       fetchTutorSchedule$
           .where((isValid) => isValid)
           .debug(log: debugPrint)
@@ -111,6 +125,76 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
           .map((_) => const GetTutorScheduleFailed())
     ]).whereNotNull().share();
 
+    ///[Boo tutor class]
+
+    final booTutorValid$ = Rx.combineLatest3(
+            scheduleIdController.stream,
+            noteController.stream,
+            loadingBooTutorController.stream,
+            (scheduleId, note, loading) =>
+                scheduleId.isNotEmpty && note.isNotEmpty && !loading)
+        .shareValueSeeded(false);
+
+    final booTutorClass$ = booTutorClassController.stream
+        .withLatestFrom(booTutorValid$, (_, isValid) => isValid)
+        .share();
+
+    final booTutorClassState$ = Rx.merge<TutorScheduleState>([
+      booTutorClass$
+          .where((isValid) => isValid)
+          .debug(log: debugPrint)
+          .withLatestFrom(
+              Rx.combineLatest2(
+                  scheduleIdController.stream,
+                  noteController.stream,
+                  (scheduleId, note) =>
+                      {'scheduleId': scheduleId, 'note': note}),
+              (_, data) => data)
+          .exhaustMap((mapData) {
+        final scheduleId = mapData['scheduleId'] ?? '';
+        final note = mapData['note'] ?? '';
+        if (scheduleId.isEmpty || note.isEmpty) {
+          return Stream<TutorScheduleState>.error(
+            const BooTutorClassFailed(message: 'Input data null'),
+          );
+        }
+        try {
+          return tutorScheduleUseCase
+              .booTutorClass(scheduleDetailIds: [scheduleId], note: note)
+              .doOn(
+                listen: () => loadingBooTutorController.add(true),
+                cancel: () => loadingBooTutorController.add(false),
+              )
+              .map((data) => data.fold(
+                  ifLeft: (error) => BooTutorClassFailed(
+                      message: error.message, error: error.code),
+                  ifRight: (rData) {
+                    if (rData) {
+                      final currentData = scheduleController.value;
+                      scheduleController.add(currentData.where((e) {
+                        if (e.scheduleDetails.isEmpty) return true;
+                        return e.scheduleDetails.first.id != scheduleId;
+                      }).toList());
+                      return const BooTutorClassSuccess();
+                    }
+                    return const BooTutorClassFailed(
+                      message: 'boo tutor class failed',
+                    );
+                  }));
+        } catch (e) {
+          return Stream<TutorScheduleState>.error(
+            BooTutorClassFailed(message: e.toString()),
+          );
+        }
+      }),
+      booTutorClass$
+          .where((isValid) => !isValid)
+          .map((_) => const BooTutorClassFailed(message: "Invalid format"))
+    ]).whereNotNull().share();
+
+    final state$ = Rx.merge<TutorScheduleState>(
+        [fetchTutorScheduleState$, booTutorClassState$]).whereNotNull().share();
+
     return TutorScheduleBloc._(
       dispose: () async => await DisposeBag([
         loadingController,
@@ -118,11 +202,21 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
         startTimeController,
         endTimeController,
         fetchTutorScheduleController,
+        loadingBooTutorController,
+        noteController,
+        booTutorClassController,
+        scheduleIdController,
       ]).dispose(),
       fetchTutorSchedule: () => fetchTutorScheduleController.add(null),
       startTime$: startTimeController,
       schedule$: scheduleController,
       endTime$: endTimeController,
+      booTutorClass: (scheduleId, note) {
+        scheduleIdController.add(scheduleId);
+        noteController.add(note);
+        booTutorClassController.add(null);
+      },
+      loadingBooTutorClass$: loadingBooTutorController,
       loading$: loadingController,
       selectedTime: (sT, eT) {
         startTimeController.add(sT);

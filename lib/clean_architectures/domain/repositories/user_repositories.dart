@@ -3,4 +3,9 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/models/
 abstract class UserRepositories {
   SingleResult<bool> reportUser(
       {required String userId, required String content});
+
+  SingleResult<bool> booTutor(
+      {required List<String> scheduleDetailIds, required String note});
+
+  SingleResult<bool> cancelBooTutor({required List<String> scheduleDetailIds});
 }
