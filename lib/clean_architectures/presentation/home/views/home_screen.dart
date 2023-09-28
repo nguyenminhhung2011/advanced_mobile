@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
 // import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
 // import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_base_clean_architecture/core/components/utils/state_mixi
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/skeleton_custom.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -98,6 +100,9 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
 
   Widget _listView({required List<dynamic> listItem, required bool loading}) {
     return ListView.builder(
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
       controller: _scrollController,
       itemCount: listItem.length + 1,
       itemBuilder: (context, index) {
@@ -123,72 +128,76 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
     );
   }
 
-  Container _itemBuilder(Course course) => Container(
-        width: double.infinity,
-        margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-        padding: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5.0),
-          color: Theme.of(context).cardColor,
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.2),
-              blurRadius: 5.0,
-            )
-          ],
-        ),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5.0),
-              child: ImageCustom(
-                imageUrl: course.imageUrl ?? ImageConst.baseImageView,
-                isNetworkImage: true,
-                width: 100,
-                height: 100,
-                loadingWidget: SkeletonContainer.rounded(
+  Widget _itemBuilder(Course course) => GestureDetector(
+        onTap: () =>
+            context.openPageWithRouteAndParams(Routes.courseDetail, course.id),
+        child: Container(
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          padding: const EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            color: Theme.of(context).cardColor,
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor.withOpacity(0.2),
+                blurRadius: 5.0,
+              )
+            ],
+          ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(5.0),
+                child: ImageCustom(
+                  imageUrl: course.imageUrl ?? ImageConst.baseImageView,
+                  isNetworkImage: true,
                   width: 100,
                   height: 100,
-                  borderRadius: BorderRadius.circular(5.0),
+                  loadingWidget: SkeletonContainer.rounded(
+                    width: 100,
+                    height: 100,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 5.0),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    course.name,
-                    style: context.titleMedium
-                        .copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    course.description,
-                    style: context.titleSmall
-                        .copyWith(fontWeight: FontWeight.w400),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Levels',
-                        style: context.titleSmall.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColor,
+              const SizedBox(width: 5.0),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      course.name,
+                      style: context.titleMedium
+                          .copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      course.description,
+                      style: context.titleSmall
+                          .copyWith(fontWeight: FontWeight.w400),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Levels',
+                          style: context.titleSmall.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).primaryColor,
+                          ),
                         ),
-                      ),
-                      Text(
-                        ' ${course.level} . ${course.topics.length} topics',
-                        style: context.titleSmall
-                            .copyWith(fontWeight: FontWeight.w400),
-                      )
-                    ],
-                  ),
-                ].expand((e) => [e, const SizedBox(height: 5.0)]).toList()
-                  ..removeLast(),
-              ),
-            )
-          ],
+                        Text(
+                          ' ${course.level} . ${course.topics.length} topics',
+                          style: context.titleSmall
+                              .copyWith(fontWeight: FontWeight.w400),
+                        )
+                      ],
+                    ),
+                  ].expand((e) => [e, const SizedBox(height: 5.0)]).toList()
+                    ..removeLast(),
+                ),
+              )
+            ],
+          ),
         ),
       );
 

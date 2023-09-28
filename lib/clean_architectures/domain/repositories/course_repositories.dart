@@ -5,4 +5,6 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 abstract class CourseRepositories {
   SingleResult<Pagination<Course>> pagFetchCourseData(
       {required int page, required int perPge});
+
+  SingleResult<Course> getCourseDetail({required String courseId});
 }

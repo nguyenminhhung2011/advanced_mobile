@@ -92,7 +92,6 @@ class _DashboardViewState extends State<DashboardView> {
         elevation: 0.1, // => elevation
         tabBarType: TabBarType
             .dotTabBar, //if you want display test change to textTabBar
-        // tabBarColor: Colors.black,
         iconSize: 23.0,
         iconSelectedColor: Theme.of(context).primaryColor,
         duration: 200, // => set animation when change tab

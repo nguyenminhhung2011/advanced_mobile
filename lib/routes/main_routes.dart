@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/bloc/course_detail_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/views/course_detail_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/views/dashboard_views.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
@@ -78,6 +80,20 @@ class MainRoutes {
                 initBloc: (_) =>
                     injector.get<TutorScheduleBloc>(param1: settings.arguments),
                 child: const TutorScheduleScreen(),
+              );
+            }
+            return const SizedBox();
+          },
+        );
+      case Routes.courseDetail:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            if (settings.arguments is String) {
+              return BlocProvider<CourseDetailBloc>(
+                initBloc: (_) =>
+                    injector.get<CourseDetailBloc>(param1: settings.arguments),
+                child: const CourseDetailScreen(),
               );
             }
             return const SizedBox();

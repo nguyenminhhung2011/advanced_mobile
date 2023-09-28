@@ -59,10 +59,7 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).shadowColor,
-          ),
+          icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
         ),
         title: Text(
           'Tutor search',

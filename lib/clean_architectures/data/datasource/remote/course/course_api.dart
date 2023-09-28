@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/course_detail/course_detail_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/courses_response/courses_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -16,5 +17,10 @@ abstract class CourseApi {
   Future<HttpResponse<CoursesResponse?>> pagFetchData(
     @Path('page') int page,
     @Path('size') int size,
+  );
+
+  @GET('$pagFetchDataApi/{id}')
+  Future<HttpResponse<CourseDetailResponse?>> getCourseDetail(
+    @Path('id') String courseId,
   );
 }

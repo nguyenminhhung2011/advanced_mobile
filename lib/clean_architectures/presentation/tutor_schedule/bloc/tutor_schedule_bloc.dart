@@ -126,7 +126,7 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
     ]).whereNotNull().share();
 
     ///[Boo tutor class]
-
+    ///
     final booTutorValid$ = Rx.combineLatest3(
             scheduleIdController.stream,
             noteController.stream,

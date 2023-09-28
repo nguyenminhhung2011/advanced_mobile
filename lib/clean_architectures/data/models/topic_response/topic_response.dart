@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/topic/topic.dart';
+  import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/topic/topic.dart';
 
 class TopicResponse {
   final String key;

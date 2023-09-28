@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_topic/course_topic.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'course_topic_model.g.dart';
@@ -63,4 +64,16 @@ class CourseTopicModel {
       _$CourseTopicModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$CourseTopicModelToJson(this);
+
+  CourseTopic toEntity() => CourseTopic(
+        id: id,
+        courseId: courseId,
+        name: name,
+        description: description ?? '',
+        orderCourse: orderCourse,
+        nameFile: nameFile,
+        videoUrl: videoUrl,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+      );
 }

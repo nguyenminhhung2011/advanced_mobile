@@ -18,31 +18,59 @@ class CourseRepositoriesImpl extends BaseApi implements CourseRepositories {
   @override
   SingleResult<Pagination<Course>> pagFetchCourseData(
           {required int page, required int perPge}) =>
-      SingleResult.fromCallable(() async {
-        await Future.delayed(const Duration(seconds: 2));
-        final response = await getStateOf<CoursesResponse?>(
-          request: () async => await _courseApi.pagFetchData(page, perPge),
-        );
-        if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
+      SingleResult.fromCallable(
+        () async {
+          await Future.delayed(const Duration(seconds: 2));
+          final response = await getStateOf<CoursesResponse?>(
+            request: () async => await _courseApi.pagFetchData(page, perPge),
           );
-        }
-        final courseResponse = response.data;
+          if (response is DataFailed) {
+            return Either.left(
+              AppException(message: response.dioError?.message ?? 'Error'),
+            );
+          }
+          final courseResponse = response.data;
 
-        if (courseResponse == null) {
-          return Either.left(AppException(message: 'Data error'));
-        }
+          if (courseResponse == null) {
+            return Either.left(AppException(message: 'Data error'));
+          }
 
-        if (courseResponse.status == 'Error') {
-          return Either.left(AppException(message: 'Error'));
-        }
-        return Either.right(
-          Pagination(
-            count: courseResponse.count,
-            currentPage: page,
-            rows: courseResponse.courses.map((e) => e.toEntity()).toList(),
-          ),
-        );
-      });
+          if (courseResponse.status == 'Error') {
+            return Either.left(AppException(message: 'Error'));
+          }
+          return Either.right(
+            Pagination(
+              count: courseResponse.count,
+              currentPage: page,
+              rows: courseResponse.courses.map((e) => e.toEntity()).toList(),
+            ),
+          );
+        },
+      );
+
+  @override
+  SingleResult<Course> getCourseDetail({required String courseId}) =>
+      SingleResult.fromCallable(
+        () async {
+          await Future.delayed(const Duration(seconds: 1));
+          final response = await getStateOf(
+            request: () async => _courseApi.getCourseDetail(courseId),
+          );
+          if (response is DataFailed) {
+            return Either.left(
+              AppException(message: response.dioError?.message ?? 'Error'),
+            );
+          }
+          final courseResponse = response.data;
+          if (courseResponse == null) {
+            return Either.left(AppException(message: "Data null"));
+          }
+          if (courseResponse.message == 'Failed') {
+            return Either.left(AppException(message: 'Error'));
+          }
+          return Either.right(
+            courseResponse.data!.toEntity(),
+          );
+        },
+      );
 }

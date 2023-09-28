@@ -146,7 +146,24 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
               if (tutor == null) {
                 return const SizedBox();
               }
-              return _tutorView(tutor);
+              return StreamBuilder(
+                stream: _bloc.loadingFav$,
+                builder: (ctx2, sS2) {
+                  final loadingFav = sS.data ?? false;
+                  return Stack(
+                    children: [
+                      _tutorView(tutor),
+                      if (loadingFav)
+                        Container(
+                          color: Colors.black45,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          child: _loading(),
+                        )
+                    ],
+                  );
+                },
+              );
             },
           );
         },
