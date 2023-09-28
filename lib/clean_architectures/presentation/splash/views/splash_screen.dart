@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
       yield null;
 
       // ignore: use_build_context_synchronously
-      context.pushAndRemoveAll(Routes.tutorShow);
+      context.pushAndRemoveAll(Routes.dashboard);
     }
     if (state is IsNotAuth) {
       log("[Splash message] isNotAuth");

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/bloc/dashboard_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/views/dashboard_views.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
@@ -96,6 +98,14 @@ class MainRoutes {
           builder: (_) => BlocProvider<HomeBloc>(
             initBloc: (_) => injector.get(),
             child: const HomeScreen(),
+          ),
+        );
+      case Routes.dashboard:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => BlocProvider<DashboardBloc>(
+            initBloc: (_) => injector.get(),
+            child: const DashboardView(),
           ),
         );
       case Routes.tutorShow:

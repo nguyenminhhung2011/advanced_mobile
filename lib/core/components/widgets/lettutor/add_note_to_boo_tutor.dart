@@ -35,7 +35,7 @@ class _AddNoteToBooTutorState extends State<AddNoteToBooTutor> {
       width: double.infinity,
       height: context.heightDevice * 0.4,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
+        borderRadius: BorderRadius.circular(10.0),
         color: Theme.of(context).cardColor,
       ),
       padding: const EdgeInsets.all(10.0),

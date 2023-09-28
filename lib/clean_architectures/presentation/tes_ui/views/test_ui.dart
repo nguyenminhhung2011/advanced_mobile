@@ -237,7 +237,7 @@ class PageTest5 extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchLayout<ModelImageTest>(
       searchCall: (text, filters, currentPage) async {
-        log('hhdhdhdhhhh');
+        // log('hhdhdhdhhhh');
         await Future.delayed(const Duration(seconds: 3));
         return <ModelImageTest>[
           for (int t = 0; t < 10; t++)
@@ -489,7 +489,7 @@ class _PageTest2State extends State<PageTest2> {
       ),
       itemCall: fetchCategoryCall,
       paginationDataCall: (currentPage, category) async {
-        log(category);
+        // log(category);
         await Future.delayed(const Duration(seconds: 3));
         return <ModelImageTest>[
           for (int t = 0; t < 6; t++)
@@ -756,3 +756,5 @@ class _PageTest1State extends State<PageTest1> {
     );
   }
 }
+
+
