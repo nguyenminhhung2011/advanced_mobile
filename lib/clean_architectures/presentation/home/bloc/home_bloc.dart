@@ -185,10 +185,10 @@ class HomeBloc extends DisposeCallbackBaseBloc {
       courseCategories$: courseCategoriesController,
       applyCategory: (text) {
         final loading = loadingController.value;
-        final currentCategory = categoryController.value;
         if (loading) {
           return;
         }
+        final currentCategory = categoryController.value;
         if (text != currentCategory) {
           paginationController.add(const Pagination<Course>(
               rows: <Course>[], count: 0, perPage: 10, currentPage: 0));

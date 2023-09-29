@@ -1,6 +1,7 @@
 class Routes {
   static const String auth = '/auth';
   static const String home = '/home';
+  static const String eBoo = '/e_boo';
   static const String splash = '/splash';
   static const String testUi = '/test_ui';
   static const String passCode = '/pass-code';
