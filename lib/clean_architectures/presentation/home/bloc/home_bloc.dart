@@ -1,6 +1,7 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_category/course_category.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/home/home_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_state.dart';
@@ -12,6 +13,14 @@ import 'package:rxdart_ext/rxdart_ext.dart';
 
 import '../../../../core/components/utils/type_defs.dart';
 
+class CredentialCourseSearch {
+  final Pagination<Course> pagination;
+  final String searchText;
+  final String category;
+
+  CredentialCourseSearch(this.pagination, this.searchText, this.category);
+}
+
 @injectable
 class HomeBloc extends DisposeCallbackBaseBloc {
   ///[functions] input
@@ -19,11 +28,19 @@ class HomeBloc extends DisposeCallbackBaseBloc {
 
   final Function0<void> onRefreshData;
 
+  final Function0<void> getCourseCategory;
+
+  final Function1<String, void> submitWithText;
+
+  final Function1<String, void> applyCategory;
+
   ///[Stream] response
 
   final Stream<bool?> loading$;
 
   final Stream<Pagination<Course>> courses$;
+
+  final Stream<List<CourseCategory>> courseCategories$;
 
   final Stream<HomeState> state$;
 
@@ -33,6 +50,10 @@ class HomeBloc extends DisposeCallbackBaseBloc {
     ///[Event functions]
     required this.fetchData,
     required this.onRefreshData,
+    required this.submitWithText,
+    required this.courseCategories$,
+    required this.getCourseCategory,
+    required this.applyCategory,
 
     ///[States]
     required this.loading$,
@@ -48,9 +69,18 @@ class HomeBloc extends DisposeCallbackBaseBloc {
           rows: <Course>[], count: 0, perPage: 10, currentPage: 0),
     );
 
-    final fetchDataController = PublishSubject<void>();
+    final searchTextController = BehaviorSubject<String>.seeded("");
+
+    final categoryController = BehaviorSubject<String>.seeded("");
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
+
+    final courseCategoriesController =
+        BehaviorSubject.seeded(List<CourseCategory>.empty(growable: true));
+
+    final fetchDataController = PublishSubject<void>();
+
+    final getCourseCategoryController = PublishSubject<void>();
 
     ///
     ///[Streams]
@@ -66,18 +96,46 @@ class HomeBloc extends DisposeCallbackBaseBloc {
         .withLatestFrom(isValid$, (_, isValid) => isValid)
         .share();
 
+    final getCourseCategories$ = getCourseCategoryController.stream.share();
+
     final state$ = Rx.merge<HomeState>([
+      getCourseCategories$.exhaustMap((value) {
+        try {
+          return homeUseCase.getCourseCategory().map((data) => data.fold(
+              ifLeft: (error) => GetCourseCategoryFailed(
+                  message: error.message, error: error.code),
+              ifRight: (pData) {
+                courseCategoriesController.add(pData);
+                return const GetCourseCategorySuccess();
+              }));
+        } catch (e) {
+          return Stream.error(
+            GetCourseCategoryFailed(message: e.toString()),
+          );
+        }
+      }),
       fetchData$
           .where((isValid) => isValid)
           .debug(log: debugPrint)
-          .withLatestFrom(paginationController.stream,
-              (_, Pagination<Course> pagination) => pagination)
-          .exhaustMap((pagination) {
+          .withLatestFrom(
+              Rx.combineLatest3(
+                  categoryController.stream,
+                  paginationController.stream,
+                  searchTextController.stream,
+                  (category, pagination, searchText) => CredentialCourseSearch(
+                      pagination, searchText, category)).share(),
+              (_, cre) => cre)
+          .exhaustMap((cre) {
+        final pagination = cre.pagination;
+        final searchText = cre.searchText;
+        final category = cre.category;
         try {
           return homeUseCase
               .pagFetchData(
                 page: pagination.currentPage + 1,
                 size: pagination.perPage,
+                q: searchText,
+                categoryId: category,
               )
               .doOn(
                 listen: () => loadingController.add(true),
@@ -113,10 +171,44 @@ class HomeBloc extends DisposeCallbackBaseBloc {
     ]).whereNotNull().share();
 
     return HomeBloc._(
-      dispose: () async => await DisposeBag(
-              [paginationController, fetchDataController, loadingController])
-          .dispose(),
+      dispose: () async => await DisposeBag([
+        paginationController,
+        fetchDataController,
+        loadingController,
+        searchTextController,
+        getCourseCategoryController,
+        courseCategoriesController,
+        categoryController,
+      ]).dispose(),
       fetchData: () => fetchDataController.add(null),
+      getCourseCategory: () => getCourseCategoryController.add(null),
+      courseCategories$: courseCategoriesController,
+      applyCategory: (text) {
+        final loading = loadingController.value;
+        final currentCategory = categoryController.value;
+        if (loading) {
+          return;
+        }
+        if (text != currentCategory) {
+          paginationController.add(const Pagination<Course>(
+              rows: <Course>[], count: 0, perPage: 10, currentPage: 0));
+          categoryController.add(text);
+        }
+        fetchDataController.add(null);
+      },
+      submitWithText: (searchText) {
+        final loading = loadingController.value;
+        final currentSearchText = searchTextController.value;
+        if (loading) {
+          return;
+        }
+        if (searchText != currentSearchText) {
+          paginationController.add(const Pagination<Course>(
+              rows: <Course>[], count: 0, perPage: 10, currentPage: 0));
+          searchTextController.add(searchText);
+        }
+        fetchDataController.add(null);
+      },
       onRefreshData: () {
         final loading = loadingController.value;
         if (loading) {

@@ -10,7 +10,9 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/skeleton_custom.dart';
@@ -30,9 +32,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
   HomeBloc get _bloc => BlocProvider.of<HomeBloc>(context);
+
+  Color get _primaryColor => Theme.of(context).primaryColor;
+
   ScrollController? _scrollController;
 
   Object? listen;
+
+  BoxDecoration get _boxDecoration => BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Theme.of(context).scaffoldBackgroundColor,
+        border: Border.all(width: 1, color: Theme.of(context).hintColor),
+      );
+
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -49,8 +62,29 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
     }
   }
 
+  void _openSelectedFilter() async {
+    final getCategories = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14.0)),
+      ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      isDismissible: false,
+      enableDrag: false,
+      builder: (context) {
+        return CourseCategory(bloc: _bloc);
+        // return const SizedBox();
+      },
+    );
+    if (getCategories is String) {
+      _bloc.applyCategory(getCategories);
+    }
+  }
+
   @override
   void dispose() {
+    _searchController.dispose();
     if (_scrollController != null) {
       _scrollController!.removeListener(_listenerScroll);
       _scrollController!.dispose();
@@ -70,9 +104,27 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.school, color: _primaryColor),
+            Text(
+              ' Courses',
+              style: context.titleLarge.copyWith(
+                fontWeight: FontWeight.bold,
+                color: _primaryColor,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
       body: Column(
         children: [
-          const SizedBox(height: 40),
+          _searchField(context),
           Expanded(
             child: StreamBuilder(
               stream: _bloc.courses$,
@@ -98,6 +150,41 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
     );
   }
 
+  Padding _searchField(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: _boxDecoration,
+              child: TextField(
+                controller: _searchController,
+                onSubmitted: (text) => _bloc.submitWithText(text),
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search here....',
+                  contentPadding: EdgeInsets.all(5.0),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10.0),
+          GestureDetector(
+            onTap: _openSelectedFilter,
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: _boxDecoration,
+              child: Icon(Icons.grid_view_rounded, color: _primaryColor),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _listView({required List<dynamic> listItem, required bool loading}) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(
@@ -107,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
       itemCount: listItem.length + 1,
       itemBuilder: (context, index) {
         if (index < listItem.length) {
-          return _itemBuilder(listItem[index]);
+          return CourseItem(course: listItem[index]);
         }
         if (index >= listItem.length && (loading)) {
           Timer(const Duration(milliseconds: 30), () {
@@ -128,79 +215,6 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
     );
   }
 
-  Widget _itemBuilder(Course course) => GestureDetector(
-        onTap: () =>
-            context.openPageWithRouteAndParams(Routes.courseDetail, course.id),
-        child: Container(
-          width: double.infinity,
-          margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            color: Theme.of(context).cardColor,
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.2),
-                blurRadius: 5.0,
-              )
-            ],
-          ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: ImageCustom(
-                  imageUrl: course.imageUrl ?? ImageConst.baseImageView,
-                  isNetworkImage: true,
-                  width: 100,
-                  height: 100,
-                  loadingWidget: SkeletonContainer.rounded(
-                    width: 100,
-                    height: 100,
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 5.0),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      course.name,
-                      style: context.titleMedium
-                          .copyWith(fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      course.description,
-                      style: context.titleSmall
-                          .copyWith(fontWeight: FontWeight.w400),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Levels',
-                          style: context.titleSmall.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        Text(
-                          ' ${course.level} . ${course.topics.length} topics',
-                          style: context.titleSmall
-                              .copyWith(fontWeight: FontWeight.w400),
-                        )
-                      ],
-                    ),
-                  ].expand((e) => [e, const SizedBox(height: 5.0)]).toList()
-                    ..removeLast(),
-                ),
-              )
-            ],
-          ),
-        ),
-      );
-
   Stream<void> handleState(state) async* {
     if (state is FetchDataCourseFailed) {
       log('[Fetch data course] ${state.message}');
@@ -211,4 +225,210 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
       return;
     }
   }
+}
+
+class CourseCategory extends StatefulWidget {
+  const CourseCategory({
+    super.key,
+    required this.bloc,
+  });
+
+  final HomeBloc bloc;
+
+  @override
+  State<CourseCategory> createState() => _CourseCategoryState();
+}
+
+class _CourseCategoryState extends State<CourseCategory> {
+  @override
+  void initState() {
+    super.initState();
+    widget.bloc.getCourseCategory();
+  }
+
+  ValueNotifier<String> categorySelected = ValueNotifier<String>("");
+
+  Color get _primaryColor => Theme.of(context).primaryColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: context.widthDevice,
+      constraints: BoxConstraints(
+        maxHeight: context.heightDevice * 0.35,
+        minHeight: context.heightDevice * 0.3,
+      ),
+      child: Scaffold(
+          backgroundColor: Colors.transparent,
+          extendBody: true,
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ButtonCustom(
+              height: 45.0,
+              radius: 5.0,
+              onPress: () => context.popArgs(categorySelected.value),
+              child: Text(
+                'Apply',
+                style: context.titleMedium.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StreamBuilder(
+              stream: widget.bloc.courseCategories$,
+              builder: (ctx, sS) {
+                final data = sS.data ?? [];
+                return ValueListenableBuilder(
+                  valueListenable: categorySelected,
+                  builder: (ctx, category, text) {
+                    return Wrap(
+                      spacing: 6.0,
+                      runSpacing: -8,
+                      alignment: WrapAlignment.start,
+                      verticalDirection: VerticalDirection.up,
+                      children: [
+                        ...data.map((e) {
+                          final isSelected = e.id == category;
+                          return ChoiceChip(
+                            label: Text(
+                              e.title,
+                              style: context.titleSmall.copyWith(
+                                fontSize: 14,
+                                color: isSelected ? _primaryColor : null,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            avatar: isSelected
+                                ? Icon(Icons.check,
+                                    color: _primaryColor, size: 15.0)
+                                : null,
+                            selected: isSelected,
+                            onSelected: (_) {
+                              categorySelected.value = e.id;
+                            },
+                            backgroundColor: Theme.of(context)
+                                .dividerColor
+                                .withOpacity(0.07),
+                            selectedColor: _primaryColor.withOpacity(0.1),
+                          );
+                        })
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          )),
+    );
+  }
+}
+
+class CourseItem extends StatelessWidget {
+  const CourseItem({super.key, required this.course});
+
+  final Course course;
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () =>
+            context.openPageWithRouteAndParams(Routes.courseDetail, course.id),
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                color: Theme.of(context).cardColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Theme.of(context).shadowColor.withOpacity(0.2),
+                    blurRadius: 5.0,
+                  )
+                ],
+              ),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(5.0),
+                    child: ImageCustom(
+                      imageUrl: course.imageUrl ?? ImageConst.baseImageView,
+                      isNetworkImage: true,
+                      width: 120,
+                      height: 120,
+                      loadingWidget: SkeletonContainer.rounded(
+                        width: 120,
+                        height: 120,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          course.name,
+                          style: context.titleMedium
+                              .copyWith(fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          course.description,
+                          style: context.titleSmall
+                              .copyWith(fontWeight: FontWeight.w400),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Levels',
+                              style: context.titleSmall.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ),
+                            Text(
+                              ' ${course.level} . ${course.topics.length} topics',
+                              style: context.titleSmall
+                                  .copyWith(fontWeight: FontWeight.w400),
+                            )
+                          ],
+                        ),
+                      ].expand((e) => [e, const SizedBox(height: 5.0)]).toList()
+                        ..removeLast(),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Positioned(
+              top: 5.0,
+              left: 10.0,
+              child: Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5.0),
+                    bottomRight: Radius.circular(5.0),
+                  ),
+                ),
+                child: Text(
+                  (course.level ?? '0').renderExperienceText,
+                  style: context.titleSmall.copyWith(color: Colors.white),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
 }

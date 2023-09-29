@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/datasou
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/courses_response/courses_response.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_category/course_category.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/course_repositories.dart';
 import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
@@ -83,4 +84,24 @@ class CourseRepositoriesImpl extends BaseApi implements CourseRepositories {
           );
         },
       );
+
+  @override
+  SingleResult<List<CourseCategory>> getCourseCategory() =>
+      SingleResult.fromCallable(() async {
+        final response = await getStateOf(
+          request: () async => await _courseApi.getContentCategory(),
+        );
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+        final dataResponse = response.data;
+        if (dataResponse?.rows.isNotEmpty ?? false) {
+          return Either.right(
+            dataResponse!.rows.map((e) => e.toEntity()).toList(),
+          );
+        }
+        return Either.left(AppException(message: "Data null"));
+      });
 }

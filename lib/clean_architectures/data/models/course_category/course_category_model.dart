@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_category/course_category.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'course_category_model.g.dart';
@@ -39,4 +40,13 @@ class CourseCategoryModel {
       _$CourseCategoryModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$CourseCategoryModelToJson(this);
+
+  CourseCategory toEntity() => CourseCategory(
+        id: id,
+        title: title ?? '',
+        description: description ?? '',
+        key: key,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+      );
 }
