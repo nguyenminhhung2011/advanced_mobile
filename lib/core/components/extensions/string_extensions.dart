@@ -8,4 +8,11 @@ extension ColorExtension on String {
     buffer.write(hexString.replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
+
+  String get renderExperienceText => switch (this) {
+        '0' => "Any level",
+        '1' => "Beginner",
+        '2' => "Advanced",
+        _ => "Intermediate",
+      };
 }

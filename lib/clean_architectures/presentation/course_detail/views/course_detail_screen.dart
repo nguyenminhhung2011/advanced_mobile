@@ -1,13 +1,18 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_topic/course_topic.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/bloc/course_detail_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/bloc/course_detail_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/appbar.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -28,6 +33,12 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
   Color get _primaryColor => Theme.of(context).primaryColor;
 
   Color get _backgroundColor => Theme.of(context).scaffoldBackgroundColor;
+
+  EdgeInsets get _horizontalPadding =>
+      const EdgeInsets.symmetric(horizontal: 10.0);
+
+  TextStyle get _headerStyle =>
+      context.titleLarge.copyWith(fontWeight: FontWeight.w600);
 
   @override
   void initState() {
@@ -58,6 +69,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
           return StreamBuilder(
             stream: _bloc.course$,
             builder: (ctx1, sS1) {
+              if (sS1.data == null) {
+                return const SizedBox();
+              }
               return _mainView(course: sS1.data!);
             },
           );
@@ -78,7 +92,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             imageUrl: course.imageUrl ?? ImageConst.baseImageView,
             isNetworkImage: true,
           ),
-          expandedHeight: context.heightDevice * 0.35,
+          expandedHeight: context.heightDevice * 0.3,
           title: [
             IconButton(
               onPressed: () => context.pop(),
@@ -89,10 +103,180 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
         ),
         SliverList(
           delegate: SliverChildListDelegate(
-            <Widget>[const SizedBox(height: 10000)],
+            <Widget>[
+              HeaderTextCustom(
+                headerText: course.name,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
+                textStyle: context.titleLarge.copyWith(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 25.0,
+                  color: _primaryColor,
+                ),
+              ),
+              Padding(
+                padding: _horizontalPadding,
+                child: Text(course.description, style: context.titleMedium),
+              ),
+              const SizedBox(height: 20.0),
+              HeaderTextCustom(
+                headerText: 'Overview',
+                textStyle: _headerStyle,
+                padding: _horizontalPadding,
+              ),
+              const SizedBox(height: 10.0),
+              ..._overViewField(course)
+                  .expand((e) => [e, const SizedBox(height: 10.0)]),
+              _renderHeaderTitle(
+                  renderHeader: "Experience level",
+                  renderText: (course.level ?? '0').renderExperienceText),
+              _timeField(course),
+              const SizedBox(height: 10.0),
+              HeaderTextCustom(
+                  headerText: "All topics", textStyle: _headerStyle),
+              const SizedBox(height: 10.0),
+              ...course.topics
+                  .map(
+                    (topic) => _courseTopicBuilder(courseTopicModel: topic),
+                  )
+                  .expand((e) => [e, const SizedBox(height: 5.0)])
+            ],
           ),
-        )
-        // ...widget.children.map((e) => e)
+        ),
+      ],
+    );
+  }
+
+  Iterable<Column> _overViewField(Course course) {
+    return [
+      course.reason ?? '',
+      course.purpose ?? '',
+    ].mapIndexed((index, element) {
+      final renderHeader =
+          index == 0 ? "Why take this course?" : "What will you be able to do?";
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          HeaderTextCustom(
+            headerText: renderHeader,
+            padding: _horizontalPadding,
+            textStyle:
+                context.titleMedium.copyWith(fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 5.0),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 50.0,
+                child:
+                    Icon(Icons.question_mark, color: _primaryColor, size: 20.0),
+              ),
+              Expanded(
+                child: Text(
+                  element,
+                  style: context.titleMedium.copyWith(
+                    color: Theme.of(context).hintColor,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
+      );
+    });
+  }
+
+  Widget _courseTopicBuilder({required CourseTopic courseTopicModel}) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        margin: _horizontalPadding,
+        width: double.infinity,
+        padding: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: Theme.of(context).cardColor,
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).shadowColor.withOpacity(0.2),
+              blurRadius: 5.0,
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('${courseTopicModel.orderCourse} ${courseTopicModel.name}',
+                style:
+                    context.titleMedium.copyWith(fontWeight: FontWeight.w600)),
+            if (courseTopicModel.description.isNotEmpty)
+              Text(courseTopicModel.description),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _timeField(Course course) {
+    return Container(
+      margin: _horizontalPadding,
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        color: _primaryColor.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Row(
+        children: [
+          ...<DateTime>[
+            course.createdAt ?? DateTime.now(),
+            course.updatedAt ?? DateTime.now()
+          ]
+              .mapIndexed((index, e) {
+                final renderHeader = index == 0 ? "Created at" : "Updated at";
+                return Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        renderHeader,
+                        style: context.titleMedium
+                            .copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(getMMMMEEEd(e), style: context.titleSmall),
+                    ],
+                  ),
+                );
+              })
+              .expand((e) => [e, const SizedBox(width: 5.0)])
+              .toList()
+            ..removeLast(),
+        ],
+      ),
+    );
+  }
+
+  Column _renderHeaderTitle(
+      {required String renderHeader, required String renderText}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        HeaderTextCustom(
+          headerText: renderHeader,
+          textStyle: _headerStyle,
+          padding: _horizontalPadding,
+        ),
+        Padding(
+          padding: _horizontalPadding,
+          child: Text(
+            renderText,
+            style: context.titleMedium.copyWith(
+              color: Theme.of(context).hintColor,
+            ),
+          ),
+        ),
+        const SizedBox(height: 10.0),
       ],
     );
   }
