@@ -13,10 +13,9 @@ abstract class CourseApi {
   @factoryMethod
   factory CourseApi(Dio dio) = _CourseApi;
 
-  @GET('$pagFetchDataApi?page={page}&size={size}')
+  @GET(pagFetchDataApi)
   Future<HttpResponse<CoursesResponse?>> pagFetchData(
-    @Path('page') int page,
-    @Path('size') int size,
+    @Queries() Map<String, dynamic> queries,
   );
 
   @GET('$pagFetchDataApi/{id}')

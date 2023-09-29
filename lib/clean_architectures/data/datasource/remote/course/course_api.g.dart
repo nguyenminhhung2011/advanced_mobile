@@ -20,11 +20,10 @@ class _CourseApi implements CourseApi {
 
   @override
   Future<HttpResponse<CoursesResponse?>> pagFetchData(
-    int page,
-    int size,
-  ) async {
+      Map<String, dynamic> queries) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(queries);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>?>(
@@ -35,7 +34,7 @@ class _CourseApi implements CourseApi {
     )
             .compose(
               _dio.options,
-              '/course?page=${page}&size=${size}',
+              '/course',
               queryParameters: queryParameters,
               data: _data,
             )

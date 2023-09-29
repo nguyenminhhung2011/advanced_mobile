@@ -17,12 +17,22 @@ class CourseRepositoriesImpl extends BaseApi implements CourseRepositories {
 
   @override
   SingleResult<Pagination<Course>> pagFetchCourseData(
-          {required int page, required int perPge}) =>
+          {required int page,
+          required int perPge,
+          String? q,
+          String? categoryId}) =>
       SingleResult.fromCallable(
         () async {
           await Future.delayed(const Duration(seconds: 2));
+          final queries = <String, dynamic>{"page": page, "size": perPge};
+          if (q?.isNotEmpty ?? false) {
+            queries.addAll({"q": q!});
+          }
+          if (categoryId?.isNotEmpty ?? false) {
+            queries.addAll({"categoryId": categoryId!});
+          }
           final response = await getStateOf<CoursesResponse?>(
-            request: () async => await _courseApi.pagFetchData(page, perPge),
+            request: () async => await _courseApi.pagFetchData(queries),
           );
           if (response is DataFailed) {
             return Either.left(
