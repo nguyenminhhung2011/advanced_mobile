@@ -24,6 +24,7 @@ mixin _$ScheduleDetail {
   DateTime get updatedAt => throw _privateConstructorUsedError;
   DateTime get startPeriodTimestamp => throw _privateConstructorUsedError;
   DateTime get endPeriodTimestamp => throw _privateConstructorUsedError;
+  ScheduleInfo? get scheduleInfo => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ScheduleDetailCopyWith<ScheduleDetail> get copyWith =>
@@ -44,7 +45,10 @@ abstract class $ScheduleDetailCopyWith<$Res> {
       DateTime createdAt,
       DateTime updatedAt,
       DateTime startPeriodTimestamp,
-      DateTime endPeriodTimestamp});
+      DateTime endPeriodTimestamp,
+      ScheduleInfo? scheduleInfo});
+
+  $ScheduleInfoCopyWith<$Res>? get scheduleInfo;
 }
 
 /// @nodoc
@@ -68,6 +72,7 @@ class _$ScheduleDetailCopyWithImpl<$Res, $Val extends ScheduleDetail>
     Object? updatedAt = null,
     Object? startPeriodTimestamp = null,
     Object? endPeriodTimestamp = null,
+    Object? scheduleInfo = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -102,7 +107,23 @@ class _$ScheduleDetailCopyWithImpl<$Res, $Val extends ScheduleDetail>
           ? _value.endPeriodTimestamp
           : endPeriodTimestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      scheduleInfo: freezed == scheduleInfo
+          ? _value.scheduleInfo
+          : scheduleInfo // ignore: cast_nullable_to_non_nullable
+              as ScheduleInfo?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ScheduleInfoCopyWith<$Res>? get scheduleInfo {
+    if (_value.scheduleInfo == null) {
+      return null;
+    }
+
+    return $ScheduleInfoCopyWith<$Res>(_value.scheduleInfo!, (value) {
+      return _then(_value.copyWith(scheduleInfo: value) as $Val);
+    });
   }
 }
 
@@ -122,7 +143,11 @@ abstract class _$$_ScheduleDetailCopyWith<$Res>
       DateTime createdAt,
       DateTime updatedAt,
       DateTime startPeriodTimestamp,
-      DateTime endPeriodTimestamp});
+      DateTime endPeriodTimestamp,
+      ScheduleInfo? scheduleInfo});
+
+  @override
+  $ScheduleInfoCopyWith<$Res>? get scheduleInfo;
 }
 
 /// @nodoc
@@ -144,6 +169,7 @@ class __$$_ScheduleDetailCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? startPeriodTimestamp = null,
     Object? endPeriodTimestamp = null,
+    Object? scheduleInfo = freezed,
   }) {
     return _then(_$_ScheduleDetail(
       id: null == id
@@ -178,6 +204,10 @@ class __$$_ScheduleDetailCopyWithImpl<$Res>
           ? _value.endPeriodTimestamp
           : endPeriodTimestamp // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      scheduleInfo: freezed == scheduleInfo
+          ? _value.scheduleInfo
+          : scheduleInfo // ignore: cast_nullable_to_non_nullable
+              as ScheduleInfo?,
     ));
   }
 }
@@ -193,7 +223,8 @@ class _$_ScheduleDetail implements _ScheduleDetail {
       required this.createdAt,
       required this.updatedAt,
       required this.startPeriodTimestamp,
-      required this.endPeriodTimestamp});
+      required this.endPeriodTimestamp,
+      this.scheduleInfo});
 
   @override
   final String id;
@@ -211,10 +242,12 @@ class _$_ScheduleDetail implements _ScheduleDetail {
   final DateTime startPeriodTimestamp;
   @override
   final DateTime endPeriodTimestamp;
+  @override
+  final ScheduleInfo? scheduleInfo;
 
   @override
   String toString() {
-    return 'ScheduleDetail(id: $id, scheduleId: $scheduleId, startPeriod: $startPeriod, endPeriod: $endPeriod, createdAt: $createdAt, updatedAt: $updatedAt, startPeriodTimestamp: $startPeriodTimestamp, endPeriodTimestamp: $endPeriodTimestamp)';
+    return 'ScheduleDetail(id: $id, scheduleId: $scheduleId, startPeriod: $startPeriod, endPeriod: $endPeriod, createdAt: $createdAt, updatedAt: $updatedAt, startPeriodTimestamp: $startPeriodTimestamp, endPeriodTimestamp: $endPeriodTimestamp, scheduleInfo: $scheduleInfo)';
   }
 
   @override
@@ -236,7 +269,9 @@ class _$_ScheduleDetail implements _ScheduleDetail {
             (identical(other.startPeriodTimestamp, startPeriodTimestamp) ||
                 other.startPeriodTimestamp == startPeriodTimestamp) &&
             (identical(other.endPeriodTimestamp, endPeriodTimestamp) ||
-                other.endPeriodTimestamp == endPeriodTimestamp));
+                other.endPeriodTimestamp == endPeriodTimestamp) &&
+            (identical(other.scheduleInfo, scheduleInfo) ||
+                other.scheduleInfo == scheduleInfo));
   }
 
   @override
@@ -249,7 +284,8 @@ class _$_ScheduleDetail implements _ScheduleDetail {
       createdAt,
       updatedAt,
       startPeriodTimestamp,
-      endPeriodTimestamp);
+      endPeriodTimestamp,
+      scheduleInfo);
 
   @JsonKey(ignore: true)
   @override
@@ -267,7 +303,8 @@ abstract class _ScheduleDetail implements ScheduleDetail {
       required final DateTime createdAt,
       required final DateTime updatedAt,
       required final DateTime startPeriodTimestamp,
-      required final DateTime endPeriodTimestamp}) = _$_ScheduleDetail;
+      required final DateTime endPeriodTimestamp,
+      final ScheduleInfo? scheduleInfo}) = _$_ScheduleDetail;
 
   @override
   String get id;
@@ -285,6 +322,8 @@ abstract class _ScheduleDetail implements ScheduleDetail {
   DateTime get startPeriodTimestamp;
   @override
   DateTime get endPeriodTimestamp;
+  @override
+  ScheduleInfo? get scheduleInfo;
   @override
   @JsonKey(ignore: true)
   _$$_ScheduleDetailCopyWith<_$_ScheduleDetail> get copyWith =>

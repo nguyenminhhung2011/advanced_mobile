@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
   void didChangeDependencies() {
     super.didChangeDependencies();
     listen ??= _bloc.state$.flatMap(handleState).collect();
+
     _bloc.fetchData();
     // dom something
   }

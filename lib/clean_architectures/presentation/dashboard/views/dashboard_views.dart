@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/views/schedule_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/views/tutor_show_screen.dart';
 import 'package:flutter_base_clean_architecture/core/components/config/setting_config.dart';
@@ -51,7 +53,10 @@ class _DashboardViewState extends State<DashboardView> {
     TabBarModel(
       svgAsset: ImageConst.documentIcon,
       title: 'Favorite',
-      screen: const SizedBox(),
+      screen: BlocProvider<ScheduleBloc>(
+        initBloc: (_) => injector.get(),
+        child: const ScheduleScreen(),
+      ),
     ),
     TabBarModel(
       svgAsset: ImageConst.personIcon,

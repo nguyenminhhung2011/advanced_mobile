@@ -16,6 +16,10 @@ ScheduleDetailModel _$ScheduleDetailModelFromJson(Map<String, dynamic> json) =>
       DateTime.parse(json['updatedAt'] as String),
       json['startPeriodTimestamp'] as int,
       json['endPeriodTimestamp'] as int,
+      json['scheduleInfo'] == null
+          ? null
+          : ScheduleInfoModel.fromJson(
+              json['scheduleInfo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ScheduleDetailModelToJson(
@@ -29,4 +33,5 @@ Map<String, dynamic> _$ScheduleDetailModelToJson(
       'updatedAt': instance.updatedAt.toIso8601String(),
       'startPeriodTimestamp': instance.startPeriodTimestamp,
       'endPeriodTimestamp': instance.endPeriodTimestamp,
+      'scheduleInfo': instance.scheduleInfo?.toJson(),
     };

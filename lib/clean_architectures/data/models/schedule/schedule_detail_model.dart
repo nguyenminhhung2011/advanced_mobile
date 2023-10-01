@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/schedule/schedule_info_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -29,6 +30,9 @@ class ScheduleDetailModel {
   @JsonKey(name: 'endPeriodTimestamp')
   final int endPeriodTimestamp;
 
+  @JsonKey(name: 'scheduleInfo')
+  final ScheduleInfoModel? scheduleInfo;
+
   ScheduleDetailModel(
     this.id,
     this.scheduleId,
@@ -38,6 +42,7 @@ class ScheduleDetailModel {
     this.updatedAt,
     this.startPeriodTimestamp,
     this.endPeriodTimestamp,
+    this.scheduleInfo,
   );
 
   Map<String, dynamic> toJson() => _$ScheduleDetailModelToJson(this);
@@ -46,14 +51,16 @@ class ScheduleDetailModel {
       _$ScheduleDetailModelFromJson(json);
 
   ScheduleDetail toEntity() => ScheduleDetail(
-      id: id,
-      scheduleId: scheduleId,
-      startPeriod: startPeriod,
-      endPeriod: endPeriod,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      startPeriodTimestamp:
-          DateTime.fromMillisecondsSinceEpoch(startPeriodTimestamp),
-      endPeriodTimestamp:
-          DateTime.fromMillisecondsSinceEpoch(endPeriodTimestamp));
+        id: id,
+        scheduleId: scheduleId,
+        startPeriod: startPeriod,
+        endPeriod: endPeriod,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        startPeriodTimestamp:
+            DateTime.fromMillisecondsSinceEpoch(startPeriodTimestamp),
+        endPeriodTimestamp:
+            DateTime.fromMillisecondsSinceEpoch(endPeriodTimestamp),
+        scheduleInfo: scheduleInfo?.toEntity(),
+      );
 }

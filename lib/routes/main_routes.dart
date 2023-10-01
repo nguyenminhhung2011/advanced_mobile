@@ -10,6 +10,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/e_boo/views/e_boo_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/views/schedule_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/views/search_tutor_result.dart';
@@ -87,6 +89,16 @@ class MainRoutes {
             return const SizedBox();
           },
         );
+      case Routes.schedule:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            return BlocProvider<ScheduleBloc>(
+              initBloc: (_) => injector.get<ScheduleBloc>(),
+              child: const ScheduleScreen(),
+            );
+          },
+        );
       case Routes.courseDetail:
         return MaterialPageRoute(
           settings: settings,
@@ -106,8 +118,7 @@ class MainRoutes {
           settings: settings,
           builder: (_) {
             return BlocProvider<EBooBloc>(
-              initBloc: (_) =>
-                  injector.get<EBooBloc>(),
+              initBloc: (_) => injector.get<EBooBloc>(),
               child: const EBooScreen(),
             );
           },
