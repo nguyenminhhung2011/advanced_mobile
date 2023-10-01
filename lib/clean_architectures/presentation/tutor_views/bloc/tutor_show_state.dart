@@ -33,3 +33,6 @@ class AddTutorToFavFailed implements TutorShowState {
       "FetchDataFailed => {message=${message ?? ''}, error=${error ?? ''}}";
 }
 
+class ChangeFavoriteModeSuccess implements TutorShowState {
+  const ChangeFavoriteModeSuccess();
+}

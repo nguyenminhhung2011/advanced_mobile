@@ -21,9 +21,13 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
   final Function0<void> onRefreshData;
 
+  final Function0<void> changeFavoriteMode;
+
   ///[Streams]
 
   final Stream<bool?> loading$;
+
+  final Stream<bool?> favoriteMode$;
 
   final Stream<TutorFav> tutor$;
 
@@ -36,8 +40,10 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
     required this.fetchData,
     required this.addTutorToFav,
     required this.onRefreshData,
+    required this.changeFavoriteMode,
 
     ///[States]
+    required this.favoriteMode$,
     required this.loading$,
     required this.state$,
     required this.tutor$,
@@ -52,9 +58,13 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
+    final favoriteModeController = BehaviorSubject<bool>.seeded(false);
+
     // final tutorIdAddFavController = BehaviorSubject<String>.seeded('');
 
     final addTutorToFavController = PublishSubject<void>();
+
+    final changeFavoriteModeController = PublishSubject<void>();
 
     final isValid$ = Rx.combineLatest2(
             paginationController.stream
@@ -168,7 +178,15 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
     ]).whereNotNull().share();
 
     final state$ = Rx.merge<TutorShowState>(
-      [fetchDataState$, addTutorFavState$],
+      [
+        changeFavoriteModeController.stream.map((event) {
+          final currentMode = favoriteModeController.value;
+          favoriteModeController.add(!currentMode);
+          return const ChangeFavoriteModeSuccess();
+        }).share(),
+        fetchDataState$,
+        addTutorFavState$,
+      ],
     ).whereNotNull().share();
 
     return TutorShowBloc._(
@@ -178,6 +196,8 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         loadingController,
         addTutorToFavController,
         tutorUserIdToAdd,
+        favoriteModeController,
+        changeFavoriteModeController,
       ]).dispose(),
       onRefreshData: () {
         final loading = loadingController.value;
@@ -187,10 +207,11 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         paginationController.add(TutorFav());
         fetchDataController.add(null);
       },
+      favoriteMode$: favoriteModeController,
+      changeFavoriteMode: () => changeFavoriteModeController.add(null),
       addTutorToFav: (value) {
         tutorUserIdToAdd.add(value.trim());
         addTutorToFavController.add(null);
-        print(value);
       },
       fetchData: () => fetchDataController.add(null),
       loading$: loadingController,
