@@ -3,13 +3,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 @immutable
 abstract class HomeState {}
 
+class GetCourseCategorySuccess implements HomeState {
+  const GetCourseCategorySuccess();
+}
+
 class FetchDataCourseSuccess implements HomeState {
   final String message;
   const FetchDataCourseSuccess({this.message = "Fetch data success"});
-}
-
-class GetCourseCategorySuccess implements HomeState {
-  const GetCourseCategorySuccess();
 }
 
 class FetchDataCourseFailed implements HomeState {

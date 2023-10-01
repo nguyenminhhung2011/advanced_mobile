@@ -1,5 +1,6 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_category/course_category.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/e_boo/e_boo.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/e_boo_usecase/e_boo_usecase.dart';
@@ -23,20 +24,29 @@ class EBooBloc extends DisposeCallbackBaseBloc {
 
   final Function2<String?, String?, void> getEBoo;
 
+  final Function0<void> refreshItem;
+
+  final Function0<void> getCourseCategory;
+
   ///[Streams]
 
   final Stream<bool?> loading$;
 
   final Stream<Pagination<EBoo>> eBoo$;
 
+  final Stream<List<CourseCategory>> courseCategories$;
+
   final Stream<EBooState> state$;
 
   EBooBloc._({
     required Function0<void> dispose,
-    required this.getEBoo,
+    required this.courseCategories$,
+    required this.getCourseCategory,
+    required this.refreshItem,
     required this.loading$,
-    required this.eBoo$,
+    required this.getEBoo,
     required this.state$,
+    required this.eBoo$,
   }) : super(dispose);
 
   factory EBooBloc({required EBooUseCase eBooUseCase}) {
@@ -52,6 +62,11 @@ class EBooBloc extends DisposeCallbackBaseBloc {
       const Pagination<EBoo>(
           rows: <EBoo>[], count: 0, currentPage: 0, perPage: 10),
     );
+
+    final courseCategoriesController =
+        BehaviorSubject.seeded(List<CourseCategory>.empty(growable: true));
+
+    final getCourseCategoryController = PublishSubject<void>();
 
     void refreshPaginationController() {
       eBooController.add(
@@ -86,14 +101,15 @@ class EBooBloc extends DisposeCallbackBaseBloc {
               .getEBooResponse(
                 page: pagination.currentPage + 1,
                 size: pagination.perPage,
-                q: query,
                 categoryId: categoryId,
+                q: query,
               )
               .doOn(
                 listen: () => loadingController.add(true),
                 cancel: () => loadingController.add(false),
               )
-              .map((data) => data.fold(
+              .map(
+                (data) => data.fold(
                   ifLeft: (error) =>
                       GetEBooFailed(message: error.message, error: error.code),
                   ifRight: (eData) {
@@ -104,7 +120,9 @@ class EBooBloc extends DisposeCallbackBaseBloc {
                       rows: [...pagination.rows, ...eData.rows],
                     ));
                     return const GetEBooSuccess();
-                  }));
+                  },
+                ),
+              );
         } catch (e) {
           return Stream.error(GetEBooFailed(message: e.toString()));
         }
@@ -114,7 +132,27 @@ class EBooBloc extends DisposeCallbackBaseBloc {
           .map((_) => const GetEBooFailed(message: "Invalid"))
     ]).whereNotNull().share();
 
-    final state$ = Rx.merge<EBooState>([getEBooState$]).whereNotNull().share();
+    final getCourseCategories$ = getCourseCategoryController.stream.share();
+
+    final state$ = Rx.merge<EBooState>([
+      getCourseCategories$.exhaustMap((value) {
+        try {
+          ///[🐛🐛] Dumb code
+          return eBooUseCase.getCourseCategory().map((data) => data.fold(
+              ifLeft: (error) =>
+                  GetEBooFailed(message: error.message, error: error.code),
+              ifRight: (pData) {
+                courseCategoriesController.add(pData);
+                return const GetEBooSuccess();
+              }));
+        } catch (e) {
+          return Stream.error(
+            GetEBooFailed(message: e.toString()),
+          );
+        }
+      }),
+      getEBooState$
+    ]).whereNotNull().share();
 
     return EBooBloc._(
       dispose: () async => await DisposeBag([
@@ -123,14 +161,28 @@ class EBooBloc extends DisposeCallbackBaseBloc {
         loadingController,
         searchTextController,
         categoryIdController,
+        courseCategoriesController,
+        getCourseCategoryController,
       ]).dispose(),
+      courseCategories$: courseCategoriesController,
+      getCourseCategory: () => getCourseCategoryController.add(null),
+      refreshItem: () {
+        refreshPaginationController();
+        getBooController.add(null);
+      },
       getEBoo: (query, category) {
         final currentSearchText = searchTextController.value;
+        final currentCategoryId = categoryIdController.value;
         final checkSearchText = (query != null) && currentSearchText != query;
+        final checkCategoryId =
+            (category != null) && currentCategoryId != category;
         if (checkSearchText) {
           searchTextController.add(query);
         }
-        if (checkSearchText) {
+        if (checkCategoryId) {
+          categoryIdController.add(category);
+        }
+        if (checkSearchText || checkCategoryId) {
           refreshPaginationController();
         }
 

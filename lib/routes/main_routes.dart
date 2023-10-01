@@ -6,6 +6,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/views/course_detail_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/views/dashboard_views.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/e_boo/bloc/e_boo_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/e_boo/views/e_boo_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
@@ -97,6 +99,17 @@ class MainRoutes {
               );
             }
             return const SizedBox();
+          },
+        );
+      case Routes.eBoo:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            return BlocProvider<EBooBloc>(
+              initBloc: (_) =>
+                  injector.get<EBooBloc>(),
+              child: const EBooScreen(),
+            );
           },
         );
       case Routes.searchTutor:

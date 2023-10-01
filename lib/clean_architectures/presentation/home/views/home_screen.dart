@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_state.dart';
@@ -9,7 +10,9 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/content_category_bottom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/course_item.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/row_search_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -29,12 +32,6 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
   ScrollController? _scrollController;
 
   Object? listen;
-
-  BoxDecoration get _boxDecoration => BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border.all(width: 1, color: Theme.of(context).hintColor),
-      );
 
   final _searchController = TextEditingController();
 
@@ -111,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
             ),
             const Spacer(),
             TextButton(
-              onPressed: () {},
+              onPressed: () => context.openListPageWithRoute(Routes.eBoo),
               child: Text(
                 "View e-book",
                 style: context.titleSmall.copyWith(fontWeight: FontWeight.w600),
@@ -122,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
       ),
       body: Column(
         children: [
-          _searchField(context),
+          RowSearchField(
+              onSubmit: (text) => _bloc.submitWithText(text),
+              openSelectedFilter: _openSelectedFilter),
           Expanded(
             child: StreamBuilder(
               stream: _bloc.courses$,
@@ -143,41 +142,6 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
               },
             ),
           )
-        ],
-      ),
-    );
-  }
-
-  Padding _searchField(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: _boxDecoration,
-              child: TextField(
-                controller: _searchController,
-                onSubmitted: (text) => _bloc.submitWithText(text),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Search here....',
-                  contentPadding: EdgeInsets.all(5.0),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10.0),
-          GestureDetector(
-            onTap: _openSelectedFilter,
-            child: Container(
-              width: 52,
-              height: 52,
-              decoration: _boxDecoration,
-              child: Icon(Icons.grid_view_rounded, color: _primaryColor),
-            ),
-          ),
         ],
       ),
     );

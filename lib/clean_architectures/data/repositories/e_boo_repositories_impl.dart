@@ -23,6 +23,7 @@ class EBooRepositoriesImpl extends BaseApi implements EBooRepositories {
   }) =>
       SingleResult.fromCallable(
         () async {
+          await Future.delayed(const Duration(seconds: 2));
           final body = <String, dynamic>{"page": page, "size": size};
           if (q?.isNotEmpty ?? false) {
             body.addAll({"q": q});

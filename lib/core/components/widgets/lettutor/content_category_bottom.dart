@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/e_boo/bloc/e_boo_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
@@ -7,10 +8,15 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/button_c
 class CourseCategoryUi extends StatefulWidget {
   const CourseCategoryUi({
     super.key,
-    required this.bloc,
-  });
+    this.bloc,
+    this.eBloc,
+  }) : assert(
+          (bloc != null && eBloc == null) || (bloc == null && eBloc != null),
+          "Error",
+        );
 
-  final HomeBloc bloc;
+  final HomeBloc? bloc;
+  final EBooBloc? eBloc;
 
   @override
   State<CourseCategoryUi> createState() => _CourseCategoryUiState();
@@ -20,7 +26,12 @@ class _CourseCategoryUiState extends State<CourseCategoryUi> {
   @override
   void initState() {
     super.initState();
-    widget.bloc.getCourseCategory();
+    if (widget.bloc != null) {
+      widget.bloc?.getCourseCategory();
+    }
+    if (widget.eBloc != null) {
+      widget.eBloc?.getCourseCategory();
+    }
   }
 
   ValueNotifier<String> categorySelected = ValueNotifier<String>("");
@@ -56,7 +67,8 @@ class _CourseCategoryUiState extends State<CourseCategoryUi> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder(
-            stream: widget.bloc.courseCategories$,
+            stream: widget.bloc?.courseCategories$ ??
+                widget.eBloc?.courseCategories$,
             builder: (ctx, sS) {
               final data = sS.data ?? [];
               return ValueListenableBuilder(
