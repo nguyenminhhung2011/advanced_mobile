@@ -65,78 +65,78 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool?>(
-        stream: _bloc.favoriteMode$,
-        builder: (context, snapShot) {
-          final isFavoriteMode = snapShot.data ?? false;
-          return Scaffold(
+      stream: _bloc.favoriteMode$,
+      builder: (context, snapShot) {
+        final isFavoriteMode = snapShot.data ?? false;
+        return Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          appBar: AppBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            appBar: AppBar(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              elevation: 0,
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.school, color: _primaryColor),
-                  Text(
-                    ' Tutor',
-                    style: context.titleLarge.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: _primaryColor,
-                    ),
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () =>
-                        context.openListPageWithRoute(Routes.searchTutor),
-                    icon:
-                        Icon(Icons.search, color: Theme.of(context).hintColor),
-                  ),
-                  IconButton(
-                    onPressed: () => _bloc.changeFavoriteMode(),
-                    icon: Icon(
-                      Icons.favorite_outline,
-                      color: isFavoriteMode
-                          ? Colors.red
-                          : Theme.of(context).hintColor,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            body: Column(
+            elevation: 0,
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
-                  child: StreamBuilder(
-                    stream: _bloc.tutor$,
-                    builder: (ctx1, snapShot) {
-                      var listItem = (snapShot.data?.tutors.rows ?? <Tutor>[])
-                          as List<Tutor>;
-                      final fav = snapShot.data?.fav ?? <String>[];
-                      if (isFavoriteMode) {
-                        listItem = listItem
-                            .where((element) => fav.contains(element.userId))
-                            .toList();
-                      }
-                      return StreamBuilder<bool?>(
-                        stream: _bloc.loading$,
-                        builder: (ctx2, snapShot2) {
-                          return RefreshIndicator(
-                            onRefresh: () async => _bloc.onRefreshData(),
-                            child: _listView(
-                              fav: fav,
-                              listItem: listItem,
-                              loading: snapShot2.data ?? false,
-                            ),
-                          );
-                        },
-                      );
-                    },
+                Icon(Icons.school, color: _primaryColor),
+                Text(
+                  ' Tutor',
+                  style: context.titleLarge.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: _primaryColor,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () =>
+                      context.openListPageWithRoute(Routes.searchTutor),
+                  icon: Icon(Icons.search, color: Theme.of(context).hintColor),
+                ),
+                IconButton(
+                  onPressed: () => _bloc.changeFavoriteMode(),
+                  icon: Icon(
+                    Icons.favorite_outline,
+                    color: isFavoriteMode
+                        ? Colors.red
+                        : Theme.of(context).hintColor,
                   ),
                 )
               ],
             ),
-          );
-        });
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: StreamBuilder(
+                  stream: _bloc.tutor$,
+                  builder: (ctx1, snapShot) {
+                    var listItem = (snapShot.data?.tutors.rows ?? <Tutor>[])
+                        as List<Tutor>;
+                    final fav = snapShot.data?.fav ?? <String>[];
+                    if (isFavoriteMode) {
+                      listItem = listItem
+                          .where((element) => fav.contains(element.userId))
+                          .toList();
+                    }
+                    return StreamBuilder<bool?>(
+                      stream: _bloc.loading$,
+                      builder: (ctx2, snapShot2) {
+                        return RefreshIndicator(
+                          onRefresh: () async => _bloc.onRefreshData(),
+                          child: _listView(
+                            fav: fav,
+                            listItem: listItem,
+                            loading: snapShot2.data ?? false,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
   ListView _listView({
