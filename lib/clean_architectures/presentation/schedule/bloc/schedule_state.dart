@@ -30,5 +30,20 @@ class CancelBooTutorFailed implements ScheduleState {
 
   @override
   String toString() =>
-      "[Cancel boo tutor errors] => message ${message ?? ''}, error ${error ?? ''} ";
+      "[Cancel boo errors] => message ${message ?? ''}, error ${error ?? ''} ";
+}
+
+class UpdateStudentRequestSuccess implements ScheduleState {
+  const UpdateStudentRequestSuccess();
+}
+
+class UpdateStudentRequestFailed implements ScheduleState {
+  final String? message;
+  final Object? error;
+
+  const UpdateStudentRequestFailed({this.error, this.message});
+
+  @override
+  String toString() =>
+      "[Update student request errors] => message ${message ?? ''}, error ${error ?? ''} ";
 }

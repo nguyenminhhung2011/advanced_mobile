@@ -9,6 +9,8 @@ part 'user_api.g.dart';
 abstract class UserApi {
   static const String reportTutorApi = "/report";
   static const String bookAndCancelTutor = "/booking";
+  static const String updateStudentRequestApi =
+      "$bookAndCancelTutor/student-request";
 
   @factoryMethod
   factory UserApi(Dio dio) = _UserApi;
@@ -20,9 +22,12 @@ abstract class UserApi {
   @POST(bookAndCancelTutor)
   Future<HttpResponse> bookingTutor(
       {@Body() required Map<String, dynamic> body});
-  
+
   @DELETE(bookAndCancelTutor)
   Future<HttpResponse> cancelTutor(
       {@Body() required Map<String, dynamic> body});
 
+  @POST("$updateStudentRequestApi/{booId}")
+  Future<HttpResponse> updateStudentRequest(@Path('booId') String booId,
+      {@Body() required Map<String, dynamic> body});
 }

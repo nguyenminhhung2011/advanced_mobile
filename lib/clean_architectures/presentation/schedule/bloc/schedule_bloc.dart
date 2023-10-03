@@ -9,6 +9,12 @@ import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
+class UpdateStudentRequest {
+  final String booId;
+  final String content;
+  UpdateStudentRequest({required this.booId, required this.content});
+}
+
 @injectable
 class ScheduleBloc extends DisposeCallbackBaseBloc {
   final Function0<void> getBooInfo;
@@ -18,6 +24,8 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
   final Function1<int, void> changeTab;
 
   final Function1<BooInfo, void> cancelBooTutor;
+
+  final Function2<String, String, void> editRequest;
 
   final Stream<bool?> loading$;
 
@@ -31,6 +39,7 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
     required Function0<void> dispose,
     required this.cancelBooTutor,
     required this.refreshData,
+    required this.editRequest,
     required this.getBooInfo,
     required this.changeTab,
     required this.history$,
@@ -43,6 +52,9 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
     final getHistoryController = PublishSubject<void>();
 
     final cancelBooTutorController = PublishSubject<BooInfo>();
+
+    final updateStudentRequestController =
+        PublishSubject<UpdateStudentRequest>();
 
     final tabController = BehaviorSubject<int>.seeded(0);
 
@@ -109,7 +121,47 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
       ));
     });
 
+    final updateStudentRequest$ = updateStudentRequestController.stream
+        .exhaustMap<ScheduleState>((value) {
+      if (value.booId.isEmpty) {
+        return Stream.error(
+          const UpdateStudentRequestFailed(message: 'Boo id null'),
+        );
+      }
+      try {
+        return booUseCase
+            .updateStudentRequest(booId: value.booId, content: value.content)
+            .doOn(
+              listen: () => loadingController.add(true),
+              cancel: () => loadingController.add(false),
+            )
+            .map((data) => data.fold(
+                  ifLeft: (error) => UpdateStudentRequestFailed(
+                      message: error.message, error: error.code),
+                  ifRight: (cData) {
+                    final currentData = historyController.value;
+                    historyController.add(
+                      currentData.copyWith(
+                          rows: currentData.rows.map((e) {
+                        final returnData = e as BooInfo;
+                        if (returnData.id == value.booId) {
+                          return returnData.copyWith(
+                            studentRequest: value.content,
+                          );
+                        }
+                        return returnData;
+                      }).toList()) as Pagination<BooInfo>,
+                    );
+                    return const UpdateStudentRequestSuccess();
+                  },
+                ));
+      } catch (e) {
+        return Stream.error(UpdateStudentRequestFailed(message: e.toString()));
+      }
+    });
+
     final state$ = Rx.merge<ScheduleState>([
+      updateStudentRequest$,
       cancelState$,
       getHistory$
           .where((isValid) => isValid)
@@ -162,9 +214,13 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
           historyController,
           loadingController,
           tabController,
+          updateStudentRequestController,
           cancelBooTutorController
         ],
       ).dispose(),
+      editRequest: (booId, content) => updateStudentRequestController.add(
+        UpdateStudentRequest(booId: booId, content: content),
+      ),
       cancelBooTutor: (scheduleIds) =>
           cancelBooTutorController.add(scheduleIds),
       getBooInfo: () => getHistoryController.add(null),

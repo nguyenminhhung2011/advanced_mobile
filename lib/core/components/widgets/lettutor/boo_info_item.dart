@@ -13,11 +13,13 @@ class BooInfoItem extends StatelessWidget {
     required this.booInfo,
     required this.isHistoryType,
     this.cancelFunction,
+    this.editRequestFunction,
   });
 
   final BooInfo booInfo;
   final bool isHistoryType;
   final Function()? cancelFunction;
+  final Function()? editRequestFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +138,7 @@ class BooInfoItem extends StatelessWidget {
                         radius: 5.0,
                         color: Theme.of(context).scaffoldBackgroundColor,
                         borderColor: Theme.of(context).primaryColor,
-                        onPress: () {},
+                        onPress: editRequestFunction ?? () {},
                         child: Text('Edit request', style: context.titleSmall),
                       ),
                     ),

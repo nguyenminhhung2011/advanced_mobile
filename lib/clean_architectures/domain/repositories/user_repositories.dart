@@ -8,4 +8,7 @@ abstract class UserRepositories {
       {required List<String> scheduleDetailIds, required String note});
 
   SingleResult<bool> cancelBooTutor({required List<String> scheduleDetailIds});
+
+  SingleResult<bool> updateStudentRequest(
+      {required String booId, required String content});
 }

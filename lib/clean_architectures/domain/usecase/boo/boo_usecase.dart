@@ -27,4 +27,8 @@ class BooUseCase {
   SingleResult<bool> cancelBooTutor(
           {required List<String> scheduleDetailIds}) =>
       _userRepositories.cancelBooTutor(scheduleDetailIds: scheduleDetailIds);
+
+  SingleResult<bool> updateStudentRequest(
+          {required String booId, required String content}) =>
+      _userRepositories.updateStudentRequest(booId: booId, content: content);
 }

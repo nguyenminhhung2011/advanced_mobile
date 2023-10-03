@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/boo_info_item.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/dialog_add_update_student_request.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/default_pagination.dart';
@@ -50,6 +51,19 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     listen ??= _bloc.state$.flatMap(handleState).collect();
 
     _bloc.getBooInfo();
+  }
+
+  void _openEditRequestDialog({required String booId}) async {
+    final content = await showDialog(
+      context: context,
+      builder: (context) => const Dialog(
+        backgroundColor: Colors.transparent,
+        child: DialogAddUpdateStudentRequest(),
+      ),
+    );
+    if (content is String && content.isNotEmpty) {
+      _bloc.editRequest(booId, content);
+    }
   }
 
   @override
@@ -174,6 +188,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
           booInfo: booItem,
           isHistoryType: currentTab == 1,
           cancelFunction: () => _bloc.cancelBooTutor(booItem),
+          editRequestFunction: () => _openEditRequestDialog(booId: booItem.id),
         );
       },
       listenScrollBottom: () => _bloc.getBooInfo(),
@@ -201,6 +216,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       return;
     }
     if (state is CancelBooTutorFailed) {
+      log("🌆 ${state.toString()}");
+    }
+    if (state is UpdateStudentRequestSuccess) {
+      log("🌆[Update student request] success");
+      return;
+    }
+    if (state is UpdateStudentRequestFailed) {
       log("🌆 ${state.toString()}");
     }
   }

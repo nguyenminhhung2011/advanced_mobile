@@ -42,4 +42,15 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
             request: () async => _userApi.cancelTutor(body: body));
         return response.toBoolResult();
       });
+
+  @override
+  SingleResult<bool> updateStudentRequest(
+          {required String booId, required String content}) =>
+      SingleResult.fromCallable(() async {
+        final body = {"studentRequest": content};
+        final response = await getStateOf(
+          request: () async => _userApi.updateStudentRequest(booId, body: body),
+        );
+        return response.toBoolResult();
+      });
 }
