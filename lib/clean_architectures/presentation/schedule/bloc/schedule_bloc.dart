@@ -17,6 +17,8 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
 
   final Function1<int, void> changeTab;
 
+  final Function1<BooInfo, void> cancelBooTutor;
+
   final Stream<bool?> loading$;
 
   final Stream<int> tab$;
@@ -27,17 +29,20 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
 
   ScheduleBloc._({
     required Function0<void> dispose,
-    required this.getBooInfo,
+    required this.cancelBooTutor,
     required this.refreshData,
+    required this.getBooInfo,
     required this.changeTab,
-    required this.loading$,
     required this.history$,
+    required this.loading$,
     required this.state$,
     required this.tab$,
   }) : super(dispose);
 
   factory ScheduleBloc({required BooUseCase booUseCase}) {
     final getHistoryController = PublishSubject<void>();
+
+    final cancelBooTutorController = PublishSubject<BooInfo>();
 
     final tabController = BehaviorSubject<int>.seeded(0);
 
@@ -66,7 +71,46 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
         .withLatestFrom(isValid$, (_, isValid) => isValid)
         .share();
 
+    final cancelState$ =
+        cancelBooTutorController.stream.exhaustMap<ScheduleState>((event) {
+      if (event.id.isNotEmpty) {
+        try {
+          return booUseCase
+              .cancelBooTutor(scheduleDetailIds: <String>[event.id])
+              .doOn(
+                listen: () => loadingController.add(true),
+                cancel: () => loadingController.add(false),
+              )
+              .map(
+                (data) => data.fold(
+                  ifLeft: (error) => CancelBooTutorFailed(
+                      message: error.message, error: error.code),
+                  ifRight: (cData) {
+                    final currentData = historyController.value;
+                    historyController.add(
+                      currentData.copyWith(
+                        count: currentData.count - 1,
+                        rows: currentData.rows.where((element) {
+                          final returnData = element as BooInfo;
+                          return returnData.id != event.id;
+                        }).toList(),
+                      ) as Pagination<BooInfo>,
+                    );
+                    return const CancelBooTutorSuccess();
+                  },
+                ),
+              );
+        } catch (e) {
+          return Stream.error(CancelBooTutorFailed(message: e.toString()));
+        }
+      }
+      return Stream.error(const CancelBooTutorFailed(
+        message: 'Must cancel boo before 2 hours',
+      ));
+    });
+
     final state$ = Rx.merge<ScheduleState>([
+      cancelState$,
       getHistory$
           .where((isValid) => isValid)
           .withLatestFrom(
@@ -78,7 +122,8 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
               .getBooInfo(
                   page: pagination.currentPage + 1,
                   perPage: pagination.perPage,
-                  dateTimeLte: DateTime.now().subtract(const Duration(days: 10)),
+                  dateTimeLte:
+                      DateTime.now().subtract(const Duration(days: 10)),
                   isHistoryGet: currentTab == 1)
               .doOn(
                 listen: () => loadingController.add(true),
@@ -116,9 +161,12 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
           getHistoryController,
           historyController,
           loadingController,
-          tabController
+          tabController,
+          cancelBooTutorController
         ],
       ).dispose(),
+      cancelBooTutor: (scheduleIds) =>
+          cancelBooTutorController.add(scheduleIds),
       getBooInfo: () => getHistoryController.add(null),
       changeTab: (tab) {
         tabController.add(tab);

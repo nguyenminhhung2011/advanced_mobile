@@ -12,10 +12,12 @@ class BooInfoItem extends StatelessWidget {
     super.key,
     required this.booInfo,
     required this.isHistoryType,
+    this.cancelFunction,
   });
 
   final BooInfo booInfo;
   final bool isHistoryType;
+  final Function()? cancelFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,7 @@ class BooInfoItem extends StatelessWidget {
           borderColor: Colors.red,
           height: 40.0,
           radius: 5.0,
-          onPress: () {},
+          onPress: cancelFunction ?? () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -121,7 +123,7 @@ class BooInfoItem extends StatelessWidget {
                     Expanded(
                       flex: 7,
                       child: Text(
-                        'Request for leason',
+                        'Request for lesson',
                         style: context.titleMedium.copyWith(
                           fontWeight: FontWeight.w600,
                         ),

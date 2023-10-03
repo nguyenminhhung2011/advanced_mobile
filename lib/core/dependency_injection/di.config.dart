@@ -165,8 +165,10 @@ _i1.GetIt init(
       () => _i29.AuthRepositoryImpl(gh<_i27.AuthApi>()));
   gh.factory<_i30.BooRepositories>(
       () => _i31.BooRepositoriesImpl(gh<_i13.ScheduleApi>()));
-  gh.factory<_i32.BooUseCase>(
-      () => _i32.BooUseCase(gh<_i30.BooRepositories>()));
+  gh.factory<_i32.BooUseCase>(() => _i32.BooUseCase(
+        gh<_i30.BooRepositories>(),
+        gh<_i22.UserRepositories>(),
+      ));
   gh.factory<_i33.CourseApi>(() => _i33.CourseApi(gh<_i5.Dio>()));
   gh.factory<_i34.CourseRepositories>(
       () => _i35.CourseRepositoriesImpl(gh<_i33.CourseApi>()));

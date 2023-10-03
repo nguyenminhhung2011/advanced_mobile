@@ -2,12 +2,14 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/models/
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/boo_repositories.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/user_repositories.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class BooUseCase {
   final BooRepositories _booRepositories;
-  BooUseCase(this._booRepositories);
+  final UserRepositories _userRepositories;
+  BooUseCase(this._booRepositories, this._userRepositories);
 
   SingleResult<Pagination<BooInfo>> getBooInfo({
     required int page,
@@ -22,4 +24,7 @@ class BooUseCase {
           perPage: perPage,
           dateTimeLte: dateTimeLte,
           isHistoryGet: isHistoryGet);
+  SingleResult<bool> cancelBooTutor(
+          {required List<String> scheduleDetailIds}) =>
+      _userRepositories.cancelBooTutor(scheduleDetailIds: scheduleDetailIds);
 }

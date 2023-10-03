@@ -169,9 +169,11 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       items: history.rows,
       loading: false,
       itemBuilder: (_, index) {
+        final booItem = history.rows[index] as BooInfo;
         return BooInfoItem(
-          booInfo: (history.rows[index] as BooInfo),
+          booInfo: booItem,
           isHistoryType: currentTab == 1,
+          cancelFunction: () => _bloc.cancelBooTutor(booItem),
         );
       },
       listenScrollBottom: () => _bloc.getBooInfo(),
@@ -193,6 +195,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     if (state is GetBooInfoFailed) {
       log("🌆 ${state.toString()}");
       return;
+    }
+    if (state is CancelBooTutorSuccess) {
+      log("🌆[Cancel boo tutor] success");
+      return;
+    }
+    if (state is CancelBooTutorFailed) {
+      log("🌆 ${state.toString()}");
     }
   }
 }
