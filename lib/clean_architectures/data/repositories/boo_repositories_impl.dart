@@ -6,6 +6,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/models/
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/boo_repositories.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/log_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
 import 'package:injectable/injectable.dart';
 
@@ -58,5 +59,39 @@ class BooRepositoriesImpl extends BaseApi implements BooRepositories {
             rows: responseData.boos.map((e) => e.toEntity()).toList(),
           ),
         );
+      });
+
+  @override
+  SingleResult<BooInfo> getUpComingBooInfo({required DateTime dateTime}) =>
+      SingleResult.fromCallable(() async {
+        final response = await getStateOf(
+          request: () async =>
+              await _scheduleApi.getUpComing(dateTime.millisecondsSinceEpoch),
+        );
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+        final responseData = response.data;
+        if (responseData == null) {
+          return Either.left(AppException(message: 'Data null'));
+        }
+        final listData = responseData.data.where((element) {
+          final startPeriodTimestamp =
+              element.scheduleDetailInfo?.startPeriodTimestamp;
+          if (startPeriodTimestamp.isNotNull) {
+            return startPeriodTimestamp! > dateTime.millisecondsSinceEpoch;
+          }
+          return false;
+        }).toList();
+        if (listData.isEmpty) {
+          return Either.left(AppException(message: 'Empty data'));
+        }
+        listData.sort((a, b) {
+          return a.scheduleDetailInfo!.startPeriodTimestamp
+              .compareTo(b.scheduleDetailInfo!.startPeriodTimestamp);
+        });
+        return Either.right(listData.first.toEntity());
       });
 }

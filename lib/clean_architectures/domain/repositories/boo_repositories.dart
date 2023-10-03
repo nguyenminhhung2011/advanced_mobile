@@ -11,4 +11,6 @@ abstract class BooRepositories {
     String orderBy = 'meeting',
     String sortBy = 'desc',
   });
+
+  SingleResult<BooInfo> getUpComingBooInfo({required DateTime dateTime});
 }

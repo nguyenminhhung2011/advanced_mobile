@@ -164,8 +164,10 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                 StreamBuilder(
                   stream: _bloc.learningTotalTime$,
                   builder: (ctx1, sS1) {
-                    int hours = sS1.data! ~/ 60;
-                    int minutes = sS1.data! % 60;
+                    final data = sS1.data ?? 100;
+
+                    int hours = data ~/ 60;
+                    int minutes = data % 60;
                     return _renderRichText(hours, minutes);
                   },
                 )
