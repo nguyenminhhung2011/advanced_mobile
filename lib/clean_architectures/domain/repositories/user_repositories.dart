@@ -11,4 +11,6 @@ abstract class UserRepositories {
 
   SingleResult<bool> updateStudentRequest(
       {required String booId, required String content});
+  
+  SingleResult<int> getTotalTime();
 }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/total_time_response/total_time_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -11,6 +12,7 @@ abstract class UserApi {
   static const String bookAndCancelTutor = "/booking";
   static const String updateStudentRequestApi =
       "$bookAndCancelTutor/student-request";
+  static const String getTotalTimeApi = "/call/total";
 
   @factoryMethod
   factory UserApi(Dio dio) = _UserApi;
@@ -30,4 +32,7 @@ abstract class UserApi {
   @POST("$updateStudentRequestApi/{booId}")
   Future<HttpResponse> updateStudentRequest(@Path('booId') String booId,
       {@Body() required Map<String, dynamic> body});
+
+  @GET(getTotalTimeApi)
+  Future<HttpResponse<TotalTimeResponse?>> getTotalTime();
 }

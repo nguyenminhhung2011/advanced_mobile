@@ -23,11 +23,17 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
   final Function0<void> changeFavoriteMode;
 
+  final Function0<void> getTotalTime;
+
   ///[Streams]
 
   final Stream<bool?> loading$;
 
+  final Stream<bool?> loadingHeader$;
+
   final Stream<bool?> favoriteMode$;
+
+  final Stream<int> learningTotalTime$;
 
   final Stream<TutorFav> tutor$;
 
@@ -40,9 +46,13 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
     required this.fetchData,
     required this.addTutorToFav,
     required this.onRefreshData,
+    required this.getTotalTime,
     required this.changeFavoriteMode,
 
     ///[States]
+
+    required this.learningTotalTime$,
+    required this.loadingHeader$,
     required this.favoriteMode$,
     required this.loading$,
     required this.state$,
@@ -58,11 +68,17 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
+    final loadingHeaderController = BehaviorSubject<bool>.seeded(false);
+
     final favoriteModeController = BehaviorSubject<bool>.seeded(false);
+
+    final learningTotalTimeController = BehaviorSubject<int>.seeded(0);
 
     // final tutorIdAddFavController = BehaviorSubject<String>.seeded('');
 
     final addTutorToFavController = PublishSubject<void>();
+
+    final getTotalTimeController = PublishSubject<void>();
 
     final changeFavoriteModeController = PublishSubject<void>();
 
@@ -126,6 +142,29 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
           .map((_) => const FetchDataTutorFailed(message: "Invalid format"))
     ]).whereNotNull().share();
 
+    final getTotalTimeState$ =
+        getTotalTimeController.stream.exhaustMap<TutorShowState>((value) {
+      try {
+        return tutorShowUseCase
+            .getTotalTime()
+            .doOn(
+              listen: () => loadingHeaderController.add(true),
+              cancel: () => loadingHeaderController.add(false),
+            )
+            .map(
+              (data) => data.fold(
+                  ifLeft: (error) => GetTotalTimeFailed(
+                      message: error.message, error: error.code),
+                  ifRight: (cData) {
+                    learningTotalTimeController.add(cData);
+                    return const GetTotalTimeSuccess();
+                  }),
+            );
+      } catch (e) {
+        return Stream.error(GetTotalTimeFailed(message: e.toString()));
+      }
+    });
+
     final fetchDataState$ = Rx.merge([
       fetchData$
           .where((isValid) => isValid)
@@ -184,6 +223,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
           favoriteModeController.add(!currentMode);
           return const ChangeFavoriteModeSuccess();
         }).share(),
+        getTotalTimeState$,
         fetchDataState$,
         addTutorFavState$,
       ],
@@ -197,8 +237,14 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         addTutorToFavController,
         tutorUserIdToAdd,
         favoriteModeController,
+        learningTotalTimeController,
+        loadingHeaderController,
         changeFavoriteModeController,
+        getTotalTimeController,
       ]).dispose(),
+      loadingHeader$: loadingHeaderController,
+      getTotalTime: () => getTotalTimeController.add(null),
+      learningTotalTime$: learningTotalTimeController,
       onRefreshData: () {
         final loading = loadingController.value;
         if (loading) {

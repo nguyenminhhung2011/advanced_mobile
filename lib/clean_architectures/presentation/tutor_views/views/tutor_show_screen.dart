@@ -59,6 +59,7 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
     super.didChangeDependencies();
     listen ??= _bloc.state$.flatMap(handleState).collect();
     _bloc.fetchData();
+    _bloc.getTotalTime();
     // dom something
   }
 
@@ -104,6 +105,8 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
           ),
           body: Column(
             children: [
+              _headerField(),
+              const SizedBox(height: 10.0),
               Expanded(
                 child: StreamBuilder(
                   stream: _bloc.tutor$,
@@ -138,6 +141,42 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
       },
     );
   }
+
+  Widget _headerField() => StreamBuilder(
+        stream: _bloc.loadingHeader$,
+        builder: (ctx, sS) {
+          final loading = sS.data ?? false;
+          if (loading) {
+            return const SizedBox();
+          }
+          return Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(15.0),
+            margin: const EdgeInsets.symmetric(horizontal: 10.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5.0),
+              color: _primaryColor,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                StreamBuilder(
+                  stream: _bloc.learningTotalTime$,
+                  builder: (ctx1, sS1) {
+                    int hours = sS1.data! ~/ 60;
+                    int minutes = sS1.data! % 60;
+                    return Text(
+                      'Total lessons times is $hours hours and $minutes minutes',
+                      style: context.titleMedium
+                          .copyWith(fontWeight: FontWeight.w600),
+                    );
+                  },
+                )
+              ],
+            ),
+          );
+        },
+      );
 
   ListView _listView({
     required List<dynamic> listItem,
@@ -191,6 +230,14 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
     }
     if (state is FetchDataTutorSuccess) {
       log('[Fetch data success] ${state.message}');
+      return;
+    }
+    if (state is GetTotalTimeFailed) {
+      log('[Get total time failed] ${state.message}');
+      return;
+    }
+    if (state is GetTotalTimeSuccess) {
+      log('[Get total time success] Success');
       return;
     }
   }

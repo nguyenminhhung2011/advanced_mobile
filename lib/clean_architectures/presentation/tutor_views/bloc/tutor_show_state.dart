@@ -30,9 +30,23 @@ class AddTutorToFavFailed implements TutorShowState {
 
   @override
   String toString() =>
-      "FetchDataFailed => {message=${message ?? ''}, error=${error ?? ''}}";
+      "AddTutorFavFailed => {message=${message ?? ''}, error=${error ?? ''}}";
+}
+
+class GetTotalTimeFailed implements TutorShowState {
+  final Object? error;
+  final String? message;
+  const GetTotalTimeFailed({this.error, this.message});
+
+  @override
+  String toString() =>
+      "GetTotalTimeFailed => {message=${message ?? ''}, error=${error ?? ''}}";
 }
 
 class ChangeFavoriteModeSuccess implements TutorShowState {
   const ChangeFavoriteModeSuccess();
+}
+
+class GetTotalTimeSuccess implements TutorShowState {
+  const GetTotalTimeSuccess();
 }

@@ -82,6 +82,11 @@ class HomeBloc extends DisposeCallbackBaseBloc {
 
     final getCourseCategoryController = PublishSubject<void>();
 
+    void refreshPaginationData() {
+      paginationController.add(const Pagination<Course>(
+          rows: <Course>[], count: 0, perPage: 10, currentPage: 0));
+    }
+
     ///
     ///[Streams]
     ///
@@ -190,8 +195,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
         }
         final currentCategory = categoryController.value;
         if (text != currentCategory) {
-          paginationController.add(const Pagination<Course>(
-              rows: <Course>[], count: 0, perPage: 10, currentPage: 0));
+          refreshPaginationData();
           categoryController.add(text);
         }
         fetchDataController.add(null);
@@ -203,8 +207,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
           return;
         }
         if (searchText != currentSearchText) {
-          paginationController.add(const Pagination<Course>(
-              rows: <Course>[], count: 0, perPage: 10, currentPage: 0));
+          refreshPaginationData();
           searchTextController.add(searchText);
         }
         fetchDataController.add(null);
@@ -214,8 +217,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
         if (loading) {
           return;
         }
-        paginationController.add(const Pagination<Course>(
-            rows: <Course>[], count: 0, perPage: 10, currentPage: 0));
+        refreshPaginationData();
         fetchDataController.add(null);
       },
       loading$: loadingController,
