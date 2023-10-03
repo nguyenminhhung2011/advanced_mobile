@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
@@ -165,11 +166,7 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                   builder: (ctx1, sS1) {
                     int hours = sS1.data! ~/ 60;
                     int minutes = sS1.data! % 60;
-                    return Text(
-                      'Total lessons times is $hours hours and $minutes minutes',
-                      style: context.titleMedium
-                          .copyWith(fontWeight: FontWeight.w600),
-                    );
+                    return _renderRichText(hours, minutes);
                   },
                 )
               ],
@@ -177,6 +174,27 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
           );
         },
       );
+
+  RichText _renderRichText(int hours, int minutes) {
+    return RichText(
+      text: TextSpan(
+        style: context.titleMedium,
+        children: [
+          ...[
+            'Total lessons times is ',
+            hours.toString(),
+            ' hours and ',
+            minutes.toString(),
+          ].mapIndexed((index, element) {
+            final textStyle = TextStyle(
+              fontWeight: index % 2 == 0 ? FontWeight.w400 : FontWeight.w600,
+            );
+            return TextSpan(text: element, style: textStyle);
+          }),
+        ],
+      ),
+    );
+  }
 
   ListView _listView({
     required List<dynamic> listItem,

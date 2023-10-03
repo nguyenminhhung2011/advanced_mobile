@@ -70,6 +70,6 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
         if (responseData == null) {
           return Either.left(AppException(message: "Data null"));
         }
-        return Either.right(responseData?.total ?? 0);
+        return Either.right(responseData.total);
       });
 }
