@@ -13,9 +13,13 @@ class BooUseCase {
     required int page,
     required int perPage,
     required DateTime dateTimeLte,
+    required bool isHistoryGet,
     String orderBy = 'meeting',
     String sortBy = 'desc',
   }) =>
       _booRepositories.getBooInfo(
-          page: page, perPage: perPage, dateTimeLte: dateTimeLte);
+          page: page,
+          perPage: perPage,
+          dateTimeLte: dateTimeLte,
+          isHistoryGet: isHistoryGet);
 }

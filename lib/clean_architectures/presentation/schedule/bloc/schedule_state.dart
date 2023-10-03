@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 @immutable
 abstract class ScheduleState {}
 
-class GetBooHistorySuccess implements ScheduleState {
-  const GetBooHistorySuccess();
+class GetBooInfoSuccess implements ScheduleState {
+  const GetBooInfoSuccess();
 }
 
-class GetBooHistoryFailed implements ScheduleState {
+class GetBooInfoFailed implements ScheduleState {
   final String? message;
   final Object? error;
 
-  const GetBooHistoryFailed({this.error, this.message});
+  const GetBooInfoFailed({this.error, this.message});
 
   @override
   String toString() =>

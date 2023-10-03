@@ -50,7 +50,7 @@ class ButtonCustom extends StatelessWidget {
                 child: CircularProgressIndicator(
                 color: Colors.white,
               ))
-            : child,
+            : Center(child: child),
       ),
     );
   }

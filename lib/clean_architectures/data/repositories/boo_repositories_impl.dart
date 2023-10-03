@@ -19,6 +19,7 @@ class BooRepositoriesImpl extends BaseApi implements BooRepositories {
     required int page,
     required int perPage,
     required DateTime dateTimeLte,
+    required bool isHistoryGet,
     String orderBy = 'meeting',
     String sortBy = 'desc',
   }) =>
@@ -26,10 +27,18 @@ class BooRepositoriesImpl extends BaseApi implements BooRepositories {
         final queries = <String, dynamic>{
           'page': page,
           'perPage': perPage,
-          'dateTimeLte': dateTimeLte.millisecondsSinceEpoch,
           'orderBy': orderBy,
           'sortBy': sortBy,
         };
+        if (isHistoryGet) {
+          queries.addAll(
+            {'dateTimeLte': dateTimeLte.millisecondsSinceEpoch},
+          );
+        } else {
+          queries.addAll(
+            {'dateTimeGte': dateTimeLte.millisecondsSinceEpoch},
+          );
+        }
         final response = await getStateOf(
             request: () async => await _scheduleApi.getBooHistory(queries));
         if (response is DataFailed) {

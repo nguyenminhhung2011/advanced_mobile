@@ -7,6 +7,7 @@ abstract class BooRepositories {
     required int page,
     required int perPage,
     required DateTime dateTimeLte,
+    required bool isHistoryGet,
     String orderBy = 'meeting',
     String sortBy = 'desc',
   });
