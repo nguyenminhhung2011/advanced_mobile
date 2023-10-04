@@ -43,10 +43,24 @@ class GetTotalTimeFailed implements TutorShowState {
       "GetTotalTimeFailed => {message=${message ?? ''}, error=${error ?? ''}}";
 }
 
+class GetUpComingClassFailed implements TutorShowState {
+  final Object? error;
+  final String? message;
+  const GetUpComingClassFailed({this.error, this.message});
+
+  @override
+  String toString() =>
+      "GetUpComingClassFailed => {message=${message ?? ''}, error=${error ?? ''}}";
+}
+
 class ChangeFavoriteModeSuccess implements TutorShowState {
   const ChangeFavoriteModeSuccess();
 }
 
 class GetTotalTimeSuccess implements TutorShowState {
   const GetTotalTimeSuccess();
+}
+
+class GetUpComingClassSuccess implements TutorShowState {
+  const GetUpComingClassSuccess();
 }

@@ -200,6 +200,7 @@ _i1.GetIt init(
   gh.factory<_i44.TutorShowUseCase>(() => _i44.TutorShowUseCase(
         gh<_i18.TutorRepositories>(),
         gh<_i21.UserRepositories>(),
+        gh<_i29.BooRepositories>(),
       ));
   gh.factory<_i45.AuthBloc>(
       () => _i45.AuthBloc(login: gh<_i37.LoginUseCase>()));

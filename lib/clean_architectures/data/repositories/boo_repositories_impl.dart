@@ -62,36 +62,40 @@ class BooRepositoriesImpl extends BaseApi implements BooRepositories {
       });
 
   @override
-  SingleResult<BooInfo> getUpComingBooInfo({required DateTime dateTime}) =>
-      SingleResult.fromCallable(() async {
-        final response = await getStateOf(
-          request: () async =>
-              await _scheduleApi.getUpComing(dateTime.millisecondsSinceEpoch),
-        );
-        if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
+  SingleResult<BooInfo?> getUpComingBooInfo({required DateTime dateTime}) =>
+      SingleResult.fromCallable(
+        () async {
+          final millisecondsSinceEpoch = dateTime.millisecondsSinceEpoch;
+          final response = await getStateOf(
+            request: () async =>
+                await _scheduleApi.getUpComing(millisecondsSinceEpoch),
           );
-        }
-        final responseData = response.data;
-        if (responseData == null) {
-          return Either.left(AppException(message: 'Data null'));
-        }
-        final listData = responseData.data.where((element) {
-          final startPeriodTimestamp =
-              element.scheduleDetailInfo?.startPeriodTimestamp;
-          if (startPeriodTimestamp.isNotNull) {
-            return startPeriodTimestamp! > dateTime.millisecondsSinceEpoch;
+          if (response is DataFailed) {
+            return Either.left(
+              AppException(message: response.dioError?.message ?? 'Error'),
+            );
           }
-          return false;
-        }).toList();
-        if (listData.isEmpty) {
-          return Either.left(AppException(message: 'Empty data'));
-        }
-        listData.sort((a, b) {
-          return a.scheduleDetailInfo!.startPeriodTimestamp
-              .compareTo(b.scheduleDetailInfo!.startPeriodTimestamp);
-        });
-        return Either.right(listData.first.toEntity());
-      });
+          final responseData = response.data;
+          if (responseData == null) {
+            return const Either.right(null);
+          }
+          final listData = responseData.data.where((element) {
+            final startPeriodTimestamp =
+                element.scheduleDetailInfo?.startPeriodTimestamp;
+            if (startPeriodTimestamp.isNotNull) {
+              return startPeriodTimestamp! > millisecondsSinceEpoch;
+            }
+            return false;
+          }).toList();
+
+          if (listData.isEmpty) {
+            return const Either.right(null);
+          }
+          listData.sort((a, b) {
+            return a.scheduleDetailInfo!.startPeriodTimestamp
+                .compareTo(b.scheduleDetailInfo!.startPeriodTimestamp);
+          });
+          return Either.right(listData.first.toEntity());
+        },
+      );
 }

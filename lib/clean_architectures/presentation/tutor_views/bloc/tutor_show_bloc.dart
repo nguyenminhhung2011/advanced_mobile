@@ -1,5 +1,6 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_fav/tutor_fav.dart';
@@ -21,6 +22,8 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
   final Function0<void> onRefreshData;
 
+  final Function0<void> getUpComingClass;
+
   final Function0<void> changeFavoriteMode;
 
   final Function0<void> getTotalTime;
@@ -39,19 +42,23 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
   final Stream<TutorShowState> state$;
 
+  final Stream<BooInfo?> upComingClass$;
+
   TutorShowBloc._({
     required Function0<void> dispose,
 
     ///[Event functions]
     required this.fetchData,
+    required this.getTotalTime,
     required this.addTutorToFav,
     required this.onRefreshData,
-    required this.getTotalTime,
+    required this.getUpComingClass,
     required this.changeFavoriteMode,
 
     ///[States]
 
     required this.learningTotalTime$,
+    required this.upComingClass$,
     required this.loadingHeader$,
     required this.favoriteMode$,
     required this.loading$,
@@ -74,7 +81,11 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
 
     final learningTotalTimeController = BehaviorSubject<int>.seeded(0);
 
+    final upComingClassController = BehaviorSubject<BooInfo?>.seeded(null);
+
     // final tutorIdAddFavController = BehaviorSubject<String>.seeded('');
+
+    final getUpComingClassController = PublishSubject<void>();
 
     final addTutorToFavController = PublishSubject<void>();
 
@@ -165,6 +176,35 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
       }
     });
 
+    final getUpComingState$ =
+        getUpComingClassController.stream.exhaustMap<TutorShowState>((value) {
+      try {
+        {
+          return tutorShowUseCase
+              .getUpComingClass(
+                  dateTime: DateTime.now().subtract(const Duration(days: 10)))
+              .doOn(
+                listen: () => loadingHeaderController.add(true),
+                cancel: () => loadingHeaderController.add(false),
+              )
+              .map(
+                (data) => data.fold(
+                  ifLeft: (error) => GetUpComingClassFailed(
+                      message: error.message, error: error.code),
+                  ifRight: (cData) {
+                    if (cData != null) {
+                      upComingClassController.add(cData);
+                    }
+                    return const GetUpComingClassSuccess();
+                  },
+                ),
+              );
+        }
+      } catch (e) {
+        return Stream.error(GetUpComingClassFailed(message: e.toString()));
+      }
+    });
+
     final fetchDataState$ = Rx.merge([
       fetchData$
           .where((isValid) => isValid)
@@ -224,6 +264,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
           return const ChangeFavoriteModeSuccess();
         }).share(),
         getTotalTimeState$,
+        getUpComingState$,
         fetchDataState$,
         addTutorFavState$,
       ],
@@ -240,8 +281,12 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         learningTotalTimeController,
         loadingHeaderController,
         changeFavoriteModeController,
+        getUpComingClassController,
         getTotalTimeController,
+        upComingClassController,
       ]).dispose(),
+      upComingClass$: upComingClassController,
+      getUpComingClass: () => getUpComingClassController.add(null),
       loadingHeader$: loadingHeaderController,
       getTotalTime: () => getTotalTimeController.add(null),
       learningTotalTime$: learningTotalTimeController,

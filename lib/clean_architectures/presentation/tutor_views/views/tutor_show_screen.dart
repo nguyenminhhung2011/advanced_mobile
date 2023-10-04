@@ -15,6 +15,7 @@ import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class TutorShowScreen extends StatefulWidget {
   const TutorShowScreen({super.key});
@@ -34,6 +35,10 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
   @override
   void initState() {
     super.initState();
+    listen ??= _bloc.state$.flatMap(handleState).collect();
+    _bloc.fetchData();
+    _bloc.getTotalTime();
+    _bloc.getUpComingClass();
     _scrollController = ScrollController();
     _scrollController!.addListener(_listenerScroll);
   }
@@ -58,9 +63,7 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    listen ??= _bloc.state$.flatMap(handleState).collect();
-    _bloc.fetchData();
-    _bloc.getTotalTime();
+
     // dom something
   }
 
@@ -148,7 +151,7 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
         builder: (ctx, sS) {
           final loading = sS.data ?? false;
           if (loading) {
-            return const SizedBox();
+            return CircularProgressIndicator(color: _primaryColor);
           }
           return Container(
             width: double.infinity,
@@ -162,13 +165,52 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 StreamBuilder(
+                  stream: _bloc.upComingClass$,
+                  builder: (ctx1, sS1) {
+                    final booInfo = sS1.data;
+                    if (booInfo == null) {
+                      return Text(
+                        'Don\'t have any upcoming class',
+                        style: context.titleMedium.copyWith(
+                            fontWeight: FontWeight.w500, color: Colors.white),
+                      );
+                    }
+                    final referencesTime = booInfo.scheduleDetailInfo!
+                            .startPeriodTimestamp.millisecondsSinceEpoch /
+                        1000;
+                    final currentTime = DateTime.now()
+                            .subtract(const Duration(days: 10))
+                            .millisecondsSinceEpoch /
+                        1000;
+                    if (currentTime > referencesTime) {
+                      return const SizedBox();
+                    }
+                    return Countdown(
+                      seconds: (referencesTime - currentTime).round(),
+                      build: (BuildContext context, double time) {
+                        int hours = time.round() ~/ 3600;
+                        int minutes = (time.round() % 3600) ~/ 60;
+                        int seconds = time.round() % 60;
+                        return _renderRichText(hours, minutes, seconds,
+                            header: 'Upcoming lessons will appear ');
+                      },
+                      interval: const Duration(milliseconds: 100),
+                      onFinished: () {
+                        _bloc.getUpComingClass();
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 10.0),
+                StreamBuilder(
                   stream: _bloc.learningTotalTime$,
                   builder: (ctx1, sS1) {
-                    final data = sS1.data ?? 100;
+                    final data = ((sS1.data ?? 100)).round();
 
                     int hours = data ~/ 60;
                     int minutes = data % 60;
-                    return _renderRichText(hours, minutes);
+                    return _renderRichText(hours, minutes, null,
+                        header: 'Total lessons times is ');
                   },
                 )
               ],
@@ -177,16 +219,20 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
         },
       );
 
-  RichText _renderRichText(int hours, int minutes) {
+  RichText _renderRichText(int hours, int minutes, int? seconds,
+      {required String header}) {
     return RichText(
+      textAlign: TextAlign.center,
       text: TextSpan(
-        style: context.titleMedium,
+        style: context.titleMedium.copyWith(color: Colors.white),
         children: [
           ...[
-            'Total lessons times is ',
+            header,
             hours.toString(),
             ' hours and ',
             minutes.toString(),
+            ' minutes ',
+            if (seconds != null) ...[seconds.toString(), ' seconds.'],
           ].mapIndexed((index, element) {
             final textStyle = TextStyle(
               fontWeight: index % 2 == 0 ? FontWeight.w400 : FontWeight.w600,
