@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/total_time_response/total_time_response.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/data/models/user/user_info.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -12,6 +13,7 @@ abstract class UserApi {
   static const String bookAndCancelTutor = "/booking";
   static const String updateStudentRequestApi =
       "$bookAndCancelTutor/student-request";
+  static const String getUserInfoApi = "/user/info";
   static const String getTotalTimeApi = "/call/total";
 
   @factoryMethod
@@ -35,4 +37,7 @@ abstract class UserApi {
 
   @GET(getTotalTimeApi)
   Future<HttpResponse<TotalTimeResponse?>> getTotalTime();
+
+  @GET(getUserInfoApi)
+  Future<HttpResponse<UserInfo?>> getUserInfo();
 }

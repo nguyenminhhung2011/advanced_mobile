@@ -181,8 +181,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
       try {
         {
           return tutorShowUseCase
-              .getUpComingClass(
-                  dateTime: DateTime.now().subtract(const Duration(days: 10)))
+              .getUpComingClass(dateTime: DateTime.now())
               .doOn(
                 listen: () => loadingHeaderController.add(true),
                 cancel: () => loadingHeaderController.add(false),

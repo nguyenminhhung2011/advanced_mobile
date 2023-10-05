@@ -178,10 +178,8 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                     final referencesTime = booInfo.scheduleDetailInfo!
                             .startPeriodTimestamp.millisecondsSinceEpoch /
                         1000;
-                    final currentTime = DateTime.now()
-                            .subtract(const Duration(days: 10))
-                            .millisecondsSinceEpoch /
-                        1000;
+                    final currentTime =
+                        DateTime.now().millisecondsSinceEpoch / 1000;
                     if (currentTime > referencesTime) {
                       return const SizedBox();
                     }

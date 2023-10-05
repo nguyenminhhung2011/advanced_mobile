@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Topic {
+  int? get id => throw _privateConstructorUsedError;
   String? get key => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -31,7 +32,11 @@ abstract class $TopicCopyWith<$Res> {
       _$TopicCopyWithImpl<$Res, Topic>;
   @useResult
   $Res call(
-      {String? key, String? name, DateTime? createdAt, DateTime? updatedAt});
+      {int? id,
+      String? key,
+      String? name,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -47,12 +52,17 @@ class _$TopicCopyWithImpl<$Res, $Val extends Topic>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? key = freezed,
     Object? name = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       key: freezed == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -80,7 +90,11 @@ abstract class _$$_TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? key, String? name, DateTime? createdAt, DateTime? updatedAt});
+      {int? id,
+      String? key,
+      String? name,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -92,12 +106,17 @@ class __$$_TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res, _$_Topic>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? key = freezed,
     Object? name = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
     return _then(_$_Topic(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       key: freezed == key
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -121,8 +140,11 @@ class __$$_TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res, _$_Topic>
 /// @nodoc
 
 class _$_Topic implements _Topic {
-  const _$_Topic({this.key, this.name, this.createdAt, this.updatedAt});
+  const _$_Topic(
+      {this.id, this.key, this.name, this.createdAt, this.updatedAt});
 
+  @override
+  final int? id;
   @override
   final String? key;
   @override
@@ -134,7 +156,7 @@ class _$_Topic implements _Topic {
 
   @override
   String toString() {
-    return 'Topic(key: $key, name: $name, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Topic(id: $id, key: $key, name: $name, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -142,6 +164,7 @@ class _$_Topic implements _Topic {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Topic &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.key, key) || other.key == key) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.createdAt, createdAt) ||
@@ -151,7 +174,8 @@ class _$_Topic implements _Topic {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, key, name, createdAt, updatedAt);
+  int get hashCode =>
+      Object.hash(runtimeType, id, key, name, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -162,11 +186,14 @@ class _$_Topic implements _Topic {
 
 abstract class _Topic implements Topic {
   const factory _Topic(
-      {final String? key,
+      {final int? id,
+      final String? key,
       final String? name,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_Topic;
 
+  @override
+  int? get id;
   @override
   String? get key;
   @override

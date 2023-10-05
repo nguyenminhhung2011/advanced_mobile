@@ -1,4 +1,5 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 
 abstract class UserRepositories {
   SingleResult<bool> reportUser(
@@ -11,6 +12,8 @@ abstract class UserRepositories {
 
   SingleResult<bool> updateStudentRequest(
       {required String booId, required String content});
-  
+
   SingleResult<int> getTotalTime();
+
+  Future<User?> getUserInfo();
 }

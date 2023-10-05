@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/base_api.dart';
@@ -72,4 +73,19 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
         }
         return Either.right(responseData.total);
       });
+
+  @override
+  Future<User?> getUserInfo() async {
+    final response = await getStateOf(
+      request: () async => await _userApi.getUserInfo(),
+    );
+    if (response is DataFailed) {
+      throw AppException(message: response.dioError?.message ?? 'Error');
+    }
+    final responseData = response.data?.user;
+    if (responseData == null) {
+      throw AppException(message: 'Data null');
+    }
+    return responseData.toEntity();
+  }
 }

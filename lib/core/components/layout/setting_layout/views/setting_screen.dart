@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:collection/collection.dart';
@@ -107,6 +109,9 @@ class _SettingScreenState extends State<SettingScreen> {
         } else {
           AdaptiveTheme.of(context).setLight();
         }
+      },
+      getUserFailed: (data, message) {
+        log("🌆[Get user info]$message");
       },
     );
   }
@@ -252,9 +257,9 @@ class _SettingScreenState extends State<SettingScreen> {
       const SizedBox(height: 10.0),
       if (_currentUser != null) ...[
         ...<String>[
-          _currentUser?.userName ?? '',
+          _currentUser?.name ?? '',
           _currentUser?.email ?? '',
-          _currentUser?.phoneNumber ?? '',
+          _currentUser?.phone ?? '',
           _currentUser?.creditCardNumber ?? '',
         ].mapIndexed(
           (index, text) {
@@ -265,8 +270,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 ? AvatarWidget(
                     width: 40.0,
                     height: 40.0,
-                    imageUrl:
-                        _currentUser?.photoUrl ?? ImageConst.baseImageView,
+                    imageUrl: _currentUser?.avatar ?? ImageConst.baseImageView,
                   )
                 : Icon(
                     switch (index) {
