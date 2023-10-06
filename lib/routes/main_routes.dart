@@ -4,6 +4,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/bloc/course_detail_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/views/course_detail_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/views/pdf_view_page.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/bloc/dashboard_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/dashboard/views/dashboard_views.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/e_boo/bloc/e_boo_bloc.dart';
@@ -87,6 +88,16 @@ class MainRoutes {
                     injector.get<TutorScheduleBloc>(param1: settings.arguments),
                 child: const TutorScheduleScreen(),
               );
+            }
+            return const SizedBox();
+          },
+        );
+      case Routes.pdfView:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            if (settings.arguments is String) {
+              return PdfViewerPage(pdfUrl: settings.arguments.toString());
             }
             return const SizedBox();
           },

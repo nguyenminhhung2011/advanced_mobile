@@ -15,6 +15,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/appbar.d
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -189,7 +190,12 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
 
   Widget _courseTopicBuilder({required CourseTopic courseTopicModel}) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (courseTopicModel.nameFile?.isNotEmpty ?? false) {
+          context.openPageWithRouteAndParams(
+              Routes.pdfView, courseTopicModel.nameFile);
+        }
+      },
       child: Container(
         margin: _horizontalPadding,
         width: double.infinity,
