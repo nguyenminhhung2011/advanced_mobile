@@ -3,6 +3,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 
 class DropdownButtonCustom<T> extends StatelessWidget {
   final double? width;
+  final double? borderWidth;
   final double? height;
   final double? radius;
   final Color? color;
@@ -20,6 +21,7 @@ class DropdownButtonCustom<T> extends StatelessWidget {
     this.color,
     this.padding,
     this.borderColor,
+    this.borderWidth,
     this.headerText,
     required this.items,
     required this.value,
@@ -35,7 +37,7 @@ class DropdownButtonCustom<T> extends StatelessWidget {
         color: color ?? Colors.transparent,
         borderRadius: BorderRadius.circular(radius ?? 15.0),
         border: Border.all(
-          width: 1,
+          width: borderWidth ?? 1,
           color: borderColor ?? Theme.of(context).dividerColor,
         ),
       ),

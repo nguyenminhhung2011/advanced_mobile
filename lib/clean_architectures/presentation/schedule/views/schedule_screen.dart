@@ -37,6 +37,9 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   @override
   void initState() {
     super.initState();
+    listen ??= _bloc.state$.flatMap(handleState).collect();
+
+    _bloc.getBooInfo();
 
     _tabController = TabController(
       animationDuration: const Duration(milliseconds: 300),
@@ -48,9 +51,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    listen ??= _bloc.state$.flatMap(handleState).collect();
-
-    _bloc.getBooInfo();
   }
 
   void _openEditRequestDialog({required String booId}) async {

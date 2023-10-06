@@ -6,6 +6,7 @@ class Routes {
   static const String testUi = '/test_ui';
   static const String schedule = '/schedule';
   static const String passCode = '/pass-code';
+  static const String userInfo = '/user-info';
   static const String dashboard = '/dashboard';
   static const String tutorShow = '/tutor-show';
   static const String tutorDetail = '/tutor-detail';

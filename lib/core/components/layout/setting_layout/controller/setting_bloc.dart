@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 import 'package:flutter_base_clean_architecture/core/components/layout/setting_layout/controller/setting_modal_state.dart';
 import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:injectable/injectable.dart';
@@ -49,6 +50,7 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     on<_GetUserInfo>(_onGetUserInfo);
     on<_UpdateLangCode>(_onUpdateLangCode);
     on<_UpdatePassCode>(_onUpdatePassCode);
+    on<_UpdateNewUser>(_onUpdateNewUser);
     on<_LogOut>(_onLogOut);
     on<_RemovePassCode>(_onRemovePassCode);
   }
@@ -166,6 +168,15 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
   ) {
     emit(_UpdateCurrenciesSuccess(
       data: data.copyWith(currencies: event.currencies),
+    ));
+  }
+
+  FutureOr<void> _onUpdateNewUser(
+    _UpdateNewUser event,
+    Emitter<SettingState> emit,
+  ) {
+    emit(_UpdateNewUserSuccess(
+      data: data.copyWith(currentUser: event.newUser),
     ));
   }
 }

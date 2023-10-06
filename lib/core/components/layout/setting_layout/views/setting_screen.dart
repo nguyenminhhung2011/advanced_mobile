@@ -286,7 +286,17 @@ class _SettingScreenState extends State<SettingScreen> {
               child: ListTile(
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
-                onTap: index == 0 ? () {} : null,
+                onTap: index == 0
+                    ? () async {
+                        final user = await context
+                            .openListPageWithRoute(Routes.userInfo);
+                        if (user is User) {
+                          _settingController.add(
+                            SettingEvent.updateNewUser(newUser: user),
+                          );
+                        }
+                      }
+                    : null,
                 leading: icon,
                 title: Text(text),
                 trailing: null,

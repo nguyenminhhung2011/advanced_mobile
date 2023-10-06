@@ -40,13 +40,14 @@ extension AppCoordinator<T> on BuildContext {
         firstDate: DateTime(1900),
         lastDate: DateTime(2100),
       );
+
   Future<List<DateTime>?> pickRangeDate(
     RangeDateController rangeDateController,
   ) async {
     final dates = await showDialog(
       context: this,
       builder: (_) => Dialog(
-        backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
         child: RangeDatePicDialog(
           height: 450,
           rangeDateController: rangeDateController,

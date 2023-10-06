@@ -36,8 +36,14 @@ class AppRepositoriesImpl extends BaseApi implements AppRepositories {
       }
       return Either.right(
         [
-          ...response.data?.map((e) => e.toEntity()).toList() ?? <Topic>[],
-          ...response1.data?.map((e) => e.toEntity()).toList() ?? <Topic>[],
+          ...response.data
+                  ?.map((e) => e.toEntity().copyWith(isTopics: true))
+                  .toList() ??
+              <Topic>[],
+          ...response1.data
+                  ?.map((e) => e.toEntity().copyWith(isTopics: false))
+                  .toList() ??
+              <Topic>[],
         ],
       );
     });

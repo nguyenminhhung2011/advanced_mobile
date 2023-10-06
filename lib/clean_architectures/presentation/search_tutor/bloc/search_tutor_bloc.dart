@@ -59,10 +59,10 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
-    final fetchTopicsController = PublishSubject<void>();
-
     final selectedNationalityTutorController =
         PublishSubject<NationalityTutor>();
+
+    final fetchTopicsController = PublishSubject<void>();
 
     final selectedTopicController = PublishSubject<Topic>();
 

@@ -40,4 +40,8 @@ abstract class UserApi {
 
   @GET(getUserInfoApi)
   Future<HttpResponse<UserInfo?>> getUserInfo();
+
+  @PUT(getUserInfoApi)
+  Future<HttpResponse<UserInfo?>> updateUserInfo(
+      {@Body() required Map<String, dynamic> body});
 }

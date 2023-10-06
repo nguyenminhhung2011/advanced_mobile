@@ -21,4 +21,7 @@ class SettingEvent with _$SettingEvent {
   }) = _UpdatePassCode;
 
   const factory SettingEvent.removePassCoe() = _RemovePassCode;
+
+  const factory SettingEvent.updateNewUser({required User newUser}) =
+      _UpdateNewUser;
 }

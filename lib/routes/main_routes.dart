@@ -24,6 +24,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_schedule/views/tutor_schedule_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/views/tutor_show_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/bloc/user_infoo_view.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
 import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -120,6 +122,16 @@ class MainRoutes {
             return BlocProvider<EBooBloc>(
               initBloc: (_) => injector.get<EBooBloc>(),
               child: const EBooScreen(),
+            );
+          },
+        );
+      case Routes.userInfo:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            return BlocProvider<UserInfoBloc>(
+              initBloc: (_) => injector.get<UserInfoBloc>(),
+              child: const UserInfoView(),
             );
           },
         );

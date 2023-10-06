@@ -21,6 +21,7 @@ mixin _$Topic {
   String? get name => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  bool? get isTopics => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TopicCopyWith<Topic> get copyWith => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $TopicCopyWith<$Res> {
       String? key,
       String? name,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      bool? isTopics});
 }
 
 /// @nodoc
@@ -57,6 +59,7 @@ class _$TopicCopyWithImpl<$Res, $Val extends Topic>
     Object? name = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? isTopics = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -79,6 +82,10 @@ class _$TopicCopyWithImpl<$Res, $Val extends Topic>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isTopics: freezed == isTopics
+          ? _value.isTopics
+          : isTopics // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -94,7 +101,8 @@ abstract class _$$_TopicCopyWith<$Res> implements $TopicCopyWith<$Res> {
       String? key,
       String? name,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      bool? isTopics});
 }
 
 /// @nodoc
@@ -111,6 +119,7 @@ class __$$_TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res, _$_Topic>
     Object? name = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? isTopics = freezed,
   }) {
     return _then(_$_Topic(
       id: freezed == id
@@ -133,6 +142,10 @@ class __$$_TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res, _$_Topic>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isTopics: freezed == isTopics
+          ? _value.isTopics
+          : isTopics // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -141,7 +154,12 @@ class __$$_TopicCopyWithImpl<$Res> extends _$TopicCopyWithImpl<$Res, _$_Topic>
 
 class _$_Topic implements _Topic {
   const _$_Topic(
-      {this.id, this.key, this.name, this.createdAt, this.updatedAt});
+      {this.id,
+      this.key,
+      this.name,
+      this.createdAt,
+      this.updatedAt,
+      this.isTopics});
 
   @override
   final int? id;
@@ -153,10 +171,12 @@ class _$_Topic implements _Topic {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final bool? isTopics;
 
   @override
   String toString() {
-    return 'Topic(id: $id, key: $key, name: $name, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Topic(id: $id, key: $key, name: $name, createdAt: $createdAt, updatedAt: $updatedAt, isTopics: $isTopics)';
   }
 
   @override
@@ -170,12 +190,14 @@ class _$_Topic implements _Topic {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.isTopics, isTopics) ||
+                other.isTopics == isTopics));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, key, name, createdAt, updatedAt);
+      Object.hash(runtimeType, id, key, name, createdAt, updatedAt, isTopics);
 
   @JsonKey(ignore: true)
   @override
@@ -190,7 +212,8 @@ abstract class _Topic implements Topic {
       final String? key,
       final String? name,
       final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$_Topic;
+      final DateTime? updatedAt,
+      final bool? isTopics}) = _$_Topic;
 
   @override
   int? get id;
@@ -202,6 +225,8 @@ abstract class _Topic implements Topic {
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  bool? get isTopics;
   @override
   @JsonKey(ignore: true)
   _$$_TopicCopyWith<_$_Topic> get copyWith =>

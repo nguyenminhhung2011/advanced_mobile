@@ -74,9 +74,7 @@ class _DashboardViewState extends State<DashboardView> {
           'list_view': [
             'security',
             'lang',
-            'currencies',
             'appearance',
-            'notifications',
             'about',
           ],
         }),

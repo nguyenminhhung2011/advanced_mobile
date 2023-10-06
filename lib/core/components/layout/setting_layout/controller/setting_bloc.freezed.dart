@@ -26,6 +26,7 @@ mixin _$SettingEvent {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +39,7 @@ mixin _$SettingEvent {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +52,7 @@ mixin _$SettingEvent {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -63,6 +66,7 @@ mixin _$SettingEvent {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +79,7 @@ mixin _$SettingEvent {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -87,6 +92,7 @@ mixin _$SettingEvent {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -155,6 +161,7 @@ class _$_Started implements _Started {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return started();
   }
@@ -170,6 +177,7 @@ class _$_Started implements _Started {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return started?.call();
   }
@@ -185,6 +193,7 @@ class _$_Started implements _Started {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -204,6 +213,7 @@ class _$_Started implements _Started {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return started(this);
   }
@@ -219,6 +229,7 @@ class _$_Started implements _Started {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return started?.call(this);
   }
@@ -234,6 +245,7 @@ class _$_Started implements _Started {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -293,6 +305,7 @@ class _$_UpdateAppearance implements _UpdateAppearance {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return updateAppearance();
   }
@@ -308,6 +321,7 @@ class _$_UpdateAppearance implements _UpdateAppearance {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return updateAppearance?.call();
   }
@@ -323,6 +337,7 @@ class _$_UpdateAppearance implements _UpdateAppearance {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updateAppearance != null) {
@@ -342,6 +357,7 @@ class _$_UpdateAppearance implements _UpdateAppearance {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return updateAppearance(this);
   }
@@ -357,6 +373,7 @@ class _$_UpdateAppearance implements _UpdateAppearance {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return updateAppearance?.call(this);
   }
@@ -372,6 +389,7 @@ class _$_UpdateAppearance implements _UpdateAppearance {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updateAppearance != null) {
@@ -458,6 +476,7 @@ class _$_UpdateLangCode implements _UpdateLangCode {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return updateLangCode(langCode);
   }
@@ -473,6 +492,7 @@ class _$_UpdateLangCode implements _UpdateLangCode {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return updateLangCode?.call(langCode);
   }
@@ -488,6 +508,7 @@ class _$_UpdateLangCode implements _UpdateLangCode {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updateLangCode != null) {
@@ -507,6 +528,7 @@ class _$_UpdateLangCode implements _UpdateLangCode {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return updateLangCode(this);
   }
@@ -522,6 +544,7 @@ class _$_UpdateLangCode implements _UpdateLangCode {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return updateLangCode?.call(this);
   }
@@ -537,6 +560,7 @@ class _$_UpdateLangCode implements _UpdateLangCode {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updateLangCode != null) {
@@ -600,6 +624,7 @@ class _$_LogOut implements _LogOut {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return logOut();
   }
@@ -615,6 +640,7 @@ class _$_LogOut implements _LogOut {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return logOut?.call();
   }
@@ -630,6 +656,7 @@ class _$_LogOut implements _LogOut {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (logOut != null) {
@@ -649,6 +676,7 @@ class _$_LogOut implements _LogOut {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return logOut(this);
   }
@@ -664,6 +692,7 @@ class _$_LogOut implements _LogOut {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return logOut?.call(this);
   }
@@ -679,6 +708,7 @@ class _$_LogOut implements _LogOut {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (logOut != null) {
@@ -738,6 +768,7 @@ class _$_GetUserInfo implements _GetUserInfo {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return getUserInfo();
   }
@@ -753,6 +784,7 @@ class _$_GetUserInfo implements _GetUserInfo {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return getUserInfo?.call();
   }
@@ -768,6 +800,7 @@ class _$_GetUserInfo implements _GetUserInfo {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (getUserInfo != null) {
@@ -787,6 +820,7 @@ class _$_GetUserInfo implements _GetUserInfo {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return getUserInfo(this);
   }
@@ -802,6 +836,7 @@ class _$_GetUserInfo implements _GetUserInfo {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return getUserInfo?.call(this);
   }
@@ -817,6 +852,7 @@ class _$_GetUserInfo implements _GetUserInfo {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (getUserInfo != null) {
@@ -903,6 +939,7 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return updateCurrencies(currencies);
   }
@@ -918,6 +955,7 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return updateCurrencies?.call(currencies);
   }
@@ -933,6 +971,7 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updateCurrencies != null) {
@@ -952,6 +991,7 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return updateCurrencies(this);
   }
@@ -967,6 +1007,7 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return updateCurrencies?.call(this);
   }
@@ -982,6 +1023,7 @@ class _$_UpdateCurrencies implements _UpdateCurrencies {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updateCurrencies != null) {
@@ -1074,6 +1116,7 @@ class _$_UpdatePassCode implements _UpdatePassCode {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return updatePassCode(newPassCode);
   }
@@ -1089,6 +1132,7 @@ class _$_UpdatePassCode implements _UpdatePassCode {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return updatePassCode?.call(newPassCode);
   }
@@ -1104,6 +1148,7 @@ class _$_UpdatePassCode implements _UpdatePassCode {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updatePassCode != null) {
@@ -1123,6 +1168,7 @@ class _$_UpdatePassCode implements _UpdatePassCode {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return updatePassCode(this);
   }
@@ -1138,6 +1184,7 @@ class _$_UpdatePassCode implements _UpdatePassCode {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return updatePassCode?.call(this);
   }
@@ -1153,6 +1200,7 @@ class _$_UpdatePassCode implements _UpdatePassCode {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (updatePassCode != null) {
@@ -1218,6 +1266,7 @@ class _$_RemovePassCode implements _RemovePassCode {
     required TResult Function(Currencies currencies) updateCurrencies,
     required TResult Function(String newPassCode) updatePassCode,
     required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
   }) {
     return removePassCoe();
   }
@@ -1233,6 +1282,7 @@ class _$_RemovePassCode implements _RemovePassCode {
     TResult? Function(Currencies currencies)? updateCurrencies,
     TResult? Function(String newPassCode)? updatePassCode,
     TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
   }) {
     return removePassCoe?.call();
   }
@@ -1248,6 +1298,7 @@ class _$_RemovePassCode implements _RemovePassCode {
     TResult Function(Currencies currencies)? updateCurrencies,
     TResult Function(String newPassCode)? updatePassCode,
     TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
     required TResult orElse(),
   }) {
     if (removePassCoe != null) {
@@ -1267,6 +1318,7 @@ class _$_RemovePassCode implements _RemovePassCode {
     required TResult Function(_UpdateCurrencies value) updateCurrencies,
     required TResult Function(_UpdatePassCode value) updatePassCode,
     required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
   }) {
     return removePassCoe(this);
   }
@@ -1282,6 +1334,7 @@ class _$_RemovePassCode implements _RemovePassCode {
     TResult? Function(_UpdateCurrencies value)? updateCurrencies,
     TResult? Function(_UpdatePassCode value)? updatePassCode,
     TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
   }) {
     return removePassCoe?.call(this);
   }
@@ -1297,6 +1350,7 @@ class _$_RemovePassCode implements _RemovePassCode {
     TResult Function(_UpdateCurrencies value)? updateCurrencies,
     TResult Function(_UpdatePassCode value)? updatePassCode,
     TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
     required TResult orElse(),
   }) {
     if (removePassCoe != null) {
@@ -1308,6 +1362,192 @@ class _$_RemovePassCode implements _RemovePassCode {
 
 abstract class _RemovePassCode implements SettingEvent {
   const factory _RemovePassCode() = _$_RemovePassCode;
+}
+
+/// @nodoc
+abstract class _$$_UpdateNewUserCopyWith<$Res> {
+  factory _$$_UpdateNewUserCopyWith(
+          _$_UpdateNewUser value, $Res Function(_$_UpdateNewUser) then) =
+      __$$_UpdateNewUserCopyWithImpl<$Res>;
+  @useResult
+  $Res call({User newUser});
+
+  $UserCopyWith<$Res> get newUser;
+}
+
+/// @nodoc
+class __$$_UpdateNewUserCopyWithImpl<$Res>
+    extends _$SettingEventCopyWithImpl<$Res, _$_UpdateNewUser>
+    implements _$$_UpdateNewUserCopyWith<$Res> {
+  __$$_UpdateNewUserCopyWithImpl(
+      _$_UpdateNewUser _value, $Res Function(_$_UpdateNewUser) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? newUser = null,
+  }) {
+    return _then(_$_UpdateNewUser(
+      newUser: null == newUser
+          ? _value.newUser
+          : newUser // ignore: cast_nullable_to_non_nullable
+              as User,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserCopyWith<$Res> get newUser {
+    return $UserCopyWith<$Res>(_value.newUser, (value) {
+      return _then(_value.copyWith(newUser: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateNewUser implements _UpdateNewUser {
+  const _$_UpdateNewUser({required this.newUser});
+
+  @override
+  final User newUser;
+
+  @override
+  String toString() {
+    return 'SettingEvent.updateNewUser(newUser: $newUser)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UpdateNewUser &&
+            (identical(other.newUser, newUser) || other.newUser == newUser));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, newUser);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UpdateNewUserCopyWith<_$_UpdateNewUser> get copyWith =>
+      __$$_UpdateNewUserCopyWithImpl<_$_UpdateNewUser>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() updateAppearance,
+    required TResult Function(String langCode) updateLangCode,
+    required TResult Function() logOut,
+    required TResult Function() getUserInfo,
+    required TResult Function(Currencies currencies) updateCurrencies,
+    required TResult Function(String newPassCode) updatePassCode,
+    required TResult Function() removePassCoe,
+    required TResult Function(User newUser) updateNewUser,
+  }) {
+    return updateNewUser(newUser);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? updateAppearance,
+    TResult? Function(String langCode)? updateLangCode,
+    TResult? Function()? logOut,
+    TResult? Function()? getUserInfo,
+    TResult? Function(Currencies currencies)? updateCurrencies,
+    TResult? Function(String newPassCode)? updatePassCode,
+    TResult? Function()? removePassCoe,
+    TResult? Function(User newUser)? updateNewUser,
+  }) {
+    return updateNewUser?.call(newUser);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? updateAppearance,
+    TResult Function(String langCode)? updateLangCode,
+    TResult Function()? logOut,
+    TResult Function()? getUserInfo,
+    TResult Function(Currencies currencies)? updateCurrencies,
+    TResult Function(String newPassCode)? updatePassCode,
+    TResult Function()? removePassCoe,
+    TResult Function(User newUser)? updateNewUser,
+    required TResult orElse(),
+  }) {
+    if (updateNewUser != null) {
+      return updateNewUser(newUser);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_UpdateAppearance value) updateAppearance,
+    required TResult Function(_UpdateLangCode value) updateLangCode,
+    required TResult Function(_LogOut value) logOut,
+    required TResult Function(_GetUserInfo value) getUserInfo,
+    required TResult Function(_UpdateCurrencies value) updateCurrencies,
+    required TResult Function(_UpdatePassCode value) updatePassCode,
+    required TResult Function(_RemovePassCode value) removePassCoe,
+    required TResult Function(_UpdateNewUser value) updateNewUser,
+  }) {
+    return updateNewUser(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_UpdateAppearance value)? updateAppearance,
+    TResult? Function(_UpdateLangCode value)? updateLangCode,
+    TResult? Function(_LogOut value)? logOut,
+    TResult? Function(_GetUserInfo value)? getUserInfo,
+    TResult? Function(_UpdateCurrencies value)? updateCurrencies,
+    TResult? Function(_UpdatePassCode value)? updatePassCode,
+    TResult? Function(_RemovePassCode value)? removePassCoe,
+    TResult? Function(_UpdateNewUser value)? updateNewUser,
+  }) {
+    return updateNewUser?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_UpdateAppearance value)? updateAppearance,
+    TResult Function(_UpdateLangCode value)? updateLangCode,
+    TResult Function(_LogOut value)? logOut,
+    TResult Function(_GetUserInfo value)? getUserInfo,
+    TResult Function(_UpdateCurrencies value)? updateCurrencies,
+    TResult Function(_UpdatePassCode value)? updatePassCode,
+    TResult Function(_RemovePassCode value)? removePassCoe,
+    TResult Function(_UpdateNewUser value)? updateNewUser,
+    required TResult orElse(),
+  }) {
+    if (updateNewUser != null) {
+      return updateNewUser(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateNewUser implements SettingEvent {
+  const factory _UpdateNewUser({required final User newUser}) =
+      _$_UpdateNewUser;
+
+  User get newUser;
+  @JsonKey(ignore: true)
+  _$$_UpdateNewUserCopyWith<_$_UpdateNewUser> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -1326,6 +1566,7 @@ mixin _$SettingState {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1340,6 +1581,7 @@ mixin _$SettingState {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1354,6 +1596,7 @@ mixin _$SettingState {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1374,6 +1617,7 @@ mixin _$SettingState {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1388,6 +1632,7 @@ mixin _$SettingState {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -1402,6 +1647,7 @@ mixin _$SettingState {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1533,6 +1779,7 @@ class _$_Initial extends _Initial {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return initial(data);
   }
@@ -1550,6 +1797,7 @@ class _$_Initial extends _Initial {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return initial?.call(data);
   }
@@ -1567,6 +1815,7 @@ class _$_Initial extends _Initial {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -1593,6 +1842,7 @@ class _$_Initial extends _Initial {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return initial(this);
   }
@@ -1610,6 +1860,7 @@ class _$_Initial extends _Initial {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return initial?.call(this);
   }
@@ -1627,6 +1878,7 @@ class _$_Initial extends _Initial {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -1737,6 +1989,7 @@ class _$_Loading extends _Loading {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return loading(data, loadingType);
   }
@@ -1754,6 +2007,7 @@ class _$_Loading extends _Loading {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return loading?.call(data, loadingType);
   }
@@ -1771,6 +2025,7 @@ class _$_Loading extends _Loading {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1797,6 +2052,7 @@ class _$_Loading extends _Loading {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return loading(this);
   }
@@ -1814,6 +2070,7 @@ class _$_Loading extends _Loading {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return loading?.call(this);
   }
@@ -1831,6 +2088,7 @@ class _$_Loading extends _Loading {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1937,6 +2195,7 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return updateAppearanceSuccess(data);
   }
@@ -1954,6 +2213,7 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return updateAppearanceSuccess?.call(data);
   }
@@ -1971,6 +2231,7 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updateAppearanceSuccess != null) {
@@ -1997,6 +2258,7 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return updateAppearanceSuccess(this);
   }
@@ -2014,6 +2276,7 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return updateAppearanceSuccess?.call(this);
   }
@@ -2031,6 +2294,7 @@ class _$_UpdateAppearanceSuccess extends _UpdateAppearanceSuccess {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updateAppearanceSuccess != null) {
@@ -2135,6 +2399,7 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return updateCurrenciesSuccess(data);
   }
@@ -2152,6 +2417,7 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return updateCurrenciesSuccess?.call(data);
   }
@@ -2169,6 +2435,7 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updateCurrenciesSuccess != null) {
@@ -2195,6 +2462,7 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return updateCurrenciesSuccess(this);
   }
@@ -2212,6 +2480,7 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return updateCurrenciesSuccess?.call(this);
   }
@@ -2229,6 +2498,7 @@ class _$_UpdateCurrenciesSuccess extends _UpdateCurrenciesSuccess {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updateCurrenciesSuccess != null) {
@@ -2332,6 +2602,7 @@ class _$_UpdateLangCodeSuccess extends _UpdateLangCodeSuccess {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return updateLangCodeSuccess(data);
   }
@@ -2349,6 +2620,7 @@ class _$_UpdateLangCodeSuccess extends _UpdateLangCodeSuccess {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return updateLangCodeSuccess?.call(data);
   }
@@ -2366,6 +2638,7 @@ class _$_UpdateLangCodeSuccess extends _UpdateLangCodeSuccess {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updateLangCodeSuccess != null) {
@@ -2392,6 +2665,7 @@ class _$_UpdateLangCodeSuccess extends _UpdateLangCodeSuccess {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return updateLangCodeSuccess(this);
   }
@@ -2409,6 +2683,7 @@ class _$_UpdateLangCodeSuccess extends _UpdateLangCodeSuccess {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return updateLangCodeSuccess?.call(this);
   }
@@ -2426,6 +2701,7 @@ class _$_UpdateLangCodeSuccess extends _UpdateLangCodeSuccess {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updateLangCodeSuccess != null) {
@@ -2528,6 +2804,7 @@ class _$_GetUserSuccess extends _GetUserSuccess {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return getUserSuccess(data);
   }
@@ -2545,6 +2822,7 @@ class _$_GetUserSuccess extends _GetUserSuccess {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return getUserSuccess?.call(data);
   }
@@ -2562,6 +2840,7 @@ class _$_GetUserSuccess extends _GetUserSuccess {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (getUserSuccess != null) {
@@ -2588,6 +2867,7 @@ class _$_GetUserSuccess extends _GetUserSuccess {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return getUserSuccess(this);
   }
@@ -2605,6 +2885,7 @@ class _$_GetUserSuccess extends _GetUserSuccess {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return getUserSuccess?.call(this);
   }
@@ -2622,6 +2903,7 @@ class _$_GetUserSuccess extends _GetUserSuccess {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (getUserSuccess != null) {
@@ -2724,6 +3006,7 @@ class _$_LogOutSuccess extends _LogOutSuccess {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return logOutSuccess(data);
   }
@@ -2741,6 +3024,7 @@ class _$_LogOutSuccess extends _LogOutSuccess {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return logOutSuccess?.call(data);
   }
@@ -2758,6 +3042,7 @@ class _$_LogOutSuccess extends _LogOutSuccess {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (logOutSuccess != null) {
@@ -2784,6 +3069,7 @@ class _$_LogOutSuccess extends _LogOutSuccess {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return logOutSuccess(this);
   }
@@ -2801,6 +3087,7 @@ class _$_LogOutSuccess extends _LogOutSuccess {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return logOutSuccess?.call(this);
   }
@@ -2818,6 +3105,7 @@ class _$_LogOutSuccess extends _LogOutSuccess {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (logOutSuccess != null) {
@@ -2929,6 +3217,7 @@ class _$_GetUserFailed extends _GetUserFailed {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return getUserFailed(data, message);
   }
@@ -2946,6 +3235,7 @@ class _$_GetUserFailed extends _GetUserFailed {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return getUserFailed?.call(data, message);
   }
@@ -2963,6 +3253,7 @@ class _$_GetUserFailed extends _GetUserFailed {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (getUserFailed != null) {
@@ -2989,6 +3280,7 @@ class _$_GetUserFailed extends _GetUserFailed {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return getUserFailed(this);
   }
@@ -3006,6 +3298,7 @@ class _$_GetUserFailed extends _GetUserFailed {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return getUserFailed?.call(this);
   }
@@ -3023,6 +3316,7 @@ class _$_GetUserFailed extends _GetUserFailed {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (getUserFailed != null) {
@@ -3128,6 +3422,7 @@ class _$_UpdatePassCodeSuccess extends _UpdatePassCodeSuccess {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return updatePassCodeSuccess(data);
   }
@@ -3145,6 +3440,7 @@ class _$_UpdatePassCodeSuccess extends _UpdatePassCodeSuccess {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return updatePassCodeSuccess?.call(data);
   }
@@ -3162,6 +3458,7 @@ class _$_UpdatePassCodeSuccess extends _UpdatePassCodeSuccess {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updatePassCodeSuccess != null) {
@@ -3188,6 +3485,7 @@ class _$_UpdatePassCodeSuccess extends _UpdatePassCodeSuccess {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return updatePassCodeSuccess(this);
   }
@@ -3205,6 +3503,7 @@ class _$_UpdatePassCodeSuccess extends _UpdatePassCodeSuccess {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return updatePassCodeSuccess?.call(this);
   }
@@ -3222,6 +3521,7 @@ class _$_UpdatePassCodeSuccess extends _UpdatePassCodeSuccess {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (updatePassCodeSuccess != null) {
@@ -3325,6 +3625,7 @@ class _$_RemovePassCodeSuccess extends _RemovePassCodeSuccess {
         getUserFailed,
     required TResult Function(SettingModalState data) updatePassCodeSuccess,
     required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
   }) {
     return removePassCodeSuccess(data);
   }
@@ -3342,6 +3643,7 @@ class _$_RemovePassCodeSuccess extends _RemovePassCodeSuccess {
     TResult? Function(SettingModalState data, String message)? getUserFailed,
     TResult? Function(SettingModalState data)? updatePassCodeSuccess,
     TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
   }) {
     return removePassCodeSuccess?.call(data);
   }
@@ -3359,6 +3661,7 @@ class _$_RemovePassCodeSuccess extends _RemovePassCodeSuccess {
     TResult Function(SettingModalState data, String message)? getUserFailed,
     TResult Function(SettingModalState data)? updatePassCodeSuccess,
     TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (removePassCodeSuccess != null) {
@@ -3385,6 +3688,7 @@ class _$_RemovePassCodeSuccess extends _RemovePassCodeSuccess {
         updatePassCodeSuccess,
     required TResult Function(_RemovePassCodeSuccess value)
         removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
   }) {
     return removePassCodeSuccess(this);
   }
@@ -3402,6 +3706,7 @@ class _$_RemovePassCodeSuccess extends _RemovePassCodeSuccess {
     TResult? Function(_GetUserFailed value)? getUserFailed,
     TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
   }) {
     return removePassCodeSuccess?.call(this);
   }
@@ -3419,6 +3724,7 @@ class _$_RemovePassCodeSuccess extends _RemovePassCodeSuccess {
     TResult Function(_GetUserFailed value)? getUserFailed,
     TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
     TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
     required TResult orElse(),
   }) {
     if (removePassCodeSuccess != null) {
@@ -3438,5 +3744,208 @@ abstract class _RemovePassCodeSuccess extends SettingState {
   @override
   @JsonKey(ignore: true)
   _$$_RemovePassCodeSuccessCopyWith<_$_RemovePassCodeSuccess> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_UpdateNewUserSuccessCopyWith<$Res>
+    implements $SettingStateCopyWith<$Res> {
+  factory _$$_UpdateNewUserSuccessCopyWith(_$_UpdateNewUserSuccess value,
+          $Res Function(_$_UpdateNewUserSuccess) then) =
+      __$$_UpdateNewUserSuccessCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({SettingModalState data});
+
+  @override
+  $SettingModalStateCopyWith<$Res> get data;
+}
+
+/// @nodoc
+class __$$_UpdateNewUserSuccessCopyWithImpl<$Res>
+    extends _$SettingStateCopyWithImpl<$Res, _$_UpdateNewUserSuccess>
+    implements _$$_UpdateNewUserSuccessCopyWith<$Res> {
+  __$$_UpdateNewUserSuccessCopyWithImpl(_$_UpdateNewUserSuccess _value,
+      $Res Function(_$_UpdateNewUserSuccess) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+  }) {
+    return _then(_$_UpdateNewUserSuccess(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as SettingModalState,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateNewUserSuccess extends _UpdateNewUserSuccess {
+  const _$_UpdateNewUserSuccess({required this.data}) : super._();
+
+  @override
+  final SettingModalState data;
+
+  @override
+  String toString() {
+    return 'SettingState.updateNewUserSuccess(data: $data)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UpdateNewUserSuccess &&
+            (identical(other.data, data) || other.data == data));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, data);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UpdateNewUserSuccessCopyWith<_$_UpdateNewUserSuccess> get copyWith =>
+      __$$_UpdateNewUserSuccessCopyWithImpl<_$_UpdateNewUserSuccess>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(SettingModalState data) initial,
+    required TResult Function(SettingModalState data, int loadingType) loading,
+    required TResult Function(SettingModalState data) updateAppearanceSuccess,
+    required TResult Function(SettingModalState data) updateCurrenciesSuccess,
+    required TResult Function(SettingModalState data) updateLangCodeSuccess,
+    required TResult Function(SettingModalState data) getUserSuccess,
+    required TResult Function(SettingModalState data) logOutSuccess,
+    required TResult Function(SettingModalState data, String message)
+        getUserFailed,
+    required TResult Function(SettingModalState data) updatePassCodeSuccess,
+    required TResult Function(SettingModalState data) removePassCodeSuccess,
+    required TResult Function(SettingModalState data) updateNewUserSuccess,
+  }) {
+    return updateNewUserSuccess(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(SettingModalState data)? initial,
+    TResult? Function(SettingModalState data, int loadingType)? loading,
+    TResult? Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult? Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult? Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult? Function(SettingModalState data)? getUserSuccess,
+    TResult? Function(SettingModalState data)? logOutSuccess,
+    TResult? Function(SettingModalState data, String message)? getUserFailed,
+    TResult? Function(SettingModalState data)? updatePassCodeSuccess,
+    TResult? Function(SettingModalState data)? removePassCodeSuccess,
+    TResult? Function(SettingModalState data)? updateNewUserSuccess,
+  }) {
+    return updateNewUserSuccess?.call(data);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(SettingModalState data)? initial,
+    TResult Function(SettingModalState data, int loadingType)? loading,
+    TResult Function(SettingModalState data)? updateAppearanceSuccess,
+    TResult Function(SettingModalState data)? updateCurrenciesSuccess,
+    TResult Function(SettingModalState data)? updateLangCodeSuccess,
+    TResult Function(SettingModalState data)? getUserSuccess,
+    TResult Function(SettingModalState data)? logOutSuccess,
+    TResult Function(SettingModalState data, String message)? getUserFailed,
+    TResult Function(SettingModalState data)? updatePassCodeSuccess,
+    TResult Function(SettingModalState data)? removePassCodeSuccess,
+    TResult Function(SettingModalState data)? updateNewUserSuccess,
+    required TResult orElse(),
+  }) {
+    if (updateNewUserSuccess != null) {
+      return updateNewUserSuccess(data);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_UpdateAppearanceSuccess value)
+        updateAppearanceSuccess,
+    required TResult Function(_UpdateCurrenciesSuccess value)
+        updateCurrenciesSuccess,
+    required TResult Function(_UpdateLangCodeSuccess value)
+        updateLangCodeSuccess,
+    required TResult Function(_GetUserSuccess value) getUserSuccess,
+    required TResult Function(_LogOutSuccess value) logOutSuccess,
+    required TResult Function(_GetUserFailed value) getUserFailed,
+    required TResult Function(_UpdatePassCodeSuccess value)
+        updatePassCodeSuccess,
+    required TResult Function(_RemovePassCodeSuccess value)
+        removePassCodeSuccess,
+    required TResult Function(_UpdateNewUserSuccess value) updateNewUserSuccess,
+  }) {
+    return updateNewUserSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult? Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult? Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult? Function(_GetUserSuccess value)? getUserSuccess,
+    TResult? Function(_LogOutSuccess value)? logOutSuccess,
+    TResult? Function(_GetUserFailed value)? getUserFailed,
+    TResult? Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
+    TResult? Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult? Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
+  }) {
+    return updateNewUserSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_UpdateAppearanceSuccess value)? updateAppearanceSuccess,
+    TResult Function(_UpdateCurrenciesSuccess value)? updateCurrenciesSuccess,
+    TResult Function(_UpdateLangCodeSuccess value)? updateLangCodeSuccess,
+    TResult Function(_GetUserSuccess value)? getUserSuccess,
+    TResult Function(_LogOutSuccess value)? logOutSuccess,
+    TResult Function(_GetUserFailed value)? getUserFailed,
+    TResult Function(_UpdatePassCodeSuccess value)? updatePassCodeSuccess,
+    TResult Function(_RemovePassCodeSuccess value)? removePassCodeSuccess,
+    TResult Function(_UpdateNewUserSuccess value)? updateNewUserSuccess,
+    required TResult orElse(),
+  }) {
+    if (updateNewUserSuccess != null) {
+      return updateNewUserSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateNewUserSuccess extends SettingState {
+  const factory _UpdateNewUserSuccess({required final SettingModalState data}) =
+      _$_UpdateNewUserSuccess;
+  const _UpdateNewUserSuccess._() : super._();
+
+  @override
+  SettingModalState get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$_UpdateNewUserSuccessCopyWith<_$_UpdateNewUserSuccess> get copyWith =>
       throw _privateConstructorUsedError;
 }

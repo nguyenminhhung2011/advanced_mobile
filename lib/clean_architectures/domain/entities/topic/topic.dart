@@ -9,5 +9,6 @@ class Topic with _$Topic {
     String? name,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isTopics,
   }) = _Topic;
 }
