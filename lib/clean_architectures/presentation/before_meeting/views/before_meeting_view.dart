@@ -1,11 +1,15 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+// import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/row_tutor_information.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:intl/intl.dart';
+
 import 'package:timer_count_down/timer_count_down.dart';
 
 class BeforeMeetingView extends StatefulWidget {
@@ -25,52 +29,15 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
         1000;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(15.0),
-            margin:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Theme.of(context).primaryColor.withOpacity(0.3),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RowTutorInformation(
-                  tutor: widget
-                      .booInfo.scheduleDetailInfo!.scheduleInfo!.tutorInfo,
-                  showFavorite: false,
-                  showRatting: false,
-                ),
-                ...[
-                  widget.booInfo.scheduleDetailInfo?.startPeriodTimestamp,
-                  widget.booInfo.scheduleDetailInfo?.startPeriodTimestamp,
-                  widget.booInfo.scheduleDetailInfo?.endPeriodTimestamp,
-                ].mapIndexed((index, e) {
-                  if (e == null) {
-                    return const SizedBox();
-                  }
-                  return _richText(
-                    header: switch (index) {
-                      0 => 'Lesson date',
-                      1 => 'Start time',
-                      _ => 'End time'
-                    },
-                    title: switch (index) {
-                      0 => DateFormat().add_yMMMMEEEEd().format(e),
-                      _ => getjmFormat(e)
-                    },
-                    context: context,
-                  );
-                }),
-              ],
-            ),
-          ),
+          _meetingInformation(context),
           Countdown(
             seconds: (referenceTime - currentTime).round(),
             build: (BuildContext context, double time) {
@@ -82,9 +49,63 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
             },
             interval: const Duration(milliseconds: 100),
             onFinished: () {
+              context.openPageWithRouteAndParams(
+                  Routes.meeting, widget.booInfo.studentMeetingLink);
               // _bloc.getUpComingClass();
             },
           ),
+          const SizedBox(height: kToolbarHeight)
+          // const SizedBox(height: 10.0),
+          // ButtonCustom(
+          //   onPress: () {
+          //     context.openPageWithRouteAndParams(
+          //         Routes.meeting, widget.booInfo.studentMeetingLink);
+          //   },
+          //   child: const Text('Test'),
+          // )
+        ],
+      ),
+    );
+  }
+
+  Container _meetingInformation(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(15.0),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Theme.of(context).primaryColor.withOpacity(0.3),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          RowTutorInformation(
+            tutor: widget.booInfo.scheduleDetailInfo!.scheduleInfo!.tutorInfo,
+            showFavorite: false,
+            showRatting: false,
+          ),
+          ...[
+            widget.booInfo.scheduleDetailInfo?.startPeriodTimestamp,
+            widget.booInfo.scheduleDetailInfo?.startPeriodTimestamp,
+            widget.booInfo.scheduleDetailInfo?.endPeriodTimestamp,
+          ].mapIndexed((index, e) {
+            if (e == null) {
+              return const SizedBox();
+            }
+            return _richText(
+              header: switch (index) {
+                0 => 'Lesson date',
+                1 => 'Start time',
+                _ => 'End time'
+              },
+              title: switch (index) {
+                0 => DateFormat().add_yMMMMEEEEd().format(e),
+                _ => getjmFormat(e)
+              },
+              context: context,
+            );
+          }),
         ],
       ),
     );

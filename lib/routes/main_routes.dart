@@ -13,6 +13,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/e_boo/views/e_boo_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/meeting/view/meeting_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/views/schedule_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
@@ -196,6 +197,17 @@ class MainRoutes {
           builder: (_) {
             if (settings.arguments is BooInfo) {
               return BeforeMeetingView(booInfo: settings.arguments as BooInfo);
+            }
+            return const SizedBox();
+          },
+        );
+
+      case Routes.meeting:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            if (settings.arguments is String) {
+              return MeetingView(serverUrl: settings.arguments.toString());
             }
             return const SizedBox();
           },
