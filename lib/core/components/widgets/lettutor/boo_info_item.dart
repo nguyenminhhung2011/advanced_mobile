@@ -14,12 +14,14 @@ class BooInfoItem extends StatelessWidget {
     required this.isHistoryType,
     this.cancelFunction,
     this.editRequestFunction,
+    this.rattingFunction,
   });
 
   final BooInfo booInfo;
   final bool isHistoryType;
   final Function()? cancelFunction;
   final Function()? editRequestFunction;
+  final Function()? rattingFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +168,7 @@ class BooInfoItem extends StatelessWidget {
         Expanded(
           flex: 7,
           child: ButtonCustom(
-            onPress: () {},
+            onPress: rattingFunction ?? () {},
             height: 40.0,
             radius: 5.0,
             child: Text(
@@ -180,7 +182,7 @@ class BooInfoItem extends StatelessWidget {
         Expanded(
           flex: 2,
           child: ButtonCustom(
-            onPress: () {},
+            onPress:  () {},
             borderColor: Colors.yellow,
             width: double.infinity,
             height: 40.0,

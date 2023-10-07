@@ -14,6 +14,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/views/home_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/meeting/view/meeting_view.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/views/ratting_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/views/schedule_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
@@ -156,6 +158,20 @@ class MainRoutes {
             initBloc: (_) => injector.get(),
             child: const SearchTutorScreen(),
           ),
+        );
+      case Routes.ratting:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            if (settings.arguments is String) {
+              return BlocProvider<RattingBloc>(
+                initBloc: (_) =>
+                    injector.get(param1: settings.arguments.toString()),
+                child: const RattingView(),
+              );
+            }
+            return const SizedBox();
+          },
         );
 
       case Routes.home:

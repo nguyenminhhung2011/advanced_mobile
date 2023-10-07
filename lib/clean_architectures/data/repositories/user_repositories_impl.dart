@@ -1,4 +1,5 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dart_either/dart_either.dart';
@@ -108,5 +109,16 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
           return Either.right(responseData.toEntity());
         }
         return Either.left(AppException(message: "Data null"));
+      });
+
+  @override
+  SingleResult<bool> reviewTutor(
+          {required ReviewTutorRequest reviewTutorRequest}) =>
+      SingleResult.fromCallable(() async {
+        final response = await getStateOf(
+          request: () async =>
+              _userApi.reviewTutor(body: reviewTutorRequest.toMap),
+        );
+        return response.toBoolResult();
       });
 }

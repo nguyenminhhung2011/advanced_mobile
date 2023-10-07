@@ -46,7 +46,7 @@ import '../../clean_architectures/data/repositories/tutor_repositories_impl.dart
 import '../../clean_architectures/data/repositories/user_repositories_impl.dart'
     as _i21;
 import '../../clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart'
-    as _i52;
+    as _i54;
 import '../../clean_architectures/domain/repositories/app_repostiories.dart'
     as _i23;
 import '../../clean_architectures/domain/repositories/auth_repositories.dart'
@@ -65,62 +65,66 @@ import '../../clean_architectures/domain/repositories/user_repositories.dart'
     as _i20;
 import '../../clean_architectures/domain/usecase/boo/boo_usecase.dart' as _i30;
 import '../../clean_architectures/domain/usecase/course_detail/course_detail_usecase.dart'
-    as _i46;
+    as _i47;
 import '../../clean_architectures/domain/usecase/e_boo_usecase/e_boo_usecase.dart'
     as _i34;
 import '../../clean_architectures/domain/usecase/home/home_usecase.dart'
     as _i35;
 import '../../clean_architectures/domain/usecase/login/login_usecase.dart'
     as _i36;
-import '../../clean_architectures/domain/usecase/search/search_tutor_usecase.dart'
-    as _i39;
-import '../../clean_architectures/domain/usecase/setting/setting_usecase.dart'
-    as _i40;
-import '../../clean_architectures/domain/usecase/tutor/tutor_show_usecase.dart'
-    as _i43;
-import '../../clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart'
-    as _i41;
-import '../../clean_architectures/domain/usecase/tutor_schedule/tutor_schedule_usecase.dart'
-    as _i42;
-import '../../clean_architectures/domain/usecase/user_info_usecase/user_info_usecse.dart'
-    as _i44;
-import '../../clean_architectures/presentation/auth/bloc/register/register_bloc.dart'
+import '../../clean_architectures/domain/usecase/ratting_usecase/ratting_usecase.dart'
     as _i37;
-import '../../clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart'
+import '../../clean_architectures/domain/usecase/search/search_tutor_usecase.dart'
+    as _i40;
+import '../../clean_architectures/domain/usecase/setting/setting_usecase.dart'
+    as _i41;
+import '../../clean_architectures/domain/usecase/tutor/tutor_show_usecase.dart'
+    as _i44;
+import '../../clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart'
+    as _i42;
+import '../../clean_architectures/domain/usecase/tutor_schedule/tutor_schedule_usecase.dart'
+    as _i43;
+import '../../clean_architectures/domain/usecase/user_info_usecase/user_info_usecse.dart'
     as _i45;
+import '../../clean_architectures/presentation/auth/bloc/register/register_bloc.dart'
+    as _i38;
+import '../../clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart'
+    as _i46;
 import '../../clean_architectures/presentation/course_detail/bloc/course_detail_bloc.dart'
-    as _i58;
+    as _i60;
 import '../../clean_architectures/presentation/dashboard/bloc/dashboard_bloc.dart'
     as _i4;
 import '../../clean_architectures/presentation/e_boo/bloc/e_boo_bloc.dart'
-    as _i47;
-import '../../clean_architectures/presentation/home/bloc/home_bloc.dart'
     as _i48;
-import '../../clean_architectures/presentation/report_tutor/bloc/report_tutor_bloc.dart'
+import '../../clean_architectures/presentation/home/bloc/home_bloc.dart'
     as _i49;
-import '../../clean_architectures/presentation/schedule/bloc/schedule_bloc.dart'
-    as _i38;
-import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart'
+import '../../clean_architectures/presentation/ratting/bloc/ratting_bloc.dart'
     as _i50;
-import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart'
+import '../../clean_architectures/presentation/report_tutor/bloc/report_tutor_bloc.dart'
     as _i51;
+import '../../clean_architectures/presentation/schedule/bloc/schedule_bloc.dart'
+    as _i39;
+import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart'
+    as _i52;
+import '../../clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart'
+    as _i53;
 import '../../clean_architectures/presentation/splash/bloc/slash_bloc.dart'
     as _i14;
 import '../../clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart'
     as _i15;
 import '../../clean_architectures/presentation/tutor_detail/bloc/tutor_detail_bloc.dart'
-    as _i54;
-import '../../clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_bloc.dart'
-    as _i55;
-import '../../clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart'
     as _i56;
-import '../../clean_architectures/presentation/user_info/views/user_info_bloc.dart'
+import '../../clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_bloc.dart'
     as _i57;
+import '../../clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart'
+    as _i58;
+import '../../clean_architectures/presentation/user_info/views/user_info_bloc.dart'
+    as _i59;
 import '../components/layout/setting_layout/controller/setting_bloc.dart'
-    as _i53;
+    as _i55;
 import '../services/cloundinary_service.dart' as _i3;
 import '../services/image_pic_service.dart' as _i9;
-import 'modules/data_source_module.dart' as _i59;
+import 'modules/data_source_module.dart' as _i61;
 
 const String _prod = 'prod';
 
@@ -181,94 +185,104 @@ _i1.GetIt init(
       () => _i35.HomeUseCase(gh<_i32.CourseRepositories>()));
   gh.factory<_i36.LoginUseCase>(
       () => _i36.LoginUseCase(gh<_i26.AuthRepository>()));
-  gh.factory<_i37.RegisterBloc>(
-      () => _i37.RegisterBloc(login: gh<_i36.LoginUseCase>()));
-  gh.factory<_i38.ScheduleBloc>(
-      () => _i38.ScheduleBloc(booUseCase: gh<_i30.BooUseCase>()));
-  gh.factory<_i39.SearchTutorUseCase>(() => _i39.SearchTutorUseCase(
+  gh.factory<_i37.RattingUseCase>(
+      () => _i37.RattingUseCase(gh<_i20.UserRepositories>()));
+  gh.factory<_i38.RegisterBloc>(
+      () => _i38.RegisterBloc(login: gh<_i36.LoginUseCase>()));
+  gh.factory<_i39.ScheduleBloc>(
+      () => _i39.ScheduleBloc(booUseCase: gh<_i30.BooUseCase>()));
+  gh.factory<_i40.SearchTutorUseCase>(() => _i40.SearchTutorUseCase(
         gh<_i23.AppRepositories>(),
         gh<_i17.TutorRepositories>(),
       ));
-  gh.factory<_i40.SettingUseCase>(
-      () => _i40.SettingUseCase(gh<_i20.UserRepositories>()));
-  gh.factory<_i41.TutorDetailUseCase>(() => _i41.TutorDetailUseCase(
+  gh.factory<_i41.SettingUseCase>(
+      () => _i41.SettingUseCase(gh<_i20.UserRepositories>()));
+  gh.factory<_i42.TutorDetailUseCase>(() => _i42.TutorDetailUseCase(
         gh<_i17.TutorRepositories>(),
         gh<_i11.ReviewRepositories>(),
         gh<_i20.UserRepositories>(),
       ));
-  gh.factory<_i42.TutorScheduleUseCase>(() => _i42.TutorScheduleUseCase(
+  gh.factory<_i43.TutorScheduleUseCase>(() => _i43.TutorScheduleUseCase(
         gh<_i17.TutorRepositories>(),
         gh<_i20.UserRepositories>(),
       ));
-  gh.factory<_i43.TutorShowUseCase>(() => _i43.TutorShowUseCase(
+  gh.factory<_i44.TutorShowUseCase>(() => _i44.TutorShowUseCase(
         gh<_i17.TutorRepositories>(),
         gh<_i20.UserRepositories>(),
         gh<_i28.BooRepositories>(),
       ));
-  gh.factory<_i44.UserInfoUseCase>(() => _i44.UserInfoUseCase(
+  gh.factory<_i45.UserInfoUseCase>(() => _i45.UserInfoUseCase(
         gh<_i20.UserRepositories>(),
         gh<_i23.AppRepositories>(),
       ));
-  gh.factory<_i45.AuthBloc>(
-      () => _i45.AuthBloc(login: gh<_i36.LoginUseCase>()));
-  gh.factory<_i46.CourseDetailUseCase>(
-      () => _i46.CourseDetailUseCase(gh<_i32.CourseRepositories>()));
-  gh.factory<_i47.EBooBloc>(
-      () => _i47.EBooBloc(eBooUseCase: gh<_i34.EBooUseCase>()));
-  gh.factory<_i48.HomeBloc>(
-      () => _i48.HomeBloc(homeUseCase: gh<_i35.HomeUseCase>()));
-  gh.factoryParam<_i49.ReportTutorBloc, String, dynamic>((
+  gh.factory<_i46.AuthBloc>(
+      () => _i46.AuthBloc(login: gh<_i36.LoginUseCase>()));
+  gh.factory<_i47.CourseDetailUseCase>(
+      () => _i47.CourseDetailUseCase(gh<_i32.CourseRepositories>()));
+  gh.factory<_i48.EBooBloc>(
+      () => _i48.EBooBloc(eBooUseCase: gh<_i34.EBooUseCase>()));
+  gh.factory<_i49.HomeBloc>(
+      () => _i49.HomeBloc(homeUseCase: gh<_i35.HomeUseCase>()));
+  gh.factoryParam<_i50.RattingBloc, String, dynamic>((
+    booId,
+    _,
+  ) =>
+      _i50.RattingBloc(
+        booId,
+        rattingUseCase: gh<_i37.RattingUseCase>(),
+      ));
+  gh.factoryParam<_i51.ReportTutorBloc, String, dynamic>((
     userId,
     _,
   ) =>
-      _i49.ReportTutorBloc(
+      _i51.ReportTutorBloc(
         userId,
-        tutorDetailUseCase: gh<_i41.TutorDetailUseCase>(),
+        tutorDetailUseCase: gh<_i42.TutorDetailUseCase>(),
       ));
-  gh.factory<_i50.SearchTutorBloc>(() =>
-      _i50.SearchTutorBloc(searchTutorUseCase: gh<_i39.SearchTutorUseCase>()));
-  gh.factoryParam<_i51.SearchTutorResultBloc, _i52.SearchTutorRequest, dynamic>(
+  gh.factory<_i52.SearchTutorBloc>(() =>
+      _i52.SearchTutorBloc(searchTutorUseCase: gh<_i40.SearchTutorUseCase>()));
+  gh.factoryParam<_i53.SearchTutorResultBloc, _i54.SearchTutorRequest, dynamic>(
       (
     searchTutorRequest,
     _,
   ) =>
-          _i51.SearchTutorResultBloc(
+          _i53.SearchTutorResultBloc(
             searchTutorRequest,
-            searchTutorUseCase: gh<_i39.SearchTutorUseCase>(),
+            searchTutorUseCase: gh<_i40.SearchTutorUseCase>(),
           ));
-  gh.factory<_i53.SettingBloc>(
-      () => _i53.SettingBloc(gh<_i40.SettingUseCase>()));
-  gh.factoryParam<_i54.TutorDetailBloc, String, dynamic>((
+  gh.factory<_i55.SettingBloc>(
+      () => _i55.SettingBloc(gh<_i41.SettingUseCase>()));
+  gh.factoryParam<_i56.TutorDetailBloc, String, dynamic>((
     userId,
     _,
   ) =>
-      _i54.TutorDetailBloc(
+      _i56.TutorDetailBloc(
         userId,
-        tutorDetailUseCase: gh<_i41.TutorDetailUseCase>(),
+        tutorDetailUseCase: gh<_i42.TutorDetailUseCase>(),
       ));
-  gh.factoryParam<_i55.TutorScheduleBloc, String, dynamic>((
+  gh.factoryParam<_i57.TutorScheduleBloc, String, dynamic>((
     userId,
     _,
   ) =>
-      _i55.TutorScheduleBloc(
+      _i57.TutorScheduleBloc(
         userId,
-        tutorScheduleUseCase: gh<_i42.TutorScheduleUseCase>(),
+        tutorScheduleUseCase: gh<_i43.TutorScheduleUseCase>(),
       ));
-  gh.factory<_i56.TutorShowBloc>(
-      () => _i56.TutorShowBloc(tutorShowUseCase: gh<_i43.TutorShowUseCase>()));
-  gh.factory<_i57.UserInfoBloc>(() => _i57.UserInfoBloc(
-        userInfoUseCase: gh<_i44.UserInfoUseCase>(),
+  gh.factory<_i58.TutorShowBloc>(
+      () => _i58.TutorShowBloc(tutorShowUseCase: gh<_i44.TutorShowUseCase>()));
+  gh.factory<_i59.UserInfoBloc>(() => _i59.UserInfoBloc(
+        userInfoUseCase: gh<_i45.UserInfoUseCase>(),
         imagePicService: gh<_i9.ImagePicService>(),
       ));
-  gh.factoryParam<_i58.CourseDetailBloc, dynamic, dynamic>((
+  gh.factoryParam<_i60.CourseDetailBloc, dynamic, dynamic>((
     courseId,
     _,
   ) =>
-      _i58.CourseDetailBloc(
+      _i60.CourseDetailBloc(
         courseId,
-        courseDetailUseCase: gh<_i46.CourseDetailUseCase>(),
+        courseDetailUseCase: gh<_i47.CourseDetailUseCase>(),
       ));
   return getIt;
 }
 
-class _$DataSourceModule extends _i59.DataSourceModule {}
+class _$DataSourceModule extends _i61.DataSourceModule {}

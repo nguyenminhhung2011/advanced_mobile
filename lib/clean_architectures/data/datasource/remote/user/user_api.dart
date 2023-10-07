@@ -15,6 +15,7 @@ abstract class UserApi {
       "$bookAndCancelTutor/student-request";
   static const String getUserInfoApi = "/user/info";
   static const String getTotalTimeApi = "/call/total";
+  static const String reviewTutorApi = "/user/feedbackTutor";
 
   @factoryMethod
   factory UserApi(Dio dio) = _UserApi;
@@ -43,5 +44,9 @@ abstract class UserApi {
 
   @PUT(getUserInfoApi)
   Future<HttpResponse<UserInfo?>> updateUserInfo(
+      {@Body() required Map<String, dynamic> body});
+
+  @POST(reviewTutorApi)
+  Future<HttpResponse> reviewTutor(
       {@Body() required Map<String, dynamic> body});
 }

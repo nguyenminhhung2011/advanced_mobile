@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/row_tutor_information.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
@@ -54,15 +55,15 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
               // _bloc.getUpComingClass();
             },
           ),
-          const SizedBox(height: kToolbarHeight)
-          // const SizedBox(height: 10.0),
-          // ButtonCustom(
-          //   onPress: () {
-          //     context.openPageWithRouteAndParams(
-          //         Routes.meeting, widget.booInfo.studentMeetingLink);
-          //   },
-          //   child: const Text('Test'),
-          // )
+          const SizedBox(height: kToolbarHeight), 
+          const SizedBox(height: 10.0),
+          ButtonCustom(
+            onPress: () {
+              context.openPageWithRouteAndParams(
+                  Routes.meeting, widget.booInfo.studentMeetingLink);
+            },
+            child: const Text('Test'),
+          )
         ],
       ),
     );

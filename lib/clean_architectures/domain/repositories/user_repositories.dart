@@ -1,5 +1,6 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
 
 abstract class UserRepositories {
@@ -13,6 +14,9 @@ abstract class UserRepositories {
 
   SingleResult<bool> updateStudentRequest(
       {required String booId, required String content});
+
+  SingleResult<bool> reviewTutor(
+      {required ReviewTutorRequest reviewTutorRequest});
 
   SingleResult<int> getTotalTime();
 

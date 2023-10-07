@@ -194,7 +194,7 @@ class UserInfoBloc extends DisposeCallbackBaseBloc {
                 value.level.isNotEmpty) &&
             !(loading ?? false);
       },
-    );
+    ).shareValueSeeded(false);
 
     final updateProfile$ = updateProfileController.stream
         .withLatestFrom(isValid$, (_, isValid) => isValid)

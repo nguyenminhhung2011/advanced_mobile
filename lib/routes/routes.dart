@@ -4,6 +4,7 @@ class Routes {
   static const String eBoo = '/e_boo';
   static const String splash = '/splash';
   static const String testUi = '/test_ui';
+  static const String ratting = '/ratting';
   static const String meeting = '/meeting';
   static const String pdfView = '/pdf_view';
   static const String schedule = '/schedule';

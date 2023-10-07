@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/default_pagination.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -189,6 +191,8 @@ class _ScheduleScreenState extends State<ScheduleScreen>
           isHistoryType: currentTab == 1,
           cancelFunction: () => _bloc.cancelBooTutor(booItem),
           editRequestFunction: () => _openEditRequestDialog(booId: booItem.id),
+          rattingFunction: () =>
+              context.openPageWithRouteAndParams(Routes.ratting, booItem.id),
         );
       },
       listenScrollBottom: () => _bloc.getBooInfo(),
