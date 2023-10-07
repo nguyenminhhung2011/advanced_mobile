@@ -6,6 +6,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_fav/tutor_fav.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/tutor/tutor_show_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/log_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -27,6 +29,8 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
   final Function0<void> changeFavoriteMode;
 
   final Function0<void> getTotalTime;
+
+  final Function0<void> openBeforeMeeting;
 
   ///[Streams]
 
@@ -54,6 +58,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
     required this.onRefreshData,
     required this.getUpComingClass,
     required this.changeFavoriteMode,
+    required this.openBeforeMeeting,
 
     ///[States]
 
@@ -90,6 +95,8 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
     final addTutorToFavController = PublishSubject<void>();
 
     final getTotalTimeController = PublishSubject<void>();
+
+    final openBeforeMeetingController = PublishSubject<void>();
 
     final changeFavoriteModeController = PublishSubject<void>();
 
@@ -181,7 +188,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
       try {
         {
           return tutorShowUseCase
-              .getUpComingClass(dateTime: DateTime.now())
+              .getUpComingClass(dateTime: Constant.currentTime)
               .doOn(
                 listen: () => loadingHeaderController.add(true),
                 cancel: () => loadingHeaderController.add(false),
@@ -255,6 +262,20 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
           .map((_) => const FetchDataTutorFailed(message: "Invalid format")),
     ]).whereNotNull().share();
 
+    ///[Open before meeting view]
+    final openBeforeMeetingView$ = openBeforeMeetingController.stream
+        .withLatestFrom(upComingClassController.stream, (_, value) => value)
+        .share();
+
+    final openBeforeMeetingViewState$ = Rx.merge<TutorShowState>([
+      openBeforeMeetingView$
+          .where((event) => event.isNotNull)
+          .map((event) => OpenBeforeMeetingViewSuccess(event!)),
+      openBeforeMeetingView$
+          .where((event) => event.isNull)
+          .map((_) => const OpenBeforeMeetingViewFailed())
+    ]).whereNotNull().share();
+
     final state$ = Rx.merge<TutorShowState>(
       [
         changeFavoriteModeController.stream.map((event) {
@@ -262,10 +283,11 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
           favoriteModeController.add(!currentMode);
           return const ChangeFavoriteModeSuccess();
         }).share(),
-        getTotalTimeState$,
-        getUpComingState$,
         fetchDataState$,
         addTutorFavState$,
+        getUpComingState$,
+        getTotalTimeState$,
+        openBeforeMeetingViewState$,
       ],
     ).whereNotNull().share();
 
@@ -283,11 +305,13 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         getUpComingClassController,
         getTotalTimeController,
         upComingClassController,
+        openBeforeMeetingController,
       ]).dispose(),
       upComingClass$: upComingClassController,
+      openBeforeMeeting: () => openBeforeMeetingController.add(null),
       getUpComingClass: () => getUpComingClassController.add(null),
-      loadingHeader$: loadingHeaderController,
       getTotalTime: () => getTotalTimeController.add(null),
+      loadingHeader$: loadingHeaderController,
       learningTotalTime$: learningTotalTimeController,
       onRefreshData: () {
         final loading = loadingController.value;

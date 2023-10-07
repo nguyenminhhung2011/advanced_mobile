@@ -175,7 +175,7 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
                   page: pagination.currentPage + 1,
                   perPage: pagination.perPage,
                   dateTimeLte:
-                      DateTime.now().subtract(const Duration(days: 10)),
+                      DateTime.now().subtract(const Duration(days: 15)),
                   isHistoryGet: currentTab == 1)
               .doOn(
                 listen: () => loadingController.add(true),

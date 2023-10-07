@@ -5,9 +5,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_view_card.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
@@ -153,65 +155,67 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
           if (loading) {
             return CircularProgressIndicator(color: _primaryColor);
           }
-          return Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(15.0),
-            margin: const EdgeInsets.symmetric(horizontal: 10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-              color: _primaryColor,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                StreamBuilder(
-                  stream: _bloc.upComingClass$,
-                  builder: (ctx1, sS1) {
-                    final booInfo = sS1.data;
-                    if (booInfo == null) {
-                      return Text(
-                        'Don\'t have any upcoming class',
-                        style: context.titleMedium.copyWith(
-                            fontWeight: FontWeight.w500, color: Colors.white),
+          return GestureDetector(
+            onTap: () => _bloc.openBeforeMeeting(),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(15.0),
+              margin: const EdgeInsets.symmetric(horizontal: 10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5.0),
+                color: _primaryColor,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  StreamBuilder<BooInfo?>(
+                    stream: _bloc.upComingClass$,
+                    builder: (ctx1, sS1) {
+                      final booInfo = sS1.data;
+                      if (booInfo == null) {
+                        return Text(
+                          'Don\'t have any upcoming class',
+                          style: context.titleMedium.copyWith(
+                              fontWeight: FontWeight.w500, color: Colors.white),
+                        );
+                      }
+                      final referencesTime = booInfo.scheduleDetailInfo!
+                              .startPeriodTimestamp.millisecondsSinceEpoch /
+                          1000;
+                      final currentTime = Constant.currentTimeMilliSeconds;
+                      if (currentTime > referencesTime) {
+                        return const SizedBox();
+                      }
+                      return Countdown(
+                        seconds: (referencesTime - currentTime).round(),
+                        build: (BuildContext context, double time) {
+                          int hours = time.round() ~/ 3600;
+                          int minutes = (time.round() % 3600) ~/ 60;
+                          int seconds = time.round() % 60;
+                          return _renderRichText(hours, minutes, seconds,
+                              header: 'Upcoming lessons will appear ');
+                        },
+                        interval: const Duration(milliseconds: 100),
+                        onFinished: () {
+                          _bloc.getUpComingClass();
+                        },
                       );
-                    }
-                    final referencesTime = booInfo.scheduleDetailInfo!
-                            .startPeriodTimestamp.millisecondsSinceEpoch /
-                        1000;
-                    final currentTime =
-                        DateTime.now().millisecondsSinceEpoch / 1000;
-                    if (currentTime > referencesTime) {
-                      return const SizedBox();
-                    }
-                    return Countdown(
-                      seconds: (referencesTime - currentTime).round(),
-                      build: (BuildContext context, double time) {
-                        int hours = time.round() ~/ 3600;
-                        int minutes = (time.round() % 3600) ~/ 60;
-                        int seconds = time.round() % 60;
-                        return _renderRichText(hours, minutes, seconds,
-                            header: 'Upcoming lessons will appear ');
-                      },
-                      interval: const Duration(milliseconds: 100),
-                      onFinished: () {
-                        _bloc.getUpComingClass();
-                      },
-                    );
-                  },
-                ),
-                const SizedBox(height: 10.0),
-                StreamBuilder(
-                  stream: _bloc.learningTotalTime$,
-                  builder: (ctx1, sS1) {
-                    final data = ((sS1.data ?? 100)).round();
+                    },
+                  ),
+                  const SizedBox(height: 10.0),
+                  StreamBuilder(
+                    stream: _bloc.learningTotalTime$,
+                    builder: (ctx1, sS1) {
+                      final data = ((sS1.data ?? 100)).round();
 
-                    int hours = data ~/ 60;
-                    int minutes = data % 60;
-                    return _renderRichText(hours, minutes, null,
-                        header: 'Total lessons times is ');
-                  },
-                )
-              ],
+                      int hours = data ~/ 60;
+                      int minutes = data % 60;
+                      return _renderRichText(hours, minutes, null,
+                          header: 'Total lessons times is ');
+                    },
+                  )
+                ],
+              ),
             ),
           );
         },
@@ -302,6 +306,10 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
     }
     if (state is GetTotalTimeSuccess) {
       log('[Get total time success] Success');
+      return;
+    }
+    if (state is OpenBeforeMeetingViewSuccess) {
+      context.openPageWithRouteAndParams(Routes.beforeMeeting, state.args);
       return;
     }
   }

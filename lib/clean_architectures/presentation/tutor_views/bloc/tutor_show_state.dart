@@ -1,3 +1,4 @@
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 @immutable
@@ -63,4 +64,13 @@ class GetTotalTimeSuccess implements TutorShowState {
 
 class GetUpComingClassSuccess implements TutorShowState {
   const GetUpComingClassSuccess();
+}
+
+class OpenBeforeMeetingViewSuccess implements TutorShowState {
+  final BooInfo args;
+  const OpenBeforeMeetingViewSuccess(this.args);
+}
+
+class OpenBeforeMeetingViewFailed implements TutorShowState {
+  const OpenBeforeMeetingViewFailed();
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/before_meeting/views/before_meeting_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/bloc/course_detail_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/views/course_detail_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/views/pdf_view_page.dart';
@@ -187,6 +189,16 @@ class MainRoutes {
             initBloc: (_) => SplashBloc(),
             child: const SplashScreen(),
           ),
+        );
+      case Routes.beforeMeeting:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            if (settings.arguments is BooInfo) {
+              return BeforeMeetingView(booInfo: settings.arguments as BooInfo);
+            }
+            return const SizedBox();
+          },
         );
 
       case Routes.passCode:

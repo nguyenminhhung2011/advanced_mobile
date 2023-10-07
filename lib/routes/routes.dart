@@ -14,5 +14,6 @@ class Routes {
   static const String searchTutor = '/search-tutor';
   static const String courseDetail = '/course-detail';
   static const String tutorSchedule = '/tutor-schedule';
+  static const String beforeMeeting = '/before-meeting';
   static const String searchTutorResult = '/search-tutor-result';
 }

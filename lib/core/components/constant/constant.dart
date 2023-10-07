@@ -24,6 +24,13 @@ class Constant {
     "PROFICIENCY": "C2 (Proficiency)",
   };
 
+  static double currentTimeMilliSeconds =
+      DateTime.now().subtract(const Duration(days: 15)).millisecondsSinceEpoch /
+          1000;
+
+  static DateTime currentTime =
+      DateTime.now().subtract(const Duration(days: 15));
+
   static Map<String, String> countries = {
     "AF": "Afghanistan",
     "AL": "Albania",

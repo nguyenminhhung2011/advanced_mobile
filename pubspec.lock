@@ -861,6 +861,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0+1"
+  jitsi_meet_wrapper:
+    dependency: "direct main"
+    description:
+      name: jitsi_meet_wrapper
+      sha256: cf678a95e6bf817765d974155c21303355e2c20e470f5516e09fffaef3458e8d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0+1"
+  jitsi_meet_wrapper_platform_interface:
+    dependency: transitive
+    description:
+      name: jitsi_meet_wrapper_platform_interface
+      sha256: "7939f7c5ae8365a7fb82618de7d68f28e85d5e6f995e885f1c732cda1b83b988"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   js:
     dependency: transitive
     description:
