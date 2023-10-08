@@ -100,7 +100,7 @@ class _SettingScreenState extends State<SettingScreen> {
       logOutSuccess: (_) {
         final popUpRoutes = widget.settingConfig.popUpRoute;
         if (popUpRoutes?.isNotEmpty ?? false) {
-          context.popUntil(popUpRoutes!);
+          context.pushAndRemoveAll(popUpRoutes!);
         }
       },
       updateAppearanceSuccess: (data) {
@@ -311,7 +311,11 @@ class _SettingScreenState extends State<SettingScreen> {
         color: Theme.of(context).cardColor,
         elevation: 0.3,
         child: ListTile(
-          onTap: () {},
+          onTap: () {
+            if (_currentUser != null) {
+              _settingController.add(const SettingEvent.logOut());
+            }
+          },
           leading: Icon(logIcon),
           title: Text(logText, style: context.titleMedium),
           trailing: _forwardIcon,

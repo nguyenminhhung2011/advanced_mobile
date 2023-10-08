@@ -92,7 +92,7 @@ class _SignInScreenState extends State<SignInScreen>
       await delay(100);
       yield null;
       // ignore: use_build_context_synchronously
-      await context.pushAndRemoveAll(Routes.home);
+      await context.pushAndRemoveAll(Routes.dashboard);
       return;
     }
     if (state is SignInErrorMessage) {

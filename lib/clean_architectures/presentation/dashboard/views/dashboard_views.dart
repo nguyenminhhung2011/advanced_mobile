@@ -13,6 +13,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tab_bar_type.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/tab_bar/tabbar_custom.dart';
 import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
+import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -69,6 +70,7 @@ class _DashboardViewState extends State<DashboardView> {
           'hPadding': 10.0,
           'vPadding': 10.0,
           'shadow_elevation': 0.2,
+          'pop_up_route': Routes.splash,
           'behindBackground':
               'https://wallpapers.com/images/featured/panda-background-ymceqx76sixgb2ni.jpg',
           'list_view': [

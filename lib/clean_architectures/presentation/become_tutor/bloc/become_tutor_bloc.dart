@@ -46,7 +46,11 @@ class BecomeTutorRequest {
       required this.price});
 
   Future<Map<String, dynamic>> toMap() async => {
-        "avatar": "",
+        "avatar": await MultipartFile.fromFile(
+          avatar,
+          filename: avatar.split('/').last,
+          contentType: MediaType("image", "jpeg"),
+        ),
         "name": name,
         "country": country,
         "birthday": DateFormat('yyyy-MM-dd').format(birthDay),
@@ -318,6 +322,7 @@ class BecomeTutorBloc extends DisposeCallbackBaseBloc {
       changeAvatarState$,
       registeringState$
     ]).whereNotNull().share();
+
     final subscriptions = <String, Stream>{
       'state': state$,
       'loadingController': loadingController,

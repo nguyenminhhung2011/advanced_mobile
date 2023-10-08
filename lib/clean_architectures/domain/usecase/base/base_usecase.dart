@@ -25,6 +25,14 @@ abstract class BaseUseCase<T> {
     CommonAppSettingPref.removePassCode();
   }
 
+  void removeRefreshToken(){
+    CommonAppSettingPref.removeRefreshToken();
+  }
+
+  void removeExpiredTime(){
+    CommonAppSettingPref.removeExpiredTime();
+  }
+
   Future<bool>? setCurrencyCode({required String currencyCode}) async =>
       CommonAppSettingPref.setCurrency(currencyCode);
 
