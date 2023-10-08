@@ -283,7 +283,6 @@ class _UserInfoViewState extends State<UserInfoView> {
           builder: (_, countryCode, __) {
             return Row(
               children: [
-                
                 CountryCodePicker(
                   padding: const EdgeInsets.all(0),
                   initialSelection: user.country,
@@ -426,15 +425,15 @@ class _UserInfoViewState extends State<UserInfoView> {
       }
     }
     if (state is GetUserInfoFailed) {
-      log("🌟[Get user information] ${state.toString()}");
+      context.showSnackBar("🌟[Get user information] ${state.toString()}");
       return;
     }
     if (state is UpdateProfileUserInfoFailed) {
-      log("🌟[Update information] ${state.toString()}");
+      context.showSnackBar("🌟[Update information] ${state.toString()}");
       return;
     }
     if (state is UpdateProfileUserInfoSuccess) {
-      log("🌟[Update information] Success");
+      context.showSnackBar("🌟[Update information] Success");
       return;
     }
     if (state is PopScreenSuccess) {

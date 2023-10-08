@@ -154,11 +154,12 @@ class _RattingViewState extends State<RattingView> {
 
   Stream handleState(state) async* {
     if (state is RattingSuccess) {
+      context.showSnackBar("🌟[Ratting tutor] success");
       log("🌟[Ratting tutor] success");
       return;
     }
     if (state is RattingFailed) {
-      log("🌟[Ratting tutor] ${state.toString()}");
+      context.showSnackBar("🌟[Ratting tutor] ${state.toString()}");
       return;
     }
   }

@@ -139,8 +139,7 @@ class _MeetingViewState extends State<MeetingView> {
           onPress: () => _joinMeeting(),
           child: Text(
             "Join Meeting",
-            style: context.titleMedium
-                .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+            style: context.titleMedium.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         const SizedBox(height: kToolbarHeight)

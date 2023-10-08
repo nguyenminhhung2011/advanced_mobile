@@ -12,6 +12,16 @@ extension AppCoordinator<T> on BuildContext {
 
   void popUntil(String nRoute) =>
       Navigator.popUntil(this, ModalRoute.withName(nRoute));
+
+  void showSnackBar(String title) {
+    final snackBar = SnackBar(
+      content: Text(title),
+      backgroundColor: Theme.of(this).primaryColor,
+    );
+
+    ScaffoldMessenger.of(this).showSnackBar(snackBar);
+  }
+
   void popArgs(T? args) => Navigator.of(this).pop(args);
   Future<DateTime?> pickDateTime() async {
     DateTime? date = (await pickDate(DatePickerMode.day));
@@ -47,7 +57,7 @@ extension AppCoordinator<T> on BuildContext {
     final dates = await showDialog(
       context: this,
       builder: (_) => Dialog(
-          backgroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         child: RangeDatePicDialog(
           height: 450,
           rangeDateController: rangeDateController,

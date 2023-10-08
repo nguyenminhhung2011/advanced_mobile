@@ -55,7 +55,7 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
               // _bloc.getUpComingClass();
             },
           ),
-          const SizedBox(height: kToolbarHeight), 
+          const SizedBox(height: kToolbarHeight),
           const SizedBox(height: 10.0),
           ButtonCustom(
             onPress: () {
@@ -117,7 +117,7 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
-        style: context.titleMedium.copyWith(color: Colors.white),
+        style: context.titleMedium,
         children: [
           ...[
             header,
