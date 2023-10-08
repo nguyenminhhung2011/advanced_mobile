@@ -6,6 +6,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/useca
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_state.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/ob/constant.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/ob/naotionality_tutor.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
@@ -151,6 +152,11 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
       selectedNationalityTutorState$,
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+    }.debug();
+
     return SearchTutorBloc._(
       dispose: () async => await DisposeBag([
         topicController,
@@ -161,6 +167,7 @@ class SearchTutorBloc extends DisposeCallbackBaseBloc {
         nationalityTutorController,
         openSearchResultPageController,
         selectedNationalityTutorController,
+        ...subscriptions,
       ]).dispose(),
       fetchTopicsData: () => fetchTopicsController.add(null),
       topicSelected$: topicSelectedController,

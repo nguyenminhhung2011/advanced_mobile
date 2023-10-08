@@ -1,6 +1,7 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -98,10 +99,19 @@ class ReportTutorBloc extends DisposeCallbackBaseBloc {
           .map((_) => const ReportTutorFailed(message: 'Invalid data'))
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+      'isValid': isValid$,
+    }.debug();
+
     return ReportTutorBloc._(
-      dispose: () async => await DisposeBag(
-              [loadingController, reportTutorController, contentController])
-          .dispose(),
+      dispose: () async => await DisposeBag([
+        loadingController,
+        reportTutorController,
+        contentController,
+        ...subscriptions
+      ]).dispose(),
       reportTutor: (content) {
         contentController.add(content);
         reportTutorController.add(null);

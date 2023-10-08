@@ -8,6 +8,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/useca
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_views/bloc/tutor_show_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/log_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -291,6 +292,12 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
       ],
     ).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+      'isValid': isValid$,
+    }.debug();
+
     return TutorShowBloc._(
       dispose: () async => await DisposeBag([
         paginationController,
@@ -306,6 +313,7 @@ class TutorShowBloc extends DisposeCallbackBaseBloc {
         getTotalTimeController,
         upComingClassController,
         openBeforeMeetingController,
+        ...subscriptions,
       ]).dispose(),
       upComingClass$: upComingClassController,
       openBeforeMeeting: () => openBeforeMeetingController.add(null),

@@ -6,6 +6,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/user_info_usecase/user_info_usecse.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/views/user_info_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_base_clean_architecture/core/services/image_pic_service.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -265,6 +266,12 @@ class UserInfoBloc extends DisposeCallbackBaseBloc {
           )
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+      'isValid': isValid$,
+    }.debug();
+
     return UserInfoBloc._(
       memoryImage: memoryImageController,
       changeAvatar: () => changeAvatarController.add(null),
@@ -281,6 +288,7 @@ class UserInfoBloc extends DisposeCallbackBaseBloc {
         updateProfileController,
         updateProfileRequestController,
         popScreenController,
+        ...subscriptions,
       ]).dispose(),
       updateProfile: (request) {
         final currentTopicSelected = topicSelectedController.value;

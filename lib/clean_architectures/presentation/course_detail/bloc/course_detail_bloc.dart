@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/course_detail/course_detail_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/bloc/course_detail_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
@@ -80,10 +81,16 @@ class CourseDetailBloc extends DisposeCallbackBaseBloc {
     final state$ =
         Rx.merge<CourseDetailState>([getCourseState$]).whereNotNull().share();
 
+    final subscriptions =
+        <String, Stream>{'state': state$, 'loading': loadingController}.debug();
+
     return CourseDetailBloc._(
-      dispose: () async => await DisposeBag(
-              [loadingController, courseController, getCourseDetailController])
-          .dispose(),
+      dispose: () async => await DisposeBag([
+        loadingController,
+        courseController,
+        getCourseDetailController,
+        ...subscriptions
+      ]).dispose(),
       getCourseDetail: () => getCourseDetailController.add(null),
       loading$: loadingController,
       course$: courseController,

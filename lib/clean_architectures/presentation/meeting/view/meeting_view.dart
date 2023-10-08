@@ -225,10 +225,11 @@ class _MeetingViewState extends State<MeetingView> {
     );
   }
 
-  Widget _richText(
-      {required String header,
-      required String title,
-      required BuildContext context}) {
+  Widget _richText({
+    required String header,
+    required String title,
+    required BuildContext context,
+  }) {
     return RichText(
         text: TextSpan(
       style: context.titleMedium,

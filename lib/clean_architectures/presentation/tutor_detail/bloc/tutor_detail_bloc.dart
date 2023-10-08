@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/review/review.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -234,6 +235,12 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
       openTutorSchedulePageState$,
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+      'isValid': isValid$,
+    }.debug();
+
     return TutorDetailBloc._(
       dispose: () async => await DisposeBag([
         getTutorByIdController,
@@ -246,6 +253,7 @@ class TutorDetailBloc extends DisposeCallbackBaseBloc {
         getReviewsController,
         reviewsController,
         openTutorSchedulePageController,
+        ...subscriptions,
       ]).dispose(),
       favTutor: () => favTutorController.add(null),
       getReviews: () => getReviewsController.add(null),

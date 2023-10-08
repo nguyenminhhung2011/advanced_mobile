@@ -145,14 +145,14 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       'loading': loadingController,
       'isValidSubmit': isValidSubmit$,
       'passwordError': passwordError$,
-    }.debug;
+    }.debug();
 
     subscriptions;
 
     return AuthBloc._(
       dispose: () async {
         try {
-          await DisposeBag([...controllers, subscriptions]).dispose();
+          await DisposeBag([...controllers, ...subscriptions]).dispose();
         } catch (exceptions) {
           log('[Sign in exceptions] ${exceptions.toString()}');
         } finally {

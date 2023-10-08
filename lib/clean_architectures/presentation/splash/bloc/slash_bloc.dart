@@ -4,6 +4,7 @@ import 'package:dart_either/dart_either.dart';
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -91,10 +92,17 @@ class SplashBloc extends DisposeCallbackBaseBloc {
       check$.where((notLoading) => !notLoading).map((_) => const InValid())
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+    }.debug();
+
     return SplashBloc._(
       dispose: () async {
         try {
-          await DisposeBag([checkAuthController, loadingController]).dispose();
+          await DisposeBag(
+                  [checkAuthController, loadingController, ...subscriptions])
+              .dispose();
         } catch (e) {
           log("[Splash exception] ${e.toString()}");
         }

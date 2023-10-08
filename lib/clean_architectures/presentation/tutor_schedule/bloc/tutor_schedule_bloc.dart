@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/tutor_schedule/tutor_schedule_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
@@ -195,6 +196,13 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
     final state$ = Rx.merge<TutorScheduleState>(
         [fetchTutorScheduleState$, booTutorClassState$]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+      'isValid': isValid$,
+      'booTutorValid': booTutorValid$,
+    }.debug();
+
     return TutorScheduleBloc._(
       dispose: () async => await DisposeBag([
         loadingController,
@@ -206,6 +214,7 @@ class TutorScheduleBloc extends DisposeCallbackBaseBloc {
         noteController,
         booTutorClassController,
         scheduleIdController,
+        ...subscriptions,
       ]).dispose(),
       fetchTutorSchedule: () => fetchTutorScheduleController.add(null),
       startTime$: startTimeController,

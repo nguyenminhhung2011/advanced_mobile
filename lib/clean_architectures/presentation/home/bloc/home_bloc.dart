@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/home/home_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/home/bloc/home_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
@@ -175,6 +176,12 @@ class HomeBloc extends DisposeCallbackBaseBloc {
           .map((_) => const FetchDataCourseFailed(message: "Invalid format"))
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+      'isValid': isValid$,
+    }.debug();
+
     return HomeBloc._(
       dispose: () async => await DisposeBag([
         paginationController,
@@ -184,6 +191,7 @@ class HomeBloc extends DisposeCallbackBaseBloc {
         getCourseCategoryController,
         courseCategoriesController,
         categoryController,
+        ...subscriptions,
       ]).dispose(),
       fetchData: () => fetchDataController.add(null),
       getCourseCategory: () => getCourseCategoryController.add(null),

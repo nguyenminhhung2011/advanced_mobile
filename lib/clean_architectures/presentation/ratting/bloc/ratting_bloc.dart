@@ -1,6 +1,7 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/ratting_usecase/ratting_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
@@ -100,13 +101,19 @@ class RattingBloc extends DisposeCallbackBaseBloc {
           .map((_) => RattingFailed(message: "Invalid value"))
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+    }.debug();
+
     return RattingBloc._(
       dispose: () async => await DisposeBag([
         rattingTutorController,
         loadingController,
         userIdController,
         rattingController,
-        contentController
+        contentController,
+        ...subscriptions,
       ]).dispose(),
       rattingTutor: (userId, content, ratting) {
         userIdController.add(userId);

@@ -3,6 +3,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/boo/boo_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -207,6 +208,12 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
           .map((_) => const GetBooInfoFailed(message: "Invalid format"))
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+      'isValid': isValid$,
+    }.debug();
+
     return ScheduleBloc._(
       dispose: () async => await DisposeBag(
         [
@@ -215,7 +222,8 @@ class ScheduleBloc extends DisposeCallbackBaseBloc {
           loadingController,
           tabController,
           updateStudentRequestController,
-          cancelBooTutorController
+          cancelBooTutorController,
+          ...subscriptions,
         ],
       ).dispose(),
       editRequest: (booId, content) => updateStudentRequestController.add(

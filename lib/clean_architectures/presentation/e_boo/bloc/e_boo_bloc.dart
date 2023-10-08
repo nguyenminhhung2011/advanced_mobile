@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/e_boo_usecase/e_boo_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/e_boo/bloc/e_boo_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
@@ -154,6 +155,11 @@ class EBooBloc extends DisposeCallbackBaseBloc {
       getEBooState$
     ]).whereNotNull().share();
 
+    final subscriptions = <String, Stream>{
+      'state': state$,
+      'loadingController': loadingController,
+    }.debug();
+
     return EBooBloc._(
       dispose: () async => await DisposeBag([
         eBooController,
@@ -163,6 +169,7 @@ class EBooBloc extends DisposeCallbackBaseBloc {
         categoryIdController,
         courseCategoriesController,
         getCourseCategoryController,
+        ...subscriptions,
       ]).dispose(),
       courseCategories$: courseCategoriesController,
       getCourseCategory: () => getCourseCategoryController.add(null),
