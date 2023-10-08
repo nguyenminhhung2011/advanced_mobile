@@ -145,13 +145,12 @@ class UserInfoBloc extends DisposeCallbackBaseBloc {
     ///[Handle topics]
     final selectedTopicState$ = selectedTopicController.stream.map((topic) {
       final currentSelectedTopics = topicSelectedController.value;
-      if (currentSelectedTopics.indexWhere((element) =>
-              element.id == topic.id && element.isTopics == topic.isTopics) !=
+      if (currentSelectedTopics
+              .indexWhere((element) => element.key == topic.key) !=
           -1) {
         topicSelectedController.add(
           currentSelectedTopics
-              .where((element) =>
-                  element.id != topic.id || element.isTopics != topic.isTopics)
+              .where((element) => element.key != topic.key)
               .toList(),
         );
       } else {

@@ -239,6 +239,16 @@ class S {
       args: [],
     );
   }
+
+  /// `About`
+  String get becomeTutor {
+    return Intl.message(
+      'BecomeTutor',
+      name: 'becomeTutor',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

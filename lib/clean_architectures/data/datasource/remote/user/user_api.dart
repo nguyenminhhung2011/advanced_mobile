@@ -16,6 +16,7 @@ abstract class UserApi {
   static const String getUserInfoApi = "/user/info";
   static const String getTotalTimeApi = "/call/total";
   static const String reviewTutorApi = "/user/feedbackTutor";
+  static const String becomeTutorApi = "/tutor/register";
 
   @factoryMethod
   factory UserApi(Dio dio) = _UserApi;
@@ -49,4 +50,10 @@ abstract class UserApi {
   @POST(reviewTutorApi)
   Future<HttpResponse> reviewTutor(
       {@Body() required Map<String, dynamic> body});
+
+  @POST(becomeTutorApi)
+  Future<HttpResponse> becomeTutor({
+    @Body() required Map<String, dynamic> body,
+    @Header("Content-Type") required String contentType,
+  });
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 
 import 'core/components/layout/setting_layout/views/language_choose.dart';
 import 'core/components/widgets/range_date_picker_custom.dart';
@@ -15,7 +16,11 @@ extension AppCoordinator<T> on BuildContext {
 
   void showSnackBar(String title) {
     final snackBar = SnackBar(
-      content: Text(title),
+      content: Text(
+        title,
+        style: titleSmall.copyWith(
+            fontWeight: FontWeight.w500, color: Colors.white),
+      ),
       backgroundColor: Theme.of(this).primaryColor,
     );
 

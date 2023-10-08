@@ -1,5 +1,6 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
 
@@ -24,4 +25,7 @@ abstract class UserRepositories {
       {required UpdateProfileRequest updateProfileRequest});
 
   Future<User?> getUserInfo();
+
+  SingleResult<bool> becomeTutor(
+      {required BecomeTutorRequest becomeTutorRequest});
 }

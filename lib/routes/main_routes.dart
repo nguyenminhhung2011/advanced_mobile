@@ -3,6 +3,8 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/become_tutor/views/become_tutor_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/before_meeting/views/before_meeting_view.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/bloc/course_detail_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/course_detail/views/course_detail_screen.dart';
@@ -198,7 +200,14 @@ class MainRoutes {
             child: const TutorShowScreen(),
           ),
         );
-
+      case Routes.becomeTutor:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => BlocProvider<BecomeTutorBloc>(
+            initBloc: (_) => injector.get(),
+            child: const BecomeTutorView(),
+          ),
+        );
       case Routes.splash:
         return MaterialPageRoute(
           settings: settings,

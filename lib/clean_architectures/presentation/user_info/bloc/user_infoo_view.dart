@@ -214,9 +214,9 @@ class _UserInfoViewState extends State<UserInfoView> {
       verticalDirection: VerticalDirection.up,
       children: [
         ...topics.map((e) {
-          final isSelected = topicsSelected.indexWhere((element) =>
-                  element.id == e.id && element.isTopics != e.isTopics) !=
-              -1;
+          final isSelected =
+              topicsSelected.indexWhere((element) => element.key == e.key) !=
+                  -1;
           return ChoiceChip(
             label: Text(
               e.name ?? '',

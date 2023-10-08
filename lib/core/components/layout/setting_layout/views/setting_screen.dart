@@ -430,6 +430,10 @@ class _SettingScreenState extends State<SettingScreen> {
         icon = Icons.people;
         title = S.of(context).about;
         onPress = () {};
+      case 'becomeTutor':
+        icon = Icons.school;
+        title = S.of(context).becomeTutor;
+        onPress = () => context.openListPageWithRoute(Routes.becomeTutor);
       default:
       //do something here
     }

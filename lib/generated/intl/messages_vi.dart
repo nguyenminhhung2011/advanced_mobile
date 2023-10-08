@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "about": MessageLookupByLibrary.simpleMessage("Về chúng tôi"),
         "appearance": MessageLookupByLibrary.simpleMessage("Giao diện"),
+        "becomeTutor":
+            MessageLookupByLibrary.simpleMessage("Trở thành giáo viên"),
         "byPrice": MessageLookupByLibrary.simpleMessage("Theo giá"),
         "codeAndFingerPrints":
             MessageLookupByLibrary.simpleMessage("Mã và dấu vân tay"),

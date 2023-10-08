@@ -1,4 +1,5 @@
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -118,6 +119,20 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
         final response = await getStateOf(
           request: () async =>
               _userApi.reviewTutor(body: reviewTutorRequest.toMap),
+        );
+        return response.toBoolResult();
+      });
+
+  @override
+  SingleResult<bool> becomeTutor(
+          {required BecomeTutorRequest becomeTutorRequest}) =>
+      SingleResult.fromCallable(() async {
+        final body = await becomeTutorRequest.toMap();
+        final response = await getStateOf(
+          request: () async => _userApi.becomeTutor(
+            body: body,
+            contentType: "multipart/form-data",
+          ),
         );
         return response.toBoolResult();
       });

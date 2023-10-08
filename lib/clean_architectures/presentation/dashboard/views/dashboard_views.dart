@@ -76,6 +76,7 @@ class _DashboardViewState extends State<DashboardView> {
             'lang',
             'appearance',
             'about',
+            'becomeTutor',
           ],
         }),
       ),

@@ -6,6 +6,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 
+class BothImageData {
+  final Uint8List? image;
+  final String? path;
+  BothImageData(this.image, this.path);
+}
+
 @injectable
 class ImagePicService {
   Future pickFile() async {
@@ -25,6 +31,17 @@ class ImagePicService {
     XFile? file = await imagePicker.pickImage(source: source);
     if (file != null) {
       return await file.readAsBytes();
+    }
+    return null;
+  }
+
+  Future<BothImageData?> selectedImage(ImageSource source) async {
+    final ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: source);
+    if (file != null) {
+      final image = await file.readAsBytes();
+      final path = file.path;
+      return BothImageData(image, path);
     }
     return null;
   }

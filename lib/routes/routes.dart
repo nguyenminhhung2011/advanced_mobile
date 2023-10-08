@@ -13,6 +13,7 @@ class Routes {
   static const String dashboard = '/dashboard';
   static const String tutorShow = '/tutor-show';
   static const String tutorDetail = '/tutor-detail';
+  static const String becomeTutor = '/become-tutor';
   static const String searchTutor = '/search-tutor';
   static const String courseDetail = '/course-detail';
   static const String tutorSchedule = '/tutor-schedule';
