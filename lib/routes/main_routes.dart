@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/reset/reset_pass_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/reset_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/sign_in_screen.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/become_tutor/views/become_tutor_view.dart';
@@ -116,6 +118,16 @@ class MainRoutes {
             return BlocProvider<ScheduleBloc>(
               initBloc: (_) => injector.get<ScheduleBloc>(),
               child: const ScheduleScreen(),
+            );
+          },
+        );
+      case Routes.resetPassword:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) {
+            return BlocProvider<ResetPassBloc>(
+              initBloc: (_) => injector.get<ResetPassBloc>(),
+              child: const ResetPasswordScreen(),
             );
           },
         );

@@ -69,4 +69,13 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
       {required String email, required String password}) {
     throw UnimplementedError();
   }
+
+  @override
+  SingleResult<bool?> resetPassword({required String email}) =>
+      SingleResult.fromCallable(() async {
+        final response = await getStateOf(
+          request: () async => _authApi.resetPassword(body: {"email": email}),
+        );
+        return response.toBoolResult();
+      });
 }

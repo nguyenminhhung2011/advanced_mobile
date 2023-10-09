@@ -15,6 +15,7 @@ abstract class AuthApi {
   static const String refreshTokenApi = "$branch/auth/refresh-token";
   static const String registerApi = "$branch/auth/register";
   static const String logoutApi = "$branch/auth/logout";
+  static const String resetPasswordApi = "/user/forgotPassword";
 
   @factoryMethod
   factory AuthApi(Dio dio) = _AuthApi;
@@ -29,4 +30,9 @@ abstract class AuthApi {
   @POST(refreshTokenApi)
   Future<HttpResponse<AuthenticateResponse>> refreshToken(
       {@Body() required Map<String, dynamic> body});
+
+  @POST(resetPasswordApi)
+  Future<HttpResponse> resetPassword({
+    @Body() required Map<String, dynamic> body,
+  });
 }

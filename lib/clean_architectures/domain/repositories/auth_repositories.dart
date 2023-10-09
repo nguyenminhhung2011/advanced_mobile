@@ -8,4 +8,6 @@ abstract class AuthRepository {
 
   SingleResult<User?> register(
       {required String email, required String password});
+
+  SingleResult<bool?> resetPassword({required String email});
 }

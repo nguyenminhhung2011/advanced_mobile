@@ -2,12 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/base/auth_mixin.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
+import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -20,10 +24,13 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen>
     with
         DidChangeDependencies,
+        AuthMixin,
         // DisposableMixin,
         SingleTickerProviderStateMixin<SignInScreen> {
   late TextEditingController _emailController;
+
   late TextEditingController _passwordController;
+
   final _passwordFocusNode = FocusNode();
 
   final ValueNotifier<bool> _obscureText = ValueNotifier(true);
@@ -66,21 +73,95 @@ class _SignInScreenState extends State<SignInScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(
+      backgroundColor: scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: scaffoldBackgroundColor,
+        automaticallyImplyLeading: false,
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.school, color: primaryColor, size: 30),
+            Text(
+              " LetTutor",
+              style: context.titleLarge
+                  .copyWith(fontWeight: FontWeight.bold, color: primaryColor),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+      body: ListView(
         children: <Widget>[
-          const Spacer(),
+          const SizedBox(height: 20.0),
+          Image.asset(
+            ImageConst.loginImages,
+            width: double.infinity,
+            height: context.heightDevice * 0.36,
+          ),
+          const SizedBox(height: 20.0),
+          Text(
+            'Say hello to your English tutors',
+            textAlign: TextAlign.center,
+            style: context.titleLarge.copyWith(
+              fontWeight: FontWeight.bold,
+              color: primaryColor,
+            ),
+          ),
+          const SizedBox(height: 10.0),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              'Become fluent faster through one on one video chat lessons tailored to your goals',
+              style: context.titleSmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
             child: _emailTextField(),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
             child: _passwordField(),
           ),
-          const SizedBox(height: 32.0),
-          _loginButton(),
-          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () =>
+                    context.openListPageWithRoute(Routes.resetPassword),
+                child: Text(
+                  'Forgot password',
+                  style: context.titleSmall.copyWith(color: primaryColor),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [_loginButton()],
+          ),
+          const SizedBox(height: 5.0),
+          Text('Or continue with',
+              textAlign: TextAlign.center, style: context.titleSmall),
+          const SizedBox(height: 5.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ...[
+                ImageConst.facebook,
+                ImageConst.google,
+              ].map(
+                (e) => IconButton(onPressed: () {}, icon: SvgPicture.asset(e)),
+              )
+            ],
+          ),
+          const SizedBox(height: 20.0),
         ],
       ),
     );
@@ -96,11 +177,11 @@ class _SignInScreenState extends State<SignInScreen>
       return;
     }
     if (state is SignInErrorMessage) {
-      log("[Sign in] error ${state.toString()}");
+      context.showSnackBar("🐛 [Sign in] error ${state.toString()}");
       return;
     }
     if (state is InvalidFormatMessage) {
-      log("[Sign in] invalid format message");
+      context.showSnackBar("🐛 [Sign in] invalid format message");
       return;
     }
   }
@@ -117,19 +198,15 @@ class _SignInScreenState extends State<SignInScreen>
               controller: _passwordController,
               onChanged: _bloc.passwordChanged,
               autofillHints: const [AutofillHints.password],
-              decoration: InputDecoration(
-                prefixIcon: const Padding(
-                  padding: EdgeInsetsDirectional.only(end: 8.0),
-                  child: Icon(Icons.password),
-                ),
-                labelText: 'Password',
-                errorText: snapshot.data,
+              decoration: textFieldDecoration(
                 suffixIcon: GestureDetector(
                   onTap: _onChangeObscureText,
                   child: Icon(
                     obscureText ? Icons.lock_outline : Icons.lock_open_sharp,
                   ),
                 ),
+                labelText: 'Password',
+                errorText: snapshot.data,
               ),
             );
           },
@@ -144,21 +221,19 @@ class _SignInScreenState extends State<SignInScreen>
       builder: (context, snapshot) {
         return TextField(
           controller: _emailController,
-          autocorrect: true,
-          decoration: InputDecoration(
-            prefixIcon: const Padding(
+          decoration: textFieldDecoration(
+            suffixIcon: const Padding(
               padding: EdgeInsetsDirectional.only(end: 8.0),
               child: Icon(Icons.email),
             ),
             labelText: 'Email',
             errorText: snapshot.data,
-          ),
+          ), // InputDecoration(
           keyboardType: TextInputType.emailAddress,
           maxLines: 1,
           style: const TextStyle(fontSize: 16.0),
           onChanged: _bloc.emailedChanged,
           textInputAction: TextInputAction.next,
-          autofocus: true,
           onSubmitted: (_) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
           },
@@ -175,7 +250,7 @@ class _SignInScreenState extends State<SignInScreen>
       },
       width: 300,
       isAnimation: true,
-      textInside: 'Tap me',
+      textInside: 'Log in',
       radius: 10.0,
     );
   }

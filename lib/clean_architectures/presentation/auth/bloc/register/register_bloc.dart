@@ -4,6 +4,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/data/models/
 import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/register/register_state.dart';
+import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -145,7 +146,12 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
         .distinct()
         .share();
 
-    // final subscriptions = []
+    final subscriptions = <String, Stream>{
+      "isValidSubmit": isValidSubmit$,
+      "loadingController": loadingController,
+      "emailError": emailError$,
+      "passError": passError$,
+    }.debug();
 
     return RegisterBloc._(
       dispose: () => DisposeBag([
@@ -153,7 +159,8 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
         passwordController,
         rePasswordController,
         submitRegisterController,
-        loadingController
+        loadingController,
+        ...subscriptions,
       ]).dispose(),
       submitRegister: () => submitRegisterController.add(null),
       emailChanged: trim.pipe(emailController.add),
