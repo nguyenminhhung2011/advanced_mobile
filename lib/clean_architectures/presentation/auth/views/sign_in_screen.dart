@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/base/auth_mixin.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/widgets/render_app_bar.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
@@ -77,18 +79,7 @@ class _SignInScreenState extends State<SignInScreen>
       appBar: AppBar(
         backgroundColor: scaffoldBackgroundColor,
         automaticallyImplyLeading: false,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(Icons.school, color: primaryColor, size: 30),
-            Text(
-              " LetTutor",
-              style: context.titleLarge
-                  .copyWith(fontWeight: FontWeight.bold, color: primaryColor),
-            ),
-            const Spacer(),
-          ],
-        ),
+        title: const RenderAppBar(),
       ),
       body: ListView(
         children: <Widget>[
@@ -156,8 +147,15 @@ class _SignInScreenState extends State<SignInScreen>
               ...[
                 ImageConst.facebook,
                 ImageConst.google,
-              ].map(
-                (e) => IconButton(onPressed: () {}, icon: SvgPicture.asset(e)),
+              ].mapIndexed(
+                (index, e) => IconButton(
+                  onPressed: () {
+                    if (index == 1) {
+                      _bloc.submitGoogleSignIn();
+                    }
+                  },
+                  icon: SvgPicture.asset(e),
+                ),
               )
             ],
           ),

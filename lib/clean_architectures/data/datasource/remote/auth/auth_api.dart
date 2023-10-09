@@ -16,6 +16,7 @@ abstract class AuthApi {
   static const String registerApi = "$branch/auth/register";
   static const String logoutApi = "$branch/auth/logout";
   static const String resetPasswordApi = "/user/forgotPassword";
+  static const String googleSignInApi = "/auth/google";
 
   @factoryMethod
   factory AuthApi(Dio dio) = _AuthApi;
@@ -33,6 +34,11 @@ abstract class AuthApi {
 
   @POST(resetPasswordApi)
   Future<HttpResponse> resetPassword({
+    @Body() required Map<String, dynamic> body,
+  });
+
+  @POST(googleSignInApi)
+  Future<HttpResponse> googleSignIn({
     @Body() required Map<String, dynamic> body,
   });
 }

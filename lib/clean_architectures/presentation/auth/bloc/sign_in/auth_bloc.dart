@@ -63,13 +63,16 @@ class AuthBloc extends DisposeCallbackBaseBloc {
 
     final submitSignInController = PublishSubject<void>();
 
+    final submitGoogleSignInController = PublishSubject<void>();
+
     final loadingController = BehaviorSubject<bool>.seeded(false);
 
     final controllers = [
       emailController,
       passwordController,
       submitSignInController,
-      loadingController
+      loadingController,
+      submitGoogleSignInController,
     ];
 
     ///
@@ -96,16 +99,22 @@ class AuthBloc extends DisposeCallbackBaseBloc {
         .withLatestFrom(isValidSubmit$, (_, isValid) => isValid)
         .share();
 
+    ///[Google sign in]
+    final submitGoogleSignIn$ = submitGoogleSignInController.stream
+        .withLatestFrom(loadingController.stream, (_, loading) => !loading)
+        .share();
+
     final message$ = Rx.merge<AuthState>([
       submit$
           .where((isValid) => isValid)
           .withLatestFrom(credential$, (_, Credential credential) => credential)
           .exhaustMap((credential) {
         try {
-          return login(
-            email: credential.email,
-            password: credential.password,
-          )
+          return login
+              .login(
+                email: credential.email,
+                password: credential.password,
+              )
               .doOn(
                 ///[loading state] set loading after submit
                 listen: () => loadingController.add(true),
@@ -120,7 +129,24 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       }),
       submit$
           .where((isValid) => !isValid)
-          .map((_) => const InvalidFormatMessage())
+          .map((_) => const InvalidFormatMessage()),
+      submitGoogleSignIn$.where((isValid) => isValid).exhaustMap((_) {
+        try {
+          return login
+              .googleSignIn()
+              .doOn(
+                  listen: () => loadingController.add(true),
+                  cancel: () => loadingController.add(false))
+              .map(
+                (data) => data.fold(
+                    ifLeft: (error) => SignInErrorMessage(
+                        message: error.message, error: error.code),
+                    ifRight: (_) => const SignInSuccessMessage()),
+              );
+        } catch (e) {
+          return Stream.error(SignInErrorMessage(message: e.toString()));
+        }
+      })
     ]).whereNotNull().share();
 
     final emailError$ = emailController.stream
@@ -167,7 +193,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       passwordChanged: trim.pipe(passwordController.add),
       submitSignIn: () => submitSignInController.add(null),
       submitRegister: () => submitSignInController.add(null),
-      submitGoogleSignIn: () {},
+      submitGoogleSignIn: () => submitGoogleSignInController.add(null),
     );
   }
 

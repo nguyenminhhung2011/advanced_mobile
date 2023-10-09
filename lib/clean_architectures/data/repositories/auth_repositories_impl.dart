@@ -12,6 +12,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/repos
 import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:injectable/injectable.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 
 void delayed() async {
@@ -77,5 +78,41 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
           request: () async => _authApi.resetPassword(body: {"email": email}),
         );
         return response.toBoolResult();
+      });
+
+  @override
+  SingleResult<bool?> facebookSignIn() {
+    // TODO: implement facebookSignIN
+    throw UnimplementedError();
+  }
+
+  @override
+  SingleResult<bool?> googleSignIn() => SingleResult.fromCallable(() async {
+        GoogleSignIn googleSignIn = GoogleSignIn(
+          scopes: [
+            'email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+          ],
+        );
+        try {
+          final googleSignInAccount = await googleSignIn.signIn();
+          if (googleSignInAccount == null) {
+            return Either.left(AppException(message: "Google sign in error"));
+          }
+          String? accessToken = "";
+          await googleSignInAccount.authentication.then((value) {
+            accessToken = value.accessToken;
+          });
+          if (accessToken?.isNotEmpty ?? false) {
+            final response = await getStateOf(
+              request: () async =>
+                  _authApi.googleSignIn(body: {"access_token": accessToken}),
+            );
+            return response.toBoolResult();
+          }
+          return Either.left(AppException(message: "Google sign in error"));
+        } catch (e) {
+          return Either.left(AppException(message: e.toString()));
+        }
       });
 }

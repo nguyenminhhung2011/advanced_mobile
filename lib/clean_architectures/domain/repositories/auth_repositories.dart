@@ -10,4 +10,8 @@ abstract class AuthRepository {
       {required String email, required String password});
 
   SingleResult<bool?> resetPassword({required String email});
+
+  SingleResult<bool?> googleSignIn();
+
+  SingleResult<bool?> facebookSignIn();
 }

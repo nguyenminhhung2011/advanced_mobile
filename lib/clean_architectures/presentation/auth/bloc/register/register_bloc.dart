@@ -103,7 +103,8 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
             );
           }
           try {
-            return login(email: email, password: password)
+            return login
+                .login(email: email, password: password)
                 .doOn(
                   ///[Change state] update loading value when register complete
                   listen: () => loadingController.add(true),

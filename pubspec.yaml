@@ -144,6 +144,7 @@ dependencies:
   jitsi_meet_wrapper: ^0.2.0+1
   jwt_decoder: ^2.0.1
   http_parser: ^4.0.2
+  google_sign_in: ^6.1.5
   # table_calendar: ^3.0.8
   # readmore: ^2.2.0
 

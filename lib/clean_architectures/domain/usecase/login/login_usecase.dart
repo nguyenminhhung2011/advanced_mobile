@@ -7,10 +7,13 @@ import 'package:injectable/injectable.dart';
 @injectable
 class LoginUseCase {
   final AuthRepository _authRepository;
-  
+
   LoginUseCase(this._authRepository);
 
-  SingleResult<TokenModel?> call(
+  SingleResult<TokenModel?> login(
           {required String email, required String password}) =>
       _authRepository.login(email: email, password: password);
+
+  SingleResult<bool?> googleSignIn() =>
+      _authRepository.googleSignIn();
 }
