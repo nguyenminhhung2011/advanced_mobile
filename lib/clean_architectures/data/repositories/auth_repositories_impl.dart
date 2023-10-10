@@ -115,4 +115,15 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
           return Either.left(AppException(message: e.toString()));
         }
       });
+
+  @override
+  SingleResult<bool?> verifyAccountEmail({required String token}) =>
+      SingleResult.fromCallable(
+        () async {
+          final response = await getStateOf(
+            request: () async => _authApi.verifyEmailAccount(token),
+          );
+          return response.toBoolResult();
+        },
+      );
 }

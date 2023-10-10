@@ -119,17 +119,24 @@ class _SignInScreenState extends State<SignInScreen>
             child: _passwordField(),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton(
-                onPressed: () =>
-                    context.openListPageWithRoute(Routes.resetPassword),
-                child: Text(
-                  'Forgot password',
-                  style: context.titleSmall.copyWith(color: primaryColor),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () =>
+                      context.openListPageWithRoute(Routes.resetPassword),
+                  child: Text(
+                    'Forgot password',
+                    style: context.titleSmall.copyWith(color: primaryColor),
+                  ),
                 ),
-              ),
+                TextButton(
+                  onPressed: () =>
+                      context.openListPageWithRoute(Routes.register),
+                  child: Text('Sign up', style: context.titleSmall),
+                )
+              ],
             ),
           ),
           const SizedBox(height: 10.0),

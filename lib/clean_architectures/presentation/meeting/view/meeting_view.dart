@@ -9,7 +9,6 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/button_c
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 class MeetingView extends StatefulWidget {
   final String serverUrl;

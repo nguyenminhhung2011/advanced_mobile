@@ -17,6 +17,7 @@ abstract class AuthApi {
   static const String logoutApi = "$branch/auth/logout";
   static const String resetPasswordApi = "/user/forgotPassword";
   static const String googleSignInApi = "/auth/google";
+  static const String verifyAccountApi = "/auth/verifyAccount";
 
   @factoryMethod
   factory AuthApi(Dio dio) = _AuthApi;
@@ -41,4 +42,9 @@ abstract class AuthApi {
   Future<HttpResponse> googleSignIn({
     @Body() required Map<String, dynamic> body,
   });
+
+  @GET("$verifyAccountApi?token={value}")
+  Future<HttpResponse> verifyEmailAccount(
+    @Path('value') String token
+  );
 }

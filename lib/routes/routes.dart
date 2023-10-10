@@ -8,6 +8,7 @@ class Routes {
   static const String meeting = '/meeting';
   static const String pdfView = '/pdf_view';
   static const String schedule = '/schedule';
+  static const String register = '/register';
   static const String passCode = '/pass-code';
   static const String userInfo = '/user-info';
   static const String dashboard = '/dashboard';

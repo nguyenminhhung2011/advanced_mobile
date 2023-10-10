@@ -14,4 +14,6 @@ abstract class AuthRepository {
   SingleResult<bool?> googleSignIn();
 
   SingleResult<bool?> facebookSignIn();
+
+  SingleResult<bool?> verifyAccountEmail({required String token});
 }
