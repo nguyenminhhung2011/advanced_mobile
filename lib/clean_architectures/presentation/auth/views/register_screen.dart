@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -22,15 +23,18 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   late TextEditingController _passwordController;
 
-  final _passwordFocusNode = FocusNode();
+  late TextEditingController _rePasswordController;
 
   final ValueNotifier<bool> _obscureText = ValueNotifier(true);
+
+  final _passwordFocusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController(text: 'phhai@ymail.co');
     _passwordController = TextEditingController(text: '12345');
+    _rePasswordController = TextEditingController();
     didChangeDependencies$
         .exhaustMap((_) => _bloc.state$)
         .exhaustMap(handleState)
@@ -44,8 +48,9 @@ class _RegisterScreenState extends State<RegisterScreen>
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
     _passwordFocusNode.dispose();
+    _passwordController.dispose();
+    _rePasswordController.dispose();
     super.dispose();
   }
 
@@ -76,6 +81,15 @@ class _RegisterScreenState extends State<RegisterScreen>
               color: primaryColor,
             ),
           ),
+          const SizedBox(height: 10.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              'Register account to use all features of letTutor',
+              style: context.titleSmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
           const SizedBox(height: 15.0),
           Padding(
             padding:
@@ -87,10 +101,17 @@ class _RegisterScreenState extends State<RegisterScreen>
                 const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
             child: _passwordField(),
           ),
+          const SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [_signUpButton()],
+          ),
         ],
       ),
     );
   }
+
+  // Widget _rePasswordField() {}
 
   Widget _passwordField() {
     return StreamBuilder<String?>(
@@ -145,6 +166,19 @@ class _RegisterScreenState extends State<RegisterScreen>
           },
         );
       },
+    );
+  }
+
+  Widget _signUpButton() {
+    return ProgressButton(
+      call: () async {
+        // _bloc.submitSignIn();
+        return true;
+      },
+      width: 300,
+      isAnimation: true,
+      textInside: 'Register account',
+      radius: 10.0,
     );
   }
 }

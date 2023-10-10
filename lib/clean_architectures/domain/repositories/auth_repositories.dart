@@ -6,7 +6,7 @@ abstract class AuthRepository {
   SingleResult<TokenModel?> login(
       {required String email, required String password});
 
-  SingleResult<User?> register(
+  SingleResult<TokenModel?> register(
       {required String email, required String password});
 
   SingleResult<bool?> resetPassword({required String email});

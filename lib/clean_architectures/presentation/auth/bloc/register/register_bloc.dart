@@ -139,6 +139,7 @@ class RegisterBloc extends DisposeCallbackBaseBloc {
 
         ///[distinct] don't get exists data
         .share();
+
     final passError$ = passwordController.stream
         .map((text) {
           if (!Validator.isValidPassword(text)) return null;

@@ -30,8 +30,8 @@ class IsolateRunT<T> {
       isolateMessageHandler: (data, mSendPort, send) {
         Timer.periodic(
           const Duration(seconds: 1),
-          (timer) async {
-            final item = await event();
+          (timer) {
+            event();
             mSendPort.send(const IsolateProgressData(data: 3));
           },
         );

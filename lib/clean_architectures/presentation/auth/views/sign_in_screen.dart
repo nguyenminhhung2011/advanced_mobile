@@ -72,6 +72,25 @@ class _SignInScreenState extends State<SignInScreen>
     // listenState ??= _bloc.message$.flatMap(handleState).collect();
   }
 
+  Stream<void> handleState(state) async* {
+    if (state is SignInSuccessMessage) {
+      log("[Sign in] success");
+      await delay(100);
+      yield null;
+      // ignore: use_build_context_synchronously
+      await context.pushAndRemoveAll(Routes.dashboard);
+      return;
+    }
+    if (state is SignInErrorMessage) {
+      context.showSnackBar("🐛 [Sign in] error ${state.toString()}");
+      return;
+    }
+    if (state is InvalidFormatMessage) {
+      context.showSnackBar("🐛 [Sign in] invalid format message");
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,25 +189,6 @@ class _SignInScreenState extends State<SignInScreen>
         ],
       ),
     );
-  }
-
-  Stream<void> handleState(state) async* {
-    if (state is SignInSuccessMessage) {
-      log("[Sign in] success");
-      await delay(100);
-      yield null;
-      // ignore: use_build_context_synchronously
-      await context.pushAndRemoveAll(Routes.dashboard);
-      return;
-    }
-    if (state is SignInErrorMessage) {
-      context.showSnackBar("🐛 [Sign in] error ${state.toString()}");
-      return;
-    }
-    if (state is InvalidFormatMessage) {
-      context.showSnackBar("🐛 [Sign in] invalid format message");
-      return;
-    }
   }
 
   Widget _passwordField() {

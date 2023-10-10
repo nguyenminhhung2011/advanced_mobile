@@ -26,6 +26,10 @@ abstract class AuthApi {
   Future<HttpResponse<SignInResponse?>> login(
       {@Body() required Map<String, dynamic> body});
 
+  @POST(registerApi)
+  Future<HttpResponse<SignInResponse?>> register(
+      {@Body() required Map<String, dynamic> body});
+
   @POST(logoutApi)
   Future<HttpResponse<AuthenticateResponse>> logout();
 
@@ -44,7 +48,5 @@ abstract class AuthApi {
   });
 
   @GET("$verifyAccountApi?token={value}")
-  Future<HttpResponse> verifyEmailAccount(
-    @Path('value') String token
-  );
+  Future<HttpResponse> verifyEmailAccount(@Path('value') String token);
 }

@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/domain/entit
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/schedule/bloc/schedule_state.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:flutter_base_clean_architecture/core/components/network/isolate/isolate_run.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/boo_info_item.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/dialog_add_update_student_request.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
@@ -40,6 +41,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   void initState() {
     super.initState();
     listen ??= _bloc.state$.flatMap(handleState).collect();
+    // IsolateRunT<bool>(
+    //   data: true,
+    //   progressCall: (event) => log("⌚⌚ [Isolate handler] get schedule $event"),
+    // ).updateEventCallAndInit(event: () {
+    //   _bloc.getBooInfo();
+    //   return true;
+    // });
 
     _bloc.getBooInfo();
 
