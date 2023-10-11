@@ -14,6 +14,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/header_c
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/text_form_field_custom.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -93,7 +94,7 @@ class _RattingViewState extends State<RattingView> {
         padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
         child: ButtonCustom(
           height: 50,
-          child: const Text('Add review'),
+          child: Text(S.of(context).addReview),
           onPress: () => _bloc.rattingTutor(
               _currentUser!.id, _controller.text, _rating.value),
         ),
@@ -107,7 +108,7 @@ class _RattingViewState extends State<RattingView> {
                 onPressed: () => context.pop(),
                 icon: const Icon(Icons.arrow_back),
               ),
-              Text('Add review', style: context.headerAppBarTextStyle),
+              Text(S.of(context).addReview, style: context.headerAppBarTextStyle),
               IconButton(onPressed: () {}, icon: const SizedBox())
             ].expand((element) => [element, const Spacer()]).toList()
               ..removeLast(),
@@ -116,7 +117,7 @@ class _RattingViewState extends State<RattingView> {
             delegate: SliverChildListDelegate(
               <Widget>[
                 HeaderTextCustom(
-                  headerText: 'Rate star',
+                  headerText: S.of(context).rateStar,
                   textStyle: headerStyle,
                 ),
                 ValueListenableBuilder<double>(
@@ -134,11 +135,11 @@ class _RattingViewState extends State<RattingView> {
                   paddingLeft: 15.0,
                   paddingRight: 15.0,
                   maxLines: 10,
-                  headerText: 'Your review',
+                  headerText: S.of(context).yourReview,
                   headerTextStyle: headerStyle,
                   spacingText: 10.0,
                   hintStyle: context.titleMedium,
-                  hintText: 'Write your review...',
+                  hintText: S.of(context).writeYourReview,
                   textStyle: context.titleMedium,
                   controller: _controller,
                 ),

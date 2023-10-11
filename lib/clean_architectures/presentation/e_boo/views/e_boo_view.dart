@@ -13,6 +13,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/row_search_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/default_pagination.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -94,7 +95,7 @@ class _EBooScreenState extends State<EBooScreen> {
           icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
         ),
         title: Text(
-          "All e-book",
+          S.of(context).allEBoo,
           style: context.titleLarge.copyWith(fontWeight: FontWeight.w600),
         ),
       ),

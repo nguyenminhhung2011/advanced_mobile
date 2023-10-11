@@ -16,6 +16,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/button_c
 import 'package:flutter_base_clean_architecture/core/components/widgets/dropdown_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -108,7 +109,7 @@ class _UserInfoViewState extends State<UserInfoView> {
             radius: 10.0,
             height: 45.0,
             child: Text(
-              'Update profile',
+              S.of(context).updateProfile,
               style: context.titleMedium
                   .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
             ),
@@ -146,12 +147,16 @@ class _UserInfoViewState extends State<UserInfoView> {
         const Divider(),
         _informationTextField(
           controller: _nameController,
-          hintText: 'Enter your name',
-          labelText: 'Name',
+          hintText: S.of(context).enterYourName,
+          labelText: S.of(context).name,
         ),
         const SizedBox(),
-        ...['Birth day', 'Country', 'User levels', 'Topics and Preparations']
-            .mapIndexed(
+        ...[
+          S.of(context).birthDay,
+          S.of(context).country,
+          S.of(context).userLevels,
+          S.of(context).topicsAndPreparations
+        ].mapIndexed(
           (index, e) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -190,8 +195,8 @@ class _UserInfoViewState extends State<UserInfoView> {
         const SizedBox(height: 10),
         _informationTextField(
           controller: _studySchedule,
-          hintText: 'Enter study schedule',
-          labelText: 'Study schedule',
+          hintText: S.of(context).enterStudySchedule,
+          labelText: S.of(context).studySchedule,
         ),
       ]
           .expand((e) => [
@@ -372,7 +377,7 @@ class _UserInfoViewState extends State<UserInfoView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
       title: Text(
-        'User information',
+        S.of(context).userInformation,
         style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
       ),
       leading: IconButton(

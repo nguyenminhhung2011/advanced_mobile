@@ -21,6 +21,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/loading_
 import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/video_player.dart';
 import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:readmore/readmore.dart';
@@ -114,7 +115,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           height: 45.0,
           onPress: () => _bloc.openTutorSchedulePage(),
           child: Text(
-            'Book tutor',
+            S.of(context).bookTutor,
             style: context.titleMedium
                 .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
           ),
@@ -128,7 +129,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
         ),
         title: Text(
-          'Tutor detail',
+          S.of(context).tutorDetail,
           style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
@@ -192,8 +193,10 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ...<String>[
-                (tutor.isFavorite ?? false) ? 'Is favorite' : 'Favorite',
-                'Report'
+                (tutor.isFavorite ?? false)
+                    ? S.of(context).isFavorite
+                    : S.of(context).favorite,
+                S.of(context).report,
               ].mapIndexed(
                 (index, e) => Expanded(
                   child: ButtonCustom(
@@ -250,23 +253,23 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
             ),
           ),
         ...{
-          'Description': tutor.bio,
-          'Education': tutor.education,
-          'Languages': tutor.languages,
-          'Specialties': tutor.specialties,
+          S.of(context).description: tutor.bio,
+          S.of(context).education: tutor.education,
+          S.of(context).languages: tutor.languages,
+          S.of(context).specialties: tutor.specialties,
         }.entries.mapIndexed(
               (index, e) => (e.value?.isNotEmpty ?? false)
                   ? _informationWithHeaderField(e, index)
                   : const SizedBox(),
             ),
         HeaderTextCustom(
-          headerText: 'Reviews',
+          headerText: S.of(context).review,
           padding: _horizontalEdgeInsets,
           isShowSeeMore: true,
           onPress: _viewMoreReviews,
         ),
         HeaderTextCustom(
-          headerText: 'Suggested courses',
+          headerText: S.of(context).suggestedCourses,
           padding: _horizontalEdgeInsets,
         ),
         if (tutorUser?.courses != null)
@@ -284,7 +287,7 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                   ),
                   InkWell(
                     onTap: () {},
-                    child: Text('View',
+                    child: Text(S.of(context).view,
                         style:
                             context.titleSmall.copyWith(color: _primaryColor)),
                   )
@@ -308,8 +311,8 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
             child: ReadMoreText(
               e.value!,
               trimLines: 3,
-              trimCollapsedText: 'Show more',
-              trimExpandedText: 'Show less',
+              trimCollapsedText: S.of(context).showMore,
+              trimExpandedText: S.of(context).showLess,
               lessStyle: context.titleSmall.copyWith(color: _primaryColor),
               moreStyle: context.titleSmall.copyWith(color: _primaryColor),
               style: context.titleMedium,

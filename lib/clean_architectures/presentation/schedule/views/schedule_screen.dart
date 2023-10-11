@@ -13,6 +13,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/default_pagination.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
@@ -42,14 +43,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     super.initState();
     listen ??= _bloc.state$.flatMap(handleState).collect();
 
-    // IsolateRunT<bool>(
-    //   data: true,
-    //   progressCall: (event) => log("⌚⌚ [Isolate handler] get schedule $event"),
-    // ).updateEventCallAndInit(event: () {
-    //   _bloc.getBooInfo();
-    //   log("🍜🍜 [Isolate handler] Render isolate in here");
-    //   return true;
-    // });
+    IsolateRunT<bool>(
+      data: true,
+      progressCall: (event) => log("⌚⌚ [Isolate handler] get schedule $event"),
+    ).updateEventCallAndInit(event: () {
+      log("🍜🍜 [Isolate handler] Render isolate in here");
+      return true;
+    });
 
     _bloc.getBooInfo();
 
@@ -117,7 +117,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
           children: [
             Icon(Icons.school, color: _primaryColor),
             Text(
-              ' Schedule',
+              ' ${S.of(context).schedule}',
               style: context.titleLarge.copyWith(
                 fontWeight: FontWeight.bold,
                 color: _primaryColor,
@@ -141,7 +141,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
               children: [
                 TabBar(
                   tabs: [
-                    ...['UpComing', 'History']
+                    ...[S.of(context).upComing, S.of(context).history]
                         .map((e) => Tab(text: e, height: 40.0))
                   ],
                   controller: _tabController,

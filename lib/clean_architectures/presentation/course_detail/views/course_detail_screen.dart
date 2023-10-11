@@ -15,6 +15,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/appbar.d
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -121,7 +122,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               ),
               const SizedBox(height: 20.0),
               HeaderTextCustom(
-                headerText: 'Overview',
+                headerText: S.of(context).overview,
                 textStyle: _headerStyle,
                 padding: _horizontalPadding,
               ),
@@ -129,12 +130,12 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               ..._overViewField(course)
                   .expand((e) => [e, const SizedBox(height: 10.0)]),
               _renderHeaderTitle(
-                  renderHeader: "Experience level",
+                  renderHeader: S.of(context).experienceLevel,
                   renderText: (course.level ?? '0').renderExperienceText),
               _timeField(course),
               const SizedBox(height: 10.0),
               HeaderTextCustom(
-                  headerText: "All topics", textStyle: _headerStyle),
+                  headerText: S.of(context).allLevels, textStyle: _headerStyle),
               const SizedBox(height: 10.0),
               ...course.topics
                   .map(
@@ -154,7 +155,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
       course.purpose ?? '',
     ].mapIndexed((index, element) {
       final renderHeader =
-          index == 0 ? "Why take this course?" : "What will you be able to do?";
+          index == 0 ? S.of(context).whatTTCourses : S.of(context).whatWYBe;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -239,7 +240,9 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
             course.updatedAt ?? DateTime.now()
           ]
               .mapIndexed((index, e) {
-                final renderHeader = index == 0 ? "Created at" : "Updated at";
+                final renderHeader = index == 0
+                    ? S.of(context).createdAt
+                    : S.of(context).updatedAt;
                 return Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

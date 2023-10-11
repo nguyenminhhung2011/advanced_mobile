@@ -15,6 +15,7 @@ import 'package:flutter_base_clean_architecture/core/components/layout/setting_l
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/dropdown_button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -130,7 +131,7 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
             'language': _languageController.text,
           }),
           child: Text(
-            'Registering',
+            S.of(context).registering,
             style: context.titleMedium
                 .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
           ),
@@ -140,7 +141,7 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(
-          'Tutor registering',
+          S.of(context).tutorRegister,
           style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
@@ -161,7 +162,8 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
             },
             steps: <Step>[
               Step(
-                title: Text('Introduction', style: context.titleMedium),
+                title: Text(S.of(context).introduction,
+                    style: context.titleMedium),
                 content: _renderIntroduction(),
               ),
               Step(
@@ -169,11 +171,11 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
                 content: _renderCV(),
               ),
               Step(
-                title: Text('Language I speak', style: context.titleMedium),
+                title: Text(S.of(context).language, style: context.titleMedium),
                 content: _languageRender(),
               ),
               Step(
-                title: Text('Who i tech', style: context.titleMedium),
+                title: Text(S.of(context).whoITech, style: context.titleMedium),
                 content: _renderTypeStudent(),
               )
             ],
@@ -188,7 +190,7 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'I am a best at teaching students who are',
+          S.of(context).iAmABestAtTeaching,
           style: context.titleSmall.copyWith(
             color: Theme.of(context).hintColor,
           ),
@@ -224,7 +226,7 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
         ),
         const SizedBox(height: 20.0),
         Text(
-          'My specialties are',
+          S.of(context).mySpecialtiesAre,
           style: context.titleSmall.copyWith(
             color: Theme.of(context).hintColor,
           ),
@@ -290,10 +292,10 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _dividerText(text: "Language I speak"),
+        _dividerText(text: S.of(context).language),
         _informationTextField(
           controller: _languageController,
-          labelText: 'Languages',
+          labelText: S.of(context).languages,
           hintText: "lang 1, lang 2, ....",
         ),
       ].expand((e) => [e, const SizedBox(height: 10.0)]).toList(),
@@ -306,33 +308,33 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
       children: [
         _dividerText(text: 'CV'),
         Text(
-          "Students will view this information on your profile to decide if you're good fit for them Yeah yeah yeah",
+          S.of(context).studentsWillViewThisInformation,
           style: _hintColorText,
         ),
         const SizedBox(),
         _informationTextField(
           controller: _interestsController,
-          labelText: 'Interests',
-          hintText: "Enter your interests",
+          labelText: S.of(context).interests,
+          hintText: S.of(context).EnterYourInterests,
         ),
         const SizedBox(),
         _informationTextField(
           controller: _eductionController,
-          labelText: 'Education',
-          hintText: "Enter your education",
+          labelText: S.of(context).education,
+          hintText: S.of(context).enterEducation,
         ),
         const SizedBox(),
         _informationTextField(
           controller: _experienceController,
-          labelText: 'Experiences',
-          hintText: "Enter your experiences",
+          labelText: S.of(context).experiences,
+          hintText: S.of(context).EnterYourExperiences,
           lines: 1,
         ),
         const SizedBox(),
         _informationTextField(
           controller: _professionController,
-          labelText: 'Professions',
-          hintText: "Enter your professions",
+          labelText: S.of(context).professions,
+          hintText: S.of(context).EnterYourProfessions,
           lines: 2,
         ),
       ].expand((e) => [e, const SizedBox(height: 10.0)]).toList(),
@@ -344,10 +346,10 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Your tutor profile is your chance to mar yourself to students on Tutoring',
+          S.of(context).yourTutorProfile,
           style: _hintColorText,
         ),
-        _dividerText(text: 'Basic info'),
+        _dividerText(text: S.of(context).basicInfo),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -371,8 +373,8 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
         const SizedBox(height: 10.0),
         _informationTextField(
           controller: _bioController,
-          labelText: 'Bio',
-          hintText: "Enter your bio",
+          labelText: S.of(context).bio,
+          hintText: S.of(context).enterYourBio,
         ),
       ].expand((e) => [e, const SizedBox(height: 10.0)]).toList(),
     );
@@ -450,7 +452,7 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
           ),
           alignment: Alignment.center,
           child: Text(
-            'Tap to selected avatar',
+            S.of(context).tapToSelectedAvatar,
             style: context.titleSmall.copyWith(fontSize: 11.0),
             textAlign: TextAlign.center,
           ),

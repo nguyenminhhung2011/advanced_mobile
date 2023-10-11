@@ -8,6 +8,7 @@ import 'package:flutter_base_clean_architecture/core/components/constant/image_c
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -85,7 +86,7 @@ class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
           ),
           const SizedBox(height: 20.0),
           Text(
-            'Sign up to use letTutor',
+            S.of(context).signUpToUse,
             textAlign: TextAlign.center,
             style: context.titleLarge.copyWith(
               fontWeight: FontWeight.bold,
@@ -96,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              'Register account to use all features of letTutor',
+              S.of(context).registerAccountToUse,
               style: context.titleSmall,
               textAlign: TextAlign.center,
             ),
@@ -143,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
                     obscureText ? Icons.lock_outline : Icons.lock_open_sharp,
                   ),
                 ),
-                labelText: 'Password',
+                labelText: S.of(context).password,
                 errorText: snapshot.data,
               ),
             );
@@ -164,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
               padding: EdgeInsetsDirectional.only(end: 8.0),
               child: Icon(Icons.email),
             ),
-            labelText: 'Email',
+            labelText: S.of(context).email,
             errorText: snapshot.data,
           ), // InputDecoration(
           keyboardType: TextInputType.emailAddress,
@@ -188,7 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
       },
       width: 300,
       isAnimation: true,
-      textInside: 'Register account',
+      textInside: S.of(context).registerAccount,
       radius: 10.0,
     );
   }

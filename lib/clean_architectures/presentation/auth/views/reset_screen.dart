@@ -5,6 +5,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -68,7 +69,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Reset password",
+              S.of(context).resetPassword,
               textAlign: TextAlign.center,
               style: context.titleLarge.copyWith(
                 fontWeight: FontWeight.bold,
@@ -77,7 +78,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
             ),
             const SizedBox(height: 10.0),
             Text(
-              'Please enter your email address to search for your account',
+              S.of(context).pleaseEnterYourEmail,
               style: context.titleSmall.copyWith(
                 fontWeight: FontWeight.w500,
                 color: Theme.of(context).hintColor,
@@ -106,7 +107,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
               padding: EdgeInsetsDirectional.only(end: 8.0),
               child: Icon(Icons.email),
             ),
-            labelText: 'Email',
+            labelText: S.of(context).email,
             errorText: snapshot.data,
           ), // InputDecoration(
           keyboardType: TextInputType.emailAddress,
@@ -127,7 +128,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
       },
       width: 300,
       isAnimation: true,
-      textInside: 'Reset password',
+      textInside: S.of(context).resetPassword,
       radius: 10.0,
     );
   }

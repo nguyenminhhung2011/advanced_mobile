@@ -8,6 +8,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 // import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/row_tutor_information.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:intl/intl.dart';
 
@@ -46,7 +47,7 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
               int minutes = (time.round() % 3600) ~/ 60;
               int seconds = time.round() % 60;
               return _renderRichText(hours, minutes, seconds,
-                  header: 'Upcoming lessons will appear ');
+                  header: '${S.of(context).upComingLessonsWillAppear} ');
             },
             interval: const Duration(milliseconds: 100),
             onFinished: () {
@@ -57,13 +58,13 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
           ),
           const SizedBox(height: kToolbarHeight),
           const SizedBox(height: 10.0),
-          ButtonCustom(
-            onPress: () {
-              context.openPageWithRouteAndParams(
-                  Routes.meeting, widget.booInfo.studentMeetingLink);
-            },
-            child: const Text('Test'),
-          )
+          // ButtonCustom(
+          //   onPress: () {
+          //     context.openPageWithRouteAndParams(
+          //         Routes.meeting, widget.booInfo.studentMeetingLink);
+          //   },
+          //   child: Text(S.of(context).test),
+          // )
         ],
       ),
     );
@@ -96,9 +97,9 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
             }
             return _richText(
               header: switch (index) {
-                0 => 'Lesson date',
-                1 => 'Start time',
-                _ => 'End time'
+                0 => S.of(context).lessonDate,
+                1 => S.of(context).startTime,
+                _ => S.of(context).endTime
               },
               title: switch (index) {
                 0 => DateFormat().add_yMMMMEEEEd().format(e),
@@ -122,10 +123,10 @@ class _BeforeMeetingViewState extends State<BeforeMeetingView> {
           ...[
             header,
             hours.toString(),
-            ' hours and ',
+            ' ${S.of(context).hours} ${S.of(context).and} ',
             minutes.toString(),
-            ' minutes ',
-            if (seconds != null) ...[seconds.toString(), ' seconds.'],
+            ' ${S.of(context).minutes} ',
+            if (seconds != null) ...[seconds.toString(), ' ${S.of(context).seconds}.'],
           ].mapIndexed((index, element) {
             final textStyle = TextStyle(
               fontWeight: index % 2 == 0 ? FontWeight.w400 : FontWeight.w600,

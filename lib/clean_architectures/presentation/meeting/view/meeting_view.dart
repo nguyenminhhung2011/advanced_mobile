@@ -7,6 +7,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/layout/setting_layout/controller/setting_bloc.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 
@@ -111,7 +112,7 @@ class _MeetingViewState extends State<MeetingView> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meeting settings'),
+        title: Text(S.of(context).meetingSettings),
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
@@ -137,7 +138,7 @@ class _MeetingViewState extends State<MeetingView> {
           borderColor: Theme.of(context).primaryColor,
           onPress: () => _joinMeeting(),
           child: Text(
-            "Join Meeting",
+            S.of(context).joinMeeting,
             style: context.titleMedium.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
@@ -178,7 +179,7 @@ class _MeetingViewState extends State<MeetingView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Profile preview',
+            S.of(context).profilePreview,
             style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10.0),
@@ -205,8 +206,8 @@ class _MeetingViewState extends State<MeetingView> {
                         }
                         return _richText(
                           header: switch (index) {
-                            0 => 'Name',
-                            _ => 'Email',
+                            0 => S.of(context).name,
+                            _ => S.of(context).email,
                           },
                           title: e,
                           context: context,

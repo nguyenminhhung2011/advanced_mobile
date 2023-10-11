@@ -9,6 +9,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_view_card.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/default_pagination.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -56,7 +57,7 @@ class _SearchTutorResultViewState extends State<SearchTutorResultView> {
           icon: Icon(Icons.arrow_back, color: Theme.of(context).shadowColor),
         ),
         title: Text(
-          'Search tutor result',
+          S.of(context).searchTutorResult,
           style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
         ),
       ),

@@ -11,6 +11,7 @@ import 'package:flutter_base_clean_architecture/core/components/constant/image_c
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -110,7 +111,7 @@ class _SignInScreenState extends State<SignInScreen>
           ),
           const SizedBox(height: 20.0),
           Text(
-            'Say hello to your English tutors',
+            S.of(context).sayHellToYour,
             textAlign: TextAlign.center,
             style: context.titleLarge.copyWith(
               fontWeight: FontWeight.bold,
@@ -121,7 +122,7 @@ class _SignInScreenState extends State<SignInScreen>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              'Become fluent faster through one on one video chat lessons tailored to your goals',
+              S.of(context).beComeFluent,
               style: context.titleSmall,
               textAlign: TextAlign.center,
             ),
@@ -146,14 +147,14 @@ class _SignInScreenState extends State<SignInScreen>
                   onPressed: () =>
                       context.openListPageWithRoute(Routes.resetPassword),
                   child: Text(
-                    'Forgot password',
+                    S.of(context).forGotPassword,
                     style: context.titleSmall.copyWith(color: primaryColor),
                   ),
                 ),
                 TextButton(
                   onPressed: () =>
                       context.openListPageWithRoute(Routes.register),
-                  child: Text('Sign up', style: context.titleSmall),
+                  child: Text(S.of(context).signUp, style: context.titleSmall),
                 )
               ],
             ),
@@ -164,7 +165,7 @@ class _SignInScreenState extends State<SignInScreen>
             children: [_loginButton()],
           ),
           const SizedBox(height: 5.0),
-          Text('Or continue with',
+          Text(S.of(context).orContinue,
               textAlign: TextAlign.center, style: context.titleSmall),
           const SizedBox(height: 5.0),
           Row(
@@ -210,7 +211,7 @@ class _SignInScreenState extends State<SignInScreen>
                     obscureText ? Icons.lock_outline : Icons.lock_open_sharp,
                   ),
                 ),
-                labelText: 'Password',
+                labelText: S.of(context).password,
                 errorText: snapshot.data,
               ),
             );
@@ -231,7 +232,7 @@ class _SignInScreenState extends State<SignInScreen>
               padding: EdgeInsetsDirectional.only(end: 8.0),
               child: Icon(Icons.email),
             ),
-            labelText: 'Email',
+            labelText: S.of(context).email,
             errorText: snapshot.data,
           ), // InputDecoration(
           keyboardType: TextInputType.emailAddress,
@@ -255,7 +256,7 @@ class _SignInScreenState extends State<SignInScreen>
       },
       width: 300,
       isAnimation: true,
-      textInside: 'Log in',
+      textInside: S.of(context).logIn,
       radius: 10.0,
     );
   }

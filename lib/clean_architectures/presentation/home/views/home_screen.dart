@@ -12,6 +12,7 @@ import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/course_item.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/row_search_field.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
@@ -101,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
           children: [
             Icon(Icons.school, color: _primaryColor),
             Text(
-              ' Courses',
+              ' ${S.of(context).courses}',
               style: context.titleLarge.copyWith(
                 fontWeight: FontWeight.bold,
                 color: _primaryColor,
@@ -111,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
             TextButton(
               onPressed: () => context.openListPageWithRoute(Routes.eBoo),
               child: Text(
-                "View e-book",
+                S.of(context).viewEBoo,
                 style: context.titleSmall.copyWith(fontWeight: FontWeight.w600),
               ),
             ),

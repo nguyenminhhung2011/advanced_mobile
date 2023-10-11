@@ -12,6 +12,7 @@ import 'package:flutter_base_clean_architecture/core/components/extensions/conte
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
@@ -74,14 +75,14 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
-                hintText: "Search here",
+              decoration: InputDecoration(
+                hintText: S.of(context).searchHere,
               ),
             ),
           ),
-          const HeaderTextCustom(headerText: "Nationality"),
+          HeaderTextCustom(headerText: S.of(context).nationality),
           _nationalityTutorsField(context),
-          const HeaderTextCustom(headerText: "Topics"),
+          HeaderTextCustom(headerText: S.of(context).topics),
           StreamBuilder<bool?>(
             stream: _bloc.loading$,
             builder: (ctx1, sS1) {
@@ -117,7 +118,7 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
               onPress: () => _bloc.openSearchResultPage(_searchController.text),
               radius: 5.0,
               child: Text(
-                'Search',
+                S.of(context).search,
                 style: context.titleMedium
                     .copyWith(fontWeight: FontWeight.w600, color: Colors.white),
               ),

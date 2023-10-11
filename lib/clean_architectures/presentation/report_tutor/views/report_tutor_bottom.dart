@@ -6,6 +6,7 @@ import 'package:flutter_base_clean_architecture/clean_architectures/presentation
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -66,7 +67,7 @@ class _ReportTutorBottomState extends State<ReportTutorBottom> {
                 loading: sS.data ?? false,
                 onPress: () => _bloc.reportTutor(_contentController.text),
                 child: Text(
-                  'Report',
+                  S.of(context).report,
                   style: context.titleMedium.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
@@ -95,15 +96,15 @@ class _ReportTutorBottomState extends State<ReportTutorBottom> {
             ),
             const SizedBox(height: 10.0),
             HeaderTextCustom(
-              headerText: 'Report tutor',
+              headerText: S.of(context).reportTutor,
               padding: _horizontalEdgeInsets,
             ),
             Padding(
               padding: _horizontalEdgeInsets,
               child: TextField(
                 controller: _contentController,
-                decoration: const InputDecoration(
-                  hintText: "Add report content",
+                decoration:  InputDecoration(
+                  hintText: S.of(context).addReportContent,
                 ),
               ),
             ),

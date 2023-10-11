@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule_detail.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/add_note_to_boo_tutor.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
@@ -109,7 +110,7 @@ class _TutorScheduleScreenState extends State<TutorScheduleScreen> {
           icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
         ),
         title: Text(
-          'Tutor schedule',
+          S.of(context).tutorSchedule,
           style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
         ),
       ),

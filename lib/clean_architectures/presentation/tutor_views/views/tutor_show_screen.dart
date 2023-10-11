@@ -13,6 +13,7 @@ import 'package:flutter_base_clean_architecture/core/components/constant/constan
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_view_card.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:flutter_base_clean_architecture/generated/l10n.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
@@ -85,7 +86,7 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
               children: [
                 Icon(Icons.school, color: _primaryColor),
                 Text(
-                  ' Tutor',
+                  ' ${S.of(context).tutor}',
                   style: context.titleLarge.copyWith(
                     fontWeight: FontWeight.bold,
                     color: _primaryColor,
@@ -174,7 +175,7 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                       final booInfo = sS1.data;
                       if (booInfo == null) {
                         return Text(
-                          'Don\'t have any upcoming class',
+                          S.of(context).donHaveAnyUpcoming,
                           style: context.titleMedium.copyWith(
                               fontWeight: FontWeight.w500, color: Colors.white),
                         );
@@ -193,7 +194,8 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                           int minutes = (time.round() % 3600) ~/ 60;
                           int seconds = time.round() % 60;
                           return _renderRichText(hours, minutes, seconds,
-                              header: 'Upcoming lessons will appear ');
+                              header:
+                                  '${S.of(context).upComingLessonsWillAppear} ');
                         },
                         interval: const Duration(milliseconds: 100),
                         onFinished: () {
@@ -211,7 +213,7 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                       int hours = data ~/ 60;
                       int minutes = data % 60;
                       return _renderRichText(hours, minutes, null,
-                          header: 'Total lessons times is ');
+                          header: '${S.of(context).totalLessonsTimesIs} ');
                     },
                   )
                 ],
@@ -231,10 +233,13 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
           ...[
             header,
             hours.toString(),
-            ' hours and ',
+            ' ${S.of(context).hours} ${S.of(context).and} ',
             minutes.toString(),
-            ' minutes ',
-            if (seconds != null) ...[seconds.toString(), ' seconds.'],
+            ' ${S.of(context).minutes} ',
+            if (seconds != null) ...[
+              seconds.toString(),
+              ' ${S.of(context).seconds}.'
+            ],
           ].mapIndexed((index, element) {
             final textStyle = TextStyle(
               fontWeight: index % 2 == 0 ? FontWeight.w400 : FontWeight.w600,
