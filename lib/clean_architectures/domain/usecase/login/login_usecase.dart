@@ -14,6 +14,10 @@ class LoginUseCase {
           {required String email, required String password}) =>
       _authRepository.login(email: email, password: password);
 
+  SingleResult<TokenModel?> register(
+          {required String email, required String password}) =>
+      _authRepository.register(email: email, password: password);
+
   SingleResult<bool?> googleSignIn() => _authRepository.googleSignIn();
 
   SingleResult<bool?> verifyAccount() => _authRepository.verifyAccountEmail(

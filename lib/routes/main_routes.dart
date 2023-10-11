@@ -162,7 +162,7 @@ class MainRoutes {
           settings: settings,
           builder: (_) {
             return BlocProvider<EBooBloc>(
-              initBloc: (_) => injector.get<EBooBloc>(),
+              initBloc: (_) => injector.get(),
               child: const EBooScreen(),
             );
           },

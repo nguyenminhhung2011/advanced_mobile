@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+class CredentialState {
+  final String email;
+  final String password;
+
+  const CredentialState({required this.email, required this.password});
+}
+
 @immutable
 abstract class RegisterState {}
 
@@ -14,7 +21,7 @@ class RegisterError implements RegisterState {
   RegisterError(this.error, {this.message = "Register error"});
 }
 
-class InvalidFormatMessage implements RegisterState {
+class InvalidFormatRegisterMessage implements RegisterState {
   final String? message;
-  const InvalidFormatMessage({this.message});
+  const InvalidFormatRegisterMessage({this.message});
 }

@@ -37,7 +37,7 @@ abstract class BaseApi {
     }
   }
 
-  SingleResult<TokenModel?> authFunction({
+  SingleResult<TokenModel?>  authFunction({
     required Future<HttpResponse<SignInResponse?>> functionCall,
   }) {
     return SingleResult.fromCallable(

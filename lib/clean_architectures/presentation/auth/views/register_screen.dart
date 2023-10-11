@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base_clean_architecture/app_coordinator.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/base/auth_mixin.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/register/register_bloc.dart';
+import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/register/register_state.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/views/widgets/render_app_bar.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
@@ -16,9 +18,11 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen>
-    with AuthMixin, DidChangeDependencies {
+class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
   RegisterBloc get _bloc => BlocProvider.of<RegisterBloc>(context);
+
+  Object? listen;
+
   late TextEditingController _emailController;
 
   late TextEditingController _passwordController;
@@ -35,10 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen>
     _emailController = TextEditingController(text: 'phhai@ymail.co');
     _passwordController = TextEditingController(text: '12345');
     _rePasswordController = TextEditingController();
-    didChangeDependencies$
-        .exhaustMap((_) => _bloc.state$)
-        .exhaustMap(handleState)
-        .collect();
+    listen ??= _bloc.state$.flatMap(handleState).collect();
   }
 
   void _onChangeObscureText() {
@@ -54,7 +55,17 @@ class _RegisterScreenState extends State<RegisterScreen>
     super.dispose();
   }
 
-  Stream handleState(state) async* {}
+  Stream handleState(RegisterState state) async* {
+    if (state is RegisterSuccess) {
+      context
+          .showSnackBar("🌟[Register] register success please verify account");
+      return;
+    }
+    if (state is RegisterError) {
+      context.showSnackBar("🐛[Register error] ${state.toString()}");
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   Widget _signUpButton() {
     return ProgressButton(
       call: () async {
-        // _bloc.submitSignIn();
+        _bloc.submitRegister();
         return true;
       },
       width: 300,

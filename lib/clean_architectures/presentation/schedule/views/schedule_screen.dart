@@ -41,11 +41,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   void initState() {
     super.initState();
     listen ??= _bloc.state$.flatMap(handleState).collect();
+
     // IsolateRunT<bool>(
     //   data: true,
     //   progressCall: (event) => log("⌚⌚ [Isolate handler] get schedule $event"),
     // ).updateEventCallAndInit(event: () {
     //   _bloc.getBooInfo();
+    //   log("🍜🍜 [Isolate handler] Render isolate in here");
     //   return true;
     // });
 
