@@ -600,6 +600,16 @@ class S {
     );
   }
 
+  /// `🌟 Welcome to LetTutor`
+  String get welcomeToLetTutor {
+    return Intl.message(
+      '🌟 Welcome to LetTutor',
+      name: 'welcomeToLetTutor',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Tutor search`
   String get tutorSearch {
     return Intl.message(

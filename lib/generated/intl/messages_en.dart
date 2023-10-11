@@ -166,6 +166,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "userLevels": MessageLookupByLibrary.simpleMessage("User levels"),
         "view": MessageLookupByLibrary.simpleMessage("View"),
         "viewEBoo": MessageLookupByLibrary.simpleMessage("View e-book"),
+        "welcomeToLetTutor":
+            MessageLookupByLibrary.simpleMessage("🌟 Welcome to LetTutor"),
         "whatTTCourses":
             MessageLookupByLibrary.simpleMessage("Why take this course?"),
         "whatWYBe": MessageLookupByLibrary.simpleMessage(

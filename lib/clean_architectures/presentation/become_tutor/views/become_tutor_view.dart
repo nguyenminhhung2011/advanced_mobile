@@ -43,18 +43,17 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
 
   Object? listen;
 
-  final _interestsController = TextEditingController(text: "Yeahhhhh");
+  final _interestsController = TextEditingController();
 
-  final _eductionController = TextEditingController(text: "HCMUS");
+  final _eductionController = TextEditingController();
 
-  final _experienceController =
-      TextEditingController(text: "15 years experiences");
+  final _experienceController = TextEditingController();
 
-  final _professionController = TextEditingController(text: "English");
+  final _professionController = TextEditingController();
 
-  final _bioController = TextEditingController(text: "Hello");
+  final _bioController = TextEditingController();
 
-  final _languageController = TextEditingController(text: "English");
+  final _languageController = TextEditingController();
 
   @override
   void initState() {

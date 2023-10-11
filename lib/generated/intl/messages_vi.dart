@@ -169,6 +169,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "userLevels": MessageLookupByLibrary.simpleMessage("Cấp độ người dùng"),
         "view": MessageLookupByLibrary.simpleMessage("Xem"),
         "viewEBoo": MessageLookupByLibrary.simpleMessage("Xem sách điện tử"),
+        "welcomeToLetTutor": MessageLookupByLibrary.simpleMessage(
+            "🌟 Chào mừng đến với LetTutor"),
         "whatTTCourses": MessageLookupByLibrary.simpleMessage(
             "Tại sao tham gia khóa học này?"),
         "whatWYBe":
