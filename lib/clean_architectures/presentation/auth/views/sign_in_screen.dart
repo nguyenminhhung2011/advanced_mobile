@@ -44,8 +44,8 @@ class _SignInScreenState extends State<SignInScreen>
 
   @override
   void initState() {
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _emailController = TextEditingController(text: 'phhai@ymail.co');
+    _passwordController = TextEditingController(text: '12345');
     super.initState();
     didChangeDependencies$
         .exhaustMap((_) => _bloc.message$)

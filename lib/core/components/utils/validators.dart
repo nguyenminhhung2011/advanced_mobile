@@ -25,4 +25,11 @@ class Validator {
 
   static bool paginationValid(Pagination pag) =>
       pag.count == 0 ? true : pag.count > (pag.perPage * pag.currentPage);
+
+  static bool countryCodeValid(String? countryCode) {
+    if (countryCode?.isNotEmpty ?? false) {
+      return countryCode?.length == 2;
+    }
+    return false;
+  }
 }

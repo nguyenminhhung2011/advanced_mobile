@@ -47,7 +47,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       data: true,
       progressCall: (event) => log("⌚⌚ [Isolate handler] get schedule $event"),
     ).updateEventCallAndInit(event: () {
-      log("🍜🍜 [Isolate handler] Render isolate in here");
+      // log("🍜🍜 [Isolate handler] Render isolate in here");
       return true;
     });
 

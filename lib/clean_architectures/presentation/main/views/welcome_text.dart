@@ -33,7 +33,6 @@ class _WelcomeTextState extends State<WelcomeText> {
                   text: S.of(context).welcomeToLetTutor,
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
-                    decoration: TextDecoration.underline,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
