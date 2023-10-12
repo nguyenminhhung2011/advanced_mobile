@@ -109,7 +109,6 @@ lib/
 |  |- screens/ 
 |  |- widgets/
 |  |- bloc/
-|     |- model_state.dart
 |     |- state.dart
 |     |- event.dart
 |     |- bloc.dart
@@ -138,6 +137,77 @@ Multi-environment configuration (DEV/PRODUCTION) typically involves setting up d
 
 <br>
 
+## 🌆 Using stream and rx dart for state management 
+
+### 🌟 Stream data 
+
+```dart
+final Stream<bool?> loading$;
+final loadingController = BehaviorSubject<bool>.seeded(false);
+```
+
+### 🌟 Stream actions 
+```dart
+final Function0<void> getBooInfo;
+final getHistoryController = PublishSubject<void>();
+```
+<br>
+
+### 🌟 Update stream data by data get from usecase
+```dart
+ final message$ = Rx.merge<AuthState>([
+      submit$
+          .where((isValid) => isValid)
+          .withLatestFrom(credential$, (_, Credential credential) => credential)
+          .exhaustMap((credential) {
+        try {
+          return login
+              .login(
+                email: credential.email,
+                password: credential.password,
+              )
+              .doOn(
+                ///[loading state] set loading after submit
+                listen: () => loadingController.add(true),
+                cancel: () => loadingController.add(false),
+              )
+              .map(_responseToMessage);
+        } catch (e) {
+          return Stream<AuthState>.error(
+            SignInErrorMessage(message: e.toString()),
+          );
+        }
+      }),
+      submit$
+          .where((isValid) => !isValid)
+          .map((_) => const InvalidFormatMessage()),
+    ]).whereNotNull().share();
+```
+### 👁️👁️ And display to UI by StreamBuilder 
+### ⚠️⚠️ listen state in UI
+```dart
+HomeBloc get _bloc => BlocProvider.of<HomeBloc>(context);
+Object? listen;
+
+ @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    listen ??= _bloc.state$.flatMap(handleState).collect();
+
+    _bloc.fetchData();
+    // dom something
+  }
+Stream<void> handleState(state) async* {
+    if (state is FetchDataCourseFailed) {
+      log('🌟 [Fetch data course] ${state.message}');
+      return;
+    }
+    if (state is FetchDataCourseSuccess) {
+      log('🐛 [Fetch data success] ${state.message}');
+      return;
+    }
+  }
+```
 ## 📱 UI
 
 ### 🐳Mobile
