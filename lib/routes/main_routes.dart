@@ -224,6 +224,7 @@ class MainRoutes {
             child: const TutorShowScreen(),
           ),
         );
+
       case Routes.becomeTutor:
         return MaterialPageRoute(
           settings: settings,

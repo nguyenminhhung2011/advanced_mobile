@@ -265,11 +265,13 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
         HeaderTextCustom(
           headerText: S.of(context).review,
           padding: _horizontalEdgeInsets,
+          textStyle: context.titleMedium.copyWith(fontWeight: FontWeight.w500),
           isShowSeeMore: true,
           onPress: _viewMoreReviews,
         ),
         HeaderTextCustom(
           headerText: S.of(context).suggestedCourses,
+          textStyle: context.titleMedium.copyWith(fontWeight: FontWeight.w500),
           padding: _horizontalEdgeInsets,
         ),
         if (tutorUser?.courses != null)
@@ -281,8 +283,10 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
                   Expanded(
                     child: Text(
                       e.name,
-                      style: context.titleMedium
-                          .copyWith(fontWeight: FontWeight.w500),
+                      style: context.titleMedium.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).hintColor,
+                      ),
                     ),
                   ),
                   InkWell(
@@ -303,7 +307,11 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        HeaderTextCustom(headerText: e.key, padding: _horizontalEdgeInsets),
+        HeaderTextCustom(
+          headerText: e.key,
+          padding: _horizontalEdgeInsets,
+          textStyle: context.titleMedium.copyWith(fontWeight: FontWeight.w500),
+        ),
         const SizedBox(height: 5.0),
         if (index < 2)
           Padding(
@@ -315,7 +323,9 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
               trimExpandedText: S.of(context).showLess,
               lessStyle: context.titleSmall.copyWith(color: _primaryColor),
               moreStyle: context.titleSmall.copyWith(color: _primaryColor),
-              style: context.titleMedium,
+              style: context.titleSmall.copyWith(
+                  color: Theme.of(context).hintColor,
+                  fontWeight: FontWeight.w500),
             ),
           )
         else

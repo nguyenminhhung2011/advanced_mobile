@@ -1,22 +1,18 @@
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/main/bloc/main_bloc.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/main/bloc/main_state.dart';
 import 'package:flutter_base_clean_architecture/clean_architectures/presentation/main/views/welcome_text.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
 import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
 import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/course_horizontal_item.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/e_boo_horizontal_item.dart';
+import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_horizontal_item.dart';
 import 'package:flutter_base_clean_architecture/core/components/widgets/skeleton_custom.dart';
 import 'package:flutter_base_clean_architecture/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -43,8 +39,8 @@ class MainViewState extends State<MainView> {
     listen ??= _bloc.state$.flatMap(handleState).collect();
 
     _bloc.getTopTutors();
-
     _bloc.getTopCourse();
+    _bloc.getTopEBoos();
   }
 
   Stream handleState(state) async* {
@@ -54,6 +50,22 @@ class MainViewState extends State<MainView> {
     }
     if (state is GetTopTutorSuccess) {
       log("🌟[Get top tutors] Get top tutors success");
+      return;
+    }
+    if (state is GetTopCourseFailed) {
+      context.showSnackBar("🐛[Get top Courses error] ${state.toString()}");
+      return;
+    }
+    if (state is GetTopCourseSuccess) {
+      log("🌟[Get top Courses] Get top courses success");
+      return;
+    }
+    if (state is GetTopEBooFailed) {
+      context.showSnackBar("🐛[Get top EBoos error] ${state.toString()}");
+      return;
+    }
+    if (state is GetTopEBooSuccess) {
+      log("🌟[Get top EBoos] Get top EBoos success");
       return;
     }
   }
@@ -84,6 +96,7 @@ class MainViewState extends State<MainView> {
         onRefresh: () async {
           _bloc.getTopTutors();
           _bloc.getTopCourse();
+          _bloc.getTopEBoos();
         },
         child: ListView(children: [
           const WelcomeText(),
@@ -97,13 +110,27 @@ class MainViewState extends State<MainView> {
                 HeaderTextCustom(
                   headerText: e,
                   isShowSeeMore: true,
-                  onPress: () {},
+                  onPress: () {
+                    if (index == 0) {
+                      context.openListPageWithRoute(Routes.tutorShow);
+                      return;
+                    }
+                    if (index == 1) {
+                      context.openListPageWithRoute(Routes.home);
+                      return;
+                    }
+                    if (index == 2) {
+                      context.openListPageWithRoute(Routes.eBoo);
+                      return;
+                    }
+                  },
                   textStyle: context.titleMedium
                       .copyWith(fontWeight: FontWeight.w600, fontSize: 17.0),
                 ),
                 switch (index) {
                   0 => _renderTutorField(),
                   1 => _renderCourseField(),
+                  2 => _renderEBooField(),
                   _ => const SizedBox(),
                 },
                 const SizedBox(height: 5.0),
@@ -170,6 +197,47 @@ class MainViewState extends State<MainView> {
           )
         ],
       ),
+    );
+  }
+
+  Widget _renderEBooField() {
+    return StreamBuilder(
+      stream: _bloc.loadingGetEBoos,
+      builder: (ctx, sS) {
+        final loading = sS.data ?? false;
+        if (loading) {
+          return RenderWaitToFetchData(
+            expandIndicator: const <int>[1],
+            height: 180,
+            widthItem: context.widthDevice * 0.7,
+          );
+        }
+        return StreamBuilder(
+          stream: _bloc.eBoos$,
+          builder: (ctx1, sS1) {
+            final eBooS = sS1.data;
+            if (eBooS?.isNotEmpty ?? false) {
+              return SizedBox(
+                width: double.infinity,
+                height: 180.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: eBooS!.length + 1,
+                  itemBuilder: (_, index) {
+                    if (index == eBooS.length) {
+                      return const SizedBox();
+                    }
+                    final data = eBooS[index];
+                    return EBooHorizontalItem(
+                        eBoo: data, isFirstItem: index == 0);
+                  },
+                ),
+              );
+            }
+            return const SizedBox();
+          },
+        );
+      },
     );
   }
 
@@ -242,7 +310,7 @@ class MainViewState extends State<MainView> {
                         return const SizedBox();
                       }
                       final data = tutors[index];
-                      return TutorVerticalItem(
+                      return TutorHorizontalItem(
                           data: data, isFirstItem: index == 0);
                     }),
               );
@@ -251,218 +319,6 @@ class MainViewState extends State<MainView> {
           },
         );
       },
-    );
-  }
-}
-
-class CourseHorizontalItem extends StatelessWidget {
-  final Course course;
-
-  final bool isFirstItem;
-  const CourseHorizontalItem({
-    super.key,
-    required this.course,
-    required this.isFirstItem,
-  });
-
-  EdgeInsetsGeometry get _margin => EdgeInsets.only(
-      left: isFirstItem ? 10 : 0, right: 10.0, top: 10.0, bottom: 10.0);
-
-  BorderRadiusGeometry get _radius => BorderRadius.circular(10.0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: context.widthDevice * 0.4,
-          height: double.infinity,
-          margin: _margin,
-          decoration: BoxDecoration(
-            borderRadius: _radius,
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.1),
-                blurRadius: 5.0,
-              )
-            ],
-            image: DecorationImage(
-              image: NetworkImage(course.imageUrl ?? ImageConst.baseImageView),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Container(
-          width: context.widthDevice * 0.4,
-          height: double.infinity,
-          padding: const EdgeInsets.all(10.0),
-          margin: _margin,
-          decoration:
-              BoxDecoration(borderRadius: _radius, color: Colors.black26),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const Expanded(flex: 3, child: SizedBox()),
-              Expanded(
-                flex: 1,
-                child: Text(
-                  course.name,
-                  style: context.titleMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  course.description,
-                  style: context.titleSmall.copyWith(
-                    color: Colors.white,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        Positioned(
-          top: 10.0,
-          left: isFirstItem ? 10.0 : 0.0,
-          child: Container(
-            padding: const EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                bottomRight: Radius.circular(5.0),
-              ),
-            ),
-            child: Text(
-              (course.level ?? '0').renderExperienceText,
-              style: context.titleSmall.copyWith(color: Colors.white, fontSize: 11.0),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class TutorVerticalItem extends StatelessWidget {
-  const TutorVerticalItem({
-    super.key,
-    required this.data,
-    required this.isFirstItem,
-  });
-  final bool isFirstItem;
-
-  final Tutor data;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () =>
-          context.openPageWithRouteAndParams(Routes.tutorDetail, data.userId),
-      child: Container(
-        width: context.widthDevice * 0.55,
-        margin: EdgeInsets.only(
-            left: isFirstItem ? 10 : 0, right: 10.0, top: 10.0, bottom: 10.0),
-        height: double.infinity,
-        padding: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Theme.of(context).cardColor,
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor.withOpacity(0.1),
-              blurRadius: 5.0,
-            )
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: ImageCustom(
-                      imageUrl: data.avatar ?? ImageConst.baseImageView,
-                      isNetworkImage: true,
-                      width: 35.0,
-                      height: 35.0,
-                    ),
-                  ),
-                  const SizedBox(width: 10.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(data.name ?? '', style: context.titleSmall),
-                        RattingWidgetCustom(
-                            rating: data.rating ?? 0.0, itemSize: 10.0)
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 5.0),
-            Expanded(
-              flex: 3,
-              child: Text(
-                data.bio ?? '',
-                maxLines: 6,
-                style: context.titleSmall
-                    .copyWith(fontWeight: FontWeight.w400, fontSize: 12.0),
-              ),
-            ),
-            Divider(color: Theme.of(context).primaryColor, thickness: 0.3),
-            Expanded(
-              flex: 1,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(5.0),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: Text(
-                        data.level?.toLowerCase() ?? 'Unknown',
-                        style: context.titleSmall
-                            .copyWith(color: Colors.white, fontSize: 12.0),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10.0),
-                  Expanded(
-                    child: Validator.countryCodeValid(data.country)
-                        ? Text(
-                            CountryCode.fromCountryCode(
-                                  data.country!.toUpperCase(),
-                                ).name ??
-                                '',
-                            style: context.titleSmall.copyWith(fontSize: 12.0),
-                          )
-                        : const SizedBox(),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

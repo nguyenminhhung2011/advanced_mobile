@@ -157,9 +157,41 @@ class MainBloc extends DisposeCallbackBaseBloc {
           .map((_) => const GetTopCourseFailed(message: "Data is loading"))
     ]).whereNotNull().share();
 
-    final state$ = Rx.merge<MainState>([getTutorState$, getCourseState$])
-        .whereNotNull()
+    ///[Get eBoo handle]
+
+    final getEBoo$ = getEBooController.stream
+        .withLatestFrom(
+            loadingGetEBooController.stream, (_, loading) => !loading)
         .share();
+
+    final getEBooState$ = Rx.merge<MainState>([
+      getEBoo$.where((isValid) => isValid).debug(log: debugPrint).exhaustMap(
+            (_) => mainUseCase
+                .getEBooResponse()
+                .doOn(
+                  listen: () => loadingGetEBooController.add(true),
+                  cancel: () => loadingGetEBooController.add(false),
+                )
+                .map(
+                  (data) => data.fold(
+                    ifLeft: (error) =>
+                        GetTopEBooFailed(message: error.message, error: error),
+                    ifRight: (cData) {
+                      eBooController.add(cData.rows as List<EBoo>);
+                      return const GetTopEBooSuccess();
+                    },
+                  ),
+                ),
+          ),
+      getEBoo$
+          .where((isValid) => !isValid)
+          .map((_) => const GetTopEBooFailed(message: "Data is loading"))
+    ]).whereNotNull().share();
+
+    final state$ =
+        Rx.merge<MainState>([getTutorState$, getCourseState$, getEBooState$])
+            .whereNotNull()
+            .share();
 
     final subscriptions = <String, Stream>{
       'state': state$,

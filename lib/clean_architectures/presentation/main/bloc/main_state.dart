@@ -28,3 +28,16 @@ class GetTopCourseFailed implements MainState {
   @override
   String toString() => "message $message error $error";
 }
+
+class GetTopEBooSuccess implements MainState {
+  const GetTopEBooSuccess();
+}
+
+class GetTopEBooFailed implements MainState {
+  final String? message;
+  final Object? error;
+
+  const GetTopEBooFailed({this.message, this.error});
+  @override
+  String toString() => "message $message error $error";
+}

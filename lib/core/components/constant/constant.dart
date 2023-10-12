@@ -25,11 +25,11 @@ class Constant {
   };
 
   static double currentTimeMilliSeconds =
-      DateTime.now().subtract(const Duration(days: 15)).millisecondsSinceEpoch /
+      DateTime.now().subtract(const Duration(days: 19)).millisecondsSinceEpoch /
           1000;
 
   static DateTime currentTime =
-      DateTime.now().subtract(const Duration(days: 15));
+      DateTime.now().subtract(const Duration(days: 19));
 
   static Map<String, String> countries = {
     "AF": "Afghanistan",
