@@ -73,21 +73,16 @@ LetTutor is the mobile app learn English one to one
 ## 💻 Tech
 * Language: Dart, java
 * Framework: Flutter
-* Database: MySQl
-* Backend: SpringBoot
 
 <br>
 
 ## 👨‍💻 Members
 * Nguyễn Minh Hưng: 20120491
-* Trương Huỳnh Đức Hoàng: 20120483
-* Data: Lê Xuân Huy - 20120495
-* Data and support backend: Trần Nhât Nguyên - 20120340
+
 
 <br>
 
-## 💻Backend
-https://github.com/nguyenminhhung2011/dream-ticket
+
 
 <br>
 
@@ -126,7 +121,7 @@ lib/
 <br>
 
 ## 🐸Configuration file.
-
+Multi-environment configuration (DEV/PRODUCTION) typically involves setting up different configurations for different environments to ensure the application behaves differently based on the environment it is deployed in. 
 ``` dart
 |- configurations/
 |  |- env/
