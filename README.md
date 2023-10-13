@@ -47,7 +47,7 @@ LetTutor is the mobile app learn English one to one
 
 #### 🛬Joining a class with video call
 
-* Initiating video call with Jitsi
+* Initiating video call 
 * Displaying waiting time before the class starts
 * Timing the duration of the class
 
@@ -71,7 +71,7 @@ LetTutor is the mobile app learn English one to one
 <br>
 
 ## 💻 Tech
-* Language: Dart, java
+* Language: Dart
 * Framework: Flutter
 
 <br>
