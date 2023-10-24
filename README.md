@@ -110,7 +110,6 @@ lib/
 |  |- widgets/
 |  |- bloc/
 |     |- state.dart
-|     |- event.dart
 |     |- bloc.dart
 |- app.dart
 |- main.dart
