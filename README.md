@@ -12,75 +12,15 @@
 <br/>
 </p>
 
+# [Widget Tree](https://drive.google.com/file/d/1SBRpcf9KAxedKT5P1fRC_F45sxwrFNLA/view?usp=sharing)
+
+![image](https://github.com/nguyenminhhung2011/advanced_mobile/assets/90996598/7da36fe0-fece-4f2f-a57e-2f6aa9ca6fff)
+
+
 ## 📄 Introduction
 LetTutor is the mobile app learn English one to one
 <br>
 
-## 📲All Features
-
-### 🖱️Account
-* Account registration
-* Checking constraints for username, password re-entry, etc.
-* Account activation via email
-* System login
-* Password reset and password reset via email
-* Login with Google
-
-#### 🐼Viewing and searching for teachers
-* Displaying a list of teachers
-* Displaying specialties and filtering teachers by specialties
-* Adding teachers to the favorites list
-* Viewing the favorites list of teachers
-* Searching for teachers
-* Pagination for search results
-* Grouping search results
-* Displaying search results
-* Registering as a teacher
-#### ✈️Viewing class schedules
-
-* Displaying total number of hours of classes
-* Displaying upcoming classes on the homepage and supporting participation in upcoming classes
-* Displaying registered class schedules
-* Pagination for class schedules
-* Viewing the history of past classes
-* Cancelling a class
-
-#### 🛬Joining a class with video call
-
-* Initiating video call 
-* Displaying waiting time before the class starts
-* Timing the duration of the class
-
-#### 💂‍♀️Application logo
- 
-
-#### 💵Viewing curriculum
-
-* Viewing the list of curricula
-* Searching for curricula
-* Pagination for curriculum
-* Viewing detailed description of a curriculum
-* Displaying detailed content of a curriculum
-#### 🐸Account management and application configuration
-
-* Profile management (updating information, avatar)
-* Application settings
-* Multilingual support (English and Vietnamese)
-* Changing themes (dark & white)
-
-<br>
-
-## 💻 Tech
-* Language: Dart
-* Framework: Flutter
-
-<br>
-
-## 👨‍💻 Members
-* Nguyễn Minh Hưng: 20120491
-
-
-<br>
 
 
 
@@ -136,78 +76,6 @@ Multi-environment configuration (DEV/PRODUCTION) typically involves setting up d
 
 <br>
 
-## 🌆 Using stream and rx dart for state management 
-
-### 🌟 Stream data 
-
-```dart
-final Stream<bool?> loading$;
-final loadingController = BehaviorSubject<bool>.seeded(false);
-```
-
-### 🌟 Stream actions 
-```dart
-final Function0<void> getBooInfo;
-final getHistoryController = PublishSubject<void>();
-```
-<br>
-
-### 🌟 Update stream data by data get from usecase
-```dart
- final message$ = Rx.merge<AuthState>([
-      submit$
-          .where((isValid) => isValid)
-          .withLatestFrom(credential$, (_, Credential credential) => credential)
-          .exhaustMap((credential) {
-        try {
-          return login
-              .login(
-                email: credential.email,
-                password: credential.password,
-              )
-              .doOn(
-                ///[loading state] set loading after submit
-                listen: () => loadingController.add(true),
-                cancel: () => loadingController.add(false),
-              )
-              .map(_responseToMessage);
-        } catch (e) {
-          return Stream<AuthState>.error(
-            SignInErrorMessage(message: e.toString()),
-          );
-        }
-      }),
-      submit$
-          .where((isValid) => !isValid)
-          .map((_) => const InvalidFormatMessage()),
-    ]).whereNotNull().share();
-```
-### 👁️👁️ And display to UI by StreamBuilder 
-### ⚠️⚠️ listen state in UI
-```dart
-HomeBloc get _bloc => BlocProvider.of<HomeBloc>(context);
-Object? listen;
-
- @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    listen ??= _bloc.state$.flatMap(handleState).collect();
-
-    _bloc.fetchData();
-    // dom something
-  }
-Stream<void> handleState(state) async* {
-    if (state is FetchDataCourseFailed) {
-      log('🌟 [Fetch data course] ${state.message}');
-      return;
-    }
-    if (state is FetchDataCourseSuccess) {
-      log('🐛 [Fetch data success] ${state.message}');
-      return;
-    }
-  }
-```
-## 📱 UI
 
 ### 🐳Mobile
 |  Light1 | Dark1 | Light2 | Dark2 | Light3 | Dark3 | 
