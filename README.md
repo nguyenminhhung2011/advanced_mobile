@@ -1,4 +1,4 @@
-![image](https://github.com/nguyenminhhung2011/advanced_mobile/assets/90996598/f398700e-f9be-4132-a39c-e9a8034e9be4)# Advanced mobile
+ Advanced mobile
 ![os](https://img.shields.io/badge/-android-32DE84)
 ![framework](https://img.shields.io/badge/-dart-2196F3)
 ![framework](https://github.com/nguyenminhhung2011/State_manage_stream/assets/90996598/aa5ec898-994f-4ad0-b0dc-41c99281a9a3)
