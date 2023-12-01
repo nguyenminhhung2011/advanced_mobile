@@ -1,6 +1,6 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/review/review_user_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/review/review.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/review/review_user.dart';
+import 'package:lettutor/clean_architectures/data/models/review/review_user_model.dart';
+import 'package:lettutor/clean_architectures/domain/entities/review/review.dart';
+import 'package:lettutor/clean_architectures/domain/entities/review/review_user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'review_model.g.dart';

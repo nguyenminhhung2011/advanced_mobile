@@ -1,8 +1,8 @@
 import 'package:calendar_timeline/calendar_timeline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/range_date_picker_custom.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/range_date_picker_custom.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';

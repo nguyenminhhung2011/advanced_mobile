@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/review/review.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
+import 'package:lettutor/clean_architectures/domain/entities/review/review.dart';
+import 'package:lettutor/core/components/constant/image_const.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/image_custom.dart';
+import 'package:lettutor/core/components/widgets/rating_custom.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ReviewItemPro extends StatelessWidget {

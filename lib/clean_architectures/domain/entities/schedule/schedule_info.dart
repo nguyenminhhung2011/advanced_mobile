@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:lettutor/clean_architectures/domain/entities/tutor/tutor.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'schedule_info.freezed.dart';

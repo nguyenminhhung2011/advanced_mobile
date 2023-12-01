@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/rating_custom.dart';
 
 import 'avartat_custom.dart';
 

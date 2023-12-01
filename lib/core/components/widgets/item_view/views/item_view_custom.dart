@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/item_view/mixins/item_view_mixin.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/save_icon_button.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/skeleton_custom.dart';
+import 'package:lettutor/core/components/widgets/item_view/mixins/item_view_mixin.dart';
+import 'package:lettutor/core/components/widgets/rating_custom.dart';
+import 'package:lettutor/core/components/widgets/save_icon_button.dart';
+import 'package:lettutor/core/components/widgets/skeleton_custom.dart';
 
 import '../../../constant/image_const.dart';
 import '../../card_custom.dart';

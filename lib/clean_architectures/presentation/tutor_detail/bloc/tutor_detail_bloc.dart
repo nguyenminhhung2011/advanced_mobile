@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:disposebag/disposebag.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/review/review.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
+import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:lettutor/clean_architectures/domain/entities/review/review.dart';
+import 'package:lettutor/core/components/utils/stream_extension.dart';
+import 'package:lettutor/core/components/utils/validators.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_detail.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_state.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
+import 'package:lettutor/clean_architectures/domain/entities/tutor_detail/tutor_detail.dart';
+import 'package:lettutor/clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart';
+import 'package:lettutor/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_state.dart';
+import 'package:lettutor/core/components/utils/type_defs.dart';
 
 @injectable
 class TutorDetailBloc extends DisposeCallbackBaseBloc {

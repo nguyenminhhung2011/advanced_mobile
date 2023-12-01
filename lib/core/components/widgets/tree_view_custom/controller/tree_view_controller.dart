@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/node/node_model.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/tree_view.dart';
+import 'package:lettutor/core/components/widgets/tree_view_custom/node/node_model.dart';
+import 'package:lettutor/core/components/widgets/tree_view_custom/tree_view.dart';
 
 class TreeViewController<T> extends ChangeNotifier {
   final GetNode<T> call;

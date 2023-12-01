@@ -2,17 +2,17 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:disposebag/disposebag.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
+import 'package:lettutor/clean_architectures/data/models/token/token_model.dart';
+import 'package:lettutor/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/login/login_usecase.dart';
+import 'package:lettutor/core/components/utils/type_defs.dart';
+import 'package:lettutor/core/components/utils/validators.dart';
+import 'package:lettutor/core/components/utils/stream_extension.dart';
+import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/clean_architectures/domain/usecase/login/login_usecase.dart';
 
 @injectable
 class AuthBloc extends DisposeCallbackBaseBloc {

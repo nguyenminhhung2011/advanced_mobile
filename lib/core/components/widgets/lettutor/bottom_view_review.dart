@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/review/review.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_bloc.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/review_item.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
+import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:lettutor/clean_architectures/domain/entities/review/review.dart';
+import 'package:lettutor/clean_architectures/presentation/tutor_detail/bloc/tutor_detail_bloc.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/button_custom.dart';
+import 'package:lettutor/core/components/widgets/header_custom.dart';
+import 'package:lettutor/core/components/widgets/lettutor/review_item.dart';
+import 'package:lettutor/core/components/widgets/loading_page.dart';
+import 'package:lettutor/generated/l10n.dart';
 
 class BottomShowReviews extends StatefulWidget {
   final TutorDetailBloc tutorDetailBloc;

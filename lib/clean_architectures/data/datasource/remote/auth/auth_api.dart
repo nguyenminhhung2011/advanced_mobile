@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/sign_in_response.dart';
+import 'package:lettutor/clean_architectures/data/models/token/sign_in_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 

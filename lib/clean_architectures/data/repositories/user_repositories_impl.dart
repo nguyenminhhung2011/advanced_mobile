@@ -1,15 +1,15 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
+import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
+import 'package:lettutor/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
+import 'package:lettutor/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
+import 'package:lettutor/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dart_either/dart_either.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/base_api.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/data_state.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/user/user_api.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/user_repositories.dart';
-import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/base_api.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/data_state.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/user/user_api.dart';
+import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/clean_architectures/domain/repositories/user_repositories.dart';
+import 'package:lettutor/core/components/network/app_exception.dart';
 
 @Injectable(as: UserRepositories)
 class UserRepositoriesImpl extends BaseApi implements UserRepositories {

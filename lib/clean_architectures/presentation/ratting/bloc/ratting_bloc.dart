@@ -1,8 +1,8 @@
 import 'package:disposebag/disposebag.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/ratting_usecase/ratting_usecase.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/ratting/bloc/ratting_state.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
+import 'package:lettutor/clean_architectures/domain/usecase/ratting_usecase/ratting_usecase.dart';
+import 'package:lettutor/clean_architectures/presentation/ratting/bloc/ratting_state.dart';
+import 'package:lettutor/core/components/utils/stream_extension.dart';
+import 'package:lettutor/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';

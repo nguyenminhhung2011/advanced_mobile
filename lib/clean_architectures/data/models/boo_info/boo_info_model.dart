@@ -1,5 +1,5 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/schedule/schedule_detail_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
+import 'package:lettutor/clean_architectures/data/models/schedule/schedule_detail_model.dart';
+import 'package:lettutor/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'boo_info_model.g.dart';

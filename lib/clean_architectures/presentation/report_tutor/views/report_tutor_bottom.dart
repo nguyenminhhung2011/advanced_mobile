@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/report_tutor/bloc/report_tutor_bloc.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/header_custom.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/presentation/report_tutor/bloc/report_tutor_bloc.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/button_custom.dart';
+import 'package:lettutor/core/components/widgets/header_custom.dart';
+import 'package:lettutor/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 

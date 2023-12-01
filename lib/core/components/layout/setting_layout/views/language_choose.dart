@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
 
 import '../../../constant/image_const.dart';
 import '../utils/setting_utils.dart';

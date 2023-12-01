@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:lettutor/core/components/widgets/loading_page.dart';
 
 class DefaultPagination<T> extends StatefulWidget {
   final Widget Function(BuildContext context, int index) itemBuilder;

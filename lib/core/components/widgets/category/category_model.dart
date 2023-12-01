@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
+import 'package:lettutor/core/components/constant/image_const.dart';
 
 import 'category_custom.dart';
 

@@ -1,8 +1,8 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
+import 'package:lettutor/clean_architectures/domain/usecase/tutor_detail_usecase/tutor_detail_usecase.dart';
+import 'package:lettutor/core/components/utils/stream_extension.dart';
+import 'package:lettutor/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';

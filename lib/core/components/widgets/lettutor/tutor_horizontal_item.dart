@@ -1,12 +1,12 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/rating_custom.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:lettutor/core/components/constant/image_const.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/utils/validators.dart';
+import 'package:lettutor/core/components/widgets/image_custom.dart';
+import 'package:lettutor/core/components/widgets/rating_custom.dart';
 
 import '../../../../routes/routes.dart';
 

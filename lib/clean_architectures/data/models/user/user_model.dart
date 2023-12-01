@@ -1,7 +1,7 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/topic_response/topic_response.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutor/tutor_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/wallet_info_model/wallet_info_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:lettutor/clean_architectures/data/models/topic_response/topic_response.dart';
+import 'package:lettutor/clean_architectures/data/models/tutor/tutor_model.dart';
+import 'package:lettutor/clean_architectures/data/models/wallet_info_model/wallet_info_model.dart';
+import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';

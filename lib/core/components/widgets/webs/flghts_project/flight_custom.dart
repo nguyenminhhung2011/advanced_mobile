@@ -1,6 +1,6 @@
 // import 'package:dotted_decoration/dotted_decoration.dart';
 // import 'package:flutter/material.dart';
-// import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+// import 'package:lettutor/core/components/extensions/context_extensions.dart';
 
 // import '../../../../../generated/l10n.dart';
 // import '../../../../generated/l10n.dart';

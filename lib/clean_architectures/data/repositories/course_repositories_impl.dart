@@ -1,14 +1,14 @@
 import 'package:dart_either/dart_either.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/base_api.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/course/course_api.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/data_state.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/courses_response/courses_response.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_category/course_category.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/course_repositories.dart';
-import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/base_api.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/course/course_api.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/data_state.dart';
+import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/clean_architectures/data/models/courses_response/courses_response.dart';
+import 'package:lettutor/clean_architectures/domain/entities/course/course.dart';
+import 'package:lettutor/clean_architectures/domain/entities/course_category/course_category.dart';
+import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:lettutor/clean_architectures/domain/repositories/course_repositories.dart';
+import 'package:lettutor/core/components/network/app_exception.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: CourseRepositories)

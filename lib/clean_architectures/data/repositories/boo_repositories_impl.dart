@@ -1,13 +1,13 @@
 import 'package:dart_either/dart_either.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/base_api.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/data_state.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/schedule/schedule_api.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/boo_repositories.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/log_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/base_api.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/data_state.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/schedule/schedule_api.dart';
+import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/clean_architectures/domain/entities/boo_info/boo_info.dart';
+import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:lettutor/clean_architectures/domain/repositories/boo_repositories.dart';
+import 'package:lettutor/core/components/extensions/log_extensions.dart';
+import 'package:lettutor/core/components/network/app_exception.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: BooRepositories)
@@ -92,8 +92,8 @@ class BooRepositoriesImpl extends BaseApi implements BooRepositories {
             return const Either.right(null);
           }
           listData.sort((a, b) {
-            return a.scheduleDetailInfo!.startPeriodTimestamp
-                .compareTo(b.scheduleDetailInfo!.startPeriodTimestamp);
+            return b.scheduleDetailInfo!.startPeriodTimestamp
+                .compareTo(a.scheduleDetailInfo!.startPeriodTimestamp);
           });
           return Either.right(listData.first.toEntity());
         },

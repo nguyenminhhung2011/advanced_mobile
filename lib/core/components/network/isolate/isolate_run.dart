@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:flutter_base_clean_architecture/core/components/network/isolate/isolate_handler.dart';
+import 'package:lettutor/core/components/network/isolate/isolate_handler.dart';
 
 class IsolateRunT<T> {
   final T? data;

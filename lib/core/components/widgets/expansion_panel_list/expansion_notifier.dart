@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/expansion_panel_list/expansion_panel_list.dart';
+import 'package:lettutor/core/components/widgets/expansion_panel_list/expansion_panel_list.dart';
 
 class ExpansionNotifier<T, B> extends ChangeNotifier {
   final List<T> preItem;

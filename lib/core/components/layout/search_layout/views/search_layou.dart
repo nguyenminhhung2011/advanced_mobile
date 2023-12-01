@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/pagination_view/pagination_list_view.dart';
+import 'package:lettutor/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:provider/provider.dart';
 import '../controller/search_controller.dart';
 import '../header_search/header_search.dart';

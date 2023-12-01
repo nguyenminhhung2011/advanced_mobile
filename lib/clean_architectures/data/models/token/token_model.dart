@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/child_to_model.dart';
+import 'package:lettutor/clean_architectures/data/models/token/child_to_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'token_model.g.dart';
@@ -12,6 +12,8 @@ class TokenModel {
   final ChildToModel? refresh;
 
   TokenModel(this.access, this.refresh);
+
+  get accessToken => null;
 
   Map<String, dynamic> toJson() => _$TokenModelToJson(this);
 

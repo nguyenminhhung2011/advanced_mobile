@@ -1,16 +1,16 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_state.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/tutor_view_card.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/default_pagination.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
-import 'package:flutter_base_clean_architecture/routes/routes.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:lettutor/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_bloc.dart';
+import 'package:lettutor/clean_architectures/presentation/search_tutor/bloc/search_tutor_result_state.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/lettutor/not_found_field.dart';
+import 'package:lettutor/core/components/widgets/lettutor/tutor_view_card.dart';
+import 'package:lettutor/core/components/widgets/pagination_view/default_pagination.dart';
+import 'package:lettutor/generated/l10n.dart';
+import 'package:lettutor/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 

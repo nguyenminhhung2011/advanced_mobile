@@ -1,6 +1,6 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/course_category/course_category_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course_category/course_category.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/e_boo/e_boo.dart';
+import 'package:lettutor/clean_architectures/data/models/course_category/course_category_model.dart';
+import 'package:lettutor/clean_architectures/domain/entities/course_category/course_category.dart';
+import 'package:lettutor/clean_architectures/domain/entities/e_boo/e_boo.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'e_boo_model.g.dart';

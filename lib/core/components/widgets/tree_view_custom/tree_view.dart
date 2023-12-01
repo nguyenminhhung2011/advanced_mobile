@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/controller/tree_view_controller.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/tree_view_custom/node/node_model.dart';
+import 'package:lettutor/core/components/widgets/tree_view_custom/controller/tree_view_controller.dart';
+import 'package:lettutor/core/components/widgets/tree_view_custom/node/node_model.dart';
 import 'package:provider/provider.dart';
 
 typedef GetNode<T> = Future<List<T>> Function(NodeModel<T>? parentNode);

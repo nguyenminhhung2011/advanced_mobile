@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/splash/bloc/slash_bloc.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
-import 'package:flutter_base_clean_architecture/routes/routes.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/presentation/splash/bloc/slash_bloc.dart';
+import 'package:lettutor/core/components/widgets/loading_page.dart';
+import 'package:lettutor/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';

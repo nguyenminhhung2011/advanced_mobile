@@ -1,15 +1,15 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
-// import 'package:flutter_base_clean_architecture/core/components/widgets/button_custom.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/row_tutor_information.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
-import 'package:flutter_base_clean_architecture/routes/routes.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/domain/entities/boo_info/boo_info.dart';
+import 'package:lettutor/core/components/constant/constant.dart';
+import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/button_custom.dart';
+// import 'package:lettutor/core/components/widgets/button_custom.dart';
+import 'package:lettutor/core/components/widgets/lettutor/row_tutor_information.dart';
+import 'package:lettutor/generated/l10n.dart';
+import 'package:lettutor/routes/routes.dart';
 import 'package:intl/intl.dart';
 
 import 'package:timer_count_down/timer_count_down.dart';

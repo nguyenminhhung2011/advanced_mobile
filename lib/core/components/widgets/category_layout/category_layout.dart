@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/category_layout/category_layout_notifier.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_list_view.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
+import 'package:lettutor/core/components/constant/image_const.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/widgets/category_layout/category_layout_notifier.dart';
+import 'package:lettutor/core/components/widgets/pagination_view/pagination_list_view.dart';
+import 'package:lettutor/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 

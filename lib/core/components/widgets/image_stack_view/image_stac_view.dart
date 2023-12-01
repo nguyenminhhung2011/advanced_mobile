@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/color_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/extensions/color_extension.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
 
 class ImageStackView extends StatefulWidget {
   final List<String> images;

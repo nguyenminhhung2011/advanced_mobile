@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/total_time_response/total_time_response.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/user/user_info.dart';
+import 'package:lettutor/clean_architectures/data/models/total_time_response/total_time_response.dart';
+import 'package:lettutor/clean_architectures/data/models/user/user_info.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 

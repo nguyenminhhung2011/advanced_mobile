@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/base/auth_mixin.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/auth/bloc/reset/reset_pass_bloc.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/progress_button.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/presentation/auth/base/auth_mixin.dart';
+import 'package:lettutor/clean_architectures/presentation/auth/bloc/reset/reset_pass_bloc.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
+import 'package:lettutor/core/components/widgets/progress_button.dart';
+import 'package:lettutor/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 

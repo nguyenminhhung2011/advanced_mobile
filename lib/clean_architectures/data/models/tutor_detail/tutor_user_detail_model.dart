@@ -1,5 +1,5 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/course_preview/course_preview_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_user_detail.dart';
+import 'package:lettutor/clean_architectures/data/models/course_preview/course_preview_model.dart';
+import 'package:lettutor/clean_architectures/domain/entities/tutor_detail/tutor_user_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'tutor_user_detail_model.g.dart';
 

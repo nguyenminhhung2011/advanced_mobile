@@ -1,5 +1,5 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:lettutor/clean_architectures/data/models/token/token_model.dart';
+import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';
 
 class Validator {
   Validator._();

@@ -1,5 +1,5 @@
 
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/e_boo/e_boo_model.dart';
+import 'package:lettutor/clean_architectures/data/models/e_boo/e_boo_model.dart';
 
 class EBooResponse {
   final String status;

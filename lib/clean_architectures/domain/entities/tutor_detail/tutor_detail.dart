@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor_detail/tutor_user_detail.dart';
+import 'package:lettutor/clean_architectures/domain/entities/tutor_detail/tutor_user_detail.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'tutor_detail.freezed.dart';
 

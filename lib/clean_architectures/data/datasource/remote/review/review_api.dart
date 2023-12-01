@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/reviews_response/reviews_response.dart';
+import 'package:lettutor/clean_architectures/data/models/reviews_response/reviews_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 

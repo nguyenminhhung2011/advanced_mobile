@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tes_ui/bloc/test_ui_modal_state.dart';
+import 'package:lettutor/clean_architectures/presentation/tes_ui/bloc/test_ui_modal_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';

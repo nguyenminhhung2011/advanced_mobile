@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
-import 'package:flutter_base_clean_architecture/routes/main_routes.dart';
+import 'package:lettutor/core/components/extensions/string_extensions.dart';
+import 'package:lettutor/routes/main_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/components/layout/setting_layout/controller/setting_bloc.dart';

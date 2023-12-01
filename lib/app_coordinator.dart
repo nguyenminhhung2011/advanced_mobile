@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/constant.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/constant/constant.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
 
 import 'core/components/layout/setting_layout/views/language_choose.dart';
 import 'core/components/widgets/range_date_picker_custom.dart';

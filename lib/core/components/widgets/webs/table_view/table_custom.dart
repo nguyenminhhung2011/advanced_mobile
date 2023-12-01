@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:flutter_base_clean_architecture/core/components/widgets/webs/table_view/table_row.dart';
+import 'package:lettutor/core/components/widgets/webs/table_view/table_row.dart';
 
 import '../../skeleton_custom.dart';
 

@@ -1,6 +1,6 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/pagination/pagination.dart';
+import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/clean_architectures/domain/entities/boo_info/boo_info.dart';
+import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';
 
 abstract class BooRepositories {
   SingleResult<Pagination<BooInfo>> getBooInfo({

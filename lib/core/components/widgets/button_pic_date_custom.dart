@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
+import 'package:lettutor/app_coordinator.dart';
 
 import '../constant/handle_time.dart';
 

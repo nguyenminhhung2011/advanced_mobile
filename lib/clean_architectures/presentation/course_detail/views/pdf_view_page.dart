@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
+import 'package:lettutor/core/components/widgets/loading_page.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;

@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/schedule/schedule_model.dart';
+import 'package:lettutor/clean_architectures/data/models/schedule/schedule_model.dart';
 
 class SchedulesResponse {
   final String status;

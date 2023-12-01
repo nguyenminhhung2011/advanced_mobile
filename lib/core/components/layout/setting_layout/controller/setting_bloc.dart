@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
-import 'package:flutter_base_clean_architecture/core/components/layout/setting_layout/controller/setting_modal_state.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
+import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
+import 'package:lettutor/core/components/layout/setting_layout/controller/setting_modal_state.dart';
+import 'package:lettutor/generated/l10n.dart';
 import 'package:injectable/injectable.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/setting/setting_usecase.dart';
+import 'package:lettutor/core/components/network/app_exception.dart';
+import 'package:lettutor/clean_architectures/domain/usecase/setting/setting_usecase.dart';
 
 part 'setting_event.dart';
 part 'setting_state.dart';

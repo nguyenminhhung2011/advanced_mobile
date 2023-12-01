@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:dart_either/dart_either.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/remote/data_state.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/sign_in_response.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/token/token_model.dart';
-import 'package:flutter_base_clean_architecture/core/components/network/app_exception.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
+import 'package:lettutor/clean_architectures/data/datasource/local/preferences.dart';
+import 'package:lettutor/clean_architectures/data/datasource/remote/data_state.dart';
+import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/clean_architectures/data/models/token/sign_in_response.dart';
+import 'package:lettutor/clean_architectures/data/models/token/token_model.dart';
+import 'package:lettutor/core/components/network/app_exception.dart';
+import 'package:lettutor/core/components/utils/validators.dart';
 import 'package:intl/intl.dart';
 import 'package:retrofit/dio.dart';
 

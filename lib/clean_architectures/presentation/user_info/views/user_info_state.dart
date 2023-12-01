@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
+import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
 
 @immutable
 abstract class UserInfoState {}

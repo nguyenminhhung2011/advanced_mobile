@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/bloc_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/layout/setting_layout/controller/setting_bloc.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
+import 'package:lettutor/core/components/extensions/bloc_extension.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/layout/setting_layout/controller/setting_bloc.dart';
+import 'package:lettutor/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WelcomeText extends StatefulWidget {

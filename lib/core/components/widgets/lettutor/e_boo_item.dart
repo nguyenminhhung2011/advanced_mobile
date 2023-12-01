@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/e_boo/e_boo.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/string_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/image_custom.dart';
+import 'package:lettutor/clean_architectures/domain/entities/e_boo/e_boo.dart';
+import 'package:lettutor/core/components/constant/image_const.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/extensions/string_extensions.dart';
+import 'package:lettutor/core/components/widgets/image_custom.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EBooItem extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/pagination_view/pagination_notifier.dart';
+import 'package:lettutor/core/components/widgets/pagination_view/pagination_notifier.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:provider/provider.dart';

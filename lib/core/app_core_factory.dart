@@ -4,10 +4,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
-import 'package:flutter_base_clean_architecture/core/dependency_injection/di.dart';
-
-import '../clean_architectures/data/datasource/remote/auth/auth_api.dart';
+import 'package:lettutor/clean_architectures/data/datasource/local/preferences.dart';
+import 'package:lettutor/clean_architectures/data/models/token/sign_in_response.dart';
+import 'package:lettutor/core/components/configurations/configurations.dart';
 
 class AppCoreFactory {
   static Dio createDio(String baseUrl) {
@@ -35,7 +34,15 @@ class AppCoreFactory {
 }
 
 class TokenInterceptor implements Interceptor {
-  // final AuthApi _authApi = injector.get<AuthApi>();
+  final _dio = Dio(
+    BaseOptions(
+      baseUrl: Configurations.baseUrl,
+      headers: {
+        "content-type": "application/json;encoding=utf-8",
+        "Accept": "*/*",
+      },
+    ),
+  )..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
 
   @override
   // ignore: deprecated_member_use
@@ -60,33 +67,42 @@ class TokenInterceptor implements Interceptor {
     final isExpired = DateTime.now().isAfter(expiredTimeParsed);
 
     if (isExpired) {
+      log("💥[Refresh] calling refresh token");
+
       ///[Warning] if don't have this line code render dio call => duplicate
       await CommonAppSettingPref.setExpiredTime(-1);
       try {
-        final response = await injector.get<AuthApi>().refreshToken(body: {
-          'refreshToken': refreshToken,
-          'timezone': "7",
-        });
-        if (response.response.statusCode == HttpStatus.ok &&
-            response.data.isSuccess) {
-          final responseData = response.data;
+        final response = await _dio.post(
+          "/auth/refresh-token",
+          data: {
+            'refreshToken': refreshToken,
+            'timezone': "7",
+          },
+        );
+        log("💥[Refresh] ${response.statusCode}  + ${response.data}");
+        if (response.statusCode == HttpStatus.ok) {
+          final responseData = SignInResponse.fromJson(response.data);
           options.headers["Authorization"] =
-              "Bearer ${responseData.accessToken}";
-          await CommonAppSettingPref.setAccessToken(responseData.accessToken);
-          await CommonAppSettingPref.setRefreshToken(responseData.refreshToken);
-          await CommonAppSettingPref.setExpiredTime(responseData.expiredTime);
+              "Bearer ${responseData.token.access}";
+          await CommonAppSettingPref.setAccessToken(
+              responseData.token.access?.token ?? "");
+          await CommonAppSettingPref.setRefreshToken(
+              responseData.token.refresh?.token ?? "");
+          await CommonAppSettingPref.setExpiredTime(
+              responseData.token.access?.expires?.millisecondsSinceEpoch ?? -1);
           // return handler.next(options);
         } else {
           log("Logging out");
+          return;
         }
       } catch (e) {
-        log(e.toString());
+        log("💥[Refresh] ${e.toString()}");
+
         return;
       }
-    } else {
-      options.headers["Authorization"] = "Bearer $accessToken";
-      return handler.next(options);
     }
+    options.headers["Authorization"] = "Bearer $accessToken";
+    return handler.next(options);
   }
 
   @override

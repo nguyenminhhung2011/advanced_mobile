@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:dart_either/dart_either.dart';
 import 'package:disposebag/disposebag.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/datasource/local/preferences.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/app_error.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
+import 'package:lettutor/clean_architectures/data/datasource/local/preferences.dart';
+import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/core/components/utils/stream_extension.dart';
+import 'package:lettutor/core/components/utils/type_defs.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';

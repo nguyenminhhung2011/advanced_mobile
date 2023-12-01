@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/item_view/mixins/item_view_mixin.dart';
+import 'package:lettutor/core/components/widgets/item_view/mixins/item_view_mixin.dart';
 
 class ItemView extends StatefulWidget {
   const ItemView({super.key});

@@ -1,9 +1,9 @@
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/reset_pass/reset_pass_usecase.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/stream_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/type_defs.dart';
-import 'package:flutter_base_clean_architecture/core/components/utils/validators.dart';
+import 'package:lettutor/clean_architectures/domain/usecase/reset_pass/reset_pass_usecase.dart';
+import 'package:lettutor/core/components/utils/stream_extension.dart';
+import 'package:lettutor/core/components/utils/type_defs.dart';
+import 'package:lettutor/core/components/utils/validators.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';

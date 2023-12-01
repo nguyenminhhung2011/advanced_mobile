@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/course_category/course_category_model.dart';
+import 'package:lettutor/clean_architectures/data/models/course_category/course_category_model.dart';
 
 class ContentCategoryResponse {
   final int count;

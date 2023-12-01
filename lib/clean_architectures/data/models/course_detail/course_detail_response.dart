@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/course_detail/course_detail_model.dart';
+import 'package:lettutor/clean_architectures/data/models/course_detail/course_detail_model.dart';
 
 class CourseDetailResponse {
   final String message;

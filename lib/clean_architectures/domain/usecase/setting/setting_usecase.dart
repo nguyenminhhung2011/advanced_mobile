@@ -1,6 +1,6 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/user/user.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/repositories/user_repositories.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/usecase/base/base_usecase.dart';
+import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
+import 'package:lettutor/clean_architectures/domain/repositories/user_repositories.dart';
+import 'package:lettutor/clean_architectures/domain/usecase/base/base_usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

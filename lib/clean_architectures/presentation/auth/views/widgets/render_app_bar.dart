@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/image_const.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/bloc_extension.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
-import 'package:flutter_base_clean_architecture/core/components/layout/setting_layout/controller/setting_bloc.dart';
+import 'package:lettutor/core/components/constant/image_const.dart';
+import 'package:lettutor/core/components/extensions/bloc_extension.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/layout/setting_layout/controller/setting_bloc.dart';
 
-import 'package:flutter_base_clean_architecture/core/components/layout/setting_layout/utils/setting_utils.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/dropdown_button_custom.dart';
+import 'package:lettutor/core/components/layout/setting_layout/utils/setting_utils.dart';
+import 'package:lettutor/core/components/widgets/dropdown_button_custom.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RenderAppBar extends StatefulWidget {

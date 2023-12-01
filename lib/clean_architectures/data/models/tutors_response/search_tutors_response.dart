@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/tutor/tutor_model.dart';
+import 'package:lettutor/clean_architectures/data/models/tutor/tutor_model.dart';
 
 class SearchTutorsResponse {
   final int count;

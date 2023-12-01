@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/boo_info/boo_info_model.dart';
+import 'package:lettutor/clean_architectures/data/models/boo_info/boo_info_model.dart';
 
 class UpComingResponse {
   final String message;

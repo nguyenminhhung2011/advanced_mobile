@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_custom.dart';
+import 'package:lettutor/core/components/widgets/category/category_custom.dart';
 
 class CategoryGradientItem extends StatelessWidget {
   final Widget? iconWidget;

@@ -1,21 +1,21 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule_detail.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/add_note_to_boo_tutor.dart';
-import 'package:flutter_base_clean_architecture/generated/l10n.dart';
+import 'package:lettutor/clean_architectures/domain/entities/schedule/schedule_detail.dart';
+import 'package:lettutor/core/components/widgets/lettutor/add_note_to_boo_tutor.dart';
+import 'package:lettutor/generated/l10n.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
-import 'package:flutter_base_clean_architecture/core/components/constant/handle_time.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/not_found_field.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/lettutor/schedule_item.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/loading_page.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/range_date_picker_custom.dart';
+import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/widgets/lettutor/not_found_field.dart';
+import 'package:lettutor/core/components/widgets/lettutor/schedule_item.dart';
+import 'package:lettutor/core/components/widgets/loading_page.dart';
+import 'package:lettutor/core/components/widgets/range_date_picker_custom.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-import 'package:flutter_base_clean_architecture/app_coordinator.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/schedule/schedule.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_bloc.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_state.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/domain/entities/schedule/schedule.dart';
+import 'package:lettutor/clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_bloc.dart';
+import 'package:lettutor/clean_architectures/presentation/tutor_schedule/bloc/tutor_schedule_state.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
 
 class TutorScheduleScreen extends StatefulWidget {
   const TutorScheduleScreen({super.key});

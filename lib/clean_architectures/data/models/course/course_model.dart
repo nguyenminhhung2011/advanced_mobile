@@ -1,4 +1,4 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/course/course.dart';
+import 'package:lettutor/clean_architectures/domain/entities/course/course.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'course_model.g.dart';

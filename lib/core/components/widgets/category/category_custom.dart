@@ -1,6 +1,6 @@
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/widgets/category/category_gradient_item.dart';
+import 'package:lettutor/core/components/widgets/category/category_gradient_item.dart';
 import 'category_item.dart';
 import 'category_type.dart';
 import 'icon_category.dart';

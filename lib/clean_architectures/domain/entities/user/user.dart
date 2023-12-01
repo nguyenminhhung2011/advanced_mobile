@@ -1,6 +1,6 @@
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/topic/topic.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/tutor/tutor.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/wallet_info/wallet_info.dart';
+import 'package:lettutor/clean_architectures/domain/entities/topic/topic.dart';
+import 'package:lettutor/clean_architectures/domain/entities/tutor/tutor.dart';
+import 'package:lettutor/clean_architectures/domain/entities/wallet_info/wallet_info.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user.freezed.dart';
 

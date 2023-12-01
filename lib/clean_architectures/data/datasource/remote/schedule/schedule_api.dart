@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/data/models/up_coming_response/up_coming_response.dart';
-import 'package:flutter_base_clean_architecture/clean_architectures/domain/entities/boo_info/boo_info_response.dart';
+import 'package:lettutor/clean_architectures/data/models/up_coming_response/up_coming_response.dart';
+import 'package:lettutor/clean_architectures/domain/entities/boo_info/boo_info_response.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 

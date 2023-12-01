@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base_clean_architecture/core/components/extensions/context_extensions.dart';
+import 'package:lettutor/core/components/extensions/context_extensions.dart';
 
 class NotFoundField extends StatelessWidget {
   const NotFoundField({
