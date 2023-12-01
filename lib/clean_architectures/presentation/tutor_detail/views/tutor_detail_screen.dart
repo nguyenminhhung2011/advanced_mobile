@@ -89,12 +89,14 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(14.0)),
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      isDismissible: false,
-      enableDrag: false,
       builder: (context) {
         return BlocProvider(
           initBloc: (_) => injector.get<ReportTutorBloc>(param1: userId),
-          child: const ReportTutorBottom(),
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: const ReportTutorBottom(),
+          ),
         );
         // return const SizedBox();
       },

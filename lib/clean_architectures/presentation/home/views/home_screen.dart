@@ -96,6 +96,10 @@ class _HomeScreenState extends State<HomeScreen> with DidChangeDependencies {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
+        ),
         elevation: 0,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -81,6 +81,10 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
           appBar: AppBar(
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             elevation: 0,
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
+            ),
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

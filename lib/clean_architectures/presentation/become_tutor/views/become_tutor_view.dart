@@ -137,6 +137,10 @@ class _BecomeTutorViewState extends State<BecomeTutorView> {
         ),
       ),
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
+        ),
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(

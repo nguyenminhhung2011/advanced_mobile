@@ -47,16 +47,40 @@ class _ReportTutorBottomState extends State<ReportTutorBottom> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: context.widthDevice,
-      constraints: BoxConstraints(
-        maxHeight: context.heightDevice * 0.35,
-        minHeight: context.heightDevice * 0.3,
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        extendBody: true,
-        bottomNavigationBar: StreamBuilder<bool?>(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: 10.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 60,
+              height: 3.0,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Theme.of(context).hintColor.withOpacity(0.2),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10.0),
+        HeaderTextCustom(
+          headerText: S.of(context).reportTutor,
+          padding: _horizontalEdgeInsets,
+        ),
+        Padding(
+          padding: _horizontalEdgeInsets,
+          child: TextField(
+            controller: _contentController,
+            decoration: InputDecoration(
+              hintText: S.of(context).addReportContent,
+            ),
+          ),
+        ),
+        const SizedBox(height: 40),
+        StreamBuilder<bool?>(
           stream: _bloc.loading$,
           builder: (ctx, sS) {
             return Padding(
@@ -76,41 +100,8 @@ class _ReportTutorBottomState extends State<ReportTutorBottom> {
               ),
             );
           },
-        ),
-        body: ListView(
-          children: [
-            const SizedBox(height: 10.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 60,
-                  height: 3.0,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Theme.of(context).hintColor.withOpacity(0.2),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10.0),
-            HeaderTextCustom(
-              headerText: S.of(context).reportTutor,
-              padding: _horizontalEdgeInsets,
-            ),
-            Padding(
-              padding: _horizontalEdgeInsets,
-              child: TextField(
-                controller: _contentController,
-                decoration:  InputDecoration(
-                  hintText: S.of(context).addReportContent,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+        )
+      ],
     );
   }
 

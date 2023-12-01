@@ -6,7 +6,6 @@ import 'package:lettutor/clean_architectures/presentation/auth/bloc/register/reg
 import 'package:lettutor/clean_architectures/presentation/auth/views/widgets/render_app_bar.dart';
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
-import 'package:lettutor/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
 import 'package:lettutor/core/components/widgets/progress_button.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -75,6 +74,10 @@ class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
       appBar: AppBar(
         backgroundColor: scaffoldBackgroundColor,
         title: const RenderAppBar(),
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
+        ),
       ),
       body: ListView(
         children: <Widget>[

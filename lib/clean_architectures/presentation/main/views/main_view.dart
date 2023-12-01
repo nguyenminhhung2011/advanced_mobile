@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/app_coordinator.dart';
-import 'package:lettutor/clean_architectures/data/datasource/local/preferences.dart';
 import 'package:lettutor/clean_architectures/presentation/main/bloc/main_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/main/bloc/main_state.dart';
 import 'package:lettutor/clean_architectures/presentation/main/views/welcome_text.dart';
@@ -111,11 +110,9 @@ class MainViewState extends State<MainView> {
                 HeaderTextCustom(
                   headerText: e,
                   isShowSeeMore: true,
-                  onPress: () async {
+                  onPress: () {
                     if (index == 0) {
-                      // context.openListPageWithRoute(Routes.tutorShow);
-                      // return;
-                      CommonAppSettingPref.setExpiredTime(1);
+                      context.openListPageWithRoute(Routes.tutorShow);
                       return;
                     }
                     if (index == 1) {
@@ -164,29 +161,30 @@ class MainViewState extends State<MainView> {
                 color: _primaryColor.withOpacity(0.8),
               ),
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      getMMMMEEEd(DateTime.now()),
-                      style: context.titleMedium.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    getMMMMEEEd(DateTime.now()),
+                    style: context.titleMedium.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
-                    const SizedBox(height: 5.0),
-                    ...[
-                      "Free eBook material",
-                      "Free one to one with tutors",
-                      "Free courses with pdf material",
-                    ].map(
-                      (e) => Text(
-                        '🐼 $e',
-                        style: context.titleSmall.copyWith(
-                            fontWeight: FontWeight.w500, color: Colors.white),
-                      ),
+                  ),
+                  const SizedBox(height: 5.0),
+                  ...[
+                    "Free eBook material",
+                    "Free one to one with tutors",
+                    "Free courses with pdf material",
+                  ].map(
+                    (e) => Text(
+                      '🐼 $e',
+                      style: context.titleSmall.copyWith(
+                          fontWeight: FontWeight.w500, color: Colors.white),
                     ),
-                  ]),
+                  ),
+                ],
+              ),
             ),
           ),
           Align(

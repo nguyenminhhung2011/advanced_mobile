@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dart_either/dart_either.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/auth/auth_api.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/base_api.dart';
@@ -68,6 +70,8 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
           await googleSignInAccount.authentication.then((value) {
             accessToken = value.accessToken;
           });
+          log("🎉[ access] $accessToken");
+
           if (accessToken?.isNotEmpty ?? false) {
             final response = await getStateOf(
               request: () async =>
