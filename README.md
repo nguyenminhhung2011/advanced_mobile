@@ -5,17 +5,14 @@
 * Language: Dart
 * Framework: Flutter
 
-<br>
 
 ## 👨‍💻 Members
 * Nguyễn Minh Hưng: 20120491
 
 
-<br>
 
-
-
-<br>
+Video demo
+https://www.youtube.com/watch?v=HwMDBm_Bluo
 
 ## 🐼 Layer
 * The project applies the clean architecture principles to implement the code.
