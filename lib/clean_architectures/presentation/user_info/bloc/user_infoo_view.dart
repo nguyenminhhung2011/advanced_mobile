@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:collection/collection.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/app_coordinator.dart';
 import 'package:lettutor/clean_architectures/domain/entities/topic/topic.dart';
@@ -16,6 +17,7 @@ import 'package:lettutor/core/components/widgets/button_custom.dart';
 import 'package:lettutor/core/components/widgets/dropdown_button_custom.dart';
 import 'package:lettutor/core/components/widgets/image_custom.dart';
 import 'package:lettutor/core/components/widgets/loading_page.dart';
+import 'package:lettutor/core/dependency_injection/di.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
@@ -391,26 +393,61 @@ class _UserInfoViewState extends State<UserInfoView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        GestureDetector(
-          onTap: () => _bloc.changeAvatar(),
-          child: StreamBuilder(
-            stream: _bloc.memoryImage,
-            builder: (ctx, sS) {
-              final memory = sS.data;
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: memory == null
-                    ? ImageCustom(
-                        imageUrl: user.avatar ?? ImageConst.baseImageView,
-                        isNetworkImage: true,
-                        width: 120,
-                        height: 120,
-                      )
-                    : Image.memory(memory,
-                        width: 120, height: 120, fit: BoxFit.cover),
-              );
-            },
-          ),
+        StreamBuilder(
+          stream: _bloc.memoryImage,
+          builder: (ctx, sS) {
+            final memory = sS.data;
+            return Stack(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _bloc.changeAvatar();
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: memory == null || memory.image == null
+                        ? ImageCustom(
+                            imageUrl: user.avatar ?? ImageConst.baseImageView,
+                            isNetworkImage: true,
+                            width: 120,
+                            height: 120,
+                          )
+                        : Image.memory(memory.image!,
+                            width: 120, height: 120, fit: BoxFit.cover),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0.0,
+                  right: 0.0,
+                  child: InkWell(
+                    onTap: () async {
+                      if (memory?.path?.isNotEmpty ?? false) {
+                        await injector.get<Dio>().post("/user/uploadAvatar",
+                            data: FormData()
+                              ..files.add(
+                                MapEntry(
+                                  "avatar",
+                                  MultipartFile.fromFileSync(
+                                    memory!.path!,
+                                    filename: memory.path!.split("/").last,
+                                  ),
+                                ),
+                              ));
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      child: const Icon(Icons.update, color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ],
     );

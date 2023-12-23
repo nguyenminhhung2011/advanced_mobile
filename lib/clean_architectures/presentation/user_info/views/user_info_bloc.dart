@@ -64,7 +64,7 @@ class UserInfoBloc extends DisposeCallbackBaseBloc {
 
   final Stream<User?> user$;
 
-  final Stream<Uint8List?> memoryImage;
+  final Stream<BothImageData?> memoryImage;
 
   final Stream<List<Topic>> topics$;
 
@@ -106,7 +106,7 @@ class UserInfoBloc extends DisposeCallbackBaseBloc {
     final updateProfileRequestController =
         BehaviorSubject<UpdateProfileRequest?>.seeded(null);
 
-    final memoryImageController = BehaviorSubject<Uint8List?>.seeded(null);
+    final memoryImageController = BehaviorSubject<BothImageData?>.seeded(null);
 
     final getUserInfoController = PublishSubject<void>();
 
@@ -129,7 +129,7 @@ class UserInfoBloc extends DisposeCallbackBaseBloc {
         .debug(identifier: 'ChangeAvatar [1]', log: debugPrint)
         .switchMap(
           (_) => Rx.fromCallable(
-                  () => imagePicService.pickImage(ImageSource.gallery))
+                  () => imagePicService.selectedImage(ImageSource.gallery))
               .debug(identifier: 'Choose image', log: debugPrint),
         )
         .debug(identifier: 'Change avatar [2]', log: debugPrint)
