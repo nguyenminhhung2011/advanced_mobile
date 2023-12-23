@@ -11,6 +11,10 @@
 * Nguyễn Minh Hưng: 20120491
 
 
+Video demo milestone 3
+
+https://www.youtube.com/watch?v=OdgzLen74Jo
+
 <br>
 
 
