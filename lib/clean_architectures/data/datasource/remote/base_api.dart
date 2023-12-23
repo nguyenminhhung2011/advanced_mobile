@@ -20,7 +20,8 @@ abstract class BaseApi {
     try {
       final httpResponse = await request();
 
-      if (httpResponse.response.statusCode == HttpStatus.ok) {
+      if (httpResponse.response.statusCode == HttpStatus.ok ||
+          httpResponse.response.statusCode == HttpStatus.created) {
         return DataSuccess(data: httpResponse.data);
       } else {
         return DataFailed(
