@@ -9,6 +9,7 @@ import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/widgets/progress_button.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
+import 'package:lettutor/routes/routes.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -57,8 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> with AuthMixin {
 
   Stream handleState(RegisterState state) async* {
     if (state is RegisterSuccess) {
-      context
-          .showSnackBar("🌟[Register] register success please verify account");
+      await context.pushAndRemoveAll(Routes.dashboard);
       return;
     }
     if (state is RegisterError) {
