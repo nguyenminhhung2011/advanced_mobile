@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/core/components/constant/image_const.dart';
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget({
@@ -35,6 +36,8 @@ class AvatarWidget extends StatelessWidget {
           width: width ?? 50.0,
           height: width ?? 50.0,
           fit: fit ?? BoxFit.cover,
+          errorBuilder: (_, __, ____) => Image.network(ImageConst.baseImageView,
+              width: width, height: width, fit: BoxFit.cover),
           color: color,
         );
     return ClipRRect(

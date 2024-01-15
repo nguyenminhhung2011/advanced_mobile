@@ -305,6 +305,7 @@ class _UserInfoViewState extends State<UserInfoView> {
                   hideSearch: false,
                   showFlagDialog: true,
                   onChanged: (value) {
+                    log(value.code??"");
                     _countryCode.value = value.code;
                   },
                 ),
@@ -458,13 +459,14 @@ class _UserInfoViewState extends State<UserInfoView> {
       log("🌟[Get user information] success");
       _nameController.text = state.userReturn.name;
       _studySchedule.text = state.userReturn.studySchedule ?? '';
-      _birthDay.value = state.userReturn.birthday;
-      _countryCode.value = state.userReturn.country;
+      _birthDay.value = state.userReturn.birthday ??  DateTime.now();
+      _countryCode.value = state.userReturn.country ?? "VN";
       if (state.userReturn.level?.isNotEmpty ?? false) {
         _levels.value = state.userReturn.level!.toUpperCase();
       } else {
         _levels.value = "BEGINNER";
       }
+      log(_levels.value);
     }
     if (state is GetUserInfoFailed) {
       context.showSnackBar("🌟[Get user information] ${state.toString()}");
