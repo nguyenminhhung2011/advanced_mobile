@@ -137,7 +137,11 @@ class _TutorShowScreenState extends State<TutorShowScreen> {
                       stream: _bloc.loading$,
                       builder: (ctx2, snapShot2) {
                         return RefreshIndicator(
-                          onRefresh: () async => _bloc.onRefreshData(),
+                          onRefresh: () async {
+                            _bloc.onRefreshData();
+                            _bloc.getTotalTime();
+                            _bloc.getUpComingClass();
+                          },
                           child: _listView(
                             fav: fav,
                             listItem: listItem,

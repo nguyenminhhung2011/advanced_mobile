@@ -141,6 +141,7 @@ import '../services/image_pic_service.dart' as _i11;
 import 'modules/data_source_module.dart' as _i69;
 
 const String _prod = 'prod';
+const String _dev = 'dev';
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i1.GetIt init(
@@ -156,6 +157,10 @@ _i1.GetIt init(
   final dataSourceModule = _$DataSourceModule();
   gh.factory<_i3.CloundinaryService>(() => _i3.CloundinaryService());
   gh.factory<_i4.DashboardBloc>(() => _i4.DashboardBloc());
+  gh.factory<_i5.Dio>(
+    () => dataSourceModule.dioDev(),
+    registerFor: {_dev},
+  );
   gh.factory<_i5.Dio>(
     () => dataSourceModule.dioProd(),
     registerFor: {_prod},

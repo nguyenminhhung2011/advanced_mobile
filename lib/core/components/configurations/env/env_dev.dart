@@ -1,4 +1,4 @@
-final Map<String, dynamic> environmentProd = {
+final Map<String, dynamic> environmentDev = {
   'name': 'lettutor',
   'environment': 'dev',
   'baseUrl': 'https://sandbox.api.lettutor.com',

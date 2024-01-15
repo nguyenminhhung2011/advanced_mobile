@@ -30,7 +30,7 @@ class AppDelegate {
 
     Configurations().setConfigurationValues(environment);
 
-    configureDependencies(environment: Environment.prod);
+    configureDependencies(environment: Environment.dev);
     var isMobile = Configurations.isMobileMode;
     final savedThemeMode = await AdaptiveTheme.getThemeMode();
 
