@@ -24,6 +24,8 @@ class AuthBloc extends DisposeCallbackBaseBloc {
 
   final Function0<void> submitGoogleSignIn;
 
+  final Function0<void> submitFbSignIn;
+
   final Function1<String, void> emailedChanged;
 
   final Function1<String, void> passwordChanged;
@@ -47,6 +49,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
     required this.submitRegister,
     required this.passwordChanged,
     required this.submitGoogleSignIn,
+    required this.submitFbSignIn,
 
     ///[States]
     required this.message$,
@@ -63,6 +66,8 @@ class AuthBloc extends DisposeCallbackBaseBloc {
 
     final submitSignInController = PublishSubject<void>();
 
+    final submitFbSignInController = PublishSubject<void>();
+
     final submitGoogleSignInController = PublishSubject<void>();
 
     final loadingController = BehaviorSubject<bool>.seeded(false);
@@ -73,6 +78,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       submitSignInController,
       loadingController,
       submitGoogleSignInController,
+      submitFbSignInController,
     ];
 
     ///
@@ -101,6 +107,10 @@ class AuthBloc extends DisposeCallbackBaseBloc {
 
     ///[Google sign in]
     final submitGoogleSignIn$ = submitGoogleSignInController.stream
+        .withLatestFrom(loadingController.stream, (_, loading) => !loading)
+        .share();
+
+    final submitFbSignIn$ = submitFbSignInController.stream
         .withLatestFrom(loadingController.stream, (_, loading) => !loading)
         .share();
 
@@ -143,6 +153,21 @@ class AuthBloc extends DisposeCallbackBaseBloc {
                         message: error.message, error: error.code),
                     ifRight: (_) => const SignInSuccessMessage()),
               );
+        } catch (e) {
+          return Stream.error(SignInErrorMessage(message: e.toString()));
+        }
+      }),
+      submitFbSignIn$.where((isValid) => isValid).exhaustMap((_) {
+        try {
+          return login
+              .fbSignIn()
+              .doOn(
+                  listen: () => loadingController.add(true),
+                  cancel: () => loadingController.add(false))
+              .map((data) => data.fold(
+                  ifLeft: (error) => SignInErrorMessage(
+                      message: error.message, error: error.code),
+                  ifRight: (data) => const SignInSuccessMessage()));
         } catch (e) {
           return Stream.error(SignInErrorMessage(message: e.toString()));
         }
@@ -194,6 +219,7 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       submitSignIn: () => submitSignInController.add(null),
       submitRegister: () => submitSignInController.add(null),
       submitGoogleSignIn: () => submitGoogleSignInController.add(null),
+      submitFbSignIn: () => submitFbSignInController.add(null),
     );
   }
 

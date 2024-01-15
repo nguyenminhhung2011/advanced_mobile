@@ -179,6 +179,8 @@ class _SignInScreenState extends State<SignInScreen>
                   onPressed: () {
                     if (index == 1) {
                       _bloc.submitGoogleSignIn();
+                    } else {
+                      _bloc.submitFbSignIn();
                     }
                   },
                   icon: SvgPicture.asset(e),

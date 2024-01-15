@@ -84,11 +84,6 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
           return Either.left(AppException(message: 'Data null'));
         }
 
-        ///[Print] log data
-        log("[Access] ${tokenModel.access?.token}");
-        log("[Refresh] ${tokenModel.refresh?.token}");
-        log("[Expired time] ${DateFormat().add_yMd().format(tokenModel.access?.expires ?? DateTime.now())}");
-
         await CommonAppSettingPref.setExpiredTime(
             (tokenModel.access?.expires ?? DateTime.now())
                 .millisecondsSinceEpoch);
@@ -112,4 +107,44 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
           return response.toBoolResult();
         },
       );
+
+  @override
+  SingleResult<TokenModel?> fbSignIn() {
+    return SingleResult.fromCallable(
+      () async {
+        final accessToken = await _firebaseServices.fbAuth();
+        if (accessToken.isEmpty) {
+          return Either.left(
+              AppException(message: "Can not get access token from google"));
+        }
+        log("🎉[ access] $accessToken");
+        final response = await getStateOf<SignInResponse?>(
+          request: () async =>
+              await _authApi.facebookSignIn(body: {"access_token": accessToken}),
+        );
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+        if (response.data == null) {
+          return Either.left(AppException(message: 'Data error'));
+        }
+        final tokenModel = response.data!.token;
+        if (Validator.tokenNull(tokenModel)) {
+          return Either.left(AppException(message: 'Data null'));
+        }
+
+        await CommonAppSettingPref.setExpiredTime(
+            (tokenModel.access?.expires ?? DateTime.now())
+                .millisecondsSinceEpoch);
+        await CommonAppSettingPref.setAccessToken(
+            tokenModel.access?.token ?? '');
+        await CommonAppSettingPref.setRefreshToken(
+            tokenModel.refresh?.token ?? '');
+
+        return Either.right(tokenModel);
+      },
+    );
+  }
 }
