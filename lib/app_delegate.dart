@@ -6,12 +6,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/firebase_options.dart';
 import 'package:lettutor/routes/routes.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import 'application.dart';
 import 'clean_architectures/data/datasource/local/preferences.dart';
-import 'clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart';
 import 'core/components/configurations/configurations.dart';
 import 'core/dependency_injection/di.dart';
 
@@ -36,9 +34,7 @@ class AppDelegate {
 
     return Application(
       navigationKey: GlobalKey<NavigatorState>(),
-      providers: [
-        BlocProvider<TestUiBloc>(create: (_) => injector.get()),
-      ],
+      providers: const [],
       initialRoute: Routes.splash,
       savedThemeMode: savedThemeMode,
       isMobile: isMobile,

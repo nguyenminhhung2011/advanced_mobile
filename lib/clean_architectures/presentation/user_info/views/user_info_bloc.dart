@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:disposebag/disposebag.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:lettutor/clean_architectures/domain/entities/topic/topic.dart';

@@ -42,7 +42,6 @@ import 'package:lettutor/core/dependency_injection/di.dart';
 import 'package:lettutor/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 
-import '../clean_architectures/presentation/tes_ui/views/test_ui.dart';
 import '../core/components/layout/setting_layout/views/passcode_screen.dart';
 
 class MainRoutes {
@@ -268,13 +267,6 @@ class MainRoutes {
           settings: settings,
           builder: (_) {
             return PassCodeScreen(routes: settings.arguments.toString());
-          },
-        );
-      case Routes.testUi:
-        return MaterialPageRoute(
-          settings: settings,
-          builder: (_) {
-            return const TestUi();
           },
         );
 
