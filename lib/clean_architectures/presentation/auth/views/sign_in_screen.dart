@@ -10,6 +10,7 @@ import 'package:lettutor/clean_architectures/presentation/auth/views/widgets/ren
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/utils/state_mixins/did_change_dependencies_mixin.dart';
+import 'package:lettutor/core/components/widgets/loading_page.dart';
 import 'package:lettutor/core/components/widgets/progress_button.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:lettutor/routes/routes.dart';
@@ -94,6 +95,33 @@ class _SignInScreenState extends State<SignInScreen>
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<bool?>(
+      stream: _bloc.loading$,
+      builder: (context, snapShot) {
+        return Stack(
+          children: [
+            _body(context),
+            if (snapShot.data ?? false)
+              Container(
+                color: Colors.black45,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: _loadingFunction(),
+              )
+          ],
+        );
+      },
+    );
+  }
+
+  Center _loadingFunction() {
+    return Center(
+      child: StyleLoadingWidget.foldingCube
+          .renderWidget(size: 40.0, color: Theme.of(context).primaryColor),
+    );
+  }
+
+  Scaffold _body(BuildContext context) {
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
