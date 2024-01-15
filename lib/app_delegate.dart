@@ -12,7 +12,6 @@ import 'clean_architectures/data/datasource/local/preferences.dart';
 import 'clean_architectures/presentation/tes_ui/bloc/test_ui_bloc.dart';
 import 'core/components/configurations/configurations.dart';
 import 'core/dependency_injection/di.dart';
-// import 'data/datasource/local/preferences.dart';
 
 class Mutable<T> {
   Mutable(this.value);
@@ -45,40 +44,5 @@ class AppDelegate {
     await Preferences.ensureInitedPreferences();
     WidgetsFlutterBinding.ensureInitialized();
     runApp(app);
-    // var myValue = Mutable<double>(0.0);
-
-    // await runZonedGuarded(() async {
-    //   await Preferences.ensureInitedPreferences();
-    //   WidgetsFlutterBinding.ensureInitialized();
-    //   // Initialize other stuff here...
-
-    //   await SentryFlutter.init(
-    //     (options) {
-    //       options.dsn = 'https://example@sentry.io/add-your-dsn-here';
-    //     },
-    //   );
-    //   // or here
-    //   runApp(app);
-    // }, (exception, stackTrace) async {
-    //   await Sentry.captureException(exception, stackTrace: stackTrace);
-    // });
-    // WidgetsFlutterBinding.ensureInitialized();
-    // Zone.current.fork(
-    //   zoneValues: {
-    //     'myKey': myValue,
-    //   },
-    // ).run(() {
-    //   var newValue = 1.0; // obtain value from plugin
-    //   myValue.value = newValue; // update value in Zone
-    //   runApp(app);
-    // });
-    // runZonedGuarded(
-    //   () => {runApp(app)},
-    //   (error, stack) {
-    //     if (kDebugMode) {
-    //       //Do nothing
-    //     }
-    //   },
-    // );
   }
 }

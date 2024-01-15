@@ -103,7 +103,7 @@ class _BuildMaterialAppState extends State<BuildMaterialApp> {
       listener: (_, __) {},
       builder: (context, state) {
         return MaterialApp(
-          title: 'Flight booking',
+          title: 'Advanced mobile',
           navigatorKey: widget.widget.navigationKey,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MainRoutes.getRoute,

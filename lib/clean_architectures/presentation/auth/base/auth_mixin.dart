@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 mixin AuthMixin<T extends StatefulWidget> on State<T> {
   Color get primaryColor => Theme.of(context).primaryColor;
 
-  Color get scaffoldBackgroundColor => Theme.of(context).scaffoldBackgroundColor;
+  Color get scaffoldBackgroundColor =>
+      Theme.of(context).scaffoldBackgroundColor;
 
   InputDecoration textFieldDecoration({
     required Widget suffixIcon,
-    required String labelText,
+    String? labelText = "",
     required String? errorText,
   }) =>
       InputDecoration(
@@ -32,7 +33,7 @@ mixin AuthMixin<T extends StatefulWidget> on State<T> {
           borderSide: const BorderSide(color: Colors.red, width: 1.5),
           gapPadding: 10,
         ),
-        labelText: labelText,
+        labelText: (labelText?.isNotEmpty ?? false) ? labelText : null,
         errorText: errorText,
         suffixIcon: suffixIcon,
       );

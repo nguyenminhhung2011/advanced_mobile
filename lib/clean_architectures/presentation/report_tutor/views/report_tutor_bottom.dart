@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:lettutor/app_coordinator.dart';
+import 'package:lettutor/clean_architectures/presentation/auth/base/auth_mixin.dart';
 import 'package:lettutor/clean_architectures/presentation/report_tutor/bloc/report_tutor_bloc.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/widgets/button_custom.dart';
@@ -17,7 +18,7 @@ class ReportTutorBottom extends StatefulWidget {
   State<ReportTutorBottom> createState() => _ReportTutorBottomState();
 }
 
-class _ReportTutorBottomState extends State<ReportTutorBottom> {
+class _ReportTutorBottomState extends State<ReportTutorBottom> with AuthMixin {
   ReportTutorBloc get _bloc => BlocProvider.of<ReportTutorBloc>(context);
 
   Object? listen;
@@ -70,14 +71,10 @@ class _ReportTutorBottomState extends State<ReportTutorBottom> {
           headerText: S.of(context).reportTutor,
           padding: _horizontalEdgeInsets,
         ),
+        const SizedBox(height: 10.0),
         Padding(
           padding: _horizontalEdgeInsets,
-          child: TextField(
-            controller: _contentController,
-            decoration: InputDecoration(
-              hintText: S.of(context).addReportContent,
-            ),
-          ),
+          child: _reportTextView(),
         ),
         const SizedBox(height: 40),
         StreamBuilder<bool?>(
@@ -102,6 +99,31 @@ class _ReportTutorBottomState extends State<ReportTutorBottom> {
           },
         )
       ],
+    );
+  }
+
+  Widget _reportTextView() {
+    return TextField(
+      minLines: 4,
+      controller: _contentController,
+      decoration: textFieldDecoration(
+        suffixIcon: const Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [],
+        ),
+        errorText: null,
+      ).copyWith(
+        hintText: S.of(context).reportTutor,
+        hintStyle:
+            context.titleSmall.copyWith(color: Theme.of(context).hintColor),
+      ), // InputDecoration(
+      keyboardType: TextInputType.emailAddress,
+      maxLines: 8,
+      style: context.titleSmall,
+      onChanged: (text) {},
+      textInputAction: TextInputAction.next,
+      onSubmitted: (_) {},
     );
   }
 
