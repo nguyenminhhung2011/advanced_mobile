@@ -169,15 +169,15 @@ class _AuthApi implements AuthApi {
   }
 
   @override
-  Future<HttpResponse<dynamic>> googleSignIn(
+  Future<HttpResponse<SignInResponse?>> googleSignIn(
       {required Map<String, dynamic> body}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _result =
-        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<HttpResponse<SignInResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -193,7 +193,8 @@ class _AuthApi implements AuthApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = _result.data;
+    final value =
+        _result.data == null ? null : SignInResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

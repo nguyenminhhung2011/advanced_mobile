@@ -1,15 +1,19 @@
 import 'dart:developer';
 
 import 'package:dart_either/dart_either.dart';
+import 'package:intl/intl.dart';
+import 'package:lettutor/clean_architectures/data/datasource/local/preferences.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/auth/auth_api.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/base_api.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/data_state.dart';
 import 'package:lettutor/clean_architectures/data/models/app_error.dart';
+import 'package:lettutor/clean_architectures/data/models/token/sign_in_response.dart';
 import 'package:lettutor/clean_architectures/data/models/token/token_model.dart';
 import 'package:lettutor/clean_architectures/domain/repositories/auth_repositories.dart';
 import 'package:lettutor/core/components/network/app_exception.dart';
 import 'package:injectable/injectable.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lettutor/core/components/utils/validators.dart';
+import 'package:lettutor/core/services/firebase_service.dart';
 
 void delayed() async {
   await Future.delayed(const Duration(seconds: 6));
@@ -18,8 +22,8 @@ void delayed() async {
 @Injectable(as: AuthRepository)
 class AuthRepositoryImpl extends BaseApi implements AuthRepository {
   final AuthApi _authApi;
-
-  AuthRepositoryImpl(this._authApi);
+  final FirebaseServices _firebaseServices;
+  AuthRepositoryImpl(this._authApi, this._firebaseServices);
 
   @override
   SingleResult<TokenModel?> login(
@@ -54,36 +58,49 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
   }
 
   @override
-  SingleResult<bool?> googleSignIn() => SingleResult.fromCallable(() async {
-        GoogleSignIn googleSignIn = GoogleSignIn(
-          scopes: [
-            'email',
-            'https://www.googleapis.com/auth/userinfo.profile',
-          ],
-        );
-        try {
-          final googleSignInAccount = await googleSignIn.signIn();
-          if (googleSignInAccount == null) {
-            return Either.left(AppException(message: "Google sign in error"));
-          }
-          String? accessToken = "";
-          await googleSignInAccount.authentication.then((value) {
-            accessToken = value.accessToken;
-          });
-          log("🎉[ access] $accessToken");
-
-          if (accessToken?.isNotEmpty ?? false) {
-            final response = await getStateOf(
-              request: () async =>
-                  _authApi.googleSignIn(body: {"access_token": accessToken}),
-            );
-            return response.toBoolResult();
-          }
-          return Either.left(AppException(message: "Google sign in error"));
-        } catch (e) {
-          return Either.left(AppException(message: e.toString()));
+  SingleResult<TokenModel?> googleSignIn() {
+    return SingleResult.fromCallable(
+      () async {
+        final accessToken = await _firebaseServices.googleAuth();
+        if (accessToken.isEmpty) {
+          return Either.left(
+              AppException(message: "Can not get access token from google"));
         }
-      });
+        log("🎉[ access] $accessToken");
+        final response = await getStateOf<SignInResponse?>(
+          request: () async =>
+              await _authApi.googleSignIn(body: {"access_token": accessToken}),
+        );
+        if (response is DataFailed) {
+          return Either.left(
+            AppException(message: response.dioError?.message ?? 'Error'),
+          );
+        }
+        if (response.data == null) {
+          return Either.left(AppException(message: 'Data error'));
+        }
+        final tokenModel = response.data!.token;
+        if (Validator.tokenNull(tokenModel)) {
+          return Either.left(AppException(message: 'Data null'));
+        }
+
+        ///[Print] log data
+        log("[Access] ${tokenModel.access?.token}");
+        log("[Refresh] ${tokenModel.refresh?.token}");
+        log("[Expired time] ${DateFormat().add_yMd().format(tokenModel.access?.expires ?? DateTime.now())}");
+
+        await CommonAppSettingPref.setExpiredTime(
+            (tokenModel.access?.expires ?? DateTime.now())
+                .millisecondsSinceEpoch);
+        await CommonAppSettingPref.setAccessToken(
+            tokenModel.access?.token ?? '');
+        await CommonAppSettingPref.setRefreshToken(
+            tokenModel.refresh?.token ?? '');
+
+        return Either.right(tokenModel);
+      },
+    );
+  }
 
   @override
   SingleResult<bool?> verifyAccountEmail({required String token}) =>

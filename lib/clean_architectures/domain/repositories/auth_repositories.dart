@@ -1,6 +1,5 @@
 import 'package:lettutor/clean_architectures/data/models/app_error.dart';
 import 'package:lettutor/clean_architectures/data/models/token/token_model.dart';
-import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
 
 abstract class AuthRepository {
   SingleResult<TokenModel?> login(
@@ -11,7 +10,7 @@ abstract class AuthRepository {
 
   SingleResult<bool?> resetPassword({required String email});
 
-  SingleResult<bool?> googleSignIn();
+  SingleResult<TokenModel?> googleSignIn();
 
   SingleResult<bool?> facebookSignIn();
 
