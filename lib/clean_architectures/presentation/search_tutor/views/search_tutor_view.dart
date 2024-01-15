@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/app_coordinator.dart';
 import 'package:lettutor/clean_architectures/domain/entities/topic/topic.dart';
+import 'package:lettutor/clean_architectures/presentation/auth/base/auth_mixin.dart';
 import 'package:lettutor/clean_architectures/presentation/search_tutor/bloc/search_tutor_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/search_tutor/bloc/search_tutor_state.dart';
 import 'package:lettutor/clean_architectures/presentation/search_tutor/ob/constant.dart';
@@ -24,7 +25,7 @@ class SearchTutorScreen extends StatefulWidget {
   State<SearchTutorScreen> createState() => SearchTutorScreenState();
 }
 
-class SearchTutorScreenState extends State<SearchTutorScreen> {
+class SearchTutorScreenState extends State<SearchTutorScreen> with AuthMixin {
   Object? listen;
 
   final TextEditingController _searchController = TextEditingController();
@@ -73,13 +74,9 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
           const SizedBox(height: 10.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: S.of(context).searchHere,
-              ),
-            ),
+            child: _searchBox(),
           ),
+          const SizedBox(height: 10.0),
           HeaderTextCustom(headerText: S.of(context).nationality),
           _nationalityTutorsField(context),
           HeaderTextCustom(headerText: S.of(context).topics),
@@ -193,6 +190,34 @@ class SearchTutorScreenState extends State<SearchTutorScreen> {
           })
         ],
       ),
+    );
+  }
+
+  Widget _searchBox() {
+    return TextField(
+      controller: _searchController,
+      decoration: textFieldDecoration(
+        suffixIcon: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Icon(Icons.search, color: context.titleLarge.color)],
+          ),
+        ),
+        labelText: S.of(context).searchHere,
+        errorText: null,
+      ).copyWith(
+        hintText: "Type search ....",
+        hintStyle:
+            context.titleSmall.copyWith(color: Theme.of(context).hintColor),
+      ), // InputDecoration(
+      keyboardType: TextInputType.emailAddress,
+      maxLines: 1,
+      style: context.titleSmall,
+      onChanged: (text) {},
+      textInputAction: TextInputAction.next,
+      onSubmitted: (_) {},
     );
   }
 

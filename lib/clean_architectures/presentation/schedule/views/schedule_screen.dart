@@ -222,22 +222,22 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       return;
     }
     if (state is GetBooInfoFailed) {
-      log("🌆 ${state.toString()}");
+      context.showSnackBar("🌆 ${state.toString()}");
       return;
     }
     if (state is CancelBooTutorSuccess) {
-      log("🌆[Cancel boo tutor] success");
+      context.showSnackBar("🌆[Cancel boo tutor] success");
       return;
     }
     if (state is CancelBooTutorFailed) {
-      log("🌆 ${state.toString()}");
+      context.showSnackBar("🌆 ${state.toString()}");
     }
     if (state is UpdateStudentRequestSuccess) {
-      log("🌆[Update student request] success");
+      context.showSnackBar("🌆[Update student request] success");
       return;
     }
     if (state is UpdateStudentRequestFailed) {
-      log("🌆 ${state.toString()}");
+      context.showSnackBar("🌆 ${state.toString()}");
     }
   }
 }
