@@ -150,6 +150,7 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
+  firebase_core: ^2.24.2
 
 dev_dependencies:
   flutter_test:

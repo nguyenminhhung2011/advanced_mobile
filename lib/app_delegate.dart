@@ -2,7 +2,9 @@ import 'dart:async';
 // import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/firebase_options.dart';
 import 'package:lettutor/routes/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -21,6 +23,10 @@ class Mutable<T> {
 class AppDelegate {
   Future<Widget> build(Map<String, dynamic> environment) async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
     Configurations().setConfigurationValues(environment);
 

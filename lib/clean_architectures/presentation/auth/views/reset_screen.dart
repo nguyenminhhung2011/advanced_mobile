@@ -59,6 +59,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen>
           "Reset password",
           style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
         ),
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: Icon(Icons.arrow_back, color: context.titleLarge.color),
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),

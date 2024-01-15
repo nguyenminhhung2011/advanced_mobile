@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "465590336838",
+    "project_id": "lettutor-d58f0",
+    "storage_bucket": "lettutor-d58f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465590336838:android:544a330af2af4b9f9ff947",
+        "android_client_info": {
+          "package_name": "com.example.lettutor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwm4ULXi_MSP-LEzovZaOiokxGy4ldktc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
