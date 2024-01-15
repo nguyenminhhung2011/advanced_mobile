@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
 import 'package:lettutor/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:lettutor/clean_architectures/data/datasource/remote/user/user_ap
 import 'package:lettutor/clean_architectures/data/models/app_error.dart';
 import 'package:lettutor/clean_architectures/domain/repositories/user_repositories.dart';
 import 'package:lettutor/core/components/network/app_exception.dart';
+import 'package:lettutor/core/dependency_injection/di.dart';
 
 @Injectable(as: UserRepositories)
 class UserRepositoriesImpl extends BaseApi implements UserRepositories {
@@ -127,13 +129,23 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
   SingleResult<bool> becomeTutor(
           {required BecomeTutorRequest becomeTutorRequest}) =>
       SingleResult.fromCallable(() async {
-        final body = await becomeTutorRequest.toMap();
-        final response = await getStateOf(
-          request: () async => _userApi.becomeTutor(
-            body: body,
-            contentType: "multipart/form-data",
-          ),
-        );
-        return response.toBoolResult();
+        try {
+          Map<String, dynamic> body = {};
+
+          for (var element in becomeTutorRequest.mapFields()) {
+            body.addAll({element.key: element.value});
+          }
+          final dataState = await injector.get<Dio>().post("/tutor/register",
+              data: body,
+              options:
+                  Options(contentType: Headers.multipartFormDataContentType));
+          if (dataState.statusCode == 200) {
+            return const Either.right(true);
+          }
+          return Either.left(
+              dataState.data["message"] ?? "Can not register become tutor");
+        } catch (e) {
+          return Either.left(AppException(message: e.toString()));
+        }
       });
 }

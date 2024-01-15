@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:disposebag/disposebag.dart';
@@ -12,7 +14,6 @@ import 'package:lettutor/core/services/image_pic_service.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -46,11 +47,6 @@ class BecomeTutorRequest {
       required this.price});
 
   Future<Map<String, dynamic>> toMap() async => {
-        "avatar": await MultipartFile.fromFile(
-          avatar,
-          filename: avatar.split('/').last,
-          contentType: MediaType("image", "jpeg"),
-        ),
         "name": name,
         "country": country,
         "birthday": DateFormat('yyyy-MM-dd').format(birthDay),
@@ -64,6 +60,29 @@ class BecomeTutorRequest {
         "specialties": specialties.map((e) => e.key).join(","),
         "price": price,
       };
+
+  List<MapEntry<String, String>> mapFields() => [
+        MapEntry("name", name),
+        MapEntry("name", name),
+        MapEntry("country", country),
+        MapEntry("birthday", birthDay.toIso8601String()),
+        MapEntry("interests", interest),
+        MapEntry("education", education),
+        MapEntry("experience", experience),
+        MapEntry("profession", profession),
+        MapEntry("languages", languages),
+        MapEntry("bio", bio),
+        MapEntry("targetStudent", targetStudent),
+        MapEntry("specialties", specialties.map((e) => e).join(",")),
+        MapEntry("price", price.toString()),
+      ];
+
+  List<MapEntry<String, MultipartFile>> mapFiles() => [
+        MapEntry(
+          "avatar",
+          MultipartFile.fromBytes(File(avatar).readAsBytesSync()),
+        ),
+      ];
 }
 
 @injectable
