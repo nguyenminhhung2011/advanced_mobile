@@ -136,11 +136,14 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(CupertinoIcons.chat_bubble_2_fill,
-                color: context.titleLarge.color),
-          )
+          StreamBuilder<TutorDetail>(
+              stream: _bloc.tutor$,
+              builder: (ctx1, sS1) => IconButton(
+                    onPressed: () => context.openPageWithRouteAndParams(
+                        Routes.chatDetail, sS1.data?.user?.id ?? ""),
+                    icon: Icon(CupertinoIcons.chat_bubble_2_fill,
+                        color: context.titleLarge.color),
+                  )),
         ],
       ),
       body: StreamBuilder<bool?>(

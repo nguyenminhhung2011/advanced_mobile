@@ -16,6 +16,8 @@ abstract class TutorRepositories {
 
   SingleResult<TutorDetail?> getTutorById({required String userId});
 
+  Future<SResult<TutorDetail>> getTutorByIdNotStream({required String userId});
+
   SingleResult<List<Schedule>> getTutorSchedule(
       {required String tutorId,
       required DateTime startTime,

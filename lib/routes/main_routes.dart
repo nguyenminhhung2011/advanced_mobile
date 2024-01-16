@@ -211,6 +211,15 @@ class MainRoutes {
       case Routes.recipient:
         return MaterialPageRoute(
             settings: settings, builder: (_) => createRecipientBloc);
+      case Routes.chatDetail:
+        return MaterialPageRoute(
+            settings: settings,
+            builder: (_) {
+              if (settings.arguments is String) {
+                return createChatBloc(settings.arguments as String);
+              }
+              return const SizedBox();
+            });
       case Routes.dashboard:
         return MaterialPageRoute(
           settings: settings,

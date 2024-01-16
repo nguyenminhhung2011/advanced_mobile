@@ -4,6 +4,7 @@ import 'package:lettutor/clean_architectures/data/datasource/remote/data_state.d
 import 'package:lettutor/clean_architectures/data/datasource/remote/tutor/tutor_api.dart';
 import 'package:lettutor/clean_architectures/data/models/app_error.dart';
 import 'package:lettutor/clean_architectures/data/models/response/tutors_response/tutors_response.dart';
+import 'package:lettutor/clean_architectures/data/models/tutor_detail/tutor_detail_model.dart';
 import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';
 import 'package:lettutor/clean_architectures/domain/entities/schedule/schedule.dart';
 import 'package:lettutor/clean_architectures/domain/entities/search_tutor_request/search_tutor_request.dart';
@@ -148,4 +149,11 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
               .toList(),
         );
       });
+
+  @override
+  Future<SResult<TutorDetail>> getTutorByIdNotStream(
+          {required String userId}) async =>
+      await apiCallSR<TutorDetailModel?, TutorDetail>(
+          mapper: (r) => r!.toEntity(),
+          request: () async => await _tutorApi.getTutorById(userId));
 }

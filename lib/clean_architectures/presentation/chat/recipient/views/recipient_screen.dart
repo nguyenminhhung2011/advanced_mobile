@@ -14,6 +14,7 @@ import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/widgets/avartat_custom.dart';
 import 'package:lettutor/core/components/widgets/loading_page.dart';
 import 'package:lettutor/generated/l10n.dart';
+import 'package:lettutor/routes/routes.dart';
 
 class RecipientScreen extends StatefulWidget {
   const RecipientScreen({super.key});
@@ -161,47 +162,51 @@ class _RecipientScreenState extends State<RecipientScreen> {
     );
   }
 
-  Padding _chatItemBuilder(
+  Widget _chatItemBuilder(
       ChatInformation userInformation, BuildContext context, Chat chat) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      child: Row(
-        children: [
-          AvatarWidget(
-            imageUrl: userInformation.avatar ?? ImageConst.baseImageView,
-          ),
-          const SizedBox(width: 10.0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  userInformation.name,
-                  style:
-                      context.titleMedium.copyWith(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4.0),
-                Text(
-                  chat.content,
-                  style: context.titleSmall.copyWith(
-                    fontSize: 12.0,
-                    color: (chat.isRead)
-                        ? Theme.of(context).hintColor
-                        : context.titleLarge.color,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4.0),
-                Text(
-                  getjmFormat(chat.updatedAt ?? DateTime.now()),
-                  style: context.titleSmall.copyWith(
-                      fontSize: 12.0, color: Theme.of(context).hintColor),
-                )
-              ],
+      child: InkWell(
+        onTap: () => context.openPageWithRouteAndParams(
+            Routes.chatDetail, userInformation.id),
+        child: Row(
+          children: [
+            AvatarWidget(
+              imageUrl: userInformation.avatar ?? ImageConst.baseImageView,
             ),
-          )
-        ],
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    userInformation.name,
+                    style: context.titleMedium
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text(
+                    chat.content,
+                    style: context.titleSmall.copyWith(
+                      fontSize: 12.0,
+                      color: (chat.isRead)
+                          ? Theme.of(context).hintColor
+                          : context.titleLarge.color,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text(
+                    getjmFormat(chat.updatedAt ?? DateTime.now()),
+                    style: context.titleSmall.copyWith(
+                        fontSize: 12.0, color: Theme.of(context).hintColor),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

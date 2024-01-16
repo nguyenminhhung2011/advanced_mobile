@@ -12,10 +12,13 @@ class DefaultPagination<T> extends StatefulWidget {
   final ScrollPhysics? physics;
   final Widget? loadingWidget;
 
+  final bool isReverse;
+
   const DefaultPagination({
     super.key,
     this.physics,
     this.loadingWidget,
+    this.isReverse = false,
     required this.items,
     required this.loading,
     required this.itemBuilder,
@@ -58,6 +61,7 @@ class _DefaultPaginationState<T> extends State<DefaultPagination<T>> {
           const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       controller: _scrollController,
       itemCount: widget.items.length + 1,
+      reverse: widget.isReverse,
       itemBuilder: (context, index) {
         if (index < widget.items.length) {
           return widget.itemBuilder(context, index);
