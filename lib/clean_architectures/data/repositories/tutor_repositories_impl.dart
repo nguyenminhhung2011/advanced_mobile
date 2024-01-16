@@ -13,6 +13,7 @@ import 'package:lettutor/clean_architectures/domain/entities/tutor_fav/tutor_fav
 import 'package:lettutor/clean_architectures/domain/repositories/tutor_repositories.dart';
 import 'package:lettutor/core/components/network/app_exception.dart';
 import 'package:injectable/injectable.dart';
+// import 'package:lettutor/core/components/network/isolate/isolate_run.dart';
 
 @Injectable(as: TutorRepositories)
 class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
@@ -36,6 +37,9 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
         if (tutorResponse == null) {
           return Either.left(AppException(message: 'Data error'));
         }
+
+        // final listResult = <Tutor>[];
+        // final responseTutors = tutorResponse.tutors;
 
         return Either.right(TutorFav(
           tutors: Pagination<Tutor>(

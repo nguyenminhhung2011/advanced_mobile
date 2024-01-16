@@ -8,7 +8,7 @@ import 'package:lettutor/clean_architectures/presentation/schedule/bloc/schedule
 import 'package:lettutor/clean_architectures/presentation/schedule/views/schedule_screen.dart';
 import 'package:lettutor/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/tutor_views/views/tutor_show_screen.dart';
-import 'package:lettutor/core/components/config/setting_config.dart';
+import 'package:lettutor/core/components/ui_config/setting_config.dart';
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/layout/setting_layout/views/setting_screen.dart';
 import 'package:lettutor/core/components/widgets/tab_bar/tab_bar_model.dart';

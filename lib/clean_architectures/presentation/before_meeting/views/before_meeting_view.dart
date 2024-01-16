@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/app_coordinator.dart';
 import 'package:lettutor/clean_architectures/domain/entities/boo_info/boo_info.dart';
 import 'package:lettutor/core/components/constant/constant.dart';
-import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/widgets/lettutor/row_tutor_information.dart';
 import 'package:lettutor/generated/l10n.dart';

@@ -5,7 +5,7 @@ import 'package:lettutor/clean_architectures/domain/entities/schedule/schedule_d
 import 'package:lettutor/core/components/widgets/lettutor/add_note_to_boo_tutor.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
-import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/widgets/lettutor/not_found_field.dart';
 import 'package:lettutor/core/components/widgets/lettutor/schedule_item.dart';
 import 'package:lettutor/core/components/widgets/loading_page.dart';

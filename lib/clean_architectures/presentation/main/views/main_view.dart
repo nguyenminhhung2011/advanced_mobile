@@ -6,7 +6,7 @@ import 'package:lettutor/app_coordinator.dart';
 import 'package:lettutor/clean_architectures/presentation/main/bloc/main_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/main/bloc/main_state.dart';
 import 'package:lettutor/clean_architectures/presentation/main/views/welcome_text.dart';
-import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/widgets/header_custom.dart';

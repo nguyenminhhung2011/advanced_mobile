@@ -10,7 +10,7 @@ import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
 import 'package:lettutor/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/user_info/views/user_info_state.dart';
 import 'package:lettutor/core/components/constant/constant.dart';
-import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/widgets/button_custom.dart';

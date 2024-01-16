@@ -27,19 +27,21 @@ class IsolateRunT<T> {
   Future<void> _init({required FutureOr<T> Function() event}) async {
     await isolateHandler.initial(
       mainMessageHandler: _mainMessageHandler,
-      isolateMessageHandler: (data, mSendPort, send) {
-        Timer.periodic(
-          const Duration(seconds: 1),
-          (timer) {
-            event();
-            mSendPort.send(const IsolateProgressData(data: 3));
-          },
-        );
-      },
+      isolateMessageHandler: _isolateMessageHandler,
       errorHandler: errorCall ?? print,
       exitHandler: exitCall ?? print,
     );
     isolateHandler.sendMessage(data);
+  }
+
+  static Future<void> _isolateMessageHandler(
+    dynamic data,
+    SendPort mSendPort,
+    SendErrorFunction sendErrorFunction,
+  ) async {
+    /// Example code
+    eventCall.call();
+    mSendPort.send(IsolateProgressData(data: data));
   }
 
   Future<void> _mainMessageHandler(dynamic data, SendPort sendPort) async {

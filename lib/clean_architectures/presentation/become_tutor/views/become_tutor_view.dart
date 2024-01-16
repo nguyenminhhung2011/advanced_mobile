@@ -7,7 +7,7 @@ import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
 import 'package:lettutor/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/become_tutor/bloc/become_tutor_state.dart';
 import 'package:lettutor/core/components/constant/constant.dart';
-import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/extensions/bloc_extension.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/extensions/log_extensions.dart';

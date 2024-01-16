@@ -7,7 +7,7 @@ import 'package:lettutor/clean_architectures/domain/entities/course/course.dart'
 import 'package:lettutor/clean_architectures/domain/entities/course_topic/course_topic.dart';
 import 'package:lettutor/clean_architectures/presentation/course_detail/bloc/course_detail_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/course_detail/bloc/course_detail_state.dart';
-import 'package:lettutor/core/components/constant/handle_time.dart';
+import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/extensions/string_extensions.dart';

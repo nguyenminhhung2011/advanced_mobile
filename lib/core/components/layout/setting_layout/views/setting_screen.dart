@@ -9,7 +9,7 @@ import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/widgets/avartat_custom.dart';
 import 'package:lettutor/core/components/widgets/image_custom.dart';
-import 'package:lettutor/core/components/config/setting_config.dart';
+import 'package:lettutor/core/components/ui_config/setting_config.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:lettutor/routes/routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
