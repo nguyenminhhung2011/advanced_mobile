@@ -1239,6 +1239,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Recipients`
+  String get recipients {
+    return Intl.message(
+      'Recipients',
+      name: 'recipients',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

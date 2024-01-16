@@ -94,7 +94,7 @@ class MainViewState extends State<MainView> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => context.openListPageWithRoute(Routes.recipient),
             icon: Icon(CupertinoIcons.chat_bubble_2_fill,
                 color: context.titleLarge.color),
           )

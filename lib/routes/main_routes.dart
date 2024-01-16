@@ -38,6 +38,7 @@ import 'package:lettutor/clean_architectures/presentation/tutor_views/bloc/tutor
 import 'package:lettutor/clean_architectures/presentation/tutor_views/views/tutor_show_screen.dart';
 import 'package:lettutor/clean_architectures/presentation/user_info/bloc/user_infoo_view.dart';
 import 'package:lettutor/clean_architectures/presentation/user_info/views/user_info_bloc.dart';
+import 'package:lettutor/core/components/extensions/bloc_extension.dart';
 import 'package:lettutor/core/dependency_injection/di.dart';
 import 'package:lettutor/routes/routes.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
@@ -207,6 +208,9 @@ class MainRoutes {
             child: const HomeScreen(),
           ),
         );
+      case Routes.recipient:
+        return MaterialPageRoute(
+            settings: settings, builder: (_) => createRecipientBloc);
       case Routes.dashboard:
         return MaterialPageRoute(
           settings: settings,

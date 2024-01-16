@@ -10,6 +10,7 @@ class Routes {
   static const String schedule = '/schedule';
   static const String register = '/register';
   static const String passCode = '/pass-code';
+  static const String recipient = '/recipient';
   static const String userInfo = '/user-info';
   static const String dashboard = '/dashboard';
   static const String tutorShow = '/tutor-show';

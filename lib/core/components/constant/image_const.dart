@@ -10,6 +10,7 @@ class ImageConst {
 
   ///[App assets images]
 
+  static const String icon = 'assets/images/icon.png';
   static const String loginImages = "assets/images/login.png";
 
   static const String bannerImage = "assets/images/hero_img.png";

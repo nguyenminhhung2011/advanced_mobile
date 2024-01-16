@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lettutor/clean_architectures/data/models/chat_information/chat_information_model.dart';
+import 'package:lettutor/clean_architectures/domain/entities/chat/chat.dart';
 
 part 'chat_model.g.dart';
 
@@ -43,4 +44,16 @@ class ChatModel {
       _$ChatModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChatModelToJson(this);
+
+  Chat get toEntity => Chat(
+      id: id,
+      content: content,
+      createdAt: DateTime.parse(createdAt),
+      updatedAt: (updatedAt?.isNotEmpty ?? false)
+          ? DateTime.parse(updatedAt!)
+          : DateTime.now(),
+      isRead: isRead,
+      fromInfo: fromInfo.toEntity,
+      toInfo: toInfo.toEntity,
+      partner: partner?.toEntity);
 }

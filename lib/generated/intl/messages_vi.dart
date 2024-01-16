@@ -111,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profilePreview":
             MessageLookupByLibrary.simpleMessage("Xem trước hồ sơ"),
         "rateStar": MessageLookupByLibrary.simpleMessage("Đánh giá sao"),
+        "recipients": MessageLookupByLibrary.simpleMessage("Người nhận"),
         "registerAccount":
             MessageLookupByLibrary.simpleMessage("Đăng ký tài khoản"),
         "registerAccountToUse": MessageLookupByLibrary.simpleMessage(

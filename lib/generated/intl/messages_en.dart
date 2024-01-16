@@ -109,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profilePreview":
             MessageLookupByLibrary.simpleMessage("Profile preview"),
         "rateStar": MessageLookupByLibrary.simpleMessage("Rate star"),
+        "recipients": MessageLookupByLibrary.simpleMessage("Recipients"),
         "registerAccount":
             MessageLookupByLibrary.simpleMessage("register account"),
         "registerAccountToUse": MessageLookupByLibrary.simpleMessage(

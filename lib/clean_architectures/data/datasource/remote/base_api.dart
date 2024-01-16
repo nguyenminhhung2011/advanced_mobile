@@ -100,4 +100,24 @@ abstract class BaseApi {
           }
         },
       );
+
+  Future<SResult<R>> apiCallSR<T, R>({
+    required R Function(T?) mapper,
+    required Future<HttpResponse<T>> Function() request,
+  }) async {
+    try {
+      final response =
+          await getStateOf(request: () async => await request.call());
+      if (response is DataFailed) {
+        return Either.left(toErrorMessage(response.dioError));
+      }
+      if (response.data == null) {
+        return Either.left(AppException(message: "Data null"));
+      }
+
+      return Either.right(mapper.call(response.data));
+    } catch (e) {
+      return Either.left(AppException(message: e.toString()));
+    }
+  }
 }

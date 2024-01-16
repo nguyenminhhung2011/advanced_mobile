@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:lettutor/clean_architectures/domain/entities/chat_information/chat_information.dart';
 
 part 'chat_information_model.g.dart';
 
@@ -23,4 +24,7 @@ class ChatInformationModel {
       _$ChatInformationModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChatInformationModelToJson(this);
+
+  ChatInformation get toEntity =>
+      ChatInformation(id: id, name: name, avatar: avatar);
 }
