@@ -43,9 +43,7 @@ class BooRepositoriesImpl extends BaseApi implements BooRepositories {
         final response = await getStateOf(
             request: () async => await _scheduleApi.getBooHistory(queries));
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final responseData = response.data;
         if (responseData == null) {
@@ -71,9 +69,7 @@ class BooRepositoriesImpl extends BaseApi implements BooRepositories {
                 await _scheduleApi.getUpComing(millisecondsSinceEpoch),
           );
           if (response is DataFailed) {
-            return Either.left(
-              AppException(message: response.dioError?.message ?? 'Error'),
-            );
+            return Either.left(toErrorMessage(response.dioError));
           }
           final responseData = response.data;
           if (responseData == null) {

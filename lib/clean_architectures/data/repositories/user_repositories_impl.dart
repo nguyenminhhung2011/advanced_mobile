@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:lettutor/clean_architectures/data/models/total_time_response/total_time_response.dart';
 import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';
 import 'package:lettutor/clean_architectures/presentation/become_tutor/bloc/become_tutor_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/ratting/bloc/ratting_bloc.dart';
@@ -63,21 +64,10 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
       });
 
   @override
-  SingleResult<int> getTotalTime() => SingleResult.fromCallable(() async {
-        final response = await getStateOf(
-          request: () async => _userApi.getTotalTime(),
-        );
-        if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
-        }
-        final responseData = response.data;
-        if (responseData == null) {
-          return Either.left(AppException(message: "Data null"));
-        }
-        return Either.right(responseData.total);
-      });
+  SingleResult<int> getTotalTime() => apiCall<TotalTimeResponse?, int>(
+        mapper: (r) => r?.total ?? 0,
+        request: () async => await _userApi.getTotalTime(),
+      );
 
   @override
   Future<User?> getUserInfo() async {
@@ -85,7 +75,7 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
       request: () async => await _userApi.getUserInfo(),
     );
     if (response is DataFailed) {
-      throw AppException(message: response.dioError?.message ?? 'Error');
+      throw toErrorMessage(response.dioError);
     }
     final responseData = response.data?.user;
     if (responseData == null) {
@@ -103,9 +93,7 @@ class UserRepositoriesImpl extends BaseApi implements UserRepositories {
               await _userApi.updateUserInfo(body: updateProfileRequest.toMap),
         );
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final responseData = response.data?.user;
         if (responseData != null) {

@@ -36,9 +36,7 @@ class CourseRepositoriesImpl extends BaseApi implements CourseRepositories {
             request: () async => await _courseApi.pagFetchData(queries),
           );
           if (response is DataFailed) {
-            return Either.left(
-              AppException(message: response.dioError?.message ?? 'Error'),
-            );
+            return Either.left(toErrorMessage(response.dioError));
           }
           final courseResponse = response.data;
 
@@ -68,9 +66,7 @@ class CourseRepositoriesImpl extends BaseApi implements CourseRepositories {
             request: () async => _courseApi.getCourseDetail(courseId),
           );
           if (response is DataFailed) {
-            return Either.left(
-              AppException(message: response.dioError?.message ?? 'Error'),
-            );
+            return Either.left(toErrorMessage(response.dioError));
           }
           final courseResponse = response.data;
           if (courseResponse == null) {
@@ -92,9 +88,7 @@ class CourseRepositoriesImpl extends BaseApi implements CourseRepositories {
           request: () async => await _courseApi.getContentCategory(),
         );
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final dataResponse = response.data;
         if (dataResponse?.rows.isNotEmpty ?? false) {

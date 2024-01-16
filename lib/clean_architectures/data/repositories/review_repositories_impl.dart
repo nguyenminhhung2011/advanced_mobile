@@ -21,9 +21,7 @@ class ReviewRepositoriesImpl extends BaseApi implements ReviewRepositories {
         final response = await getStateOf(
             request: () async => _reviewApi.getReviews(userId, body: body));
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final data = response.data;
         if (data == null) {

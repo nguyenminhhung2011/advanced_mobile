@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dart_either/dart_either.dart';
-import 'package:intl/intl.dart';
 import 'package:lettutor/clean_architectures/data/datasource/local/preferences.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/auth/auth_api.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/base_api.dart';
@@ -72,9 +71,7 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
               await _authApi.googleSignIn(body: {"access_token": accessToken}),
         );
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         if (response.data == null) {
           return Either.left(AppException(message: 'Data error'));
@@ -119,13 +116,11 @@ class AuthRepositoryImpl extends BaseApi implements AuthRepository {
         }
         log("🎉[ access] $accessToken");
         final response = await getStateOf<SignInResponse?>(
-          request: () async =>
-              await _authApi.facebookSignIn(body: {"access_token": accessToken}),
+          request: () async => await _authApi
+              .facebookSignIn(body: {"access_token": accessToken}),
         );
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         if (response.data == null) {
           return Either.left(AppException(message: 'Data error'));

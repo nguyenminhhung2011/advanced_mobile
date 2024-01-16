@@ -35,9 +35,7 @@ class EBooRepositoriesImpl extends BaseApi implements EBooRepositories {
               await getStateOf(request: () async => _eBooApi.getEBoos(body));
 
           if (response is DataFailed) {
-            return Either.left(
-              AppException(message: response.dioError?.message ?? 'Error'),
-            );
+            return Either.left(toErrorMessage(response.dioError));
           }
           final responseData = response.data;
           if (responseData == null) {

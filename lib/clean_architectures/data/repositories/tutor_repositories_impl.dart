@@ -29,9 +29,7 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
           request: () async => await _tutorApi.pagFetchData(page, perPge),
         );
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final tutorResponse = response.data;
 
@@ -58,9 +56,7 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
                 await _tutorApi.addTutorToFavorite(body: {"tutorId": userId}),
           );
           if (response is DataFailed) {
-            return Either.left(
-              AppException(message: response.dioError?.message ?? 'Error'),
-            );
+            return Either.left(toErrorMessage(response.dioError));
           }
           return const Either.right(true);
         },
@@ -83,9 +79,7 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
         final response = await getStateOf(
             request: () async => await _tutorApi.searchTutor(body: body));
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final tutorResponse = response.data;
         if (tutorResponse == null) {
@@ -110,9 +104,7 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
         final response = await getStateOf(
             request: () async => _tutorApi.getTutorById(userId));
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final tutorDetail = response.data;
         if (tutorDetail == null) {
@@ -135,9 +127,7 @@ class TutorRepositoriesImpl extends BaseApi implements TutorRepositories {
               startTime.millisecondsSinceEpoch, endTime.millisecondsSinceEpoch),
         );
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         final listSchedule = response.data;
         if (listSchedule == null) {

@@ -26,7 +26,10 @@ class AppRepositoriesImpl extends BaseApi implements AppRepositories {
 
       if ((response is DataFailed) && (response1 is DataFailed)) {
         return Either.left(
-          AppException(message: response.dioError?.message ?? 'Error'),
+          AppException(
+              message:
+                  response.dioError?.response?.data["message"]?.toString() ??
+                      'Error'),
         );
       }
       if ((response.data == null) && (response1.data == null)) {

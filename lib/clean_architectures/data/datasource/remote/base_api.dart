@@ -38,6 +38,9 @@ abstract class BaseApi {
     }
   }
 
+  AppException toErrorMessage(DioException? exception) => AppException(
+      message: exception?.response?.data["message"]?.toString() ?? 'Error');
+
   SingleResult<TokenModel?> authFunction({
     required Future<HttpResponse<SignInResponse?>> functionCall,
   }) {
@@ -47,9 +50,7 @@ abstract class BaseApi {
           request: () async => await functionCall,
         );
         if (response is DataFailed) {
-          return Either.left(
-            AppException(message: response.dioError?.message ?? 'Error'),
-          );
+          return Either.left(toErrorMessage(response.dioError));
         }
         if (response.data == null) {
           return Either.left(AppException(message: 'Data error'));
@@ -76,4 +77,27 @@ abstract class BaseApi {
       },
     );
   }
+
+  SingleResult<R> apiCall<T, R>({
+    required R Function(T?) mapper,
+    required Future<HttpResponse<T>> Function() request,
+  }) =>
+      SingleResult.fromCallable(
+        () async {
+          try {
+            final response =
+                await getStateOf(request: () async => await request.call());
+            if (response is DataFailed) {
+              return Either.left(toErrorMessage(response.dioError));
+            }
+            if (response.data == null) {
+              return Either.left(AppException(message: "Data null"));
+            }
+
+            return Either.right(mapper.call(response.data));
+          } catch (e) {
+            return Either.left(AppException(message: e.toString()));
+          }
+        },
+      );
 }

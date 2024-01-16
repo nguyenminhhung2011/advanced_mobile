@@ -200,11 +200,11 @@ class _TutorScheduleScreenState extends State<TutorScheduleScreen> {
       return;
     }
     if (state is BooTutorClassSuccess) {
-      log("🌟 [Boo tutor] success");
+      context.showSnackBar("🌟 [Boo tutor] success");
       return;
     }
     if (state is BooTutorClassFailed) {
-      log("🌟 ${state.toString()}");
+      context.showSnackBar("🌟 ${state.toString()}");
       return;
     }
   }

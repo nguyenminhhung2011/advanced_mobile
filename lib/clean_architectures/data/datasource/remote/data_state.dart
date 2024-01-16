@@ -25,7 +25,9 @@ extension DataStateExtensions<T> on DataState<T> {
   Either<AppException, bool> toBoolResult() {
     if (this is DataFailed) {
       return Either.left(
-        AppException(message: dioError?.message ?? 'Error'),
+        AppException(
+            message:
+                dioError?.response?.data["message"]?.toString() ?? 'Error'),
       );
     }
     return const Either.right(true);
