@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/app_coordinator.dart';
 import 'package:lettutor/clean_architectures/presentation/main/bloc/main_bloc.dart';
@@ -91,6 +92,13 @@ class MainViewState extends State<MainView> {
             const Spacer(),
           ],
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(CupertinoIcons.chat_bubble_2_fill,
+                color: context.titleLarge.color),
+          )
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {

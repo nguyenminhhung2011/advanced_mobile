@@ -3,7 +3,7 @@ import 'package:lettutor/clean_architectures/data/datasource/remote/base_api.dar
 import 'package:lettutor/clean_architectures/data/datasource/remote/course/course_api.dart';
 import 'package:lettutor/clean_architectures/data/datasource/remote/data_state.dart';
 import 'package:lettutor/clean_architectures/data/models/app_error.dart';
-import 'package:lettutor/clean_architectures/data/models/courses_response/courses_response.dart';
+import 'package:lettutor/clean_architectures/data/models/response/courses_response/courses_response.dart';
 import 'package:lettutor/clean_architectures/domain/entities/course/course.dart';
 import 'package:lettutor/clean_architectures/domain/entities/course_category/course_category.dart';
 import 'package:lettutor/clean_architectures/domain/entities/pagination/pagination.dart';

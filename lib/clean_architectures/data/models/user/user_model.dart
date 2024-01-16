@@ -1,4 +1,4 @@
-import 'package:lettutor/clean_architectures/data/models/topic_response/topic_response.dart';
+import 'package:lettutor/clean_architectures/data/models/response/topic_response/topic_response.dart';
 import 'package:lettutor/clean_architectures/data/models/tutor/tutor_model.dart';
 import 'package:lettutor/clean_architectures/data/models/wallet_info_model/wallet_info_model.dart';
 import 'package:lettutor/clean_architectures/domain/entities/user/user.dart';

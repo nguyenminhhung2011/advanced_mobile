@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/app_coordinator.dart';
 
@@ -134,6 +135,13 @@ class _TutorDetailScreenState extends State<TutorDetailScreen> {
           S.of(context).tutorDetail,
           style: context.titleLarge.copyWith(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(CupertinoIcons.chat_bubble_2_fill,
+                color: context.titleLarge.color),
+          )
+        ],
       ),
       body: StreamBuilder<bool?>(
         stream: _bloc.loading$,

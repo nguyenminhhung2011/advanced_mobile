@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -20,7 +21,6 @@ import 'package:lettutor/core/components/widgets/loading_page.dart';
 import 'package:lettutor/core/dependency_injection/di.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:flutter_bloc_pattern/flutter_bloc_pattern.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 
 class UserInfoView extends StatefulWidget {
@@ -305,7 +305,7 @@ class _UserInfoViewState extends State<UserInfoView> {
                   hideSearch: false,
                   showFlagDialog: true,
                   onChanged: (value) {
-                    log(value.code??"");
+                    log(value.code ?? "");
                     _countryCode.value = value.code;
                   },
                 ),
@@ -423,17 +423,25 @@ class _UserInfoViewState extends State<UserInfoView> {
                   child: InkWell(
                     onTap: () async {
                       if (memory?.path?.isNotEmpty ?? false) {
-                        await injector.get<Dio>().post("/user/uploadAvatar",
-                            data: FormData()
-                              ..files.add(
-                                MapEntry(
-                                  "avatar",
-                                  MultipartFile.fromFileSync(
-                                    memory!.path!,
-                                    filename: memory.path!.split("/").last,
-                                  ),
-                                ),
-                              ));
+                        final response =
+                            await injector.get<Dio>().post("/user/uploadAvatar",
+                                data: FormData()
+                                  ..files.add(
+                                    MapEntry(
+                                      "avatar",
+                                      MultipartFile.fromFileSync(
+                                        memory!.path!,
+                                        filename: memory.path!.split("/").last,
+                                      ),
+                                    ),
+                                  ));
+                        if (response.statusCode == HttpStatus.ok) {
+                          // ignore: use_build_context_synchronously
+                          context.showSnackBar("💥[Update avatar] success");
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          context.showSnackBar("🐛[Update avatar] Failed");
+                        }
                       }
                     },
                     child: Container(
@@ -459,7 +467,7 @@ class _UserInfoViewState extends State<UserInfoView> {
       log("🌟[Get user information] success");
       _nameController.text = state.userReturn.name;
       _studySchedule.text = state.userReturn.studySchedule ?? '';
-      _birthDay.value = state.userReturn.birthday ??  DateTime.now();
+      _birthDay.value = state.userReturn.birthday ?? DateTime.now();
       _countryCode.value = state.userReturn.country ?? "VN";
       if (state.userReturn.level?.isNotEmpty ?? false) {
         _levels.value = state.userReturn.level!.toUpperCase();

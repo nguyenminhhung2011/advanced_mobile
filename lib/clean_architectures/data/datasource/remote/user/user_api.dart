@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:lettutor/clean_architectures/data/models/total_time_response/total_time_response.dart';
+import 'package:lettutor/clean_architectures/data/models/response/total_time_response/total_time_response.dart';
 import 'package:lettutor/clean_architectures/data/models/user/user_info.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
