@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,9 +12,11 @@ import 'package:lettutor/clean_architectures/presentation/chat/recipient/bloc/re
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/extensions/context_extensions.dart';
 import 'package:lettutor/core/components/layout/setting_layout/controller/setting_bloc.dart';
+import 'package:lettutor/core/components/network/soc/app_soc.dart';
 import 'package:lettutor/core/components/utils/handle_time.dart';
 import 'package:lettutor/core/components/widgets/avartat_custom.dart';
 import 'package:lettutor/core/components/widgets/loading_page.dart';
+import 'package:lettutor/core/dependency_injection/di.dart';
 import 'package:lettutor/generated/l10n.dart';
 import 'package:lettutor/routes/routes.dart';
 
@@ -38,6 +42,10 @@ class _RecipientScreenState extends State<RecipientScreen> {
   void initState() {
     Future.delayed(Duration.zero, () async {
       await _bloc.onGetRecipient();
+    });
+    injector.get<AppSoc>().registerEventListener(AppSoc.returnNewMessage,
+        (message) {
+      log("💬 [WEBSOCKET] New Message - $message");
     });
     super.initState();
   }
@@ -172,6 +180,8 @@ class _RecipientScreenState extends State<RecipientScreen> {
         child: Row(
           children: [
             AvatarWidget(
+              width: 40,
+              height: 40,
               imageUrl: userInformation.avatar ?? ImageConst.baseImageView,
             ),
             const SizedBox(width: 10.0),

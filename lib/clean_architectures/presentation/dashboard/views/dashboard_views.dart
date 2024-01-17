@@ -8,6 +8,8 @@ import 'package:lettutor/clean_architectures/presentation/schedule/bloc/schedule
 import 'package:lettutor/clean_architectures/presentation/schedule/views/schedule_screen.dart';
 import 'package:lettutor/clean_architectures/presentation/tutor_views/bloc/tutor_show_bloc.dart';
 import 'package:lettutor/clean_architectures/presentation/tutor_views/views/tutor_show_screen.dart';
+import 'package:lettutor/core/components/extensions/bloc_extension.dart';
+import 'package:lettutor/core/components/network/soc/app_soc.dart';
 import 'package:lettutor/core/components/ui_config/setting_config.dart';
 import 'package:lettutor/core/components/constant/image_const.dart';
 import 'package:lettutor/core/components/layout/setting_layout/views/setting_screen.dart';
@@ -29,9 +31,12 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   DashboardBloc get _bloc => BlocProvider.of<DashboardBloc>(context);
 
+  AppSoc get _apPSoc => context.readAppSoc;
+
   Object? listen;
   @override
   void initState() {
+    _apPSoc.connect();
     super.initState();
     listen ??= _bloc.state$.flatMap(handleState).collect();
   }

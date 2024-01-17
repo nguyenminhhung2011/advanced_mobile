@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/components/layout/setting_layout/controller/setting_bloc.dart';
 import 'core/dependency_injection/di.dart';
 import 'generated/l10n.dart';
+import 'core/components/network/soc/app_soc.dart';
 
 class Application extends StatefulWidget {
   final AdaptiveThemeMode? savedThemeMode;
@@ -51,7 +52,8 @@ class _ApplicationState extends State<Application> with WidgetsBindingObserver {
       builder: (theme, darkTheme) => MultiBlocProvider(
         providers: [
           ...widget.providers,
-          BlocProvider<SettingBloc>(create: (_) => injector.get()),
+          BlocProvider<SettingBloc>(create: (_) => injector.get<SettingBloc>()),
+          BlocProvider<AppSoc>(create: (_) => injector.get<AppSoc>()),
         ],
         child: BuildMaterialApp(
           widget: widget,
@@ -85,6 +87,7 @@ class _BuildMaterialAppState extends State<BuildMaterialApp> {
   @override
   void initState() {
     _settingController.add(const SettingEvent.started());
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_settingController.data.appearance.isDark) {
         AdaptiveTheme.of(context).setDark();
