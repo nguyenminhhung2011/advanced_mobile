@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:disposebag/disposebag.dart';
 import 'package:lettutor/clean_architectures/data/models/token/token_model.dart';
 import 'package:lettutor/clean_architectures/presentation/auth/bloc/sign_in/auth_state.dart';
+import 'package:lettutor/core/services/analytic/analytic_event.dart';
+import 'package:lettutor/core/services/analytic/google_analytic_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:injectable/injectable.dart';
@@ -58,7 +60,9 @@ class AuthBloc extends DisposeCallbackBaseBloc {
     required this.passwordError$,
   }) : super(dispose);
 
-  factory AuthBloc({required LoginUseCase login}) {
+  factory AuthBloc(
+      {required LoginUseCase login,
+      required GoogleAnalyticService analyticService}) {
     ///[controllers]
     final emailController = PublishSubject<String>();
 
@@ -130,7 +134,17 @@ class AuthBloc extends DisposeCallbackBaseBloc {
                 listen: () => loadingController.add(true),
                 cancel: () => loadingController.add(false),
               )
-              .map(_responseToMessage);
+              .map((data) => data.fold(
+                    ifRight: (rData) {
+                      analyticService.sendEvent(AnalyticEvent.login, {
+                        "status": "success",
+                        "token": rData?.access?.token,
+                      });
+                      return const SignInSuccessMessage();
+                    },
+                    ifLeft: (error) => SignInErrorMessage(
+                        error: error.code, message: error.message),
+                  ));
         } catch (e) {
           return Stream<AuthState>.error(
             SignInErrorMessage(message: e.toString()),
@@ -151,7 +165,13 @@ class AuthBloc extends DisposeCallbackBaseBloc {
                 (data) => data.fold(
                     ifLeft: (error) => SignInErrorMessage(
                         message: error.message, error: error.code),
-                    ifRight: (_) => const SignInSuccessMessage()),
+                    ifRight: (rData) {
+                      analyticService.sendEvent(AnalyticEvent.login, {
+                        "status": "success",
+                        "token": rData?.access?.token,
+                      });
+                      return const SignInSuccessMessage();
+                    }),
               );
         } catch (e) {
           return Stream.error(SignInErrorMessage(message: e.toString()));
@@ -220,14 +240,6 @@ class AuthBloc extends DisposeCallbackBaseBloc {
       submitRegister: () => submitSignInController.add(null),
       submitGoogleSignIn: () => submitGoogleSignInController.add(null),
       submitFbSignIn: () => submitFbSignInController.add(null),
-    );
-  }
-
-  static AuthState _responseToMessage(SResult<TokenModel?> data) {
-    return data.fold(
-      ifRight: (_) => const SignInSuccessMessage(),
-      ifLeft: (error) =>
-          SignInErrorMessage(error: error.code, message: error.message),
     );
   }
 }

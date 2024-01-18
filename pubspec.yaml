@@ -116,6 +116,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   socket_io_client: ^2.0.3+1
   web_socket_channel: ^2.4.0
+  firebase_analytics: ^10.8.0
+
 
 flutter_icons:
   android: true
