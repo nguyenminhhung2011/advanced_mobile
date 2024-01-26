@@ -1,5 +1,79 @@
 # Advanced mobile
+![os](https://img.shields.io/badge/-android-32DE84)
+![framework](https://img.shields.io/badge/-dart-2196F3)
+![framework](https://github.com/nguyenminhhung2011/State_manage_stream/assets/90996598/aa5ec898-994f-4ad0-b0dc-41c99281a9a3)
 
+<br>
+
+<p align="center">
+</p>
+<p align="center">
+<b>LetTutor</b>
+<br/>
+</p>
+
+## 📄 Introduction
+LetTutor is the mobile app learn English one to one
+<br>
+
+## 📲All Features
+
+### 🖱️Account
+* Account registration
+* Checking constraints for username, password re-entry, etc.
+* Account activation via email
+* System login
+* Password reset and password reset via email
+* Login with Google
+
+#### 🐼Viewing and searching for teachers
+* Displaying a list of teachers
+* Displaying specialties and filtering teachers by specialties
+* Adding teachers to the favorites list
+* Viewing the favorites list of teachers
+* Searching for teachers
+* Pagination for search results
+* Grouping search results
+* Displaying search results
+* Registering as a teacher
+#### ✈️Viewing class schedules
+
+* Displaying total number of hours of classes
+* Displaying upcoming classes on the homepage and supporting participation in upcoming classes
+* Displaying registered class schedules
+* Pagination for class schedules
+* Viewing the history of past classes
+* Cancelling a class
+
+#### 🛬Joining a class with video call
+
+* Initiating video call 
+* Displaying waiting time before the class starts
+* Timing the duration of the class
+
+#### 💂‍♀️Application logo
+ 
+
+#### 💵Viewing curriculum
+
+* Viewing the list of curricula
+* Searching for curricula
+* Pagination for curriculum
+* Viewing detailed description of a curriculum
+* Displaying detailed content of a curriculum
+#### 🐸Account management and application configuration
+
+* Profile management (updating information, avatar)
+* Application settings
+* Multilingual support (English and Vietnamese)
+* Changing themes (dark & white)
+
+#### 💬 Chatting
+* Display recipient
+* Display chat detail
+
+
+<br>
 
 ## 💻 Tech
 * Language: Dart
@@ -10,8 +84,14 @@
 ## 👨‍💻 Members
 * Nguyễn Minh Hưng: 20120491
 
+## 📺 Video demo
+https://www.youtube.com/watch?v=9HcfRAnRQ7M
+
+## 📝 Phiếu đánh giá
+[20120491.pdf](https://github.com/nguyenminhhung2011/advanced_mobile/files/14060483/20120491.pdf)
 
 <br>
+
 
 
 
